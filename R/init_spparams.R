@@ -27,13 +27,13 @@
 #' data(SpParamsDefinition)
 #'
 #' # Simple example with two species
-#' sp_names <- c("Salvia rosmarinifolia", "Pinus contorta")
-#' initSpParams(sp_names, SpParamsDefinition)
+#' sp_names <- c("Salvia rosmarinus", "Pinus contorta")
+#' init_spparams(sp_names, SpParamsDefinition)
 #'
 #' # Simple example with three species using synonyms and subspecies
 #' sp_names <- c("Rosmarinus officinalis", "Pinus contorta", "Quercus ilex subsp. ilex")
-#' accepted_names <- c("Salvia rosmarinifolia", "Pinus contorta", "Quercus ilex subsp. ilex")
-#' initSpParams(sp_names, SpParamsDefinition, accepted_names)
+#' accepted_names <- c("Salvia rosmarinus", "Pinus contorta", "Quercus ilex subsp. ilex")
+#' init_spparams(sp_names, SpParamsDefinition, accepted_names)
 #'
 #' # Initialisation with Spanish NFI species mapping
 #' data(NFI_SP_mapping)

@@ -1,0 +1,30 @@
+---
+title: "medfatetraits - From plant trait data bases to medfate species parameters"
+output: github_document
+---
+
+```{r setup, echo = FALSE}
+
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.path = "README-")
+```
+
+  <!-- badges: start -->
+  [![R-CMD-check](https://github.com/emf-creaf/medfatetraits/workflows/R-CMD-check/badge.svg)](https://github.com/emf-creaf/medfatetraits/actions)
+  <!-- badges: end -->
+
+## Introduction
+
+Package **medfatetraits** is designed to facilitate creating species parameter tables for package [medfate](https://github.com/emf-creaf/medfate). Specifically utility functions are provided to harmonize plant trait data bases and defining tables from them.
+
+## Package installation
+
+The latest stable versions GitHub as follows (required package `remotes`` should be installed/updated first):
+
+```{r installation, eval = FALSE}
+remotes::install_github("emf-creaf/medfatetraits")
+```
+
+## Usage
+
+The package is still under active development. 
+
