@@ -19,7 +19,8 @@ Imports:
     cli,
     dplyr,
     taxize,
-    tibble
+    tibble,
+    WorldFlora
 Suggests: 
     testthat (>= 3.0.0),
     knitr,

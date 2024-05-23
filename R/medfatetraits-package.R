@@ -33,10 +33,12 @@
 ## usethis namespace: start
 #' @import medfate
 #' @importFrom assertthat assert_that
-#' @importFrom taxize classification get_gbifid_
 #' @importFrom cli cli_li cli_progress_bar cli_progress_update cli_progress_done
-#' @importFrom utils data
-#' @importFrom dplyr bind_rows
+#' @importFrom dplyr bind_rows relocate left_join rename
+#' @improtFrom readr read_delim
+#' @importFrom taxize classification get_gbifid_
 #' @importFrom tibble tibble as_tibble
+#' @importFrom utils data
+#' @importFrom WorldFlora WFO.match WFO.one
 ## usethis namespace: end
 NULL
