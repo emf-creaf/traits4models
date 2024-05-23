@@ -1,0 +1,33 @@
+home:
+  links:
+  - text: Medfate Package
+    href: https://emf-creaf.github.io/medfate/index.html
+  - text: Reference book
+    href: https://emf-creaf.github.io/medfatebook/index.html
+
+
+reference:
+- title: Trait harmonization
+  desc:  Harmonization of plant trait databases
+  contents:
+  - starts_with("harmonize")
+
+- title: Species parameter initialization
+  desc:  Creation of species parameter tables
+  contents:
+  - init_spparams
+  - translate_species_codes
+
+- title: Species parameter estimation
+  desc:  Species parameter estimation
+  contents:
+  - starts_with("fill_traits")
+  - starts_with("populate")
+  - complete_strict
+
+- title: Species parameter datasets
+  desc:  Species parameter datasets for different countries
+  contents:
+    - starts_with("SpParams")
+
+
