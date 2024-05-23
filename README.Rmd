@@ -1,5 +1,5 @@
 ---
-title: "medfatetraits - From plant trait data bases to medfate species parameters"
+title: "medfatetraits - From plant trait data to model parameters"
 output: github_document
 ---
 

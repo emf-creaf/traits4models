@@ -1,5 +1,4 @@
-medfatetraits - From plant trait data bases to medfate species
-parameters
+medfatetraits - From plant trait data to model parameters
 ================
 
 <!-- badges: start -->
