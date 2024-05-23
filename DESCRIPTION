@@ -1,0 +1,23 @@
+Package: medfatetraits
+Type: Package
+Title: From plant trait data bases to medfate species parameters
+Version: 0.1.0
+Authors@R: c(
+	person('Miquel', 'De Cáceres', role=c('aut','cre', 'cph'), email='miquelcaceres@gmail.com', comment = c(ORCID = "0000-0001-7132-2080")),
+  person('Víctor', 'Granda', role='aut', comment = c(ORCID = "0000-0002-0469-1991")),
+  person('Adriana', 'Tovar', role='aut'),
+	person('Antoine', 'Cabon', role='aut', comment = c(ORCID = "0000-0001-6426-1726")),
+	person('Nicolas', 'Martin-StPaul', role='aut', comment = c(ORCID = "0000-0001-7574-0108")),
+	person('Arsène', 'Druel', role='aut', comment = c(ORCID = "0000-0002-3938-0085"))
+  )
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: Utility functions to facilitate harmonizing plant trait data bases and defining species parameter tables for medfate.
+License: GPL (>= 2)
+Depends: R (>= 3.4.0), medfate (>= 4.0.0)
+Suggests: 
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.1
