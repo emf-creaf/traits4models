@@ -35,7 +35,7 @@
 #' @importFrom assertthat assert_that
 #' @importFrom cli cli_li cli_progress_bar cli_progress_update cli_progress_done
 #' @importFrom dplyr bind_rows relocate left_join rename
-#' @improtFrom readr read_delim
+#' @importFrom readr read_delim
 #' @importFrom taxize classification get_gbifid_
 #' @importFrom tibble tibble as_tibble
 #' @importFrom utils data
