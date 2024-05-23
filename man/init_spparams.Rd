@@ -3,7 +3,7 @@
 \encoding{UTF-8}
 \name{init_spparams}
 \alias{init_spparams}
-\title{Initializes Species Parameter Table}
+\title{Initializes species parameter table}
 \usage{
 init_spparams(
   sp_names,
@@ -16,22 +16,22 @@ init_spparams(
 )
 }
 \arguments{
-\item{sp_names}{Vector of plant names, either taxon names or arbitrary species group names}
+\item{sp_names}{Vector of plant names, either taxon names or arbitrary species group names.}
 
-\item{SpParamsDefinition}{Data frame of species parameter definition from package medfate}
+\item{SpParamsDefinition}{Data frame of species parameter definition from package medfate.}
 
-\item{accepted_names}{Vector of accepted taxon names of the same length of `sp_names`}
+\item{accepted_names}{Vector of accepted taxon names of the same length of \code{sp_names}.}
 
-\item{fill_taxonomy}{Boolean flag to indicate that taxonomic information should be filled (retrieved from GBIF using package 'taxize')}
+\item{fill_taxonomy}{Boolean flag to indicate that taxonomic information should be filled (retrieved from GBIF using package taxize).}
 
-\item{complete_rows}{Boolean flag to indicate that extra rows should be added for cited species/genera (if `fill_taxonomy = TRUE`)}
+\item{complete_rows}{Boolean flag to indicate that extra rows should be added for cited species/genera (if \code{fill_taxonomy = TRUE}).}
 
-\item{sort}{Boolean flag to force sorting in ascending order by `Name`}
+\item{sort}{Boolean flag to force sorting in ascending order by \code{Name}.}
 
-\item{verbose}{A boolean flag to indicate extra console output}
+\item{verbose}{A boolean flag to indicate extra console output.}
 }
 \value{
-A data frame with empty species parameter values suitable for medfate simulations
+A data frame with empty species parameter values suitable for medfate simulations.
 }
 \description{
 Creates an empty plant parameter table for medfate, populating taxonomic information if desired.
@@ -53,16 +53,6 @@ sp_names <- c("Rosmarinus officinalis", "Pinus contorta", "Quercus ilex subsp. i
 accepted_names <- c("Salvia rosmarinus", "Pinus contorta", "Quercus ilex subsp. ilex")
 init_spparams(sp_names, SpParamsDefinition, accepted_names)
 
-# Initialisation with Spanish NFI species mapping
-data(NFI_SP_mapping)
-# Remove species that are not mapped
-NFI_SP_mapping_red <- NFI_SP_mapping[!is.na(NFI_SP_mapping$acceptedName),]
-# Names in SpParams will be the original NFI names but accepted names
-# will be used for parameter estimation
-SpParams <- init_spparams(sp_names = NFI_SP_mapping_red$NFIName[1:20],
-                        SpParamsDefinition = SpParamsDefinition,
-                        accepted_names = NFI_SP_mapping_red$acceptedName[1:20],
-                        verbose = TRUE)
 
 }
 }

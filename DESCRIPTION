@@ -15,9 +15,11 @@ Description: Utility functions to facilitate harmonizing plant trait data bases 
 License: GPL (>= 2)
 Depends: R (>= 3.4.0), medfate (>= 4.0.0)
 Imports: 
-    dplyr,
+    assertthat,
     cli,
-    taxize
+    dplyr,
+    taxize,
+    tibble
 Suggests: 
     testthat (>= 3.0.0),
     knitr,
