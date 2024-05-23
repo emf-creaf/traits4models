@@ -25,7 +25,7 @@
 #' [ORCID](https://orcid.org/0000-0002-3938-0085)
 #'
 #' @seealso Useful links: \itemize{ \item{
-#' \url{https://emf-creaf.github.io/medfateutils/index.html}} }
+#' \url{https://emf-creaf.github.io/medfatetraits/index.html}} }
 #'
 #' @keywords internal
 "_PACKAGE"

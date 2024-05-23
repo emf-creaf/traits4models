@@ -60,10 +60,10 @@ fill_traits<-function(SpParams,
     if(nrow(trait_table)>0) {
       trait_mapping <- trait_name
       names(trait_mapping) <- trait_name
-      SpParams <- medfateutils::populateTraits(SpParams, trait_table, trait_mapping,
-                                               taxon_column = "acceptedName", genus_column = "genus",
-                                               erase_previous = TRUE, character_traits = TRUE,
-                                               replace_previous = TRUE, verbose = verbose)
+      SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
+                                  taxon_column = "acceptedName", genus_column = "genus",
+                                  erase_previous = TRUE, character_traits = TRUE,
+                                  replace_previous = TRUE, verbose = verbose)
     }
   }
   for(trait_name in c("t0gdd", "Tbgdd", "Sgdd",
@@ -73,7 +73,7 @@ fill_traits<-function(SpParams,
     if(nrow(trait_table)>0) {
       trait_mapping <- trait_name
       names(trait_mapping) <- trait_name
-      SpParams <- medfateutils::populateTraits(SpParams, trait_table, trait_mapping,
+      SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
                                                summary_function = "median",
                                                taxon_column = "acceptedName", genus_column = "genus",
                                                erase_previous = TRUE, character_traits = FALSE,
@@ -91,7 +91,7 @@ fill_traits<-function(SpParams,
       ))
   trait_mapping <- "LeafSize"
   names(trait_mapping) <- "LeafSize"
-  SpParams <- medfateutils::populateTraits(SpParams, trait_table, trait_mapping,
+  SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
                                            taxon_column = "acceptedName", genus_column = "genus",
                                            erase_previous = TRUE, character_traits = TRUE,
                                            replace_previous = TRUE, verbose = verbose)
@@ -100,14 +100,14 @@ fill_traits<-function(SpParams,
   trait_table <- filter_trait_table(trait_tables, "Hact", is_numeric = TRUE)
   trait_mapping <- "Hact"
   names(trait_mapping) <- "Hmax"
-  SpParams <- medfateutils::populateTraits(SpParams, trait_table, trait_mapping,
+  SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
                                            summary_function = "max",
                                            taxon_column = "acceptedName", genus_column = "genus",
                                            erase_previous = TRUE, character_traits = FALSE,
                                            replace_previous = TRUE, verbose = verbose)
   trait_mapping <- "Hact"
   names(trait_mapping) <- "Hmed"
-  SpParams <- medfateutils::populateTraits(SpParams, trait_table, trait_mapping,
+  SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
                                            summary_function = "median",
                                            taxon_column = "acceptedName", genus_column = "genus",
                                            erase_previous = TRUE, character_traits = FALSE,
@@ -118,7 +118,7 @@ fill_traits<-function(SpParams,
   trait_table <- filter_trait_table(trait_tables, "Gs_P50", is_numeric = TRUE)
   trait_mapping <- "Gs_P50"
   names(trait_mapping) <- "Gs_P50"
-  SpParams <- medfateutils::populateTraits(SpParams, trait_table, trait_mapping,
+  SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
                                            summary_function = "median",
                                            taxon_column = "acceptedName", genus_column = "genus",
                                            erase_previous = TRUE, character_traits = FALSE,
@@ -128,14 +128,14 @@ fill_traits<-function(SpParams,
   trait_table <- filter_trait_table(trait_tables, "LFMC", is_numeric = TRUE)
   trait_mapping <- "LFMC"
   names(trait_mapping) <- "maxFMC"
-  SpParams <- medfateutils::populateTraits(SpParams, trait_table, trait_mapping,
+  SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
                                            summary_function = "quantile", summary_params = list("prob" = 0.95),
                                            taxon_column = "acceptedName", genus_column = "genus",
                                            erase_previous = TRUE, character_traits = FALSE,
                                            replace_previous = TRUE, verbose = verbose)
   trait_mapping <- "LFMC"
   names(trait_mapping) <- "minFMC"
-  SpParams <- medfateutils::populateTraits(SpParams, trait_table, trait_mapping,
+  SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
                                            summary_function = "quantile", summary_params = list("prob" = 0.05),
                                            taxon_column = "acceptedName", genus_column = "genus",
                                            erase_previous = TRUE, character_traits = FALSE,
@@ -145,7 +145,7 @@ fill_traits<-function(SpParams,
   trait_table <- filter_trait_table(trait_tables, "Ks", is_numeric = TRUE)
   trait_mapping <- "Ks"
   names(trait_mapping) <- "Kmax_stemxylem"
-  SpParams <- medfateutils::populateTraits(SpParams, trait_table, trait_mapping,
+  SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
                                            summary_function = "median",
                                            taxon_column = "acceptedName", genus_column = "genus",
                                            erase_previous = TRUE, character_traits = FALSE,
@@ -155,7 +155,7 @@ fill_traits<-function(SpParams,
   trait_table <- filter_trait_table(trait_tables, "Vcmax", is_numeric = TRUE)
   trait_mapping <- "Vcmax"
   names(trait_mapping) <- "Vmax298"
-  SpParams <- medfateutils::populateTraits(SpParams, trait_table, trait_mapping,
+  SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
                                            summary_function = "median",
                                            taxon_column = "acceptedName", genus_column = "genus",
                                            erase_previous = TRUE, character_traits = FALSE,
@@ -166,7 +166,7 @@ fill_traits<-function(SpParams,
   trait_table <- filter_trait_table(trait_tables, "Jmax", is_numeric = TRUE)
   trait_mapping <- "Jmax"
   names(trait_mapping) <- "Jmax298"
-  SpParams <- medfateutils::populateTraits(SpParams, trait_table, trait_mapping,
+  SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
                                            summary_function = "median",
                                            taxon_column = "acceptedName", genus_column = "genus",
                                            erase_previous = TRUE, character_traits = FALSE,
@@ -177,7 +177,7 @@ fill_traits<-function(SpParams,
   if(nrow(trait_table)>0) {
     trait_mapping <- "Z95"
     names(trait_mapping) <- "Z95"
-    SpParams <- medfateutils::populateTraits(SpParams, trait_table, trait_mapping,
+    SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
                                              summary_function = "quantile", summary_params = list("prob" = 0.95),
                                              taxon_column = "acceptedName", genus_column = "genus",
                                              erase_previous = TRUE, character_traits = FALSE,
@@ -188,14 +188,14 @@ fill_traits<-function(SpParams,
   if(nrow(trait_table)>0) {
     trait_mapping <- "LeafAngle"
     names(trait_mapping) <- "LeafAngle"
-    SpParams <- medfateutils::populateTraits(SpParams, trait_table, trait_mapping,
+    SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
                                              summary_function = "median",
                                              taxon_column = "acceptedName", genus_column = "genus",
                                              erase_previous = TRUE, character_traits = FALSE,
                                              replace_previous = TRUE, verbose = verbose)
     trait_mapping <- "LeafAngle"
     names(trait_mapping) <- "LeafAngleSD"
-    SpParams <- medfateutils::populateTraits(SpParams, trait_table, trait_mapping,
+    SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
                                              summary_function = "sd",
                                              taxon_column = "acceptedName", genus_column = "genus",
                                              erase_previous = TRUE, character_traits = FALSE,
@@ -216,7 +216,7 @@ fill_traits<-function(SpParams,
     if(nrow(trait_table)>0) {
       trait_mapping <- trait_name
       names(trait_mapping) <- trait_name
-      SpParams <- medfateutils::populateTraits(SpParams, trait_table, trait_mapping,
+      SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
                                                summary_function = "median",
                                                taxon_column = "acceptedName", genus_column = "genus",
                                                erase_previous = TRUE, character_traits = FALSE,
@@ -227,7 +227,7 @@ fill_traits<-function(SpParams,
   trait_table <- filter_trait_table(trait_tables, "ShadeTolerance", is_numeric = TRUE)
   trait_mapping <- "ShadeTolerance"
   names(trait_mapping) <- "RSSG"
-  SpParams <- medfateutils::populateTraits(SpParams, trait_table, trait_mapping,
+  SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
                                            summary_function = "median",
                                            scalar_functions = c("RSSG" = function(x){min(0.95,0.25+0.70*((x-1)/2))}),
                                            taxon_column = "acceptedName", genus_column = "genus",

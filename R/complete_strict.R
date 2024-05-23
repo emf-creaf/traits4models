@@ -10,7 +10,8 @@
 #'
 complete_strict<- function(SpParams, params = NULL) {
   strict_params  <- c("GrowthForm", "LifeForm", "LeafShape", "LeafSize", "PhenologyType", "DispersalType", "Hmax", "Hmed", "Z95")
-  if(!is.null(params)) params <- strict_params
+  if(is.null(params)) params <- strict_params
+  else params <- match.arg(params, strict_params, several.ok = TRUE)
   for(param in params) {
     data("SpParamsDefinition")
     type <- SpParamsDefinition$Type[SpParamsDefinition$ParameterName==param]

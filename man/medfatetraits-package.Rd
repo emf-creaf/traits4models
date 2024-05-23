@@ -10,7 +10,7 @@ Utility functions to facilitate harmonizing plant trait data bases and defining 
 }
 \seealso{
 Useful links: \itemize{ \item{
-\url{https://emf-creaf.github.io/medfateutils/index.html}} }
+\url{https://emf-creaf.github.io/medfatetraits/index.html}} }
 }
 \author{
 Maintainer: Miquel De Cáceres
