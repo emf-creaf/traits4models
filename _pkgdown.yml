@@ -5,6 +5,14 @@ home:
   - text: Reference book
     href: https://emf-creaf.github.io/medfatebook/index.html
 
+articles:
+- title: Database harmonization
+  contents:
+    - starts_with("Trait")
+
+- title: Building species parameter tables
+  contents:
+    - starts_with("Species")
 
 reference:
 - title: Trait harmonization

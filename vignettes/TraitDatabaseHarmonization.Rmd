@@ -1,0 +1,73 @@
+---
+title: "Trait database harmonization"
+author: "Miquel De Cáceres"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_document:
+    toc: TRUE
+bibliography: medfatetraits.bib
+params:
+  spparams_rebuild: FALSE
+  IFN_rebuild: FALSE
+---
+
+## Introduction
+
+Species parameter values cannot be drawn from a single data source. This means that multiple data sources need to be harmonized before species parameter tables are build, in terms of:
+
+    a) Nomenclature of measured variables.
+    b) Measurement units.
+    c) Taxonomy of the measured biological entities. 
+
+The result of this harmonization needs to be stored in a harmonized format for subsequent use when creating species parameter tables. This vignette illustrates the harmonization procedures for an example data set.
+
+>**IMPORTANT**: The vignette is not self-contained, in the sense that it cannot be reproduced without access to data sets that are not included. Nevertheless, it is intended to serve as example of species parameterization for other regions.
+
+### Required packages
+
+Installed version of **medfate** should be **ver 2.9** or higher. 
+```{r, eval = FALSE}
+install.packages("medfate")
+```
+
+If the version at CRAN is older, the package should be installed from GitHub via `remotes::install_github()`:
+```{r, eval = FALSE}
+remotes::install_github("emf-creaf/medfate")
+```
+
+Package **medfatetraits** is required for the species parameterization process, as it includes several functions that facilitate parsing data sources into parameter values. Package **medfatetraits** is installed only from GitHub:
+
+```{r, eval = FALSE}
+remotes::install_github("emf-creaf/medfatetraits")
+```
+
+Once we have **medfate** and **medfatetraits**, we load them and other common packages that we will employ in this vignette:
+```{r message=FALSE}
+library(medfate)
+library(medfatetraits)
+# library(IFNread)
+library(tidyverse)
+library(openxlsx)
+```
+
+### Target parameters
+
+The set of species parameters needed to run the models included in **medfate** are described in a dataframe called `SpParamsDefinition`: 
+
+
+```{r}
+data("SpParamsDefinition")
+SpParamsDefinition$ParameterName
+```
+It is obvious that such a sheer number of parameters cannot be searched for manually, even for a small number of target species. Hence, it is important to draw values from allometric and plant trait data bases. Not all model parameters have their counterpart in publicly-available databases, and even when using data bases it is unlikely that one will find appropriate parameter values for all species. To help with this situation, **medfate** has *inbuilt imputation procedures* to estimate missing values for many parameters before starting model simulations. However, imputed parameter estimates will normally be worse than estimates coming from data bases. Hence, we should put a strong effort in finding source parameter data before relying on inbuilt imputation.
+
+
+
+ 
+## Harmonizing measurement units
+
+## Taxonomic harmonization
+
+## Storing harmonized databases
+
+## References
