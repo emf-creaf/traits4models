@@ -1,6 +1,6 @@
 Package: medfatetraits
 Type: Package
-Title: From plant trait data to model parameters
+Title: From plant traits to model parameters
 Version: 0.1.0
 Authors@R: c(
 	person('Miquel', 'De Cáceres', role=c('aut','cre', 'cph'), email='miquelcaceres@gmail.com', comment = c(ORCID = "0000-0001-7132-2080")),
