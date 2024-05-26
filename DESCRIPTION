@@ -17,6 +17,7 @@ Imports:
     assertthat,
     cli,
     dplyr,
+    memoise,
     taxize,
     tibble,
     WorldFlora
