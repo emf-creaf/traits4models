@@ -10,7 +10,7 @@ Authors@R: c(
 	person('Nicolas', 'Martin-StPaul', role='aut', comment = c(ORCID = "0000-0001-7574-0108")),
 	person('Arsène', 'Druel', role='aut', comment = c(ORCID = "0000-0002-3938-0085"))
   )
-Description: Utility functions to facilitate harmonizing plant trait data bases and defining species parameter tables for medfate.
+Description: Utility functions to facilitate harmonizing plant trait data bases and defining species parameter tables for process-based models.
 License: GPL (>= 2)
 Depends: R (>= 3.4.0), medfate (>= 4.0.0)
 Imports: 

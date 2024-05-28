@@ -8,7 +8,7 @@ traits4models - from plant traits to model parameters
 ## Introduction
 
 Package **traits4models** is designed to facilitate creating species
-parameter tables for package
+parameter tables for process-based models such as those of package
 [medfate](https://github.com/emf-creaf/medfate). Specifically utility
 functions are provided to harmonize plant trait data bases and defining
 tables from them.
