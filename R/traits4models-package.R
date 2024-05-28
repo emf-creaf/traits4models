@@ -1,9 +1,9 @@
-#' medfatetraits: From plant trait data to model parameters
+#' traits4models: From plant trait data to model parameters
 #'
-#'  Utility functions to facilitate harmonizing plant trait data bases and defining species parameter tables for medfate.
+#'  Utility functions to facilitate harmonizing plant trait data bases and defining species parameter tables for process-based models
 #'
-#' @name medfatetraits-package
-#' @aliases medfatetraits medfatetraits-package
+#' @name traits4models-package
+#' @aliases traits4models traits4models-package
 #' @docType package
 #' @author
 #' Maintainer: Miquel De Cáceres
@@ -25,7 +25,7 @@
 #' [ORCID](https://orcid.org/0000-0002-3938-0085)
 #'
 #' @seealso Useful links: \itemize{ \item{
-#' \url{https://emf-creaf.github.io/medfatetraits/index.html}} }
+#' \url{https://emf-creaf.github.io/traits4models/index.html}} }
 #'
 #' @keywords internal
 "_PACKAGE"

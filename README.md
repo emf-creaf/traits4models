@@ -1,13 +1,13 @@
-medfatetraits - from plant traits to model parameters
+traits4models - from plant traits to model parameters
 ================
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/emf-creaf/medfatetraits/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/emf-creaf/medfatetraits/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/emf-creaf/traits4models/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/emf-creaf/traits4models/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 ## Introduction
 
-Package **medfatetraits** is designed to facilitate creating species
+Package **traits4models** is designed to facilitate creating species
 parameter tables for package
 [medfate](https://github.com/emf-creaf/medfate). Specifically utility
 functions are provided to harmonize plant trait data bases and defining
@@ -15,14 +15,14 @@ tables from them.
 
 ## Package installation
 
-Since both packages evolve together, installing **medfatetraits**
+Since both packages evolve together, installing **traits4models**
 normally requires an up-to-date version of **medfate**.
 
 The latest stable versions GitHub as follows (required package
 \`remotes\`\` should be installed/updated first):
 
 ``` r
-remotes::install_github("emf-creaf/medfatetraits")
+remotes::install_github("emf-creaf/traits4models")
 ```
 
 ## Usage
@@ -32,12 +32,12 @@ The package is still under active development.
 ## Documentation
 
 A number of *vignettes* illustrate how to initialize inputs and run
-simulation models in **medfatetraits**. These can be found at the
-package [website](https://emf-creaf.github.io/medfatetraits/).
+simulation models in **traits4models**. These can be found at the
+package [website](https://emf-creaf.github.io/traits4models/).
 
 ## Companion R packages
 
-The development of **medfatetraits** is intended to complement other
+The development of **traits4models** is intended to complement other
 packages of the medfate modelling framework:
 
 - Package [**medfateland**](https://emf-creaf.github.io/medfateland)

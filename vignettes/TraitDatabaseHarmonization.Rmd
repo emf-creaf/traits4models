@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_document:
     toc: TRUE
-bibliography: medfatetraits.bib
+bibliography: traits4models.bib
 params:
   spparams_rebuild: FALSE
   IFN_rebuild: FALSE
@@ -35,16 +35,16 @@ If the version at CRAN is older, the package should be installed from GitHub via
 remotes::install_github("emf-creaf/medfate")
 ```
 
-Package **medfatetraits** is required for the species parameterization process, as it includes several functions that facilitate parsing data sources into parameter values. Package **medfatetraits** is installed only from GitHub:
+Package **traits4models** is required for the species parameterization process, as it includes several functions that facilitate parsing data sources into parameter values. Package **traits4models** is installed only from GitHub:
 
 ```{r, eval = FALSE}
-remotes::install_github("emf-creaf/medfatetraits")
+remotes::install_github("emf-creaf/traits4models")
 ```
 
-Once we have **medfate** and **medfatetraits**, we load them and other common packages that we will employ in this vignette:
+Once we have **medfate** and **traits4models**, we load them and other common packages that we will employ in this vignette:
 ```{r message=FALSE}
 library(medfate)
-library(medfatetraits)
+library(traits4models)
 # library(IFNread)
 library(tidyverse)
 library(openxlsx)
