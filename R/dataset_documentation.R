@@ -1,4 +1,23 @@
 
+#' Plant trait definitions
+#'
+#' A data frame of accepted plant trait definitions.
+#'
+#' @name HarmonizedTraitDefinition
+#' @aliases HarmonizedTraitDefinition
+#'
+#' @docType data
+#'
+#' @format
+#' \itemize{
+#'   \item{Data frame \code{HarmonizedTraitDefinition} has parameters in rows and columns 'Definition', 'Notation', 'Type' and 'Units'.}
+#' }
+#' @details
+#'
+#' @examples
+#' data(HarmonizedTraitDefinition)
+#' @keywords data
+NULL
 
 #' Data tables with species parameter definition and values for different countries
 #'

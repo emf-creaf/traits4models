@@ -25,49 +25,83 @@ The result of this harmonization needs to be stored in a harmonized format for s
 
 ### Required packages
 
-Installed version of **medfate** should be **ver 2.9** or higher. 
-```{r, eval = FALSE}
-install.packages("medfate")
-```
-
-If the version at CRAN is older, the package should be installed from GitHub via `remotes::install_github()`:
-```{r, eval = FALSE}
-remotes::install_github("emf-creaf/medfate")
-```
-
-Package **traits4models** is required for the species parameterization process, as it includes several functions that facilitate parsing data sources into parameter values. Package **traits4models** is installed only from GitHub:
-
-```{r, eval = FALSE}
-remotes::install_github("emf-creaf/traits4models")
-```
-
-Once we have **medfate** and **traits4models**, we load them and other common packages that we will employ in this vignette:
+Assuming we have **medfate** and **traits4models** installed, we load them and other common packages that we will employ in this vignette:
 ```{r message=FALSE}
 library(medfate)
 library(traits4models)
-# library(IFNread)
 library(tidyverse)
-library(openxlsx)
+library(readr)
 ```
 
-### Target parameters
+### Harmonized trait definition, notation and units
 
-The set of species parameters needed to run the models included in **medfate** are described in a dataframe called `SpParamsDefinition`: 
+The set of species parameters needed to run the models included in **medfate** are described in a dataframe called `HarmonizedTraitDefinition`: 
 
 
-```{r}
-data("SpParamsDefinition")
-SpParamsDefinition$ParameterName
+
+```{r, echo = FALSE}
+data("HarmonizedTraitDefinition")
+knitr::kable(HarmonizedTraitDefinition)
 ```
+
 It is obvious that such a sheer number of parameters cannot be searched for manually, even for a small number of target species. Hence, it is important to draw values from allometric and plant trait data bases. Not all model parameters have their counterpart in publicly-available databases, and even when using data bases it is unlikely that one will find appropriate parameter values for all species. To help with this situation, **medfate** has *inbuilt imputation procedures* to estimate missing values for many parameters before starting model simulations. However, imputed parameter estimates will normally be worse than estimates coming from data bases. Hence, we should put a strong effort in finding source parameter data before relying on inbuilt imputation.
 
 
+### Example dataset
+
+```{r, message=FALSE}
+DB_path <- "~/OneDrive/EMF_datasets/PlantTraitDatabases/"
+db <- readr::read_csv(paste0(DB_path, "Sources/Bartlett_et_al_2016/pnas.1604088113.sd01.csv"))
+```
+
+```{r}
+db
+```
 
  
-## Harmonizing measurement units
+## Harmonizing notation and measurement units
+
+
+
+```{r}
+db_var <- db |>
+  dplyr::select(Name, "Leaf P50 (MPa)", "Stem P50 (MPa)", "Stem P88 (MPa)", "Stem P12 (MPa)", 
+                "Root P50 (MPa)", "Gs P50 (MPa)", "Gs 95 (MPa)") |>
+  dplyr::rename(originalName = Name,
+                VCleaf_P50 = "Leaf P50 (MPa)",
+                VCstem_P50 = "Stem P50 (MPa)",
+                VCstem_P12 = "Stem P12 (MPa)",
+                VCstem_P88 = "Stem P88 (MPa)",
+                VCroot_P50 = "Root P50 (MPa)",
+                Gs_P50 = "Gs P50 (MPa)",
+                Gs_P95 = "Gs 95 (MPa)") 
+```
+
 
 ## Taxonomic harmonization
 
-## Storing harmonized databases
+```{r}
+WFO_file <- paste0(DB_path, "WFO_Backbone/classification.csv")
+db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
+```
+
+
+## Checking and storing harmonized dataset
+
+The packages includes function `check_harmonized_table()` to check whether a given data frame conforms in structure and content to what is later needed for parameter table filling:
+
+```{r}
+check_harmonized_table(db_post)
+```
+
+In this case, columns `Units` and `Reference` are missing, but they are not enforced and the data set is ready to be used in parameter estimation.
+
+Harmonized data tables should be preferably stored in compressed **.rds** format. Moreover, all tables should be stored in the same directory, here in the `Products/harmonized/` path.
+
+```{r, eval = FALSE}
+file_out <- paste0(DB_path, "Products/harmonized/Bartlett_et_al_2016.rds")
+saveRDS(db_post, file_out)
+```
+
 
 ## References

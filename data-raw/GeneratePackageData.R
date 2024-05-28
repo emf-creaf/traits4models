@@ -1,3 +1,14 @@
+
+# HarmonizedDefinition ----------------------------------------------------------------
+HarmonizedTraitDefinition <-as.data.frame(readxl::read_xlsx("data-raw/HarmonizedTraitDefinition.xlsx",
+                                                     sheet=1, na = "NA"), stringsAsFactors=FALSE)
+HarmonizedTraitDefinition$Definition <- stringi::stri_enc_toascii(HarmonizedTraitDefinition$Definition)
+HarmonizedTraitDefinition$Notation <- stringi::stri_enc_toascii(HarmonizedTraitDefinition$Notation)
+HarmonizedTraitDefinition$Type <- stringi::stri_enc_toascii(HarmonizedTraitDefinition$Type)
+HarmonizedTraitDefinition$Units <- stringi::stri_enc_toascii(HarmonizedTraitDefinition$Units)
+usethis::use_data(HarmonizedTraitDefinition, overwrite = T)
+
+
 MFWdir <- "~/OneDrive/mcaceres_work/model_development/medfate_development/"
 NFIparamDir <- "~/OneDrive/mcaceres_work/model_development/medfate_development/MedfateSpeciesParametrization/NFIs_parametrization/"
 

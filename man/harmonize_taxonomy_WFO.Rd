@@ -15,5 +15,5 @@ harmonize_taxonomy_WFO(db, WFO_backbone_file)
 A data frame
 }
 \description{
-Harmonizes taxonomy according to World Flora Online
+Harmonizes plant taxonomy according to World Flora Online
 }

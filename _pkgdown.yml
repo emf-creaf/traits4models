@@ -19,6 +19,7 @@ reference:
   desc:  Harmonization of plant trait databases
   contents:
   - starts_with("harmonize")
+  - starts_with("check_harmonized_table")
 
 - title: Species parameter initialization
   desc:  Creation of species parameter tables
@@ -29,6 +30,7 @@ reference:
 - title: Species parameter estimation
   desc:  Species parameter estimation
   contents:
+  - starts_with("get_trait")
   - starts_with("fill_traits")
   - starts_with("populate")
   - complete_strict

@@ -1,6 +1,13 @@
+read_WFO_backbone<- function(WFO_backbone_file) {
+  classification  <- readr::read_delim(file = WFO_backbone_file,
+                                       delim = "\t", escape_double = FALSE,
+                                       trim_ws = TRUE)|> tibble::tibble()
+  return(classification)
+}
+
 #' Harmonizes taxonomy
 #'
-#' Harmonizes taxonomy according to World Flora Online
+#' Harmonizes plant taxonomy according to World Flora Online
 #'
 #' @param db Data frame to harmonize, with species names in column 'originalName'
 #' @param WFO_backbone_file Path to file containing the backbone of World Flora Online
@@ -10,9 +17,8 @@
 #'
 #' @examples
 harmonize_taxonomy_WFO <- function(db, WFO_backbone_file) {
-  classification  <- readr::read_delim(file = WFO_backbone_file,
-                                       delim = "\t", escape_double = FALSE,
-                                       trim_ws = TRUE)|> tibble::tibble()
+
+  classification <- read_WFO_backbone(WFO_backbone_file)
 
   WFO.match<- WorldFlora::WFO.match(unique(db$originalName),
                                     WFO.data = classification, Fuzzy = 0.05)
