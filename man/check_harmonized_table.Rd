@@ -9,6 +9,9 @@ check_harmonized_table(x)
 \arguments{
 \item{x}{A data frame with harmonized trait data}
 }
+\value{
+An (invisible) boolean indicating whether the data frame is acceptable or not.
+}
 \description{
 Checks that the input data frame has the appropriate format and data for model parameter filling.
 }
