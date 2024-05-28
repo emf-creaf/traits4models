@@ -94,90 +94,432 @@ species parameterization for other regions.</p>
 <div class="section level3">
 <h3 id="required-packages">Required packages<a class="anchor" aria-label="anchor" href="#required-packages"></a>
 </h3>
-<p>Installed version of <strong>medfate</strong> should be <strong>ver
-2.9</strong> or higher.</p>
+<p>Assuming we have <strong>medfate</strong> and
+<strong>traits4models</strong> installed, we load them and other common
+packages that we will employ in this vignette:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"medfate"</span><span class="op">)</span></span></code></pre></div>
-<p>If the version at CRAN is older, the package should be installed from
-GitHub via <code><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">remotes::install_github()</a></code>:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"emf-creaf/medfate"</span><span class="op">)</span></span></code></pre></div>
-<p>Package <strong>traits4models</strong> is required for the species
-parameterization process, as it includes several functions that
-facilitate parsing data sources into parameter values. Package
-<strong>traits4models</strong> is installed only from GitHub:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"emf-creaf/traits4models"</span><span class="op">)</span></span></code></pre></div>
-<p>Once we have <strong>medfate</strong> and
-<strong>traits4models</strong>, we load them and other common packages
-that we will employ in this vignette:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://emf-creaf.github.io/medfate/" class="external-link">medfate</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">traits4models</span><span class="op">)</span></span>
-<span><span class="co"># library(IFNread)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ycphs.github.io/openxlsx/index.html" class="external-link">openxlsx</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org" class="external-link">readr</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="target-parameters">Target parameters<a class="anchor" aria-label="anchor" href="#target-parameters"></a>
+<h3 id="harmonized-trait-definition-notation-and-units">Harmonized trait definition, notation and units<a class="anchor" aria-label="anchor" href="#harmonized-trait-definition-notation-and-units"></a>
 </h3>
 <p>The set of species parameters needed to run the models included in
 <strong>medfate</strong> are described in a dataframe called
-<code>SpParamsDefinition</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"SpParamsDefinition"</span><span class="op">)</span></span>
-<span><span class="va">SpParamsDefinition</span><span class="op">$</span><span class="va">ParameterName</span></span></code></pre></div>
-<pre><code><span><span class="co">##   [1] "Name"                  "SpIndex"               "AcceptedName"         </span></span>
-<span><span class="co">##   [4] "Species"               "Genus"                 "Family"               </span></span>
-<span><span class="co">##   [7] "Order"                 "Group"                 "GrowthForm"           </span></span>
-<span><span class="co">##  [10] "LifeForm"              "LeafShape"             "LeafSize"             </span></span>
-<span><span class="co">##  [13] "PhenologyType"         "DispersalType"         "Hmed"                 </span></span>
-<span><span class="co">##  [16] "Hmax"                  "Z50"                   "Z95"                  </span></span>
-<span><span class="co">##  [19] "fHDmin"                "fHDmax"                "a_ash"                </span></span>
-<span><span class="co">##  [22] "b_ash"                 "a_bsh"                 "b_bsh"                </span></span>
-<span><span class="co">##  [25] "a_btsh"                "b_btsh"                "cr"                   </span></span>
-<span><span class="co">##  [28] "BTsh"                  "a_fbt"                 "b_fbt"                </span></span>
-<span><span class="co">##  [31] "c_fbt"                 "a_cr"                  "b_1cr"                </span></span>
-<span><span class="co">##  [34] "b_2cr"                 "b_3cr"                 "c_1cr"                </span></span>
-<span><span class="co">##  [37] "c_2cr"                 "a_cw"                  "b_cw"                 </span></span>
-<span><span class="co">##  [40] "a_bt"                  "b_bt"                  "LeafDuration"         </span></span>
-<span><span class="co">##  [43] "t0gdd"                 "Sgdd"                  "Tbgdd"                </span></span>
-<span><span class="co">##  [46] "Ssen"                  "Phsen"                 "Tbsen"                </span></span>
-<span><span class="co">##  [49] "xsen"                  "ysen"                  "SLA"                  </span></span>
-<span><span class="co">##  [52] "LeafDensity"           "WoodDensity"           "FineRootDensity"      </span></span>
-<span><span class="co">##  [55] "conduit2sapwood"       "r635"                  "pDead"                </span></span>
-<span><span class="co">##  [58] "Al2As"                 "Ar2Al"                 "LeafWidth"            </span></span>
-<span><span class="co">##  [61] "SRL"                   "RLD"                   "maxFMC"               </span></span>
-<span><span class="co">##  [64] "minFMC"                "LeafPI0"               "LeafEPS"              </span></span>
-<span><span class="co">##  [67] "LeafAF"                "StemPI0"               "StemEPS"              </span></span>
-<span><span class="co">##  [70] "StemAF"                "SAV"                   "HeatContent"          </span></span>
-<span><span class="co">##  [73] "LigninPercent"         "LeafAngle"             "LeafAngleSD"          </span></span>
-<span><span class="co">##  [76] "ClumpingIndex"         "gammaSWR"              "alphaSWR"             </span></span>
-<span><span class="co">##  [79] "kPAR"                  "g"                     "Tmax_LAI"             </span></span>
-<span><span class="co">##  [82] "Tmax_LAIsq"            "Psi_Extract"           "Exp_Extract"          </span></span>
-<span><span class="co">##  [85] "WUE"                   "WUE_par"               "WUE_co2"              </span></span>
-<span><span class="co">##  [88] "WUE_vpd"               "Gswmin"                "Gswmax"               </span></span>
-<span><span class="co">##  [91] "Gs_Toptim"             "Gs_Tsens"              "Gs_P50"               </span></span>
-<span><span class="co">##  [94] "Gs_slope"              "VCleaf_kmax"           "VCleaf_P12"           </span></span>
-<span><span class="co">##  [97] "VCleaf_P50"            "VCleaf_P88"            "VCleaf_slope"         </span></span>
-<span><span class="co">## [100] "Kmax_stemxylem"        "VCstem_P12"            "VCstem_P50"           </span></span>
-<span><span class="co">## [103] "VCstem_P88"            "VCstem_slope"          "Kmax_rootxylem"       </span></span>
-<span><span class="co">## [106] "VCroot_P12"            "VCroot_P50"            "VCroot_P88"           </span></span>
-<span><span class="co">## [109] "VCroot_slope"          "Vmax298"               "Jmax298"              </span></span>
-<span><span class="co">## [112] "Nleaf"                 "Nsapwood"              "Nfineroot"            </span></span>
-<span><span class="co">## [115] "WoodC"                 "RERleaf"               "RERsapwood"           </span></span>
-<span><span class="co">## [118] "RERfineroot"           "CCleaf"                "CCsapwood"            </span></span>
-<span><span class="co">## [121] "CCfineroot"            "RGRleafmax"            "RGRsapwoodmax"        </span></span>
-<span><span class="co">## [124] "RGRcambiummax"         "RGRfinerootmax"        "SRsapwood"            </span></span>
-<span><span class="co">## [127] "SRfineroot"            "RSSG"                  "MortalityBaselineRate"</span></span>
-<span><span class="co">## [130] "SurvivalModelStep"     "SurvivalB0"            "SurvivalB1"           </span></span>
-<span><span class="co">## [133] "SeedProductionHeight"  "SeedMass"              "SeedLongevity"        </span></span>
-<span><span class="co">## [136] "DispersalDistance"     "DispersalShape"        "ProbRecr"             </span></span>
-<span><span class="co">## [139] "MinTempRecr"           "MinMoistureRecr"       "MinFPARRecr"          </span></span>
-<span><span class="co">## [142] "RecrTreeDBH"           "RecrTreeHeight"        "RecrShrubHeight"      </span></span>
-<span><span class="co">## [145] "RecrTreeDensity"       "RecrShrubCover"        "RecrZ50"              </span></span>
-<span><span class="co">## [148] "RecrZ95"               "RespFire"              "RespDist"             </span></span>
-<span><span class="co">## [151] "RespClip"              "IngrowthTreeDensity"   "IngrowthTreeDBH"</span></span></code></pre>
+<code>HarmonizedTraitDefinition</code>:</p>
+<table class="table">
+<colgroup>
+<col width="72%">
+<col width="9%">
+<col width="4%">
+<col width="13%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Definition</th>
+<th align="left">Notation</th>
+<th align="left">Type</th>
+<th align="left">Units</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Life form</td>
+<td align="left">LifeForm</td>
+<td align="left">String</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Growth form</td>
+<td align="left">GrowthForm</td>
+<td align="left">String</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Leaf shape</td>
+<td align="left">LeafShape</td>
+<td align="left">String</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Leaf area</td>
+<td align="left">LeafArea</td>
+<td align="left">Numeric</td>
+<td align="left">mm2</td>
+</tr>
+<tr class="odd">
+<td align="left">Leaf size (category)</td>
+<td align="left">LeafSize</td>
+<td align="left">String</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Leaf angle (inclination, orientation)</td>
+<td align="left">LeafAngle</td>
+<td align="left">Numeric</td>
+<td align="left">degrees</td>
+</tr>
+<tr class="odd">
+<td align="left">Dispersal syndrome</td>
+<td align="left">DispersalMode</td>
+<td align="left">String</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Leaf phenology type</td>
+<td align="left">PhenologyType</td>
+<td align="left">String</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Duration of leaves (leaf lifespan)</td>
+<td align="left">LeafDuration</td>
+<td align="left">Numeric</td>
+<td align="left">yrs</td>
+</tr>
+<tr class="even">
+<td align="left">Maximum plant height</td>
+<td align="left">Hmax</td>
+<td align="left">Numeric</td>
+<td align="left">cm</td>
+</tr>
+<tr class="odd">
+<td align="left">Actual plant height</td>
+<td align="left">Hact</td>
+<td align="left">Numeric</td>
+<td align="left">cm</td>
+</tr>
+<tr class="even">
+<td align="left">Rooting depth</td>
+<td align="left">Z95</td>
+<td align="left">Numeric</td>
+<td align="left">mm</td>
+</tr>
+<tr class="odd">
+<td align="left">Leaf area per leaf dry mass (specific leaf area, SLA),
+1/ Leaf mass per area (LMA)</td>
+<td align="left">SLA</td>
+<td align="left">Numeric</td>
+<td align="left">m2<em>kg-1 = mm2</em>mg-1</td>
+</tr>
+<tr class="even">
+<td align="left">Leaf area to sapwood area ratio (Al2As), 1 / Huber
+Value (Hv)</td>
+<td align="left">Al2As</td>
+<td align="left">Numeric</td>
+<td align="left">m2*m-2</td>
+</tr>
+<tr class="odd">
+<td align="left">Proportion of sapwood corresponding to conducive
+elements (vessels or tracheids) as opposed to parenchymatic tissue.</td>
+<td align="left">conduit2sapwood</td>
+<td align="left">Numeric</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Specific root length</td>
+<td align="left">SRL</td>
+<td align="left">Numeric</td>
+<td align="left">cm/g</td>
+</tr>
+<tr class="odd">
+<td align="left">Proportion of total fine fuels that are dead</td>
+<td align="left">pDead</td>
+<td align="left">Numeric</td>
+<td align="left">[0-1]</td>
+</tr>
+<tr class="even">
+<td align="left">Stem carbon (C) content per stem dry mass</td>
+<td align="left">WoodC</td>
+<td align="left">Numeric</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Density of leaf tissue (dry weight over volume)</td>
+<td align="left">LeafDensity</td>
+<td align="left">Numeric</td>
+<td align="left">g<em>cm-3 = mg</em>mm-3</td>
+</tr>
+<tr class="even">
+<td align="left">Wood tissue density (at 0% humidity!)</td>
+<td align="left">WoodDensity</td>
+<td align="left">Numeric</td>
+<td align="left">g<em>cm-3 = mg</em>mm-3</td>
+</tr>
+<tr class="odd">
+<td align="left">Density of fine root tissue (dry weight over
+volume).</td>
+<td align="left">FineRootDensity</td>
+<td align="left">Numeric</td>
+<td align="left">g<em>cm-3 = mg</em>mm-3</td>
+</tr>
+<tr class="even">
+<td align="left">Leaf width</td>
+<td align="left">LeafWidth</td>
+<td align="left">Numeric</td>
+<td align="left">cm</td>
+</tr>
+<tr class="odd">
+<td align="left">Maximum stomatal conductance to water vapor</td>
+<td align="left">Gswmax</td>
+<td align="left">Numeric</td>
+<td align="left">mol H2O * s-1 * m-2</td>
+</tr>
+<tr class="even">
+<td align="left">Minimum stomatal conductance to water vapor</td>
+<td align="left">Gswmin</td>
+<td align="left">Numeric</td>
+<td align="left">mol H2O * s-1 * m-2</td>
+</tr>
+<tr class="odd">
+<td align="left">Osmotic potential at full turgor of leaves</td>
+<td align="left">LeafPI0</td>
+<td align="left">Numeric</td>
+<td align="left">MPa</td>
+</tr>
+<tr class="even">
+<td align="left">Modulus of elasticity (capacity of the cell wall to
+resist changes in volume in response to changes in turgor) of
+leaves</td>
+<td align="left">LeafEPS</td>
+<td align="left">Numeric</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Leaf apoplastic fraction</td>
+<td align="left">LeafAF</td>
+<td align="left">Numeric</td>
+<td align="left">[0-1]</td>
+</tr>
+<tr class="even">
+<td align="left">Leaf water potential at turgor loss point</td>
+<td align="left">Ptlp</td>
+<td align="left">Numeric</td>
+<td align="left">MPa</td>
+</tr>
+<tr class="odd">
+<td align="left">Parameters of the stomatal response to leaf water
+potential</td>
+<td align="left">Gs_P20</td>
+<td align="left">Numeric</td>
+<td align="left">MPa</td>
+</tr>
+<tr class="even">
+<td align="left">Parameters of the stomatal response to leaf water
+potential</td>
+<td align="left">Gs_P50</td>
+<td align="left">Numeric</td>
+<td align="left">MPa</td>
+</tr>
+<tr class="odd">
+<td align="left">Parameters of the stomatal response to leaf water
+potential</td>
+<td align="left">Gs_P80</td>
+<td align="left">Numeric</td>
+<td align="left">MPa</td>
+</tr>
+<tr class="even">
+<td align="left">Parameters of the stomatal response to leaf water
+potential</td>
+<td align="left">Gs_P90</td>
+<td align="left">Numeric</td>
+<td align="left">MPa</td>
+</tr>
+<tr class="odd">
+<td align="left">Parameters of the stomatal response to leaf water
+potential</td>
+<td align="left">Gs_P95</td>
+<td align="left">Numeric</td>
+<td align="left">MPa</td>
+</tr>
+<tr class="even">
+<td align="left">Leaf photosynthesis carboxylation capacity (Vcmax) per
+leaf area (Farquhar model)</td>
+<td align="left">Vmax</td>
+<td align="left">Numeric</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Leaf photosynthesis electron transport capacity (Jmax)
+per leaf area (Farquhar model)</td>
+<td align="left">Jmax</td>
+<td align="left">Numeric</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Leaf nitrogen (N) content per leaf dry mass</td>
+<td align="left">Nleaf</td>
+<td align="left">Numeric</td>
+<td align="left">mg/g</td>
+</tr>
+<tr class="odd">
+<td align="left">Wood nitrogen (N) content per wood dry mass</td>
+<td align="left">Nsapwood</td>
+<td align="left">Numeric</td>
+<td align="left">mg/g</td>
+</tr>
+<tr class="even">
+<td align="left">Fine root nitrogen (N) content per fine root dry
+mass</td>
+<td align="left">Nfineroot</td>
+<td align="left">Numeric</td>
+<td align="left">mg/g</td>
+</tr>
+<tr class="odd">
+<td align="left">Maximum stem-specific hydraulic conductivity</td>
+<td align="left">Ks</td>
+<td align="left">Numeric</td>
+<td align="left">kg m-1 MPa-1 s-1</td>
+</tr>
+<tr class="even">
+<td align="left">Maximum leaf-specific hydraulic conductivity
+(Ks*Hv)</td>
+<td align="left">Kl</td>
+<td align="left">Numeric</td>
+<td align="left">10-4 kg m-1 MPa-1 s-1</td>
+</tr>
+<tr class="odd">
+<td align="left">Maximum leaf hydraulic conductance</td>
+<td align="left">kleaf</td>
+<td align="left">Numeric</td>
+<td align="left">mmolm-2s-1MPa-1</td>
+</tr>
+<tr class="even">
+<td align="left">Maximum whole-plant hydraulic conductance</td>
+<td align="left">kplant</td>
+<td align="left">Numeric</td>
+<td align="left">mmolm-2s-1MPa-1</td>
+</tr>
+<tr class="odd">
+<td align="left">Parameters of the stem vulnerability curve</td>
+<td align="left">VCstem_P12</td>
+<td align="left">Numeric</td>
+<td align="left">MPa</td>
+</tr>
+<tr class="even">
+<td align="left">Parameters of the stem vulnerability curve</td>
+<td align="left">VCstem_P50</td>
+<td align="left">Numeric</td>
+<td align="left">MPa</td>
+</tr>
+<tr class="odd">
+<td align="left">Parameters of the stem vulnerability curve</td>
+<td align="left">VCstem_P88</td>
+<td align="left">Numeric</td>
+<td align="left">MPa</td>
+</tr>
+<tr class="even">
+<td align="left">Parameters of the stem vulnerability curve</td>
+<td align="left">VCstem_slope</td>
+<td align="left">Numeric</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Parameters of the leaf vulnerability curve</td>
+<td align="left">VCleaf_P12</td>
+<td align="left">Numeric</td>
+<td align="left">MPa</td>
+</tr>
+<tr class="even">
+<td align="left">Parameters of the leaf vulnerability curve</td>
+<td align="left">VCleaf_P50</td>
+<td align="left">Numeric</td>
+<td align="left">MPa</td>
+</tr>
+<tr class="odd">
+<td align="left">Parameters of the leaf vulnerability curve</td>
+<td align="left">VCleaf_P88</td>
+<td align="left">Numeric</td>
+<td align="left">MPa</td>
+</tr>
+<tr class="even">
+<td align="left">Parameters of the leaf vulnerability curve</td>
+<td align="left">VCleaf_slope</td>
+<td align="left">Numeric</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Parameters of the root vulnerability curve</td>
+<td align="left">VCroot_P12</td>
+<td align="left">Numeric</td>
+<td align="left">MPa</td>
+</tr>
+<tr class="even">
+<td align="left">Parameters of the root vulnerability curve</td>
+<td align="left">VCroot_P50</td>
+<td align="left">Numeric</td>
+<td align="left">MPa</td>
+</tr>
+<tr class="odd">
+<td align="left">Parameters of the root vulnerability curve</td>
+<td align="left">VCroot_P88</td>
+<td align="left">Numeric</td>
+<td align="left">MPa</td>
+</tr>
+<tr class="even">
+<td align="left">Parameters of the root vulnerability curve</td>
+<td align="left">VCroot_slope</td>
+<td align="left">Numeric</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Leaf dry mass per leaf fresh mass (leaf dry matter
+content, LDMC)</td>
+<td align="left">LDMC</td>
+<td align="left">Numeric</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Leaf fuel moisture content (% of dry weight)</td>
+<td align="left">LFMC</td>
+<td align="left">Numeric</td>
+<td align="left">% of dry weight</td>
+</tr>
+<tr class="odd">
+<td align="left">Ratio of foliar (photosynthetic) + small branches
+(&lt;6.35 mm) dry biomass to foliar (photosynthetic) dry biomass</td>
+<td align="left">r635</td>
+<td align="left">Numeric</td>
+<td align="left">&gt;=1</td>
+</tr>
+<tr class="even">
+<td align="left">High fuel heat content</td>
+<td align="left">HeatContent</td>
+<td align="left">Numeric</td>
+<td align="left">kJ/kg</td>
+</tr>
+<tr class="odd">
+<td align="left">Surface-area-to-volume ratio</td>
+<td align="left">SAV</td>
+<td align="left">Numeric</td>
+<td align="left">m2/m3</td>
+</tr>
+<tr class="even">
+<td align="left">Percent of lignin+cutin over dry weight in leaves</td>
+<td align="left">LigninPercent</td>
+<td align="left">Numeric</td>
+<td align="left">%</td>
+</tr>
+<tr class="odd">
+<td align="left">Barck thickness</td>
+<td align="left">BarkThickness</td>
+<td align="left">Numeric</td>
+<td align="left">mm</td>
+</tr>
+<tr class="even">
+<td align="left">Seedbank average longevity</td>
+<td align="left">SeedLongevity</td>
+<td align="left">Numeric</td>
+<td align="left">yrs</td>
+</tr>
+<tr class="odd">
+<td align="left">Seed dry mass</td>
+<td align="left">SeedMass</td>
+<td align="left">Numeric</td>
+<td align="left">mg</td>
+</tr>
+</tbody>
+</table>
 <p>It is obvious that such a sheer number of parameters cannot be
 searched for manually, even for a small number of target species. Hence,
 it is important to draw values from allometric and plant trait data
@@ -191,18 +533,291 @@ parameter estimates will normally be worse than estimates coming from
 data bases. Hence, we should put a strong effort in finding source
 parameter data before relying on inbuilt imputation.</p>
 </div>
+<div class="section level3">
+<h3 id="example-dataset">Example dataset<a class="anchor" aria-label="anchor" href="#example-dataset"></a>
+</h3>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">DB_path</span> <span class="op">&lt;-</span> <span class="st">"~/OneDrive/EMF_datasets/PlantTraitDatabases/"</span></span>
+<span><span class="va">db</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">DB_path</span>, <span class="st">"Sources/Bartlett_et_al_2016/pnas.1604088113.sd01.csv"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">db</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 310 × 26</span></span></span>
+<span><span class="co">##    Group      Name          Biome `Evergreen/Decid` `Leaf P50 (MPa)` `TLP (MPa)`</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Angiosperm Acacia gregg… Semi… E                            <span style="color: #BB0000;">NA</span>          -<span style="color: #BB0000;">4.25</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Angiosperm Acer campest… Temp… D                            -<span style="color: #BB0000;">1.32</span>       -<span style="color: #BB0000;">1.9</span> </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Angiosperm Acer grandid… Temp… D                            <span style="color: #BB0000;">NA</span>          -<span style="color: #BB0000;">2.45</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Angiosperm Acer monspes… Med.… D                            -<span style="color: #BB0000;">1.89</span>       -<span style="color: #BB0000;">2.2</span> </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Angiosperm Acer negundo  Temp… D                            <span style="color: #BB0000;">NA</span>          -<span style="color: #BB0000;">1.59</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Angiosperm Acer pseudop… Temp… D                            -<span style="color: #BB0000;">1.19</span>       -<span style="color: #BB0000;">1.4</span> </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Angiosperm Acer rubrum   Temp… D                            -<span style="color: #BB0000;">1.7</span>        -<span style="color: #BB0000;">1.59</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Angiosperm Acer sacchar… Temp… D                            <span style="color: #BB0000;">NA</span>          -<span style="color: #BB0000;">2.78</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Angiosperm Adansonia ru… Trop… D                            <span style="color: #BB0000;">NA</span>          -<span style="color: #BB0000;">1.12</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Angiosperm Adansonia za  Trop… D                            <span style="color: #BB0000;">NA</span>          -<span style="color: #BB0000;">1.26</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 300 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 20 more variables: `Stem P50 (MPa)` &lt;dbl&gt;, `Stem P88 (MPa)` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   `Stem P12 (MPa)` &lt;dbl&gt;, `Root P50 (MPa)` &lt;dbl&gt;, `Gs P50 (MPa)` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   `Gs 95 (MPa)` &lt;dbl&gt;, `plant Psi_lethal (MPa)` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   `Psimin_predawn (MPa)` &lt;dbl&gt;, `Psimin_midday (MPa)` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   `Psimin_midday and/or predawn Method` &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   `Reference (for Leaf P50)` &lt;chr&gt;, `Reference (for TLP)` &lt;chr&gt;, …</span></span></span></code></pre>
+</div>
 </div>
 <div class="section level2">
-<h2 id="harmonizing-measurement-units">Harmonizing measurement units<a class="anchor" aria-label="anchor" href="#harmonizing-measurement-units"></a>
+<h2 id="harmonizing-notation-and-measurement-units">Harmonizing notation and measurement units<a class="anchor" aria-label="anchor" href="#harmonizing-notation-and-measurement-units"></a>
 </h2>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">db_var</span> <span class="op">&lt;-</span> <span class="va">db</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">Name</span>, <span class="st">"Leaf P50 (MPa)"</span>, <span class="st">"Stem P50 (MPa)"</span>, <span class="st">"Stem P88 (MPa)"</span>, <span class="st">"Stem P12 (MPa)"</span>, </span>
+<span>                <span class="st">"Root P50 (MPa)"</span>, <span class="st">"Gs P50 (MPa)"</span>, <span class="st">"Gs 95 (MPa)"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>originalName <span class="op">=</span> <span class="va">Name</span>,</span>
+<span>                VCleaf_P50 <span class="op">=</span> <span class="st">"Leaf P50 (MPa)"</span>,</span>
+<span>                VCstem_P50 <span class="op">=</span> <span class="st">"Stem P50 (MPa)"</span>,</span>
+<span>                VCstem_P12 <span class="op">=</span> <span class="st">"Stem P12 (MPa)"</span>,</span>
+<span>                VCstem_P88 <span class="op">=</span> <span class="st">"Stem P88 (MPa)"</span>,</span>
+<span>                VCroot_P50 <span class="op">=</span> <span class="st">"Root P50 (MPa)"</span>,</span>
+<span>                Gs_P50 <span class="op">=</span> <span class="st">"Gs P50 (MPa)"</span>,</span>
+<span>                Gs_P95 <span class="op">=</span> <span class="st">"Gs 95 (MPa)"</span><span class="op">)</span> </span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="taxonomic-harmonization">Taxonomic harmonization<a class="anchor" aria-label="anchor" href="#taxonomic-harmonization"></a>
 </h2>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">WFO_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">DB_path</span>, <span class="st">"WFO_Backbone/classification.csv"</span><span class="op">)</span></span>
+<span><span class="va">db_post</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/harmonize_taxonomy_WFO.html">harmonize_taxonomy_WFO</a></span><span class="op">(</span><span class="va">db_var</span>, <span class="va">WFO_file</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">1496575</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">29</span></span></span>
+<span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">## <span style="font-weight: bold;">Delimiter:</span> "\t"</span></span>
+<span><span class="co">## <span style="color: #BB0000;">chr</span>  (25): taxonID, scientificNameID, localID, scientificName, taxonRank, pa...</span></span>
+<span><span class="co">## <span style="color: #BBBB00;">lgl</span>   (2): subtribe, nameAccordingToID</span></span>
+<span><span class="co">## <span style="color: #0000BB;">date</span>  (2): created, modified</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
+<span><span class="co">## Checking for fuzzy matches for 16 records</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Fuzzy matches for  Aleurites moluccana were:  Aleurites moluccanus, Aleurites moluccanus var. alaunii, Aleurites moluccanus var. floccosus, Aleurites moluccanus var. katoi, Aleurites moluccanus var. remyi, Aleurites moluccanus var. rockinghamensis, Aleurites moluccanus var. serotinus, Aleurites moluccanus var. moluccanus, Aleurites moluccanus var. aulanii</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Best fuzzy matches for  Aleurites moluccana were:  Aleurites moluccanus</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Fuzzy matches for  Corymbia callophylla were:  Corymbia calophylla</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Fuzzy matches for  Encelia califonica were:  Encelia californica, Encelia californica var. californica, Encelia californica var. asperifolia</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Best fuzzy matches for  Encelia califonica were:  Encelia californica</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Fuzzy matches for  Ficus religosa were:  Ficus religiosa, Ficus religiosa var. cordata, Ficus religiosa var. rhynchophylla</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Best fuzzy matches for  Ficus religosa were:  Ficus religiosa</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Fuzzy matches for  Hymenaea stignocarpa were:  Hymenaea stigonocarpa, Hymenaea stigonocarpa var. pubescens, Hymenaea stigonocarpa  var. stigonocarpa, Hymenaea stigonocarpa  var. brevipetiolata, Hymenaea stigonocarpa var. olfersiana</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Best fuzzy matches for  Hymenaea stignocarpa were:  Hymenaea stigonocarpa</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Fuzzy matches for  Macaranga denticulate were:  Macaranga denticulata, Macaranga denticulata var. pustulata, Macaranga denticulata var. zollingeri</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Best fuzzy matches for  Macaranga denticulate were:  Macaranga denticulata</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Fuzzy matches for  Milletia atropurpurea were:  Millettia atropurpurea</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Fuzzy matches for  Nothofagus alessandri were:  Nothofagus alessandrii</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Fuzzy matches for Palaquium sumatrana malaysia were only found for first 2 terms (Palaquium sumatrana)</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## With Fuzzy.two, reduced matches to those of 2 words only</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Fuzzy matches for  Palaquium sumatrana malaysia were:  Palaquium sumatranum</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Fuzzy matches for  Rhododendron macrophylum were:  Rhododendron microphyllum, Rhododendron acrophilum, Rhododendron macrophyllum, Rhododendron macrophyllum f. album</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Best fuzzy matches for  Rhododendron macrophylum were:  Rhododendron macrophyllum</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Fuzzy matches for  Schinus terebinthifolius were:  Schinus terebinthifolia, Schinus terebinthifolius var. glaziovianus, Schinus terebinthifolia var. rhoifolia, Schinus terebinthifolius var. pohlianus, Schinus terebinthifolius var. raddianus, Schinus terebinthifolius var. damazianus, Schinus terebinthifolius var. selloanus, Schinus terebinthifolius var. ternifolius, Schinus terebinthifolius  var. acutifolius</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Best fuzzy matches for  Schinus terebinthifolius were:  Schinus terebinthifolia</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Fuzzy matches for  Sweitenia macrophylla were:  Swietenia macrophylla, Swietenia macrophylla var. marabaensis</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Best fuzzy matches for  Sweitenia macrophylla were:  Swietenia macrophylla</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Fuzzy matches for  Juniperus sillcicola were:  Juniperus silicicola</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Fuzzy matches for  Pinus elliotii were:  Pinus elliottii  var. densa, Pinus elliottii, Pinus elliottii subsp. densa, Pinus elliottii subsp. austrokeysensis, Pinus elliottii  var. elliottii</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Best fuzzy matches for  Pinus elliotii were:  Pinus elliottii</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Checking new accepted IDs</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 39, including Berberis microphylla</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 39</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 47, including Camellia sasanqua</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 47</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 52, including Ceanothus cuneatus</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique Accepted case for record # 52</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 54, including Ceanothus megacarpus</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 54</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 56, including Ceanothus spinosus</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Smallest ID candidates for  56 were:  Ceanothus spinosus, Ceanothus spinosus</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Selected record with smallest ID for record # 56</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 71, including Combretum latifolium</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique Accepted case for record # 71</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 73, including Cordia americana</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique Accepted case for record # 73</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 75, including Cordia dentata</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique Accepted case for record # 75</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 80, including Corylus cornuta</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 80</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 112, including Ficus hispida</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 112</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 114, including Ficus racemosa</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 114</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 115, including Ficus religiosa</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 115</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 116, including Ficus semicordata</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 116</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 119, including Gaultheria hispida</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 119</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 127, including Heteromeles arbutifolia</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique Accepted case for record # 127</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 133, including Ilex aquifolium</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique Accepted case for record # 133</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 140, including Kielmeyera coriacea</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 140</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 149, including Lycium chilense</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 149</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 198, including Prunus armeniaca</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique Accepted case for record # 198</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 201, including Psychotria horizontalis</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 201</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 204, including Quercus agrifolia</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 204</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 210, including Quercus ilex</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 210</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 216, including Quercus robur</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 216</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 237, including Shorea parvifolia</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 237</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 239, including Sorbus torminalis</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique Accepted case for record # 239</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 240, including Styrax ferrugineus</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 240</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 263, including Abies alba</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 263</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 266, including Abies grandis</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 266</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 267, including Abies grandis</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 267</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 272, including Juniperus barbadensis</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 272</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 273, including Juniperus communis</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 273</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 279, including Juniperus communis</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 279</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 291, including Pinus mugo</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 291</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 296, including Pinus nigra</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Smallest ID candidates for  296 were:  Pinus nigra, Pinus nigra</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Selected record with smallest ID for record # 296</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 302, including Pinus kesiya  var. langbianensis</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 302</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Different candidates for original record # 308, including Cephalotaxus harringtonii</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Found unique non-synonym case for record # 308</span></span></code></pre>
 </div>
 <div class="section level2">
-<h2 id="storing-harmonized-databases">Storing harmonized databases<a class="anchor" aria-label="anchor" href="#storing-harmonized-databases"></a>
+<h2 id="checking-and-storing-harmonized-dataset">Checking and storing harmonized dataset<a class="anchor" aria-label="anchor" href="#checking-and-storing-harmonized-dataset"></a>
 </h2>
+<p>The packages includes function <code><a href="../reference/check_harmonized_table.html">check_harmonized_table()</a></code>
+to check whether a given data frame conforms in structure and content to
+what is later needed for parameter table filling:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_harmonized_table.html">check_harmonized_table</a></span><span class="op">(</span><span class="va">db_post</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Column 'Units' should preferably be defined.</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Column 'Reference' should preferably be defined.</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> The data frame is acceptable as harmonized source data.</span></span></code></pre>
+<p>In this case, columns <code>Units</code> and <code>Reference</code>
+are missing, but they are not enforced and the data set is ready to be
+used in parameter estimation.</p>
+<p>Harmonized data tables should be preferably stored in compressed
+<strong>.rds</strong> format. Moreover, all tables should be stored in
+the same directory, here in the <code>Products/harmonized/</code>
+path.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">file_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">DB_path</span>, <span class="st">"Products/harmonized/Bartlett_et_al_2016.rds"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">db_post</span>, <span class="va">file_out</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

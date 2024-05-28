@@ -19,7 +19,13 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/HarmonizedTraitDefinition.html</loc>
+  </url>
+  <url>
     <loc>/reference/SpParamsES.html</loc>
+  </url>
+  <url>
+    <loc>/reference/check_harmonized_table.html</loc>
   </url>
   <url>
     <loc>/reference/complete_strict.html</loc>
