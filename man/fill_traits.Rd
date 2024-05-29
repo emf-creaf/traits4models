@@ -4,14 +4,16 @@
 \alias{fill_traits}
 \title{Trait filling}
 \usage{
-fill_traits(SpParams, harmonized_trait_path, verbose = FALSE)
+fill_traits(SpParams, harmonized_trait_path, progress = TRUE, verbose = FALSE)
 }
 \arguments{
-\item{SpParams}{A species parameter data frame to be filled}
+\item{SpParams}{A species parameter data frame to be filled.}
 
-\item{harmonized_trait_path}{A directory path were RDS files with harmonized trait databases are}
+\item{harmonized_trait_path}{A directory path were RDS files with harmonized trait databases are.}
 
-\item{verbose}{A boolean flag for process information}
+\item{progress}{A boolean flag to prompt progress.}
+
+\item{verbose}{A boolean flag to prompt detailed process information,}
 }
 \value{
 A modified species parameter data frame

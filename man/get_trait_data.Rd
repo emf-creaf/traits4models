@@ -17,6 +17,8 @@ get_trait_data(
 \arguments{
 \item{harmonized_trait_path}{The path to harmonized trait data files (.rds)}
 
+\item{progress}{A boolean flag to prompt progress.}
+
 \item{trait_name}{A string of an accepted trait name}
 
 \item{is_numeric}{A boolean indicating whether the trait is numeric}

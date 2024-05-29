@@ -3,6 +3,7 @@
 #' Functions to load harmonized trait data
 #'
 #' @param harmonized_trait_path The path to harmonized trait data files (.rds)
+#' @param progress A boolean flag to prompt progress.
 #'
 #' @return
 #' Function \code{harmonized_table_list()} returns the list with all harmonized trait data tables.
@@ -53,7 +54,7 @@ get_trait_data <- function(harmonized_trait_path,
                            trait_name,
                            is_numeric = TRUE, progress = TRUE) {
   if(progress) cli::cli_progress_step("Loading harmonized source trait tables")
-  all_tables <- load_harmonized_tables(harmonized_trait_path)
+  all_tables <- load_harmonized_tables(harmonized_trait_path, progress = progress)
   if(progress) cli::cli_progress_step(paste0("Filtering for trait: ", trait_name))
   trait_tables <- vector("list", length(all_tables))
   fixed <- c("originalName", "acceptedName","acceptedNameAuthorship","family",
@@ -84,22 +85,23 @@ get_trait_data <- function(harmonized_trait_path,
 #'
 #' Fills species parameter table with trait data
 #'
-#' @param SpParams A species parameter data frame to be filled
-#' @param harmonized_trait_path A directory path were RDS files with harmonized trait databases are
-#' @param verbose A boolean flag for process information
+#' @param SpParams A species parameter data frame to be filled.
+#' @param harmonized_trait_path A directory path were RDS files with harmonized trait databases are.
+#' @param progress A boolean flag to prompt progress.
+#' @param verbose A boolean flag to prompt detailed process information,
 #'
 #' @return A modified species parameter data frame
 #' @export
 #'
-#' @rdname fill_traits
+#' @name fill_traits
 #' @examples
 fill_traits<-function(SpParams,
                       harmonized_trait_path,
-                      verbose = FALSE) {
+                      progress = TRUE, verbose = FALSE) {
 
   for(trait_name in c("GrowthForm","LifeForm","LeafShape","PhenologyType", "DispersalType")) {
-    cli::cli_progress_step(paste0("Processing parameter: ", trait_name))
-    trait_table <- get_trait_table(harmonized_trait_path, trait_name, is_numeric = FALSE, progress = FALSE)
+    if(progress) cli::cli_progress_step(paste0("Processing parameter: ", trait_name))
+    trait_table <- get_trait_data(harmonized_trait_path, trait_name, is_numeric = FALSE, progress = FALSE)
     if(nrow(trait_table)>0) {
       trait_mapping <- trait_name
       names(trait_mapping) <- trait_name
@@ -111,8 +113,8 @@ fill_traits<-function(SpParams,
   }
   for(trait_name in c("t0gdd", "Tbgdd", "Sgdd",
                       "Phsen", "Tbsen", "xsen", "ysen", "Ssen")) {
-    cli::cli_progress_step(paste0("Processing parameter: ", trait_name))
-    trait_table <- get_trait_table(trait_tables, trait_name, is_numeric = TRUE, progress = FALSE)
+    if(progress) cli::cli_progress_step(paste0("Processing parameter: ", trait_name))
+    trait_table <- get_trait_data(harmonized_trait_path, trait_name, is_numeric = TRUE, progress = FALSE)
     if(nrow(trait_table)>0) {
       trait_mapping <- trait_name
       names(trait_mapping) <- trait_name
@@ -124,8 +126,8 @@ fill_traits<-function(SpParams,
     }
   }
 
-  cli::cli_progress_step(paste0("Processing parameter: ", "LeafSize"))
-  trait_table <- get_trait_table(trait_tables, "LeafArea", is_numeric = TRUE, progress = FALSE) |>
+  if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "LeafSize"))
+  trait_table <- get_trait_data(harmonized_trait_path, "LeafArea", is_numeric = TRUE, progress = FALSE) |>
     dplyr::mutate(
       LeafSize = dplyr::case_when(
         LeafArea<225 ~"Small",
@@ -139,8 +141,8 @@ fill_traits<-function(SpParams,
                                            erase_previous = TRUE, character_traits = TRUE,
                                            replace_previous = TRUE, verbose = verbose)
 
-  cli::cli_progress_step(paste0("Processing parameter: ", "Hmax/Hmed"))
-  trait_table <- get_trait_table(trait_tables, "Hact", is_numeric = TRUE, progress = FALSE)
+  if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Hmax/Hmed"))
+  trait_table <- get_trait_data(harmonized_trait_path, "Hact", is_numeric = TRUE, progress = FALSE)
   trait_mapping <- "Hact"
   names(trait_mapping) <- "Hmax"
   SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
@@ -157,8 +159,8 @@ fill_traits<-function(SpParams,
                                            replace_previous = TRUE, verbose = verbose)
 
 
-  cli::cli_progress_step(paste0("Processing parameter: ", "Gs_P50"))
-  trait_table <- get_trait_table(trait_tables, "Gs_P50", is_numeric = TRUE, progress = FALSE)
+  if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Gs_P50"))
+  trait_table <- get_trait_data(harmonized_trait_path, "Gs_P50", is_numeric = TRUE, progress = FALSE)
   trait_mapping <- "Gs_P50"
   names(trait_mapping) <- "Gs_P50"
   SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
@@ -167,8 +169,8 @@ fill_traits<-function(SpParams,
                                            erase_previous = TRUE, character_traits = FALSE,
                                            replace_previous = TRUE, verbose = verbose)
 
-  cli::cli_progress_step(paste0("Processing parameter: ", "LFMC"))
-  trait_table <- get_trait_table(trait_tables, "LFMC", is_numeric = TRUE, progress = FALSE)
+  if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "LFMC"))
+  trait_table <- get_trait_data(harmonized_trait_path, "LFMC", is_numeric = TRUE, progress = FALSE)
   trait_mapping <- "LFMC"
   names(trait_mapping) <- "maxFMC"
   SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
@@ -184,8 +186,8 @@ fill_traits<-function(SpParams,
                                            erase_previous = TRUE, character_traits = FALSE,
                                            replace_previous = TRUE, verbose = verbose)
 
-  cli::cli_progress_step(paste0("Processing parameter: ", "Kmax_stemxylem"))
-  trait_table <- get_trait_table(trait_tables, "Ks", is_numeric = TRUE, progress = FALSE)
+  if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Kmax_stemxylem"))
+  trait_table <- get_trait_data(harmonized_trait_path, "Ks", is_numeric = TRUE, progress = FALSE)
   trait_mapping <- "Ks"
   names(trait_mapping) <- "Kmax_stemxylem"
   SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
@@ -194,8 +196,8 @@ fill_traits<-function(SpParams,
                                            erase_previous = TRUE, character_traits = FALSE,
                                            replace_previous = TRUE, verbose = verbose)
 
-  cli::cli_progress_step(paste0("Processing parameter: ", "Vmax298"))
-  trait_table <- get_trait_table(trait_tables, "Vcmax", is_numeric = TRUE, progress = FALSE)
+  if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Vmax298"))
+  trait_table <- get_trait_data(harmonized_trait_path, "Vcmax", is_numeric = TRUE, progress = FALSE)
   trait_mapping <- "Vcmax"
   names(trait_mapping) <- "Vmax298"
   SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
@@ -205,8 +207,8 @@ fill_traits<-function(SpParams,
                                            replace_previous = TRUE, verbose = verbose)
 
 
-  cli::cli_progress_step(paste0("Processing parameter: ", "Jmax298"))
-  trait_table <- get_trait_table(trait_tables, "Jmax", is_numeric = TRUE, progress = FALSE)
+  if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Jmax298"))
+  trait_table <- get_trait_data(harmonized_trait_path, "Jmax", is_numeric = TRUE, progress = FALSE)
   trait_mapping <- "Jmax"
   names(trait_mapping) <- "Jmax298"
   SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
@@ -215,8 +217,8 @@ fill_traits<-function(SpParams,
                                            erase_previous = TRUE, character_traits = FALSE,
                                            replace_previous = TRUE, verbose = verbose)
 
-  cli::cli_progress_step(paste0("Processing parameter: ", "Z95"))
-  trait_table <- get_trait_table(trait_tables, "Z95", is_numeric = TRUE, progress = FALSE)
+  if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Z95"))
+  trait_table <- get_trait_data(harmonized_trait_path, "Z95", is_numeric = TRUE, progress = FALSE)
   if(nrow(trait_table)>0) {
     trait_mapping <- "Z95"
     names(trait_mapping) <- "Z95"
@@ -226,8 +228,8 @@ fill_traits<-function(SpParams,
                                              erase_previous = TRUE, character_traits = FALSE,
                                              replace_previous = TRUE, verbose = verbose)
   }
-  cli::cli_progress_step(paste0("Processing parameter: ", "LeafAngle"))
-  trait_table <- get_trait_table(trait_tables, "LeafAngle", is_numeric = TRUE, progress = FALSE)
+  if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "LeafAngle"))
+  trait_table <- get_trait_data(harmonized_trait_path, "LeafAngle", is_numeric = TRUE, progress = FALSE)
   if(nrow(trait_table)>0) {
     trait_mapping <- "LeafAngle"
     names(trait_mapping) <- "LeafAngle"
@@ -254,8 +256,8 @@ fill_traits<-function(SpParams,
                       "VCroot_P50", "VCroot_P12", "VCroot_P88", "VCroot_slope",
                       "Nleaf","Nsapwood", "Nfineroot","SeedMass", "SeedLongevity",
                       "WoodC", "CCleaf", "CCsapwood", "CCfineroot")) {
-    cli::cli_progress_step(paste0("Processing parameter: ", trait_name))
-    trait_table <- get_trait_table(trait_tables, trait_name, is_numeric = TRUE, progress = FALSE)
+    if(progress)  cli::cli_progress_step(paste0("Processing parameter: ", trait_name))
+    trait_table <- get_trait_data(harmonized_trait_path, trait_name, is_numeric = TRUE, progress = FALSE)
     if(nrow(trait_table)>0) {
       trait_mapping <- trait_name
       names(trait_mapping) <- trait_name
@@ -266,8 +268,8 @@ fill_traits<-function(SpParams,
                                                replace_previous = TRUE, verbose = verbose)
     }
   }
-  cli::cli_progress_step(paste0("Processing parameter: ", "RSSG"))
-  trait_table <- get_trait_table(trait_tables, "ShadeTolerance", is_numeric = TRUE)
+  if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "RSSG"))
+  trait_table <- get_trait_data(harmonized_trait_path, "ShadeTolerance", is_numeric = TRUE, progress = FALSE)
   trait_mapping <- "ShadeTolerance"
   names(trait_mapping) <- "RSSG"
   SpParams <- populate_traits(SpParams, trait_table, trait_mapping,

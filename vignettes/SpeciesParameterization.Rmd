@@ -1,6 +1,6 @@
 ---
 title: "Building species parameter tables for medfate"
-author: "Miquel De Cáceres"
+author: "Miquel De Cáceres / Nicolas Martin-StPaul"
 date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_document:
@@ -21,14 +21,9 @@ This vignette describes the procedures used to obtain the species parameter data
 
 ### Required packages
 
-Installed version of **medfate** should be **ver 2.9** or higher. 
+Installed version of **medfate** should be **ver 4.3.1** or higher. 
 ```{r, eval = FALSE}
 install.packages("medfate")
-```
-
-If the version at CRAN is older, the package should be installed from GitHub via `remotes::install_github()`:
-```{r, eval = FALSE}
-remotes::install_github("emf-creaf/medfate")
 ```
 
 Package **traits4models** is required for the species parameterization process, as it includes several functions that facilitate parsing data sources into parameter values. Package **traits4models** is installed only from GitHub:
@@ -70,10 +65,14 @@ The following sections describe different steps that we used to obtain the speci
 
 ### Target taxonomic entities
 
+The species parameter table for **medfate** starts with a vector of species names. Here, we will assume that those names correspond to taxa mentioned in a national forest inventory, more specifically the Spanish National Forest Inventory (SFI). Note that taxon entities in a forest inventory will refer to their own taxonomic reference. Hence, it is important to harmonize taxonomy with the reference used in **traits4models**, i.e. [World Flora Online](https://www.worldfloraonline.org/). Here we will assume that such harmonization has been conducted for the SFI taxon list:
+
 ```{r}
-data("NFI_SP_mapping")
+data("NFI_SP_mapping") 
+NFI_SP_mapping
 ```
 
+Here `NFIName` corresponds to the name used in the forest inventory, while `originalName` has the same value if `NFIName` corresponds to a scientific taxon, otherwise is missing. Therefore, we can filter non-scientific taxon names using:
 
 ```{r}
 # Filter entities not recognized
@@ -83,7 +82,11 @@ spp_filt <- NFI_SP_mapping |>
   unique()
 ```
 
+`NFIName` is kept to match the names used in forest inventory data, while `acceptedName` will be used to ensure that matching with trait information is done using the appropriate (harmonized) taxonomic nomenclature.
+
 ### Initialization
+
+Package **traits4models** provides function `init_spparams()` to initialize a species parameter table according to a given set of taxon names. Here we call the function with both `NFIName` and `acceptedName`.
 
 ```{r, eval = FALSE}
 SpParams <- traits4models::init_spparams(sp_names = spp_filt$NFIName,
@@ -95,10 +98,39 @@ SpParams <- traits4models::init_spparams(sp_names = spp_filt$NFIName,
 SpParams <- readRDS("SpParams_init_sp.rds")
 ```
 
+The result is an empty data frame, except for the first columns, which correspond to taxonomic hierarchy of each entity (genus, family, group, ...). 
+
+```{r}
+SpParams |> tibble::as_tibble()
+```
+
+Taxonomic entities above species are obtained from accepted names using package **taxize**.
 
 ## Drawing structural parameters from forest inventory data
 
 ## Filling parameters from harmonized trait databases
+
+```{r}
+harmonized_trait_path <- "~/OneDrive/EMF_datasets/PlantTraitDatabases/Products/harmonized"
+```
+
+```{r}
+trait_tables <- traits4models::load_harmonized_tables(harmonized_trait_path, progress = FALSE)
+length(trait_tables)
+```
+
+
+```{r}
+SpParams_filled<- traits4models::fill_traits(SpParams, harmonized_trait_path, 
+                                             progress = FALSE, verbose = FALSE)
+```
+
+## Completing strict parameters
+
+```{r}
+# SpParams <- traits4models::complete_strict(SpParams)
+```
+
 
 ## Filling allometric coefficients
 
