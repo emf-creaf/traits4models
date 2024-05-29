@@ -4,7 +4,6 @@
 #'
 #' @param sp_names Vector of plant names, either taxon names or arbitrary species group names.
 #' @param accepted_names Vector of accepted taxon names of the same length of \code{sp_names}.
-#' @param SpParamsDefinition Data frame of species parameter definition from package medfate.
 #' @param fill_taxonomy Boolean flag to indicate that taxonomic information should be filled (retrieved from GBIF using package taxize).
 #' @param complete_rows Boolean flag to indicate that extra rows should be added for cited species/genera (if \code{fill_taxonomy = TRUE}).
 #' @param sort Boolean flag to force sorting in ascending order by \code{Name}.
@@ -13,6 +12,8 @@
 #' @details Taxonomic information is retrieved using functions in package taxize and GBIF as data source.
 #'
 #' @return A data frame with empty species parameter values suitable for medfate simulations.
+#' The data frame will normally contain more rows than \code{sp_names} because of arguments
+#' \code{fill_taxonomy} and \code{complete_rows} are set to TRUE by default.
 #'
 #' @export
 #'
@@ -22,22 +23,19 @@
 #' @seealso \code{\link[medfate]{SpParamsMED}}
 #'
 #' @examples
-#' \dontrun{
-#' # Load species parameter definition from medfate
-#' data(SpParamsDefinition)
-#'
+#' \donttest{
 #' # Simple example with two species
 #' sp_names <- c("Salvia rosmarinus", "Pinus contorta")
-#' init_spparams(sp_names, SpParamsDefinition)
+#' init_spparams(sp_names)
 #'
 #' # Simple example with three species using synonyms and subspecies
 #' sp_names <- c("Rosmarinus officinalis", "Pinus contorta", "Quercus ilex subsp. ilex")
 #' accepted_names <- c("Salvia rosmarinus", "Pinus contorta", "Quercus ilex subsp. ilex")
-#' init_spparams(sp_names, SpParamsDefinition, accepted_names)
+#' init_spparams(sp_names, accepted_names)
 #'
 #'
 #' }
-init_spparams<-function(sp_names, SpParamsDefinition,
+init_spparams<-function(sp_names,
                        accepted_names = NULL,
                        fill_taxonomy = TRUE,
                        complete_rows = TRUE,
@@ -49,6 +47,7 @@ init_spparams<-function(sp_names, SpParamsDefinition,
   if(!is.null(accepted_names)) {
     if(length(accepted_names) != length(sp_names)) stop("The vector of accepted names has to be of the same length as the vector of species names")
   }
+  data("SpParamsDefinition", package = "medfate")
   if(verbose) cli::cli_progress_step("Initializing parameter table")
   SpParams <- data.frame(Name = as.character(sp_names))
   for(cn in SpParamsDefinition$ParameterName) {

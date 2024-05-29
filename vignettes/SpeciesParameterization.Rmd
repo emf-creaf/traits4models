@@ -1,5 +1,5 @@
 ---
-title: "Building species parameter tables"
+title: "Building species parameter tables for medfate"
 author: "Miquel De Cáceres"
 date: "`r Sys.Date()`"
 output: 
@@ -55,15 +55,7 @@ library(openxlsx)
 
 ### Target parameters
 
-The set of species parameters needed to run the models included in **medfate** are described in a dataframe called `SpParamsDefinition`: 
-
-
-```{r}
-data("SpParamsDefinition")
-SpParamsDefinition$ParameterName
-```
-It is obvious that such a sheer number of parameters cannot be searched for manually, even for a small number of target species. Hence, it is important to draw values from allometric and plant trait data bases. Not all model parameters have their counterpart in publicly-available databases, and even when using data bases it is unlikely that one will find appropriate parameter values for all species. To help with this situation, **medfate** has *inbuilt imputation procedures* to estimate missing values for many parameters before starting model simulations. However, imputed parameter estimates will normally be worse than estimates coming from data bases. Hence, we should put a strong effort in finding source parameter data before relying on inbuilt imputation.
-
+The set of species parameters needed to run the models included in **medfate** are described in a dataframe called `SpParamsDefinition`. It is obvious that **medfate** requires a sheer number of parameters cannot be searched for manually, even for a small number of target species. Hence, it is important to draw values from allometric and plant trait data bases. Not all model parameters have their counterpart in publicly-available databases, and even when using data bases it is unlikely that one will find appropriate parameter values for all species. To help with this situation, **medfate** has *inbuilt imputation procedures* to estimate missing values for many parameters before starting model simulations. However, imputed parameter estimates will normally be worse than estimates coming from data bases. Hence, we should put a strong effort in finding source parameter data before relying on inbuilt imputation.
 
 ### Steps to build a species parameter table
 
@@ -74,8 +66,35 @@ The following sections describe different steps that we used to obtain the speci
  3. Populate tree and shrub allometric coefficients from suitable allometric databases.
  4. Populate plant functional traits from available data bases
  
- 
 ## Initializing a species parameter table
+
+### Target taxonomic entities
+
+```{r}
+data("NFI_SP_mapping")
+```
+
+
+```{r}
+# Filter entities not recognized
+spp_filt <- NFI_SP_mapping |>
+  dplyr::filter(!is.na(originalName)) |>
+  dplyr::select(NFIName, acceptedName) |>
+  unique()
+```
+
+### Initialization
+
+```{r, eval = FALSE}
+SpParams <- traits4models::init_spparams(sp_names = spp_filt$NFIName,
+                                         accepted_names = spp_filt$acceptedName,
+                                         verbose = FALSE)
+```
+
+```{r, echo = FALSE}
+SpParams <- readRDS("SpParams_init_sp.rds")
+```
+
 
 ## Drawing structural parameters from forest inventory data
 

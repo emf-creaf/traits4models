@@ -7,7 +7,6 @@
 \usage{
 init_spparams(
   sp_names,
-  SpParamsDefinition,
   accepted_names = NULL,
   fill_taxonomy = TRUE,
   complete_rows = TRUE,
@@ -17,8 +16,6 @@ init_spparams(
 }
 \arguments{
 \item{sp_names}{Vector of plant names, either taxon names or arbitrary species group names.}
-
-\item{SpParamsDefinition}{Data frame of species parameter definition from package medfate.}
 
 \item{accepted_names}{Vector of accepted taxon names of the same length of \code{sp_names}.}
 
@@ -32,6 +29,8 @@ init_spparams(
 }
 \value{
 A data frame with empty species parameter values suitable for medfate simulations.
+The data frame will normally contain more rows than \code{sp_names} because of arguments
+\code{fill_taxonomy} and \code{complete_rows} are set to TRUE by default.
 }
 \description{
 Creates an empty plant parameter table for medfate, populating taxonomic information if desired.
@@ -40,18 +39,15 @@ Creates an empty plant parameter table for medfate, populating taxonomic informa
 Taxonomic information is retrieved using functions in package taxize and GBIF as data source.
 }
 \examples{
-\dontrun{
-# Load species parameter definition from medfate
-data(SpParamsDefinition)
-
+\donttest{
 # Simple example with two species
 sp_names <- c("Salvia rosmarinus", "Pinus contorta")
-init_spparams(sp_names, SpParamsDefinition)
+init_spparams(sp_names)
 
 # Simple example with three species using synonyms and subspecies
 sp_names <- c("Rosmarinus officinalis", "Pinus contorta", "Quercus ilex subsp. ilex")
 accepted_names <- c("Salvia rosmarinus", "Pinus contorta", "Quercus ilex subsp. ilex")
-init_spparams(sp_names, SpParamsDefinition, accepted_names)
+init_spparams(sp_names, accepted_names)
 
 
 }

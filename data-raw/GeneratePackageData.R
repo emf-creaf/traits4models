@@ -47,9 +47,9 @@ SpParamsAU <- readRDS(paste0(NFIparamDir, "Rdata/au/SpParams_filled_strict_allom
 usethis::use_data(SpParamsAU, overwrite = T)
 
 # Species mapping table
-IFN_species_mapping <- read.table("data-raw/IFN_species_mapping.csv", sep="\t", header=TRUE)
-# IFN_species_mapping$Name[IFN_species_mapping$Name == "Arbutus unedo "] <- "Arbutus unedo"
-usethis::use_data(IFN_species_mapping, overwrite = T)
+# IFN_species_mapping <- read.table("data-raw/IFN_species_mapping.csv", sep="\t", header=TRUE)
+# # IFN_species_mapping$Name[IFN_species_mapping$Name == "Arbutus unedo "] <- "Arbutus unedo"
+# usethis::use_data(IFN_species_mapping, overwrite = T)
 
 NFI_SP_mapping <- read.table("data-raw/NFI_SP_mapping.csv", sep=";", header=TRUE, na.strings = "")
 NFI_SP_mapping$NFICode <- as.character(NFI_SP_mapping$NFICode)

@@ -14,7 +14,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.path = "README-")
 
 ## Introduction
 
-Package **traits4models** is designed to facilitate creating plant species parameter tables for process-based models. Specifically utility functions are provided to harmonize plant trait data bases and defining tables from them. At present, species parameter estimation is tailored to be used for the models included in package [medfate](https://emf-creaf.github.io/medfate), but it other functions could be added to become useful for other process-based models. 
+Package **traits4models** is designed to facilitate creating plant species parameter tables for process-based models of forest function and/or dynamics. Specifically utility functions are provided to harmonize plant trait data bases and defining tables from them. At present, species parameter estimation is tailored to be used for the models included in package [medfate](https://emf-creaf.github.io/medfate), but it other functions could be added to become useful for other process-based models. 
 
 ## Package installation
 
