@@ -7,16 +7,19 @@ traits4models - from plant traits to model parameters
 
 ## Introduction
 
-Package **traits4models** is designed to facilitate creating species
-parameter tables for process-based models such as those of package
-[medfate](https://github.com/emf-creaf/medfate). Specifically utility
+Package **traits4models** is designed to facilitate creating plant
+species parameter tables for process-based models. Specifically utility
 functions are provided to harmonize plant trait data bases and defining
-tables from them.
+tables from them. At present, species parameter estimation is tailored
+to be used for the models included in package
+[medfate](https://emf-creaf.github.io/medfate), but it other functions
+could be added to become useful for other process-based models.
 
 ## Package installation
 
 Since both packages evolve together, installing **traits4models**
-normally requires an up-to-date version of **medfate**.
+normally requires an up-to-date version of package **medfate**, which is
+available at [CRAN](https://cran.r-project.org/package=medfate).
 
 The latest stable versions GitHub as follows (required package
 \`remotes\`\` should be installed/updated first):
@@ -27,7 +30,7 @@ remotes::install_github("emf-creaf/traits4models")
 
 ## Usage
 
-The package is still under active development.
+IMPORTANT: The package is still under active development.
 
 ## Documentation
 
@@ -38,7 +41,7 @@ package [website](https://emf-creaf.github.io/traits4models/).
 ## Companion R packages
 
 The development of **traits4models** is intended to complement other
-packages of the medfate modelling framework:
+packages of the same modelling framework:
 
 - Package [**medfateland**](https://emf-creaf.github.io/medfateland)
   extends **medfate** by allowing simulations to be performed in a
