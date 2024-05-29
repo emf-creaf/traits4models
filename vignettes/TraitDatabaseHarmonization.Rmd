@@ -1,6 +1,6 @@
 ---
 title: "Trait database harmonization"
-author: "Miquel De Cáceres"
+author: "Miquel De Cáceres / Nicolas Martin-StPaul"
 date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_document:

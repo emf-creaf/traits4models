@@ -10,19 +10,13 @@
 #' \email{miquelcaceres@@gmail.com}
 #' [ORCID](https://orcid.org/0000-0001-7132-2080)
 #'
-#' Author: Víctor Granda
-#' [ORCID](https://orcid.org/0000-0002-0469-1991)
-#'
-#' Author: Adriana Tovar
-#'
-#' Author: Antoine Cabon
-#' [ORCID](https://orcid.org/0000-0001-6426-1726)
-#'
 #' Author: Nicolas Martin-StPaul
 #' [ORCID](https://orcid.org/0000-0001-7574-0108)
 #'
-#' Author: Arsène Druel
-#' [ORCID](https://orcid.org/0000-0002-3938-0085)
+#' Author: Adriana Tovar
+#'
+#' Author: Víctor Granda
+#' [ORCID](https://orcid.org/0000-0002-0469-1991)
 #'
 #' @seealso Useful links: \itemize{ \item{
 #' \url{https://emf-creaf.github.io/traits4models/index.html}} }
