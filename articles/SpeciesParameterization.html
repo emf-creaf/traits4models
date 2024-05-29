@@ -62,7 +62,7 @@
       <h1 data-toc-skip>Building species parameter tables for
 medfate</h1>
                         <h4 data-toc-skip class="author">Miquel De
-Cáceres</h4>
+Cáceres / Nicolas Martin-StPaul</h4>
             
             <h4 data-toc-skip class="date">2024-05-29</h4>
       
@@ -98,28 +98,24 @@ species parameterization for other regions.</p>
 <h3 id="required-packages">Required packages<a class="anchor" aria-label="anchor" href="#required-packages"></a>
 </h3>
 <p>Installed version of <strong>medfate</strong> should be <strong>ver
-2.9</strong> or higher.</p>
+4.3.1</strong> or higher.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"medfate"</span><span class="op">)</span></span></code></pre></div>
-<p>If the version at CRAN is older, the package should be installed from
-GitHub via <code><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">remotes::install_github()</a></code>:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"emf-creaf/medfate"</span><span class="op">)</span></span></code></pre></div>
 <p>Package <strong>traits4models</strong> is required for the species
 parameterization process, as it includes several functions that
 facilitate parsing data sources into parameter values. Package
 <strong>traits4models</strong> is installed only from GitHub:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"emf-creaf/traits4models"</span><span class="op">)</span></span></code></pre></div>
 <p>Package <strong>medfuels</strong> is also needed because it includes
 allometric coefficients for Mediterranean shrub species. As before,
 package <strong>medfuels</strong> is installed only from GitHub:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"spif-ctfc/medfuels"</span><span class="op">)</span></span></code></pre></div>
 <p>Once we have <strong>medfate</strong>, <strong>traits4models</strong>
 and <strong>medfuels</strong>, we load them and other common packages
 that we will employ in this vignette:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://emf-creaf.github.io/medfate/" class="external-link">medfate</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">traits4models</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">medfuels</span><span class="op">)</span></span>
@@ -132,62 +128,8 @@ that we will employ in this vignette:</p>
 </h3>
 <p>The set of species parameters needed to run the models included in
 <strong>medfate</strong> are described in a dataframe called
-<code>SpParamsDefinition</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"SpParamsDefinition"</span><span class="op">)</span></span>
-<span><span class="va">SpParamsDefinition</span><span class="op">$</span><span class="va">ParameterName</span></span></code></pre></div>
-<pre><code><span><span class="co">##   [1] "Name"                  "SpIndex"               "AcceptedName"         </span></span>
-<span><span class="co">##   [4] "Species"               "Genus"                 "Family"               </span></span>
-<span><span class="co">##   [7] "Order"                 "Group"                 "GrowthForm"           </span></span>
-<span><span class="co">##  [10] "LifeForm"              "LeafShape"             "LeafSize"             </span></span>
-<span><span class="co">##  [13] "PhenologyType"         "DispersalType"         "Hmed"                 </span></span>
-<span><span class="co">##  [16] "Hmax"                  "Z50"                   "Z95"                  </span></span>
-<span><span class="co">##  [19] "fHDmin"                "fHDmax"                "a_ash"                </span></span>
-<span><span class="co">##  [22] "b_ash"                 "a_bsh"                 "b_bsh"                </span></span>
-<span><span class="co">##  [25] "a_btsh"                "b_btsh"                "cr"                   </span></span>
-<span><span class="co">##  [28] "BTsh"                  "a_fbt"                 "b_fbt"                </span></span>
-<span><span class="co">##  [31] "c_fbt"                 "a_cr"                  "b_1cr"                </span></span>
-<span><span class="co">##  [34] "b_2cr"                 "b_3cr"                 "c_1cr"                </span></span>
-<span><span class="co">##  [37] "c_2cr"                 "a_cw"                  "b_cw"                 </span></span>
-<span><span class="co">##  [40] "a_bt"                  "b_bt"                  "LeafDuration"         </span></span>
-<span><span class="co">##  [43] "t0gdd"                 "Sgdd"                  "Tbgdd"                </span></span>
-<span><span class="co">##  [46] "Ssen"                  "Phsen"                 "Tbsen"                </span></span>
-<span><span class="co">##  [49] "xsen"                  "ysen"                  "SLA"                  </span></span>
-<span><span class="co">##  [52] "LeafDensity"           "WoodDensity"           "FineRootDensity"      </span></span>
-<span><span class="co">##  [55] "conduit2sapwood"       "r635"                  "pDead"                </span></span>
-<span><span class="co">##  [58] "Al2As"                 "Ar2Al"                 "LeafWidth"            </span></span>
-<span><span class="co">##  [61] "SRL"                   "RLD"                   "maxFMC"               </span></span>
-<span><span class="co">##  [64] "minFMC"                "LeafPI0"               "LeafEPS"              </span></span>
-<span><span class="co">##  [67] "LeafAF"                "StemPI0"               "StemEPS"              </span></span>
-<span><span class="co">##  [70] "StemAF"                "SAV"                   "HeatContent"          </span></span>
-<span><span class="co">##  [73] "LigninPercent"         "LeafAngle"             "LeafAngleSD"          </span></span>
-<span><span class="co">##  [76] "ClumpingIndex"         "gammaSWR"              "alphaSWR"             </span></span>
-<span><span class="co">##  [79] "kPAR"                  "g"                     "Tmax_LAI"             </span></span>
-<span><span class="co">##  [82] "Tmax_LAIsq"            "Psi_Extract"           "Exp_Extract"          </span></span>
-<span><span class="co">##  [85] "WUE"                   "WUE_par"               "WUE_co2"              </span></span>
-<span><span class="co">##  [88] "WUE_vpd"               "Gswmin"                "Gswmax"               </span></span>
-<span><span class="co">##  [91] "Gs_Toptim"             "Gs_Tsens"              "Gs_P50"               </span></span>
-<span><span class="co">##  [94] "Gs_slope"              "VCleaf_kmax"           "VCleaf_P12"           </span></span>
-<span><span class="co">##  [97] "VCleaf_P50"            "VCleaf_P88"            "VCleaf_slope"         </span></span>
-<span><span class="co">## [100] "Kmax_stemxylem"        "VCstem_P12"            "VCstem_P50"           </span></span>
-<span><span class="co">## [103] "VCstem_P88"            "VCstem_slope"          "Kmax_rootxylem"       </span></span>
-<span><span class="co">## [106] "VCroot_P12"            "VCroot_P50"            "VCroot_P88"           </span></span>
-<span><span class="co">## [109] "VCroot_slope"          "Vmax298"               "Jmax298"              </span></span>
-<span><span class="co">## [112] "Nleaf"                 "Nsapwood"              "Nfineroot"            </span></span>
-<span><span class="co">## [115] "WoodC"                 "RERleaf"               "RERsapwood"           </span></span>
-<span><span class="co">## [118] "RERfineroot"           "CCleaf"                "CCsapwood"            </span></span>
-<span><span class="co">## [121] "CCfineroot"            "RGRleafmax"            "RGRsapwoodmax"        </span></span>
-<span><span class="co">## [124] "RGRcambiummax"         "RGRfinerootmax"        "SRsapwood"            </span></span>
-<span><span class="co">## [127] "SRfineroot"            "RSSG"                  "MortalityBaselineRate"</span></span>
-<span><span class="co">## [130] "SurvivalModelStep"     "SurvivalB0"            "SurvivalB1"           </span></span>
-<span><span class="co">## [133] "SeedProductionHeight"  "SeedMass"              "SeedLongevity"        </span></span>
-<span><span class="co">## [136] "DispersalDistance"     "DispersalShape"        "ProbRecr"             </span></span>
-<span><span class="co">## [139] "MinTempRecr"           "MinMoistureRecr"       "MinFPARRecr"          </span></span>
-<span><span class="co">## [142] "RecrTreeDBH"           "RecrTreeHeight"        "RecrShrubHeight"      </span></span>
-<span><span class="co">## [145] "RecrTreeDensity"       "RecrShrubCover"        "RecrZ50"              </span></span>
-<span><span class="co">## [148] "RecrZ95"               "RespFire"              "RespDist"             </span></span>
-<span><span class="co">## [151] "RespClip"              "IngrowthTreeDensity"   "IngrowthTreeDBH"</span></span></code></pre>
-<p>It is obvious that such a sheer number of parameters cannot be
+<code>SpParamsDefinition</code>. It is obvious that
+<strong>medfate</strong> requires a sheer number of parameters cannot be
 searched for manually, even for a small number of target species. Hence,
 it is important to draw values from allometric and plant trait data
 bases. Not all model parameters have their counterpart in
@@ -219,6 +161,91 @@ allometric databases.</li>
 <div class="section level2">
 <h2 id="initializing-a-species-parameter-table">Initializing a species parameter table<a class="anchor" aria-label="anchor" href="#initializing-a-species-parameter-table"></a>
 </h2>
+<div class="section level3">
+<h3 id="target-taxonomic-entities">Target taxonomic entities<a class="anchor" aria-label="anchor" href="#target-taxonomic-entities"></a>
+</h3>
+<p>The species parameter table for <strong>medfate</strong> starts with
+a vector of species names. Here, we will assume that those names
+correspond to taxa mentioned in a national forest inventory, more
+specifically the Spanish National Forest Inventory (SFI). Note that
+taxon entities in a forest inventory will refer to their own taxonomic
+reference. Hence, it is important to harmonize taxonomy with the
+reference used in <strong>traits4models</strong>, i.e. <a href="https://www.worldfloraonline.org/" class="external-link">World Flora Online</a>. Here we
+will assume that such harmonization has been conducted for the SFI taxon
+list:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"NFI_SP_mapping"</span><span class="op">)</span> </span>
+<span><span class="va">NFI_SP_mapping</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 480 × 8</span></span></span>
+<span><span class="co">##    NFICode NFIName             originalName  originalNameAuthorship acceptedName</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> 31      Abies alba          Abies alba    Mill.                  Abies alba  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> 32      Abies pinsapo       Abies pinsapo Boiss.                 Abies pinsa…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> 307     Acacia dealbata     Acacia dealb… Link                   Acacia deal…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> 207     Acacia melanoxylon  Acacia melan… R.Br. in W.T.Aiton     Acacia mela…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> 7       Acacia spp.         Acacia        <span style="color: #BB0000;">NA</span>                     Acacia      </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> 76      Acer campestre      Acer campest… L.                     Acer campes…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> 276     Acer monspessulanum Acer monspes… L.                     Acer monspe…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> 376     Acer negundo        Acer negundo  L.                     Acer negundo</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> 476     Acer opalus         Acer opalus   Mill.                  Acer opalus </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> 676     Acer platanoides    Acer platano… L.                     Acer platan…</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 470 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 3 more variables: acceptedNameAuthorship &lt;chr&gt;, taxonomicStatus &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   taxonRank &lt;chr&gt;</span></span></span></code></pre>
+<p>Here <code>NFIName</code> corresponds to the name used in the forest
+inventory, while <code>originalName</code> has the same value if
+<code>NFIName</code> corresponds to a scientific taxon, otherwise is
+missing. Therefore, we can filter non-scientific taxon names using:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Filter entities not recognized</span></span>
+<span><span class="va">spp_filt</span> <span class="op">&lt;-</span> <span class="va">NFI_SP_mapping</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">originalName</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">NFIName</span>, <span class="va">acceptedName</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><code>NFIName</code> is kept to match the names used in forest
+inventory data, while <code>acceptedName</code> will be used to ensure
+that matching with trait information is done using the appropriate
+(harmonized) taxonomic nomenclature.</p>
+</div>
+<div class="section level3">
+<h3 id="initialization">Initialization<a class="anchor" aria-label="anchor" href="#initialization"></a>
+</h3>
+<p>Package <strong>traits4models</strong> provides function
+<code><a href="../reference/init_spparams.html">init_spparams()</a></code> to initialize a species parameter table
+according to a given set of taxon names. Here we call the function with
+both <code>NFIName</code> and <code>acceptedName</code>.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/init_spparams.html">init_spparams</a></span><span class="op">(</span>sp_names <span class="op">=</span> <span class="va">spp_filt</span><span class="op">$</span><span class="va">NFIName</span>,</span>
+<span>                                         accepted_names <span class="op">=</span> <span class="va">spp_filt</span><span class="op">$</span><span class="va">acceptedName</span>,</span>
+<span>                                         verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>The result is an empty data frame, except for the first columns,
+which correspond to taxonomic hierarchy of each entity (genus, family,
+group, …).</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">|&gt;</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 520 × 153</span></span></span>
+<span><span class="co">##    Name         SpIndex AcceptedName Species Genus Family Order Group GrowthForm</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Abies              0 Abies        <span style="color: #BB0000;">NA</span>      Abies Pinac… Pina… Gymn… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Abies alba         1 Abies alba   Abies … Abies Pinac… Pina… Gymn… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Abies pinsa…       2 Abies pinsa… Abies … Abies Pinac… Pina… Gymn… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Acacia deal…       3 Acacia deal… Acacia… Acac… Fabac… Faba… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Acacia mela…       4 Acacia mela… Acacia… Acac… Fabac… Faba… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Acacia spp.        5 Acacia       <span style="color: #BB0000;">NA</span>      Acac… Fabac… Faba… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Acer campes…       6 Acer campes… Acer c… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Acer monspe…       7 Acer monspe… Acer m… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Acer negundo       8 Acer negundo Acer n… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Acer opalus        9 Acer opalus  Acer o… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 510 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 144 more variables: LifeForm &lt;lgl&gt;, LeafShape &lt;lgl&gt;, LeafSize &lt;lgl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   PhenologyType &lt;lgl&gt;, DispersalType &lt;lgl&gt;, Hmed &lt;lgl&gt;, Hmax &lt;lgl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   Z50 &lt;lgl&gt;, Z95 &lt;lgl&gt;, fHDmin &lt;lgl&gt;, fHDmax &lt;lgl&gt;, a_ash &lt;lgl&gt;, b_ash &lt;lgl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   a_bsh &lt;lgl&gt;, b_bsh &lt;lgl&gt;, a_btsh &lt;lgl&gt;, b_btsh &lt;lgl&gt;, cr &lt;lgl&gt;, BTsh &lt;lgl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   a_fbt &lt;lgl&gt;, b_fbt &lt;lgl&gt;, c_fbt &lt;lgl&gt;, a_cr &lt;lgl&gt;, b_1cr &lt;lgl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   b_2cr &lt;lgl&gt;, b_3cr &lt;lgl&gt;, c_1cr &lt;lgl&gt;, c_2cr &lt;lgl&gt;, a_cw &lt;lgl&gt;, …</span></span></span></code></pre>
+<p>Taxonomic entities above species are obtained from accepted names
+using package <strong>taxize</strong>.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="drawing-structural-parameters-from-forest-inventory-data">Drawing structural parameters from forest inventory data<a class="anchor" aria-label="anchor" href="#drawing-structural-parameters-from-forest-inventory-data"></a>
@@ -227,6 +254,27 @@ allometric databases.</li>
 <div class="section level2">
 <h2 id="filling-parameters-from-harmonized-trait-databases">Filling parameters from harmonized trait databases<a class="anchor" aria-label="anchor" href="#filling-parameters-from-harmonized-trait-databases"></a>
 </h2>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">harmonized_trait_path</span> <span class="op">&lt;-</span> <span class="st">"~/OneDrive/EMF_datasets/PlantTraitDatabases/Products/harmonized"</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">trait_tables</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/get_trait_data.html">load_harmonized_tables</a></span><span class="op">(</span><span class="va">harmonized_trait_path</span>, progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">trait_tables</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 115</span></span></code></pre>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">SpParams_filled</span><span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/fill_traits.html">fill_traits</a></span><span class="op">(</span><span class="va">SpParams</span>, <span class="va">harmonized_trait_path</span>, </span>
+<span>                                             progress <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in get_trait_data(harmonized_trait_path, "Gs_P50", is_numeric = TRUE, :</span></span>
+<span><span class="co">## NAs introduced by coercion</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in get_trait_data(harmonized_trait_path, trait_name, is_numeric = TRUE,</span></span>
+<span><span class="co">## : NAs introduced by coercion</span></span>
+<span><span class="co">## Warning in get_trait_data(harmonized_trait_path, trait_name, is_numeric = TRUE,</span></span>
+<span><span class="co">## : NAs introduced by coercion</span></span></code></pre>
+</div>
+<div class="section level2">
+<h2 id="completing-strict-parameters">Completing strict parameters<a class="anchor" aria-label="anchor" href="#completing-strict-parameters"></a>
+</h2>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># SpParams &lt;- traits4models::complete_strict(SpParams)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="filling-allometric-coefficients">Filling allometric coefficients<a class="anchor" aria-label="anchor" href="#filling-allometric-coefficients"></a>
