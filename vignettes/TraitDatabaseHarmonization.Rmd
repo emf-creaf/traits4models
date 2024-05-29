@@ -13,47 +13,36 @@ params:
 
 ## Introduction
 
-Species parameter values cannot be drawn from a single data source. This means that multiple data sources need to be harmonized before species parameter tables are build, in terms of:
+Species parameter values cannot be drawn from a single data source. Moreover, the availability of plant trait data continuously increases, as additional efforts are made in observational or experimental studies [@Kattge2020]. This means that multiple data sources need to be harmonized before species parameter tables are build, in terms of:
 
     a) Nomenclature of measured variables.
     b) Measurement units.
     c) Taxonomy of the measured biological entities. 
 
-The result of this harmonization needs to be stored in a harmonized format for subsequent use when creating species parameter tables. This vignette illustrates the harmonization procedures for an example data set.
+The result of this harmonization needs to be stored in a harmonized format for subsequent use when creating species parameter tables. This vignette illustrates the harmonization procedures for an example data set using package **trait4models** and the usual **tidyverse** packages.
 
 >**IMPORTANT**: The vignette is not self-contained, in the sense that it cannot be reproduced without access to data sets that are not included. Nevertheless, it is intended to serve as example of species parameterization for other regions.
 
 ### Required packages
 
-Assuming we have **medfate** and **traits4models** installed, we load them and other common packages that we will employ in this vignette:
+Assuming we have **traits4models** installed, we load it and other common packages that we will employ in this vignette:
 ```{r message=FALSE}
-library(medfate)
 library(traits4models)
 library(tidyverse)
 library(readr)
 ```
 
-### Harmonized trait definition, notation and units
-
-The set of species parameters needed to run the models included in **medfate** are described in a dataframe called `HarmonizedTraitDefinition`: 
-
-
-
-```{r, echo = FALSE}
-data("HarmonizedTraitDefinition")
-knitr::kable(HarmonizedTraitDefinition)
-```
-
-It is obvious that such a sheer number of parameters cannot be searched for manually, even for a small number of target species. Hence, it is important to draw values from allometric and plant trait data bases. Not all model parameters have their counterpart in publicly-available databases, and even when using data bases it is unlikely that one will find appropriate parameter values for all species. To help with this situation, **medfate** has *inbuilt imputation procedures* to estimate missing values for many parameters before starting model simulations. However, imputed parameter estimates will normally be worse than estimates coming from data bases. Hence, we should put a strong effort in finding source parameter data before relying on inbuilt imputation.
-
 
 ### Example dataset
+
+As example for the harmonization process, here we will use data from a Bartlett et al. [-@Bartlett2016]. Much larger data sets can (and should) be processed, but they take much more time. Bartlett et al. provide traits that describe the leaf/stem/root hydraulic vulnerability curves of several species as well as water potential corresponding to stomatal aperture. We start by loading the dataset:
 
 ```{r, message=FALSE}
 DB_path <- "~/OneDrive/EMF_datasets/PlantTraitDatabases/"
 db <- readr::read_csv(paste0(DB_path, "Sources/Bartlett_et_al_2016/pnas.1604088113.sd01.csv"))
 ```
 
+The data looks as follows:
 ```{r}
 db
 ```
@@ -61,7 +50,15 @@ db
  
 ## Harmonizing notation and measurement units
 
+The first steps to be done is to harmonize trait notation, i.e. how plant traits are referred to, and if necessary, change their units. Package **traits4models** includes a data table called `HarmonizedTraitDefinition` that presents plant trait definitions and their required notation and units:
 
+
+```{r, echo = FALSE}
+data("HarmonizedTraitDefinition")
+knitr::kable(HarmonizedTraitDefinition)
+```
+
+In the case of Bartlett's dataset we are interested in points of the vulnerability curve and stomatal behavior. We can check their corresponding names in `HarmonizedTraitDefinition` and use **tidyverse** function `rename()` to harmonize notation. In this case, all variables we are interested are given in units of MPa, so there is no need to harmonize measurement units. The code for harmonization could be as follows:
 
 ```{r}
 db_var <- db |>
@@ -77,12 +74,31 @@ db_var <- db |>
                 Gs_P95 = "Gs 95 (MPa)") 
 ```
 
+Note that we renamed the column containing the plant species into `originalName`. The original name represents the taxon name that is used by the dataset owner/provider and is key for taxonomic harmonization. The result of this step should contain `originalName`, one column for each harmonized trait, and (optionally) columns `Units` and `Reference`.
+
+```{r}
+db_var
+```
+
 
 ## Taxonomic harmonization
 
+Package **traits4models** currently relies on [World Flora Online](https://www.worldfloraonline.org/) for taxonomic harmonization, via package **WorldFlora** [@kindt_worldflora_2020] available at [CRAN](https://cran.r-project.org/package=WorldFlora). This latter package requires a static copy of the World Flora Online Taxonomic Backbone data that can be downloaded from the [World Flora Online](https://www.worldfloraonline.org/) website. Note that you should use a different DOI reference when reporting your harmonization procedures. We are using here [v.2023.06](https://doi.org/10.5281/zenodo.8079052). We assume the user has already downloaded the backbone and stored it in a file called *classification.csv*. 
+
 ```{r}
 WFO_file <- paste0(DB_path, "WFO_Backbone/classification.csv")
+```
+
+Taxonomic harmonization is done by calling function `harmonize_taxonomy_WFO()` with a data frame (where notation and units are already harmonized) and the path to the WFO backbone:
+
+```{r}
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
+```
+
+The function requires a column called `originalName`. It performs both direct and fuzzy matching, which may lead to large processing time for large datasets. If we inspect the result, we will see the additional columns, informing about accepted names and parent taxonomic entities:
+
+```{r}
+db_post
 ```
 
 

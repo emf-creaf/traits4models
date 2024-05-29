@@ -20,6 +20,7 @@ reference:
   contents:
   - starts_with("harmonize")
   - starts_with("check_harmonized_table")
+  - HarmonizedTraitDefinition
 
 - title: Species parameter initialization
   desc:  Creation of species parameter tables
