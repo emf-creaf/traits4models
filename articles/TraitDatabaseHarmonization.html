@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Miquel De
 Cáceres</h4>
             
-            <h4 data-toc-skip class="date">2024-05-28</h4>
+            <h4 data-toc-skip class="date">2024-05-29</h4>
       
       
       <div class="hidden name"><code>TraitDatabaseHarmonization.Rmd</code></div>
@@ -76,15 +76,19 @@ Cáceres</h4>
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
 <p>Species parameter values cannot be drawn from a single data source.
-This means that multiple data sources need to be harmonized before
-species parameter tables are build, in terms of:</p>
+Moreover, the availability of plant trait data continuously increases,
+as additional efforts are made in observational or experimental studies
+<span class="citation">(Kattge et al. 2020)</span>. This means that
+multiple data sources need to be harmonized before species parameter
+tables are build, in terms of:</p>
 <pre><code>a) Nomenclature of measured variables.
 b) Measurement units.
 c) Taxonomy of the measured biological entities. </code></pre>
 <p>The result of this harmonization needs to be stored in a harmonized
 format for subsequent use when creating species parameter tables. This
 vignette illustrates the harmonization procedures for an example data
-set.</p>
+set using package <strong>trait4models</strong> and the usual
+<strong>tidyverse</strong> packages.</p>
 <blockquote>
 <p><strong>IMPORTANT</strong>: The vignette is not self-contained, in
 the sense that it cannot be reproduced without access to data sets that
@@ -94,21 +98,59 @@ species parameterization for other regions.</p>
 <div class="section level3">
 <h3 id="required-packages">Required packages<a class="anchor" aria-label="anchor" href="#required-packages"></a>
 </h3>
-<p>Assuming we have <strong>medfate</strong> and
-<strong>traits4models</strong> installed, we load them and other common
-packages that we will employ in this vignette:</p>
+<p>Assuming we have <strong>traits4models</strong> installed, we load it
+and other common packages that we will employ in this vignette:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://emf-creaf.github.io/medfate/" class="external-link">medfate</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">traits4models</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">traits4models</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org" class="external-link">readr</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="harmonized-trait-definition-notation-and-units">Harmonized trait definition, notation and units<a class="anchor" aria-label="anchor" href="#harmonized-trait-definition-notation-and-units"></a>
+<h3 id="example-dataset">Example dataset<a class="anchor" aria-label="anchor" href="#example-dataset"></a>
 </h3>
-<p>The set of species parameters needed to run the models included in
-<strong>medfate</strong> are described in a dataframe called
-<code>HarmonizedTraitDefinition</code>:</p>
+<p>As example for the harmonization process, here we will use data from
+a Bartlett et al. <span class="citation">(2016)</span>. Much larger data
+sets can (and should) be processed, but they take much more time.
+Bartlett et al. provide traits that describe the leaf/stem/root
+hydraulic vulnerability curves of several species as well as water
+potential corresponding to stomatal aperture. We start by loading the
+dataset:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">DB_path</span> <span class="op">&lt;-</span> <span class="st">"~/OneDrive/EMF_datasets/PlantTraitDatabases/"</span></span>
+<span><span class="va">db</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">DB_path</span>, <span class="st">"Sources/Bartlett_et_al_2016/pnas.1604088113.sd01.csv"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>The data looks as follows:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">db</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 310 × 26</span></span></span>
+<span><span class="co">##    Group      Name          Biome `Evergreen/Decid` `Leaf P50 (MPa)` `TLP (MPa)`</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Angiosperm Acacia gregg… Semi… E                            <span style="color: #BB0000;">NA</span>          -<span style="color: #BB0000;">4.25</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Angiosperm Acer campest… Temp… D                            -<span style="color: #BB0000;">1.32</span>       -<span style="color: #BB0000;">1.9</span> </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Angiosperm Acer grandid… Temp… D                            <span style="color: #BB0000;">NA</span>          -<span style="color: #BB0000;">2.45</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Angiosperm Acer monspes… Med.… D                            -<span style="color: #BB0000;">1.89</span>       -<span style="color: #BB0000;">2.2</span> </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Angiosperm Acer negundo  Temp… D                            <span style="color: #BB0000;">NA</span>          -<span style="color: #BB0000;">1.59</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Angiosperm Acer pseudop… Temp… D                            -<span style="color: #BB0000;">1.19</span>       -<span style="color: #BB0000;">1.4</span> </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Angiosperm Acer rubrum   Temp… D                            -<span style="color: #BB0000;">1.7</span>        -<span style="color: #BB0000;">1.59</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Angiosperm Acer sacchar… Temp… D                            <span style="color: #BB0000;">NA</span>          -<span style="color: #BB0000;">2.78</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Angiosperm Adansonia ru… Trop… D                            <span style="color: #BB0000;">NA</span>          -<span style="color: #BB0000;">1.12</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Angiosperm Adansonia za  Trop… D                            <span style="color: #BB0000;">NA</span>          -<span style="color: #BB0000;">1.26</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 300 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 20 more variables: `Stem P50 (MPa)` &lt;dbl&gt;, `Stem P88 (MPa)` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   `Stem P12 (MPa)` &lt;dbl&gt;, `Root P50 (MPa)` &lt;dbl&gt;, `Gs P50 (MPa)` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   `Gs 95 (MPa)` &lt;dbl&gt;, `plant Psi_lethal (MPa)` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   `Psimin_predawn (MPa)` &lt;dbl&gt;, `Psimin_midday (MPa)` &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   `Psimin_midday and/or predawn Method` &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   `Reference (for Leaf P50)` &lt;chr&gt;, `Reference (for TLP)` &lt;chr&gt;, …</span></span></span></code></pre>
+</div>
+</div>
+<div class="section level2">
+<h2 id="harmonizing-notation-and-measurement-units">Harmonizing notation and measurement units<a class="anchor" aria-label="anchor" href="#harmonizing-notation-and-measurement-units"></a>
+</h2>
+<p>The first steps to be done is to harmonize trait notation, i.e. how
+plant traits are referred to, and if necessary, change their units.
+Package <strong>traits4models</strong> includes a data table called
+<code>HarmonizedTraitDefinition</code> that presents plant trait
+definitions and their required notation and units:</p>
 <table class="table">
 <colgroup>
 <col width="72%">
@@ -520,52 +562,13 @@ content, LDMC)</td>
 </tr>
 </tbody>
 </table>
-<p>It is obvious that such a sheer number of parameters cannot be
-searched for manually, even for a small number of target species. Hence,
-it is important to draw values from allometric and plant trait data
-bases. Not all model parameters have their counterpart in
-publicly-available databases, and even when using data bases it is
-unlikely that one will find appropriate parameter values for all
-species. To help with this situation, <strong>medfate</strong> has
-<em>inbuilt imputation procedures</em> to estimate missing values for
-many parameters before starting model simulations. However, imputed
-parameter estimates will normally be worse than estimates coming from
-data bases. Hence, we should put a strong effort in finding source
-parameter data before relying on inbuilt imputation.</p>
-</div>
-<div class="section level3">
-<h3 id="example-dataset">Example dataset<a class="anchor" aria-label="anchor" href="#example-dataset"></a>
-</h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">DB_path</span> <span class="op">&lt;-</span> <span class="st">"~/OneDrive/EMF_datasets/PlantTraitDatabases/"</span></span>
-<span><span class="va">db</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">DB_path</span>, <span class="st">"Sources/Bartlett_et_al_2016/pnas.1604088113.sd01.csv"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">db</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 310 × 26</span></span></span>
-<span><span class="co">##    Group      Name          Biome `Evergreen/Decid` `Leaf P50 (MPa)` `TLP (MPa)`</span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Angiosperm Acacia gregg… Semi… E                            <span style="color: #BB0000;">NA</span>          -<span style="color: #BB0000;">4.25</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Angiosperm Acer campest… Temp… D                            -<span style="color: #BB0000;">1.32</span>       -<span style="color: #BB0000;">1.9</span> </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Angiosperm Acer grandid… Temp… D                            <span style="color: #BB0000;">NA</span>          -<span style="color: #BB0000;">2.45</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Angiosperm Acer monspes… Med.… D                            -<span style="color: #BB0000;">1.89</span>       -<span style="color: #BB0000;">2.2</span> </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Angiosperm Acer negundo  Temp… D                            <span style="color: #BB0000;">NA</span>          -<span style="color: #BB0000;">1.59</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Angiosperm Acer pseudop… Temp… D                            -<span style="color: #BB0000;">1.19</span>       -<span style="color: #BB0000;">1.4</span> </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Angiosperm Acer rubrum   Temp… D                            -<span style="color: #BB0000;">1.7</span>        -<span style="color: #BB0000;">1.59</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Angiosperm Acer sacchar… Temp… D                            <span style="color: #BB0000;">NA</span>          -<span style="color: #BB0000;">2.78</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Angiosperm Adansonia ru… Trop… D                            <span style="color: #BB0000;">NA</span>          -<span style="color: #BB0000;">1.12</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> Angiosperm Adansonia za  Trop… D                            <span style="color: #BB0000;">NA</span>          -<span style="color: #BB0000;">1.26</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 300 more rows</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 20 more variables: `Stem P50 (MPa)` &lt;dbl&gt;, `Stem P88 (MPa)` &lt;dbl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   `Stem P12 (MPa)` &lt;dbl&gt;, `Root P50 (MPa)` &lt;dbl&gt;, `Gs P50 (MPa)` &lt;dbl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   `Gs 95 (MPa)` &lt;dbl&gt;, `plant Psi_lethal (MPa)` &lt;dbl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   `Psimin_predawn (MPa)` &lt;dbl&gt;, `Psimin_midday (MPa)` &lt;dbl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   `Psimin_midday and/or predawn Method` &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   `Reference (for Leaf P50)` &lt;chr&gt;, `Reference (for TLP)` &lt;chr&gt;, …</span></span></span></code></pre>
-</div>
-</div>
-<div class="section level2">
-<h2 id="harmonizing-notation-and-measurement-units">Harmonizing notation and measurement units<a class="anchor" aria-label="anchor" href="#harmonizing-notation-and-measurement-units"></a>
-</h2>
+<p>In the case of Bartlett’s dataset we are interested in points of the
+vulnerability curve and stomatal behavior. We can check their
+corresponding names in <code>HarmonizedTraitDefinition</code> and use
+<strong>tidyverse</strong> function <code><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename()</a></code> to harmonize
+notation. In this case, all variables we are interested are given in
+units of MPa, so there is no need to harmonize measurement units. The
+code for harmonization could be as follows:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">db_var</span> <span class="op">&lt;-</span> <span class="va">db</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">Name</span>, <span class="st">"Leaf P50 (MPa)"</span>, <span class="st">"Stem P50 (MPa)"</span>, <span class="st">"Stem P88 (MPa)"</span>, <span class="st">"Stem P12 (MPa)"</span>, </span>
@@ -578,13 +581,48 @@ parameter data before relying on inbuilt imputation.</p>
 <span>                VCroot_P50 <span class="op">=</span> <span class="st">"Root P50 (MPa)"</span>,</span>
 <span>                Gs_P50 <span class="op">=</span> <span class="st">"Gs P50 (MPa)"</span>,</span>
 <span>                Gs_P95 <span class="op">=</span> <span class="st">"Gs 95 (MPa)"</span><span class="op">)</span> </span></code></pre></div>
+<p>Note that we renamed the column containing the plant species into
+<code>originalName</code>. The original name represents the taxon name
+that is used by the dataset owner/provider and is key for taxonomic
+harmonization. The result of this step should contain
+<code>originalName</code>, one column for each harmonized trait, and
+(optionally) columns <code>Units</code> and <code>Reference</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">db_var</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 310 × 8</span></span></span>
+<span><span class="co">##    originalName    VCleaf_P50 VCstem_P50 VCstem_P88 VCstem_P12 VCroot_P50 Gs_P50</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Acacia greggii       <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Acer campestre       -<span style="color: #BB0000;">1.32</span>      -<span style="color: #BB0000;">3.87</span>      -<span style="color: #BB0000;">4.60</span>     -<span style="color: #BB0000;">3.19</span>       <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Acer grandiden…      <span style="color: #BB0000;">NA</span>         -<span style="color: #BB0000;">3.66</span>      -<span style="color: #BB0000;">7.14</span>     -<span style="color: #BB0000;">0.92</span>       -<span style="color: #BB0000;">0.86</span>  <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Acer monspessu…      -<span style="color: #BB0000;">1.89</span>      -<span style="color: #BB0000;">3.31</span>      -<span style="color: #BB0000;">4.61</span>     -<span style="color: #BB0000;">2.02</span>       -<span style="color: #BB0000;">1.6</span>   <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Acer negundo         <span style="color: #BB0000;">NA</span>         -<span style="color: #BB0000;">1.34</span>      -<span style="color: #BB0000;">2.74</span>     -<span style="color: #BB0000;">0.451</span>      -<span style="color: #BB0000;">0.3</span>   <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Acer pseudopla…      -<span style="color: #BB0000;">1.19</span>      -<span style="color: #BB0000;">2.37</span>      -<span style="color: #BB0000;">2.71</span>     -<span style="color: #BB0000;">1.95</span>       <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Acer rubrum          -<span style="color: #BB0000;">1.7</span>       -<span style="color: #BB0000;">3.9</span>       -<span style="color: #BB0000;">6</span>        -<span style="color: #BB0000;">2.5</span>        -<span style="color: #BB0000;">1.69</span>  <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Acer saccharum       <span style="color: #BB0000;">NA</span>         -<span style="color: #BB0000;">3.97</span>      <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>          -<span style="color: #BB0000;">1.5</span>   -<span style="color: #BB0000;">1.56</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Adansonia rubr…      <span style="color: #BB0000;">NA</span>         -<span style="color: #BB0000;">1.1</span>       -<span style="color: #BB0000;">2.82</span>     -<span style="color: #BB0000;">0.293</span>      <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Adansonia za         <span style="color: #BB0000;">NA</span>         -<span style="color: #BB0000;">1.7</span>       -<span style="color: #BB0000;">3.49</span>     -<span style="color: #BB0000;">0.59</span>       <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 300 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 1 more variable: Gs_P95 &lt;dbl&gt;</span></span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="taxonomic-harmonization">Taxonomic harmonization<a class="anchor" aria-label="anchor" href="#taxonomic-harmonization"></a>
 </h2>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">WFO_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">DB_path</span>, <span class="st">"WFO_Backbone/classification.csv"</span><span class="op">)</span></span>
-<span><span class="va">db_post</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/harmonize_taxonomy_WFO.html">harmonize_taxonomy_WFO</a></span><span class="op">(</span><span class="va">db_var</span>, <span class="va">WFO_file</span><span class="op">)</span></span></code></pre></div>
+<p>Package <strong>traits4models</strong> currently relies on <a href="https://www.worldfloraonline.org/" class="external-link">World Flora Online</a> for
+taxonomic harmonization, via package <strong>WorldFlora</strong> <span class="citation">(Kindt 2020)</span> available at <a href="https://cran.r-project.org/package=WorldFlora" class="external-link">CRAN</a>. This
+latter package requires a static copy of the World Flora Online
+Taxonomic Backbone data that can be downloaded from the <a href="https://www.worldfloraonline.org/" class="external-link">World Flora Online</a> website.
+Note that you should use a different DOI reference when reporting your
+harmonization procedures. We are using here <a href="https://doi.org/10.5281/zenodo.8079052" class="external-link">v.2023.06</a>. We assume
+the user has already downloaded the backbone and stored it in a file
+called <em>classification.csv</em>.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">WFO_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">DB_path</span>, <span class="st">"WFO_Backbone/classification.csv"</span><span class="op">)</span></span></code></pre></div>
+<p>Taxonomic harmonization is done by calling function
+<code><a href="../reference/harmonize_taxonomy_WFO.html">harmonize_taxonomy_WFO()</a></code> with a data frame (where notation
+and units are already harmonized) and the path to the WFO backbone:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">db_post</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/harmonize_taxonomy_WFO.html">harmonize_taxonomy_WFO</a></span><span class="op">(</span><span class="va">db_var</span>, <span class="va">WFO_file</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">1496575</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">29</span></span></span>
 <span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">## <span style="font-weight: bold;">Delimiter:</span> "\t"</span></span>
@@ -796,6 +834,30 @@ parameter data before relying on inbuilt imputation.</p>
 <span><span class="co">## Different candidates for original record # 308, including Cephalotaxus harringtonii</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Found unique non-synonym case for record # 308</span></span></code></pre>
+<p>The function requires a column called <code>originalName</code>. It
+performs both direct and fuzzy matching, which may lead to large
+processing time for large datasets. If we inspect the result, we will
+see the additional columns, informing about accepted names and parent
+taxonomic entities:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">db_post</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 310 × 14</span></span></span>
+<span><span class="co">##    originalName acceptedName acceptedNameAuthorship family genus specificEpithet</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Acacia greg… Senegalia g… (A.Gray) Britton &amp; Ro… Fabac… Sene… greggii        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Acer campes… Acer campes… L.                     Sapin… Acer  campestre      </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Acer grandi… Acer saccha… (Nutt.) Desmarais      Sapin… Acer  saccharum      </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Acer monspe… Acer monspe… L.                     Sapin… Acer  monspessulanum </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Acer negundo Acer negundo L.                     Sapin… Acer  negundo        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Acer pseudo… Acer pseudo… L.                     Sapin… Acer  pseudoplatanus </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Acer rubrum  Acer rubrum  L.                     Sapin… Acer  rubrum         </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Acer saccha… Acer saccha… Marshall               Sapin… Acer  saccharum      </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Adansonia r… Adansonia f… (Jum. &amp; H.Perrier) H.… Malva… Adan… fony           </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Adansonia za Adansonia za Baill.                 Malva… Adan… za             </span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 300 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 8 more variables: taxonRank &lt;chr&gt;, VCleaf_P50 &lt;dbl&gt;, VCstem_P50 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   VCstem_P88 &lt;dbl&gt;, VCstem_P12 &lt;dbl&gt;, VCroot_P50 &lt;dbl&gt;, Gs_P50 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   Gs_P95 &lt;dbl&gt;</span></span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="checking-and-storing-harmonized-dataset">Checking and storing harmonized dataset<a class="anchor" aria-label="anchor" href="#checking-and-storing-harmonized-dataset"></a>
@@ -803,7 +865,7 @@ parameter data before relying on inbuilt imputation.</p>
 <p>The packages includes function <code><a href="../reference/check_harmonized_table.html">check_harmonized_table()</a></code>
 to check whether a given data frame conforms in structure and content to
 what is later needed for parameter table filling:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_harmonized_table.html">check_harmonized_table</a></span><span class="op">(</span><span class="va">db_post</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Column 'Units' should preferably be defined.</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Column 'Reference' should preferably be defined.</span></span></code></pre>
@@ -815,13 +877,35 @@ used in parameter estimation.</p>
 <strong>.rds</strong> format. Moreover, all tables should be stored in
 the same directory, here in the <code>Products/harmonized/</code>
 path.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">file_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">DB_path</span>, <span class="st">"Products/harmonized/Bartlett_et_al_2016.rds"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">db_post</span>, <span class="va">file_out</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<div class="section level2 unnumbered">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-Bartlett2016" class="csl-entry">
+Bartlett, Megan K, Tamir Klein, Steven Jansen, Brendan Choat, and Lawren
+Sack. 2016. <span>“The Correlations and Sequence of Plant Stomatal,
+Hydraulic, and Wilting Responses to Drought.”</span> <em>Proceedings of
+the National Academy of Sciences of the United States of America</em>
+113 (46): 13098–103. <a href="https://doi.org/10.1073/pnas.1604088113" class="external-link">https://doi.org/10.1073/pnas.1604088113</a>.
+</div>
+<div id="ref-Kattge2020" class="csl-entry">
+Kattge, Jens, Gerhard Bönisch, Sandra Díaz, Sandra Lavorel, Iain Colin
+Prentice, Paul Leadley, Susanne Tautenhahn, et al. 2020.
+<span>“<span>TRY</span> Plant Trait Database – Enhanced Coverage and
+Open Access.”</span> <em>Global Change Biology</em> 26 (1): 119–88. <a href="https://doi.org/10.1111/gcb.14904" class="external-link">https://doi.org/10.1111/gcb.14904</a>.
+</div>
+<div id="ref-kindt_worldflora_2020" class="csl-entry">
+Kindt, Roeland. 2020. <span>“<span>WorldFlora</span>: <span>An</span>
+<span>R</span> Package for Exact and Fuzzy Matching of Plant Names
+Against the <span>World</span> <span>Flora</span> <span>Online</span>
+Taxonomic Backbone Data.”</span> <em>Applications in Plant Sciences</em>
+8 (9): e11388. <a href="https://doi.org/10.1002/aps3.11388" class="external-link">https://doi.org/10.1002/aps3.11388</a>.
+</div>
+</div>
 </div>
   </div>
 
