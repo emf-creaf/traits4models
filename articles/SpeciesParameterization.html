@@ -64,7 +64,7 @@ medfate</h1>
                         <h4 data-toc-skip class="author">Miquel De
 Cáceres / Nicolas Martin-StPaul</h4>
             
-            <h4 data-toc-skip class="date">2024-05-29</h4>
+            <h4 data-toc-skip class="date">2024-06-01</h4>
       
       
       <div class="hidden name"><code>SpeciesParameterization.Rmd</code></div>
@@ -79,16 +79,16 @@ Cáceres / Nicolas Martin-StPaul</h4>
 <div class="section level3">
 <h3 id="aim">Aim<a class="anchor" aria-label="anchor" href="#aim"></a>
 </h3>
-<p>This vignette describes the procedures used to obtain the species
-parameter data tables (such as <code>SpParamsES</code>,
+<p>This vignette describes the procedures used to create and fill
+species parameter data tables (such as <code>SpParamsES</code>,
 <code>SpParamsFR</code> and <code>SpParamsUS</code> included in package
-<strong>traits4models</strong>). Each species parameter table is meant
-to be used on forest plot locations belonging to a given National Forest
-Inventory (NFI). Hence, the taxon entities chosen (rows in
-<code>SpParams</code>) are intended to represent plant taxa reported in
-the NFI.</p>
+<strong>traits4models</strong>) for simulations with
+<strong>medfate</strong>. Here it is assumed that a set of plant trait
+databases have been harmonized and will be used as source data for
+parameter estimation (see vignette <a href="https://emf-creaf.github.io/traits4models/articles/TraitDatabaseHarmonization.html" class="external-link">Trait
+database haramonization</a>.</p>
 <blockquote>
-<p><strong>IMPORTANT</strong>: The vignette is not self-contained, in
+<p><strong>IMPORTANT</strong>: This vignette is not self-contained, in
 the sense that it cannot be reproduced without access to data sets that
 are not included. Nevertheless, it is intended to serve as example of
 species parameterization for other regions.</p>
@@ -102,14 +102,16 @@ species parameterization for other regions.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"medfate"</span><span class="op">)</span></span></code></pre></div>
 <p>Package <strong>traits4models</strong> is required for the species
-parameterization process, as it includes several functions that
+parameter estimation process, as it includes several functions that
 facilitate parsing data sources into parameter values. Package
 <strong>traits4models</strong> is installed only from GitHub:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"emf-creaf/traits4models"</span><span class="op">)</span></span></code></pre></div>
-<p>Package <strong>medfuels</strong> is also needed because it includes
-allometric coefficients for Mediterranean shrub species. As before,
-package <strong>medfuels</strong> is installed only from GitHub:</p>
+<p>In our example, package <strong>medfuels</strong> is also needed
+because it includes allometric coefficients for Mediterranean shrub
+species. In other regions, however, other sources should be sought for
+allometric data. As before, package <strong>medfuels</strong> is
+installed only from GitHub:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"spif-ctfc/medfuels"</span><span class="op">)</span></span></code></pre></div>
 <p>Once we have <strong>medfate</strong>, <strong>traits4models</strong>
@@ -127,20 +129,20 @@ that we will employ in this vignette:</p>
 <h3 id="target-parameters">Target parameters<a class="anchor" aria-label="anchor" href="#target-parameters"></a>
 </h3>
 <p>The set of species parameters needed to run the models included in
-<strong>medfate</strong> are described in a dataframe called
-<code>SpParamsDefinition</code>. It is obvious that
-<strong>medfate</strong> requires a sheer number of parameters cannot be
-searched for manually, even for a small number of target species. Hence,
-it is important to draw values from allometric and plant trait data
-bases. Not all model parameters have their counterpart in
+<strong>medfate</strong> are described in a data frame called
+<code>SpParamsDefinition</code> included in the package. It is obvious
+that <strong>medfate</strong> requires a sheer number of parameters
+cannot be searched for manually, even for a small number of target
+species. Hence, it is important to draw values from allometric and plant
+trait data bases. Not all model parameters have their counterpart in
 publicly-available databases, and even when using data bases it is
 unlikely that one will find appropriate parameter values for all
 species. To help with this situation, <strong>medfate</strong> has
 <em>inbuilt imputation procedures</em> to estimate missing values for
 many parameters before starting model simulations. However, imputed
 parameter estimates will normally be worse than estimates coming from
-data bases. Hence, we should put a strong effort in finding source
-parameter data before relying on inbuilt imputation.</p>
+data bases. Hence, process-based model users should put a strong effort
+in finding source parameter data before starting simulations.</p>
 </div>
 <div class="section level3">
 <h3 id="steps-to-build-a-species-parameter-table">Steps to build a species parameter table<a class="anchor" aria-label="anchor" href="#steps-to-build-a-species-parameter-table"></a>

@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Miquel De
 Cáceres / Nicolas Martin-StPaul</h4>
             
-            <h4 data-toc-skip class="date">2024-05-29</h4>
+            <h4 data-toc-skip class="date">2024-06-01</h4>
       
       
       <div class="hidden name"><code>TraitDatabaseHarmonization.Rmd</code></div>
@@ -90,7 +90,7 @@ vignette illustrates the harmonization procedures for an example data
 set using package <strong>trait4models</strong> and the usual
 <strong>tidyverse</strong> packages.</p>
 <blockquote>
-<p><strong>IMPORTANT</strong>: The vignette is not self-contained, in
+<p><strong>IMPORTANT</strong>: This vignette is not self-contained, in
 the sense that it cannot be reproduced without access to data sets that
 are not included. Nevertheless, it is intended to serve as example of
 species parameterization for other regions.</p>
@@ -146,7 +146,7 @@ dataset:</p>
 <div class="section level2">
 <h2 id="harmonizing-notation-and-measurement-units">Harmonizing notation and measurement units<a class="anchor" aria-label="anchor" href="#harmonizing-notation-and-measurement-units"></a>
 </h2>
-<p>The first steps to be done is to harmonize trait notation, i.e. how
+<p>The first steps to be done are to harmonize trait notation, i.e. how
 plant traits are referred to, and if necessary, change their units.
 Package <strong>traits4models</strong> includes a data table called
 <code>HarmonizedTraitDefinition</code> that presents plant trait
@@ -564,11 +564,17 @@ content, LDMC)</td>
 </table>
 <p>In the case of Bartlett’s dataset we are interested in points of the
 vulnerability curve and stomatal behavior. We can check their
-corresponding names in <code>HarmonizedTraitDefinition</code> and use
-<strong>tidyverse</strong> function <code><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename()</a></code> to harmonize
-notation. In this case, all variables we are interested are given in
-units of MPa, so there is no need to harmonize measurement units. The
-code for harmonization could be as follows:</p>
+corresponding names in <code>HarmonizedTraitDefinition</code>. For
+example, <code>Leaf P50 (MPa)</code> is the water potential
+corresponding to the 50% conductance loss in leaves, and should be named
+<code>VCleaf_P50</code> according to
+<code>HarmonizedTraitDefinition</code>, and so on. We can use
+<strong>dplyr</strong> function <code><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename()</a></code> to harmonize
+notation. In this case, all plant traits we are interested in are given
+in units of MPa, and <code>HarmonizedTraitDefinition</code> reports the
+same units for these traits, so there is no need to harmonize
+measurement units. The code for notation harmonization could be as
+follows:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">db_var</span> <span class="op">&lt;-</span> <span class="va">db</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">Name</span>, <span class="st">"Leaf P50 (MPa)"</span>, <span class="st">"Stem P50 (MPa)"</span>, <span class="st">"Stem P88 (MPa)"</span>, <span class="st">"Stem P12 (MPa)"</span>, </span>
@@ -580,16 +586,17 @@ code for harmonization could be as follows:</p>
 <span>                VCstem_P88 <span class="op">=</span> <span class="st">"Stem P88 (MPa)"</span>,</span>
 <span>                VCroot_P50 <span class="op">=</span> <span class="st">"Root P50 (MPa)"</span>,</span>
 <span>                Gs_P50 <span class="op">=</span> <span class="st">"Gs P50 (MPa)"</span>,</span>
-<span>                Gs_P95 <span class="op">=</span> <span class="st">"Gs 95 (MPa)"</span><span class="op">)</span> </span></code></pre></div>
-<p>Note that we renamed the column containing the plant species into
-<code>originalName</code>. The original name represents the taxon name
-that is used by the dataset owner/provider and is key for taxonomic
-harmonization. The result of this step should contain
-<code>originalName</code>, one column for each harmonized trait, and
-(optionally) columns <code>Units</code> and <code>Reference</code>.</p>
+<span>                Gs_P95 <span class="op">=</span> <span class="st">"Gs 95 (MPa)"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Reference <span class="op">=</span> <span class="st">"Bartlett et al. (2016)"</span><span class="op">)</span></span></code></pre></div>
+<p>Note that we also renamed the column containing the plant species
+into <code>originalName</code>. The original name represents the taxon
+name that is used by the data set owner/provider and is key for
+taxonomic harmonization. The result of this step should contain
+<code>originalName</code>, plus one column for each harmonized trait,
+and (preferably) a column called <code>Reference</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">db_var</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 310 × 8</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 310 × 9</span></span></span>
 <span><span class="co">##    originalName    VCleaf_P50 VCstem_P50 VCstem_P88 VCstem_P12 VCroot_P50 Gs_P50</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Acacia greggii       <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>   </span></span>
@@ -603,7 +610,7 @@ harmonization. The result of this step should contain
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Adansonia rubr…      <span style="color: #BB0000;">NA</span>         -<span style="color: #BB0000;">1.1</span>       -<span style="color: #BB0000;">2.82</span>     -<span style="color: #BB0000;">0.293</span>      <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>   </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> Adansonia za         <span style="color: #BB0000;">NA</span>         -<span style="color: #BB0000;">1.7</span>       -<span style="color: #BB0000;">3.49</span>     -<span style="color: #BB0000;">0.59</span>       <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>   </span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 300 more rows</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 1 more variable: Gs_P95 &lt;dbl&gt;</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># ℹ 2 more variables: Gs_P95 &lt;dbl&gt;, Reference &lt;chr&gt;</span></span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="taxonomic-harmonization">Taxonomic harmonization<a class="anchor" aria-label="anchor" href="#taxonomic-harmonization"></a>
@@ -841,7 +848,7 @@ see the additional columns, informing about accepted names and parent
 taxonomic entities:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">db_post</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 310 × 14</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 310 × 15</span></span></span>
 <span><span class="co">##    originalName acceptedName acceptedNameAuthorship family genus specificEpithet</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Acacia greg… Senegalia g… (A.Gray) Britton &amp; Ro… Fabac… Sene… greggii        </span></span>
@@ -855,9 +862,9 @@ taxonomic entities:</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Adansonia r… Adansonia f… (Jum. &amp; H.Perrier) H.… Malva… Adan… fony           </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> Adansonia za Adansonia za Baill.                 Malva… Adan… za             </span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 300 more rows</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 8 more variables: taxonRank &lt;chr&gt;, VCleaf_P50 &lt;dbl&gt;, VCstem_P50 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 9 more variables: taxonRank &lt;chr&gt;, VCleaf_P50 &lt;dbl&gt;, VCstem_P50 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   VCstem_P88 &lt;dbl&gt;, VCstem_P12 &lt;dbl&gt;, VCroot_P50 &lt;dbl&gt;, Gs_P50 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   Gs_P95 &lt;dbl&gt;</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;">#   Gs_P95 &lt;dbl&gt;, Reference &lt;chr&gt;</span></span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="checking-and-storing-harmonized-dataset">Checking and storing harmonized dataset<a class="anchor" aria-label="anchor" href="#checking-and-storing-harmonized-dataset"></a>
@@ -867,17 +874,14 @@ to check whether a given data frame conforms in structure and content to
 what is later needed for parameter table filling:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_harmonized_table.html">check_harmonized_table</a></span><span class="op">(</span><span class="va">db_post</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Column 'Units' should preferably be defined.</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Column 'Reference' should preferably be defined.</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> The data frame is acceptable as harmonized source data.</span></span></code></pre>
-<p>In this case, columns <code>Units</code> and <code>Reference</code>
-are missing, but they are not enforced and the data set is ready to be
-used in parameter estimation.</p>
+<p>In this case, the data set is ready to be used in parameter
+estimation.</p>
 <p>Harmonized data tables should be preferably stored in compressed
 <strong>.rds</strong> format. Moreover, all tables should be stored in
 the same directory, here in the <code>Products/harmonized/</code>
 path.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">file_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">DB_path</span>, <span class="st">"Products/harmonized/Bartlett_et_al_2016.rds"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">db_post</span>, <span class="va">file_out</span><span class="op">)</span></span></code></pre></div>
 </div>
