@@ -13,7 +13,7 @@ fill_traits(SpParams, harmonized_trait_path, progress = TRUE, verbose = FALSE)
 
 \item{progress}{A boolean flag to prompt progress.}
 
-\item{verbose}{A boolean flag to prompt detailed process information,}
+\item{verbose}{A boolean flag to prompt detailed process information.}
 }
 \value{
 A modified species parameter data frame

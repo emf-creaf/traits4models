@@ -4,10 +4,14 @@
 \alias{complete_strict}
 \title{Complete strict parameters}
 \usage{
-complete_strict(SpParams, params = NULL)
+complete_strict(SpParams, params = NULL, progress = TRUE, verbose = FALSE)
 }
 \arguments{
 \item{SpParams}{A species parameter data frame to be completed}
+
+\item{progress}{A boolean flag to prompt progress.}
+
+\item{verbose}{A boolean flag to prompt detailed process information.}
 
 \item{param}{A character vector with strict parameters to be completed. If missing, all strict parameters will be checked for completion.}
 }
@@ -15,5 +19,9 @@ complete_strict(SpParams, params = NULL)
 A species parameter data frame with imputed strict parameter values
 }
 \description{
-Complete strict parameters
+Taxonomy-based imputation of strict parameters in medfate.
+}
+\details{
+IMPORTANT: This function performs imputation of strict parameters on the basis of non-missing values in taxonomically-close taxa. It should be used with care because of the
+potential source of errors.
 }

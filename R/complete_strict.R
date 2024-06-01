@@ -1,24 +1,36 @@
 #' Complete strict parameters
 #'
+#' Taxonomy-based imputation of strict parameters in medfate.
+#'
 #' @param SpParams A species parameter data frame to be completed
 #' @param param A character vector with strict parameters to be completed. If missing, all strict parameters will be checked for completion.
+#' @param progress A boolean flag to prompt progress.
+#' @param verbose A boolean flag to prompt detailed process information.
+#'
+#' @details
+#' IMPORTANT: This function performs imputation of strict parameters on the basis of non-missing values in taxonomically-close taxa. It should be used with care because of the
+#' potential source of errors.
 #'
 #' @return A species parameter data frame with imputed strict parameter values
 #' @export
 #'
-#' @examples
-#'
-complete_strict<- function(SpParams, params = NULL) {
-  strict_params  <- c("GrowthForm", "LifeForm", "LeafShape", "LeafSize", "PhenologyType", "DispersalType", "Hmax", "Hmed", "Z95")
+complete_strict<- function(SpParams, params = NULL, progress = TRUE, verbose = FALSE) {
+  data("SpParamsDefinition", package = "medfate")
+  if("Strict" %in% names(SpParamsDefinition)) {
+    strict_params <- SpParamsDefinition$ParameterName[SpParamsDefinition$Strict]
+    strict_params <-strict_params[!(strict_params %in% c("Name", "SpIndex", "AcceptedName", "Genus", "Family", "Order", "Group"))]
+  } else {
+    strict_params  <- c("GrowthForm", "LifeForm", "LeafShape", "LeafSize", "PhenologyType", "DispersalType", "Hmax", "Hmed", "Z95")
+  }
   if(is.null(params)) params <- strict_params
   else params <- match.arg(params, strict_params, several.ok = TRUE)
   for(param in params) {
     data("SpParamsDefinition")
     type <- SpParamsDefinition$Type[SpParamsDefinition$ParameterName==param]
-    cli::cli_h3(paste0("Filling missing values for: ", param, " [", type,"]"))
+    if(progress) cli::cli_progress_step(paste0("Filling missing values for: ", param, " [", type,"]"))
     # Look for species if subspecies
     na_rows <- which(is.na(SpParams[[param]]))
-    cli::cli_li(paste0("Initial number of missing: ", length(na_rows)))
+    if(progress && verbose) cli::cli_li(paste0("Initial number of missing: ", length(na_rows)))
     for(r in na_rows) {
       if(!is.na(SpParams$Species[r])) {
         if(SpParams$AcceptedName[r] != SpParams$Species[r]) {
@@ -35,7 +47,7 @@ complete_strict<- function(SpParams, params = NULL) {
     }
     # Look for genus if species
     na_rows <- which(is.na(SpParams[[param]]))
-    cli::cli_li(paste0("Number of missing after assigning species to sub-species: ", length(na_rows)))
+    if(progress && verbose) cli::cli_li(paste0("Number of missing after assigning species to sub-species: ", length(na_rows)))
     for(r in na_rows) {
       if(SpParams$AcceptedName[r] != SpParams$Genus[r]) {
         rowGen = which(SpParams$AcceptedName==SpParams$Genus[r])
@@ -49,7 +61,7 @@ complete_strict<- function(SpParams, params = NULL) {
       }
     }
     na_rows <- which(is.na(SpParams[[param]]))
-    cli::cli_li(paste0("Number of missing after assigning genus to species: ", length(na_rows)))
+    if(progress && verbose) cli::cli_li(paste0("Number of missing after assigning genus to species: ", length(na_rows)))
     for(r in na_rows) {
       fam <- SpParams$Family[r]
       if(!is.na(fam)) {
@@ -66,7 +78,7 @@ complete_strict<- function(SpParams, params = NULL) {
       }
     }
     na_rows <- which(is.na(SpParams[[param]]))
-    cli::cli_li(paste0("Number of missing after examining most common family values: ", length(na_rows)))
+    if(progress && verbose) cli::cli_li(paste0("Number of missing after examining most common family values: ", length(na_rows)))
     for(r in na_rows) {
       ord <- SpParams$Order[r]
       if(!is.na(ord)) {
@@ -83,7 +95,7 @@ complete_strict<- function(SpParams, params = NULL) {
       }
     }
     na_rows <- which(is.na(SpParams[[param]]))
-    cli::cli_li(paste0("Number of missing after examining most common order values: ", length(na_rows)))
+    if(progress && verbose) cli::cli_li(paste0("Number of missing after examining most common order values: ", length(na_rows)))
     for(r in na_rows) {
       gru <- SpParams$Group[r]
       if(!is.na(gru)) {
@@ -100,7 +112,8 @@ complete_strict<- function(SpParams, params = NULL) {
       }
     }
     na_rows <- which(is.na(SpParams[[param]]))
-    cli::cli_li(paste0("Number of missing after examining most common group values: ", length(na_rows)))
+    if(progress && verbose) cli::cli_li(paste0("Number of missing after examining most common group values: ", length(na_rows)))
   }
+  if(progress) cli::cli_progress_done()
   return(SpParams)
 }

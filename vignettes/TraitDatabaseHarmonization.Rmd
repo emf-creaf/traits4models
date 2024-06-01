@@ -21,7 +21,7 @@ Species parameter values cannot be drawn from a single data source. Moreover, th
 
 The result of this harmonization needs to be stored in a harmonized format for subsequent use when creating species parameter tables. This vignette illustrates the harmonization procedures for an example data set using package **trait4models** and the usual **tidyverse** packages.
 
->**IMPORTANT**: The vignette is not self-contained, in the sense that it cannot be reproduced without access to data sets that are not included. Nevertheless, it is intended to serve as example of species parameterization for other regions.
+>**IMPORTANT**: This vignette is not self-contained, in the sense that it cannot be reproduced without access to data sets that are not included. Nevertheless, it is intended to serve as example of species parameterization for other regions.
 
 ### Required packages
 
@@ -50,7 +50,7 @@ db
  
 ## Harmonizing notation and measurement units
 
-The first steps to be done is to harmonize trait notation, i.e. how plant traits are referred to, and if necessary, change their units. Package **traits4models** includes a data table called `HarmonizedTraitDefinition` that presents plant trait definitions and their required notation and units:
+The first steps to be done are to harmonize trait notation, i.e. how plant traits are referred to, and if necessary, change their units. Package **traits4models** includes a data table called `HarmonizedTraitDefinition` that presents plant trait definitions and their required notation and units:
 
 
 ```{r, echo = FALSE}
@@ -58,7 +58,7 @@ data("HarmonizedTraitDefinition")
 knitr::kable(HarmonizedTraitDefinition)
 ```
 
-In the case of Bartlett's dataset we are interested in points of the vulnerability curve and stomatal behavior. We can check their corresponding names in `HarmonizedTraitDefinition` and use **tidyverse** function `rename()` to harmonize notation. In this case, all variables we are interested are given in units of MPa, so there is no need to harmonize measurement units. The code for harmonization could be as follows:
+In the case of Bartlett's dataset we are interested in points of the vulnerability curve and stomatal behavior. We can check their corresponding names in `HarmonizedTraitDefinition`. For example, `Leaf P50 (MPa)` is the water potential corresponding to the 50% conductance loss in leaves, and should be named `VCleaf_P50` according to `HarmonizedTraitDefinition`, and so on. We can use **dplyr** function `rename()` to harmonize notation. In this case, all plant traits we are interested in are given in units of MPa, and `HarmonizedTraitDefinition` reports the same units for these traits, so there is no need to harmonize measurement units. The code for notation harmonization could be as follows:
 
 ```{r}
 db_var <- db |>
@@ -71,10 +71,11 @@ db_var <- db |>
                 VCstem_P88 = "Stem P88 (MPa)",
                 VCroot_P50 = "Root P50 (MPa)",
                 Gs_P50 = "Gs P50 (MPa)",
-                Gs_P95 = "Gs 95 (MPa)") 
+                Gs_P95 = "Gs 95 (MPa)") |>
+  dplyr::mutate(Reference = "Bartlett et al. (2016)")
 ```
 
-Note that we renamed the column containing the plant species into `originalName`. The original name represents the taxon name that is used by the dataset owner/provider and is key for taxonomic harmonization. The result of this step should contain `originalName`, one column for each harmonized trait, and (optionally) columns `Units` and `Reference`.
+Note that we also renamed the column containing the plant species into `originalName`. The original name represents the taxon name that is used by the data set owner/provider and is key for taxonomic harmonization. The result of this step should contain `originalName`, plus one column for each harmonized trait, and (preferably) a column called `Reference`.
 
 ```{r}
 db_var
@@ -110,7 +111,7 @@ The packages includes function `check_harmonized_table()` to check whether a giv
 check_harmonized_table(db_post)
 ```
 
-In this case, columns `Units` and `Reference` are missing, but they are not enforced and the data set is ready to be used in parameter estimation.
+In this case, the data set is ready to be used in parameter estimation.
 
 Harmonized data tables should be preferably stored in compressed **.rds** format. Moreover, all tables should be stored in the same directory, here in the `Products/harmonized/` path.
 

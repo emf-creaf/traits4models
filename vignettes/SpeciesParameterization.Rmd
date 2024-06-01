@@ -15,9 +15,9 @@ params:
 
 ### Aim
 
-This vignette describes the procedures used to obtain the species parameter data tables (such as `SpParamsES`, `SpParamsFR` and `SpParamsUS` included in package **traits4models**). Each species parameter table is meant to be used on forest plot locations belonging to a given National Forest Inventory (NFI). Hence, the taxon entities chosen (rows in `SpParams`) are intended to represent plant taxa reported in the NFI. 
+This vignette describes the procedures used to create and fill species parameter data tables (such as `SpParamsES`, `SpParamsFR` and `SpParamsUS` included in package **traits4models**) for simulations with **medfate**. Here it is assumed that a set of plant trait databases have been harmonized and will be used as source data for parameter estimation (see vignette [Trait database haramonization](https://emf-creaf.github.io/traits4models/articles/TraitDatabaseHarmonization.html). 
 
->**IMPORTANT**: The vignette is not self-contained, in the sense that it cannot be reproduced without access to data sets that are not included. Nevertheless, it is intended to serve as example of species parameterization for other regions.
+>**IMPORTANT**: This vignette is not self-contained, in the sense that it cannot be reproduced without access to data sets that are not included. Nevertheless, it is intended to serve as example of species parameterization for other regions.
 
 ### Required packages
 
@@ -26,13 +26,13 @@ Installed version of **medfate** should be **ver 4.3.1** or higher.
 install.packages("medfate")
 ```
 
-Package **traits4models** is required for the species parameterization process, as it includes several functions that facilitate parsing data sources into parameter values. Package **traits4models** is installed only from GitHub:
+Package **traits4models** is required for the species parameter estimation process, as it includes several functions that facilitate parsing data sources into parameter values. Package **traits4models** is installed only from GitHub:
 
 ```{r, eval = FALSE}
 remotes::install_github("emf-creaf/traits4models")
 ```
 
-Package **medfuels** is also needed because it includes allometric coefficients for Mediterranean shrub species. As before, package **medfuels** is installed only from GitHub:
+In our example, package **medfuels** is also needed because it includes allometric coefficients for Mediterranean shrub species. In other regions, however, other sources should be sought for allometric data. As before, package **medfuels** is installed only from GitHub:
 
 ```{r, eval = FALSE}
 remotes::install_github("spif-ctfc/medfuels")
@@ -50,7 +50,7 @@ library(openxlsx)
 
 ### Target parameters
 
-The set of species parameters needed to run the models included in **medfate** are described in a dataframe called `SpParamsDefinition`. It is obvious that **medfate** requires a sheer number of parameters cannot be searched for manually, even for a small number of target species. Hence, it is important to draw values from allometric and plant trait data bases. Not all model parameters have their counterpart in publicly-available databases, and even when using data bases it is unlikely that one will find appropriate parameter values for all species. To help with this situation, **medfate** has *inbuilt imputation procedures* to estimate missing values for many parameters before starting model simulations. However, imputed parameter estimates will normally be worse than estimates coming from data bases. Hence, we should put a strong effort in finding source parameter data before relying on inbuilt imputation.
+The set of species parameters needed to run the models included in **medfate** are described in a data frame called `SpParamsDefinition` included in the package. It is obvious that **medfate** requires a sheer number of parameters cannot be searched for manually, even for a small number of target species. Hence, it is important to draw values from allometric and plant trait data bases. Not all model parameters have their counterpart in publicly-available databases, and even when using data bases it is unlikely that one will find appropriate parameter values for all species. To help with this situation, **medfate** has *inbuilt imputation procedures* to estimate missing values for many parameters before starting model simulations. However, imputed parameter estimates will normally be worse than estimates coming from data bases. Hence, process-based model users should put a strong effort in finding source parameter data before starting simulations.
 
 ### Steps to build a species parameter table
 
@@ -60,6 +60,7 @@ The following sections describe different steps that we used to obtain the speci
  2. Draw species parameters from forest inventory (IFN in our case) data.
  3. Populate tree and shrub allometric coefficients from suitable allometric databases.
  4. Populate plant functional traits from available data bases
+ 5. Checking the final parameter table and, if needed, completing strict parameters.
  
 ## Initializing a species parameter table
 
@@ -72,7 +73,7 @@ data("NFI_SP_mapping")
 NFI_SP_mapping
 ```
 
-Here `NFIName` corresponds to the name used in the forest inventory, while `originalName` has the same value if `NFIName` corresponds to a scientific taxon, otherwise is missing. Therefore, we can filter non-scientific taxon names using:
+Here `NFIName` corresponds to the name used in the forest inventory, while `originalName` contains the names that where used for taxonomy harmonization. Therefore, it has the same value as `NFIName` for a scientific taxon, and is otherwise missing. Therefore, we can filter non-scientific taxon names using:
 
 ```{r}
 # Filter entities not recognized
@@ -82,11 +83,11 @@ spp_filt <- NFI_SP_mapping |>
   unique()
 ```
 
-`NFIName` is kept to match the names used in forest inventory data, while `acceptedName` will be used to ensure that matching with trait information is done using the appropriate (harmonized) taxonomic nomenclature.
+
 
 ### Initialization
 
-Package **traits4models** provides function `init_spparams()` to initialize a species parameter table according to a given set of taxon names. Here we call the function with both `NFIName` and `acceptedName`.
+Package **traits4models** provides function `init_spparams()` to initialize a species parameter table according to a given set of taxon names. Here we call the function with both `NFIName` and `acceptedName`. `NFIName` will be to match the names used in `forest` objects derived from forest inventory data, while `acceptedName` will be used to ensure that matching with trait information is done using the appropriate (harmonized) taxonomic nomenclature.
 
 ```{r, eval = FALSE}
 SpParams <- traits4models::init_spparams(sp_names = spp_filt$NFIName,
@@ -108,6 +109,9 @@ Taxonomic entities above species are obtained from accepted names using package 
 
 ## Drawing structural parameters from forest inventory data
 
+## Filling allometric coefficients
+
+
 ## Filling parameters from harmonized trait databases
 
 ```{r}
@@ -115,25 +119,32 @@ harmonized_trait_path <- "~/OneDrive/EMF_datasets/PlantTraitDatabases/Products/h
 ```
 
 ```{r}
-trait_tables <- traits4models::load_harmonized_tables(harmonized_trait_path, progress = FALSE)
-length(trait_tables)
+trait_files <- list.files(path = harmonized_trait_path, full.names = FALSE)
+trait_files
 ```
 
 
 ```{r}
-SpParams_filled<- traits4models::fill_traits(SpParams, harmonized_trait_path, 
-                                             progress = FALSE, verbose = FALSE)
+SpParams<- traits4models::fill_traits(SpParams, harmonized_trait_path, 
+                                      progress = FALSE, verbose = FALSE)
+```
+
+
+
+## Checking species parameter tables
+
+```{r}
+check_spparams(SpParams)
 ```
 
 ## Completing strict parameters
 
 ```{r}
-# SpParams <- traits4models::complete_strict(SpParams)
+SpParams <- traits4models::complete_strict(SpParams, progress = FALSE)
 ```
 
-
-## Filling allometric coefficients
-
-## Checking species parameter tables
+```{r}
+check_spparams(SpParams)
+```
 
 ## References

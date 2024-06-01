@@ -88,7 +88,7 @@ get_trait_data <- function(harmonized_trait_path,
 #' @param SpParams A species parameter data frame to be filled.
 #' @param harmonized_trait_path A directory path were RDS files with harmonized trait databases are.
 #' @param progress A boolean flag to prompt progress.
-#' @param verbose A boolean flag to prompt detailed process information,
+#' @param verbose A boolean flag to prompt detailed process information.
 #'
 #' @return A modified species parameter data frame
 #' @export

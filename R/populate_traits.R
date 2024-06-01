@@ -18,7 +18,6 @@
 #' @param verbose A boolean flag to indicate extra console output
 #'
 #' @return A modified data frame of medfate species parameters
-#' @export
 #'
 #' @details
 #' Matches column 'AcceptedName' of SpParams with trait parameter sources.

@@ -19,9 +19,9 @@ check_harmonized_table<- function(x) {
     acceptable <- FALSE
     cli::cli_alert_warning(paste0("Taxonomy columns missing: ", paste0(w_mis, collapse =" ")))
   }
-  if(!("Units" %in% cn)) {
-    cli::cli_alert_info("Column 'Units' should preferably be defined.")
-  }
+  # if(!("Units" %in% cn)) {
+  #   cli::cli_alert_info("Column 'Units' should preferably be defined.")
+  # }
   if(!("Reference" %in% cn)) {
     cli::cli_alert_info("Column 'Reference' should preferably be defined.")
   }
