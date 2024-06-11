@@ -34,6 +34,9 @@
     <loc>/reference/complete_strict.html</loc>
   </url>
   <url>
+    <loc>/reference/fill_allometry_coefficients.html</loc>
+  </url>
+  <url>
     <loc>/reference/fill_harmonized_traits.html</loc>
   </url>
   <url>
@@ -50,9 +53,6 @@
   </url>
   <url>
     <loc>/reference/init_spparams.html</loc>
-  </url>
-  <url>
-    <loc>/reference/populate_allometries.html</loc>
   </url>
   <url>
     <loc>/reference/populate_traits.html</loc>
