@@ -124,7 +124,7 @@ sf_IFN3 <- readRDS("~/OneDrive/mcaceres_work/model_initialisation/medfate_initia
 
 ```{r}
 SpParams<- traits4models::fill_inventory_traits(SpParams, sf_IFN3, 
-                                                progress = FALSE, verbose = FALSE)
+                                                progress = TRUE)
 ```
 
 
