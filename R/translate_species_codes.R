@@ -9,12 +9,12 @@
 #'
 #' @return A string vector with the length of \code{x} and translated species names
 #'
-#' @export
 #'
 #' @encoding UTF-8
 #' @author Miquel De \enc{Cáceres}{Caceres} Ainsa, EMF-CREAF
 #' @seealso \code{\link{IFN2forest}}
 #'
+#' @noRd
 #' @examples
 #' data(NFI_SP_mapping)
 #' data(piesMayoresIFN2)
@@ -24,7 +24,6 @@
 #' translateSpeciesCodes(x = piesMayoresIFN2$Especie,
 #'                       species_names = NFI_SP_mapping$NFIName,
 #'                       species_codes = NFI_SP_mapping$NFICode)
-#'
 translate_species_codes<-function(x, species_names, species_codes) {
   if(length(species_codes)!=length(species_names)) stop("Vectors 'species_codes' and 'species_names' must have the same length")
   lsfi = strsplit(species_codes,"[,./]")

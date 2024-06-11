@@ -1,6 +1,6 @@
 #' Populate tree species allometries
 #'
-#' Populates allometric coefficients for tree species and genus of an input parameter table on the basis of their
+#' Internal functions to populates allometric coefficients for tree species and genus of an input parameter table on the basis of their
 #' accepted name.
 #'
 #' @param SpParams A data frame of medfate species parameters to be populated
@@ -15,6 +15,7 @@
 #' @encoding UTF-8
 #' @author Miquel De \enc{Cáceres}{Caceres} Ainsa, EMF-CREAF
 #' @seealso \code{\link{initSpParams}}
+#' @keywords internal
 #'
 populate_tree_allometries<-function(SpParams,
                                   allom_table,
@@ -79,6 +80,7 @@ populate_tree_allometries<-function(SpParams,
 #' @param species_groups A data table specifying raunkiaer forms for many species (typically from package medfuels)
 #'
 #' @export
+#' @keywords internal
 populate_shrub_allometries_from_medfuels<-function(SpParams,
                                                coef_mapping,
                                                sp_params_allom, group_params_allom,

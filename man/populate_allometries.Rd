@@ -43,7 +43,7 @@ populate_shrub_allometries_from_medfuels(
 A modified data frame of medfate species parameters
 }
 \description{
-Populates allometric coefficients for tree species and genus of an input parameter table on the basis of their
+Internal functions to populates allometric coefficients for tree species and genus of an input parameter table on the basis of their
 accepted name.
 }
 \seealso{
@@ -52,3 +52,4 @@ accepted name.
 \author{
 Miquel De \enc{Cáceres}{Caceres} Ainsa, EMF-CREAF
 }
+\keyword{internal}

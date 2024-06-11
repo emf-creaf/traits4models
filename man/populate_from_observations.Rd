@@ -64,7 +64,7 @@ populate_tree_diameterHeight_params(
 A modified data frame of medfate species parameters
 }
 \description{
-Functions to populate species parameter values from forest inventory source data
+Internal functions to populate species parameter values from forest inventory source data
 }
 \seealso{
 \code{\link{initSpParams}}
@@ -72,3 +72,4 @@ Functions to populate species parameter values from forest inventory source data
 \author{
 Miquel De \enc{Cáceres}{Caceres} Ainsa, EMF-CREAF
 }
+\keyword{internal}

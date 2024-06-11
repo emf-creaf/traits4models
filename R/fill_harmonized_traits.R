@@ -81,7 +81,7 @@ get_trait_data <- function(harmonized_trait_path,
   return(trait_table)
 }
 
-#' Trait filling
+#' Trait filling from harmonized data
 #'
 #' Fills species parameter table with trait data
 #'
@@ -93,11 +93,11 @@ get_trait_data <- function(harmonized_trait_path,
 #' @return A modified species parameter data frame
 #' @export
 #'
-#' @name fill_traits
+#' @name fill_harmonized_traits
 #' @examples
-fill_traits<-function(SpParams,
-                      harmonized_trait_path,
-                      progress = TRUE, verbose = FALSE) {
+fill_harmonized_traits<-function(SpParams,
+                                 harmonized_trait_path,
+                                 progress = TRUE, verbose = FALSE) {
 
   for(trait_name in c("GrowthForm","LifeForm","LeafShape","PhenologyType", "DispersalType")) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", trait_name))

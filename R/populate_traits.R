@@ -1,6 +1,6 @@
 #' Populate species parameters from trait data
 #'
-#' Generic function to fill medfate species trait parameters from a data table of species traits
+#' Internal function to fill medfate species trait parameters from a data table of species traits
 #'
 #' @param SpParams A data frame of medfate species parameters to be populated.
 #' @param trait_table A data frame with functional traits in columns and plants in rows.
@@ -23,8 +23,8 @@
 #' Matches column 'AcceptedName' of SpParams with trait parameter sources.
 #' If the target taxon is a species, values are taken from those rows in trait_table where species names match.
 #' If the target taxon is a genus, then values are taken from those rows where genus is the same.
-#'
-#'
+#' @export
+#' @keywords internal
 #' @encoding UTF-8
 #' @author Miquel De \enc{Cáceres}{Caceres} Ainsa, EMF-CREAF
 #' @seealso \code{\link{init_spparams}}

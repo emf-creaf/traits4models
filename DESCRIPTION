@@ -10,12 +10,13 @@ Authors@R: c(
   )
 Description: Utility functions to facilitate harmonizing plant trait data bases and defining species parameter tables for process-based models.
 License: GPL (>= 2)
-Depends: R (>= 3.4.0), medfate (>= 4.0.0)
+Depends: R (>= 3.5.0), medfate (>= 4.0.0)
 Imports: 
     assertthat,
     cli,
     dplyr,
     memoise,
+    readr,
     taxize,
     tibble,
     WorldFlora

@@ -31,9 +31,7 @@ reference:
   desc:  Creation of species parameter tables
   contents:
   - init_spparams
-  - translate_species_codes
   - starts_with("fill_traits")
-  - starts_with("populate")
   - complete_strict
   - check_spparams
 

@@ -1,6 +1,6 @@
 #' Populate species parameters from inventory data
 #'
-#' Functions to populate species parameter values from forest inventory source data
+#' Internal functions to populate species parameter values from forest inventory source data
 #'
 #' @name populate_from_observations
 #'
@@ -12,6 +12,7 @@
 #'
 #' @return A modified data frame of medfate species parameters
 #' @export
+#' @keywords internal
 #'
 #' @encoding UTF-8
 #' @author Miquel De \enc{Cáceres}{Caceres} Ainsa, EMF-CREAF
@@ -67,6 +68,7 @@ populate_GrowthForm<-function(SpParams,
 #' @param quantile_Hmax Quantile for Hmax
 #'
 #' @export
+#' @keywords internal
 populate_height_params<-function(SpParams,
                                species_names,
                                height_values,
@@ -115,6 +117,7 @@ populate_height_params<-function(SpParams,
 #' @param quantile_fHDmax Quantile for fHDmax
 #'
 #' @export
+#' @keywords internal
 populate_tree_diameterHeight_params<-function(SpParams,
                                            species_names,
                                            height_values,
@@ -178,4 +181,39 @@ populate_tree_diameterHeight_params<-function(SpParams,
                             " tree species) after populating with input data.\n"))
   return(SpParams)
 
+}
+
+
+#' Fills parameters from inventory data
+#'
+#' Extracts species parameter values from forest inventory data
+#'
+#' @param SpParams
+#' @param x A list of \code{\link{forest}} objects, or a data frame with a column called \code{forest}, whose elements are of class \code{\link{forest}}.
+#' @param quantile_Hmed Quantile for Hmed
+#' @param quantile_Hmax Quantile for Hmax
+#' @param quantile_fHDmin Quantile for fHDmin
+#' @param quantile_fHDmax Quantile for fHDmax
+#' @param progress
+#' @param verbose
+#'
+#' @return
+#' @export
+#'
+#' @examples
+fill_inventory_traits<-function(SpParams,
+                                x,
+                                quantile_Hmed = 0.5,
+                                quantile_Hmax = 0.99,
+                                quantile_fHDmin = 0.05,
+                                quantile_fHDmax = 0.95,
+                                progress = TRUE, verbose = FALSE) {
+  if(!inherits(SpParams, "data.frame")) cli::cli_abort("SpParams should be a data frame")
+  if(!inherits(x, "data.frame") && !inherits(x, "list")) cli::cli_abort("x should be a data frame or a list")
+  if(inherits(x, "data.frame")) {
+    if(!("forest" %in% names(x))) cli::cli_abort("x does not contain a column called `forest`")
+    x <- x[["forest"]]
+  }
+
+  return(SpParams)
 }

@@ -51,7 +51,7 @@ median values are taken for quantitative traits and the most frequent value is t
 A modified data frame of medfate species parameters
 }
 \description{
-Generic function to fill medfate species trait parameters from a data table of species traits
+Internal function to fill medfate species trait parameters from a data table of species traits
 }
 \details{
 Matches column 'AcceptedName' of SpParams with trait parameter sources.
@@ -64,3 +64,4 @@ If the target taxon is a genus, then values are taken from those rows where genu
 \author{
 Miquel De \enc{Cáceres}{Caceres} Ainsa, EMF-CREAF
 }
+\keyword{internal}
