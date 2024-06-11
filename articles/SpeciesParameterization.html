@@ -149,18 +149,54 @@ in finding source parameter data before starting simulations.</p>
 <h3 id="steps-to-build-a-species-parameter-table">Steps to build a species parameter table<a class="anchor" aria-label="anchor" href="#steps-to-build-a-species-parameter-table"></a>
 </h3>
 <p>The following sections describe different steps that we used to
-obtain the species parameter table, which can be grouped into four main
-tasks:</p>
-<ol style="list-style-type: decimal">
-<li>Initialize the parameter table with target taxonomic entities.</li>
-<li>Draw species parameters from forest inventory (IFN in our case)
-data.</li>
-<li>Populate tree and shrub allometric coefficients from suitable
-allometric databases.</li>
-<li>Populate plant functional traits from available data bases</li>
-<li>Checking the final parameter table and, if needed, completing strict
-parameters.</li>
-</ol>
+obtain the species parameter table, which can be grouped into six main
+steps:</p>
+<table class="table">
+<colgroup>
+<col width="4%">
+<col width="80%">
+<col width="14%">
+</colgroup>
+<thead><tr class="header">
+<th>#</th>
+<th>Step</th>
+<th>Function(s)</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Initialize the parameter table with target taxonomic entities</td>
+<td><code><a href="../reference/init_spparams.html">init_spparams()</a></code></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Populate species parameters from forest inventory data</td>
+<td><code><a href="../reference/fill_inventory_traits.html">fill_inventory_traits()</a></code></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Populate tree and shrub allometric coefficients from suitable
+databases</td>
+<td><code>fill_allometry_coefficients()</code></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Populate plant functional traits from harmonized data bases</td>
+<td><code><a href="../reference/fill_harmonized_traits.html">fill_harmonized_traits()</a></code></td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Checking the final parameter table</td>
+<td><code><a href="../reference/check_spparams.html">check_spparams()</a></code></td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>If necessary, completing strict parameters</td>
+<td><code><a href="../reference/complete_strict.html">complete_strict()</a></code></td>
+</tr>
+</tbody>
+</table>
+<p>The remainder of this vignette illustrates each of these steps.</p>
 </div>
 </div>
 <div class="section level2">
@@ -259,24 +295,13 @@ using package <strong>taxize</strong>.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="drawing-structural-parameters-from-forest-inventory-data">Drawing structural parameters from forest inventory data<a class="anchor" aria-label="anchor" href="#drawing-structural-parameters-from-forest-inventory-data"></a>
+<h2 id="filling-structural-parameters-from-forest-inventory-data">Filling structural parameters from forest inventory data<a class="anchor" aria-label="anchor" href="#filling-structural-parameters-from-forest-inventory-data"></a>
 </h2>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sf_IFN3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="st">"~/OneDrive/mcaceres_work/model_initialisation/medfate_initialisation/IFN/Products/IFN3/Spain/IFN3_spain_final_ETRS89H30.rds"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span><span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/fill_inventory_traits.html">fill_inventory_traits</a></span><span class="op">(</span><span class="va">SpParams</span>, <span class="va">sf_IFN3</span>, </span>
-<span>                                                progress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Pooling tree/shrub data</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Pooling tree/shrub data <span style="color: #B2B2B2;">[2.7s]</span></span></span></code></pre>
-<pre><code><span><span class="co">## </span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Translating to correct taxa names</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Translating to correct taxa names <span style="color: #B2B2B2;">[733ms]</span></span></span></code></pre>
-<pre><code><span><span class="co">## </span></span></code></pre>
-<pre><code><span><span class="co">## 111076 species/height missing values removed from input.</span></span></code></pre>
-<pre><code><span><span class="co">## Species <span style="color: #00BB00;">■■■■■■■                         </span>  21% | ETA:  9s</span></span></code></pre>
-<pre><code><span><span class="co">## Species <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  54% | ETA:  5s</span></span></code></pre>
-<pre><code><span><span class="co">## Species <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  81% | ETA:  2s</span></span></code></pre>
-<pre><code><span><span class="co">## Species <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s</span></span></code></pre>
+<span>                                                progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="filling-allometric-coefficients">Filling allometric coefficients<a class="anchor" aria-label="anchor" href="#filling-allometric-coefficients"></a>
@@ -285,9 +310,9 @@ using package <strong>taxize</strong>.</p>
 <div class="section level2">
 <h2 id="filling-parameters-from-harmonized-trait-databases">Filling parameters from harmonized trait databases<a class="anchor" aria-label="anchor" href="#filling-parameters-from-harmonized-trait-databases"></a>
 </h2>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">harmonized_trait_path</span> <span class="op">&lt;-</span> <span class="st">"~/OneDrive/EMF_datasets/PlantTraitDatabases/Products/harmonized"</span></span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trait_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">harmonized_trait_path</span>, full.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">trait_files</span></span></code></pre></div>
 <pre><code><span><span class="co">##   [1] "00_compilation_CCfineroot.rds"                          </span></span>
@@ -405,7 +430,7 @@ using package <strong>taxize</strong>.</p>
 <span><span class="co">## [113] "Yebra_et_al_2024_LFMC.rds"                              </span></span>
 <span><span class="co">## [114] "Zhu_et_al_2016.rds"                                     </span></span>
 <span><span class="co">## [115] "Zhu_et_al_2018.rds"</span></span></code></pre>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span><span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/fill_harmonized_traits.html">fill_harmonized_traits</a></span><span class="op">(</span><span class="va">SpParams</span>, <span class="va">harmonized_trait_path</span>, </span>
 <span>                                                 progress <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning in get_trait_data(harmonized_trait_path, "Gs_P50", is_numeric = TRUE, :</span></span>
@@ -418,7 +443,7 @@ using package <strong>taxize</strong>.</p>
 <div class="section level2">
 <h2 id="checking-species-parameter-tables">Checking species parameter tables<a class="anchor" aria-label="anchor" href="#checking-species-parameter-tables"></a>
 </h2>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_spparams.html">check_spparams</a></span><span class="op">(</span><span class="va">SpParams</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Strict parameter column 'GrowthForm' should not contain any missing value.</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Strict parameter column 'LifeForm' should not contain any missing value.</span></span></code></pre>
@@ -434,9 +459,9 @@ using package <strong>taxize</strong>.</p>
 <div class="section level2">
 <h2 id="completing-strict-parameters">Completing strict parameters<a class="anchor" aria-label="anchor" href="#completing-strict-parameters"></a>
 </h2>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/complete_strict.html">complete_strict</a></span><span class="op">(</span><span class="va">SpParams</span>, progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_spparams.html">check_spparams</a></span><span class="op">(</span><span class="va">SpParams</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> The data frame is acceptable as species parameter table for medfate.</span></span></code></pre>
 </div>
