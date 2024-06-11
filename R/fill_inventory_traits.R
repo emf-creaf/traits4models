@@ -11,7 +11,7 @@
 #' @param progress A boolean flag to prompt progress.
 #' @param verbose A boolean flag to indicate extra console output.
 #'
-#' @return
+#' @return A modified data frame of medfate species parameters
 #' @export
 #'
 #' @examples

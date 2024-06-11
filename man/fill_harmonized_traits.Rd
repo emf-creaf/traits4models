@@ -21,7 +21,7 @@ fill_harmonized_traits(
 \item{verbose}{A boolean flag to prompt detailed process information.}
 }
 \value{
-A modified species parameter data frame
+A modified data frame of medfate species parameters
 }
 \description{
 Fills species parameter table with trait data

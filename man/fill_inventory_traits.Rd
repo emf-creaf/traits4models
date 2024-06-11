@@ -32,6 +32,9 @@ fill_inventory_traits(
 
 \item{verbose}{A boolean flag to indicate extra console output.}
 }
+\value{
+A modified data frame of medfate species parameters
+}
 \description{
 Extracts species parameter values from forest inventory data
 }

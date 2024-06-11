@@ -90,7 +90,7 @@ get_trait_data <- function(harmonized_trait_path,
 #' @param progress A boolean flag to prompt progress.
 #' @param verbose A boolean flag to prompt detailed process information.
 #'
-#' @return A modified species parameter data frame
+#' @return A modified data frame of medfate species parameters
 #' @export
 #'
 #' @name fill_harmonized_traits
