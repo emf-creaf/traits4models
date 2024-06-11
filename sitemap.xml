@@ -34,7 +34,10 @@
     <loc>/reference/complete_strict.html</loc>
   </url>
   <url>
-    <loc>/reference/fill_traits.html</loc>
+    <loc>/reference/fill_harmonized_traits.html</loc>
+  </url>
+  <url>
+    <loc>/reference/fill_inventory_traits.html</loc>
   </url>
   <url>
     <loc>/reference/get_trait_data.html</loc>
@@ -50,9 +53,6 @@
   </url>
   <url>
     <loc>/reference/populate_allometries.html</loc>
-  </url>
-  <url>
-    <loc>/reference/populate_from_observations.html</loc>
   </url>
   <url>
     <loc>/reference/populate_traits.html</loc>

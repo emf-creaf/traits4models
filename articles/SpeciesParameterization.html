@@ -64,7 +64,7 @@ medfate</h1>
                         <h4 data-toc-skip class="author">Miquel De
 Cáceres / Nicolas Martin-StPaul</h4>
             
-            <h4 data-toc-skip class="date">2024-06-01</h4>
+            <h4 data-toc-skip class="date">2024-06-11</h4>
       
       
       <div class="hidden name"><code>SpeciesParameterization.Rmd</code></div>
@@ -82,10 +82,10 @@ Cáceres / Nicolas Martin-StPaul</h4>
 <p>This vignette describes the procedures used to create and fill
 species parameter data tables (such as <code>SpParamsES</code>,
 <code>SpParamsFR</code> and <code>SpParamsUS</code> included in package
-<strong>traits4models</strong>) for simulations with
-<strong>medfate</strong>. Here it is assumed that a set of plant trait
-databases have been harmonized and will be used as source data for
-parameter estimation (see vignette <a href="https://emf-creaf.github.io/traits4models/articles/TraitDatabaseHarmonization.html" class="external-link">Trait
+<strong>traits4models</strong>) for simulations with packages
+<strong>medfate</strong> and <strong>medfateland</strong>. Here it is
+assumed that a set of plant trait databases have been harmonized and
+will be used as source data for parameter estimation (see vignette <a href="https://emf-creaf.github.io/traits4models/articles/TraitDatabaseHarmonization.html" class="external-link">Trait
 database haramonization</a>.</p>
 <blockquote>
 <p><strong>IMPORTANT</strong>: This vignette is not self-contained, in
@@ -123,7 +123,8 @@ that we will employ in this vignette:</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">medfuels</span><span class="op">)</span></span>
 <span><span class="co"># library(IFNread)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ycphs.github.io/openxlsx/index.html" class="external-link">openxlsx</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ycphs.github.io/openxlsx/index.html" class="external-link">openxlsx</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="target-parameters">Target parameters<a class="anchor" aria-label="anchor" href="#target-parameters"></a>
@@ -133,9 +134,9 @@ that we will employ in this vignette:</p>
 <code>SpParamsDefinition</code> included in the package. It is obvious
 that <strong>medfate</strong> requires a sheer number of parameters
 cannot be searched for manually, even for a small number of target
-species. Hence, it is important to draw values from allometric and plant
-trait data bases. Not all model parameters have their counterpart in
-publicly-available databases, and even when using data bases it is
+species. Hence, it is important to draw values from plant allometry and
+plant trait data bases. Not all model parameters have their counterpart
+in publicly-available databases, and even when using data bases it is
 unlikely that one will find appropriate parameter values for all
 species. To help with this situation, <strong>medfate</strong> has
 <em>inbuilt imputation procedures</em> to estimate missing values for
@@ -174,11 +175,15 @@ correspond to taxa mentioned in a national forest inventory, more
 specifically the Spanish National Forest Inventory (SFI). Note that
 taxon entities in a forest inventory will refer to their own taxonomic
 reference. Hence, it is important to harmonize taxonomy with the
-reference used in <strong>traits4models</strong>, i.e. <a href="https://www.worldfloraonline.org/" class="external-link">World Flora Online</a>. Here we
-will assume that such harmonization has been conducted for the SFI taxon
-list:</p>
+reference used in <strong>traits4models</strong>, i.e. <a href="https://www.worldfloraonline.org/" class="external-link">World Flora Online</a>.</p>
+<p>Here we will assume that such harmonization has been conducted for
+the SFI taxon list that is included as external data in the package:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"NFI_SP_mapping"</span><span class="op">)</span> </span>
+<code class="sourceCode R"><span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"NFI_SP_mapping.csv"</span>, package <span class="op">=</span> <span class="st">"traits4models"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">NFI_SP_mapping</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="va">file</span>, sep<span class="op">=</span><span class="st">";"</span>, header<span class="op">=</span><span class="cn">TRUE</span>, na.strings <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>NFICode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">NFICode</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">NFI_SP_mapping</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 480 × 8</span></span></span>
 <span><span class="co">##    NFICode NFIName             originalName  originalNameAuthorship acceptedName</span></span>
@@ -201,7 +206,7 @@ inventory, while <code>originalName</code> contains the names that where
 used for taxonomy harmonization. Therefore, it has the same value as
 <code>NFIName</code> for a scientific taxon, and is otherwise missing.
 Therefore, we can filter non-scientific taxon names using:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Filter entities not recognized</span></span>
 <span><span class="va">spp_filt</span> <span class="op">&lt;-</span> <span class="va">NFI_SP_mapping</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">originalName</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -220,14 +225,14 @@ both <code>NFIName</code> and <code>acceptedName</code>.
 <code>acceptedName</code> will be used to ensure that matching with
 trait information is done using the appropriate (harmonized) taxonomic
 nomenclature.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/init_spparams.html">init_spparams</a></span><span class="op">(</span>sp_names <span class="op">=</span> <span class="va">spp_filt</span><span class="op">$</span><span class="va">NFIName</span>,</span>
 <span>                                         accepted_names <span class="op">=</span> <span class="va">spp_filt</span><span class="op">$</span><span class="va">acceptedName</span>,</span>
 <span>                                         verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>The result is an empty data frame, except for the first columns,
 which correspond to taxonomic hierarchy of each entity (genus, family,
 group, …).</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">|&gt;</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 520 × 153</span></span></span>
 <span><span class="co">##    Name         SpIndex AcceptedName Species Genus Family Order Group GrowthForm</span></span>
@@ -256,6 +261,22 @@ using package <strong>taxize</strong>.</p>
 <div class="section level2">
 <h2 id="drawing-structural-parameters-from-forest-inventory-data">Drawing structural parameters from forest inventory data<a class="anchor" aria-label="anchor" href="#drawing-structural-parameters-from-forest-inventory-data"></a>
 </h2>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sf_IFN3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="st">"~/OneDrive/mcaceres_work/model_initialisation/medfate_initialisation/IFN/Products/IFN3/Spain/IFN3_spain_final_ETRS89H30.rds"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">SpParams</span><span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/fill_inventory_traits.html">fill_inventory_traits</a></span><span class="op">(</span><span class="va">SpParams</span>, <span class="va">sf_IFN3</span>, </span>
+<span>                                                progress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Pooling tree/shrub data</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Pooling tree/shrub data <span style="color: #B2B2B2;">[2.7s]</span></span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Translating to correct taxa names</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Translating to correct taxa names <span style="color: #B2B2B2;">[733ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## 111076 species/height missing values removed from input.</span></span></code></pre>
+<pre><code><span><span class="co">## Species <span style="color: #00BB00;">■■■■■■■                         </span>  21% | ETA:  9s</span></span></code></pre>
+<pre><code><span><span class="co">## Species <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  54% | ETA:  5s</span></span></code></pre>
+<pre><code><span><span class="co">## Species <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■       </span>  81% | ETA:  2s</span></span></code></pre>
+<pre><code><span><span class="co">## Species <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="filling-allometric-coefficients">Filling allometric coefficients<a class="anchor" aria-label="anchor" href="#filling-allometric-coefficients"></a>
@@ -264,9 +285,9 @@ using package <strong>taxize</strong>.</p>
 <div class="section level2">
 <h2 id="filling-parameters-from-harmonized-trait-databases">Filling parameters from harmonized trait databases<a class="anchor" aria-label="anchor" href="#filling-parameters-from-harmonized-trait-databases"></a>
 </h2>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">harmonized_trait_path</span> <span class="op">&lt;-</span> <span class="st">"~/OneDrive/EMF_datasets/PlantTraitDatabases/Products/harmonized"</span></span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trait_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">harmonized_trait_path</span>, full.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">trait_files</span></span></code></pre></div>
 <pre><code><span><span class="co">##   [1] "00_compilation_CCfineroot.rds"                          </span></span>
@@ -384,9 +405,9 @@ using package <strong>taxize</strong>.</p>
 <span><span class="co">## [113] "Yebra_et_al_2024_LFMC.rds"                              </span></span>
 <span><span class="co">## [114] "Zhu_et_al_2016.rds"                                     </span></span>
 <span><span class="co">## [115] "Zhu_et_al_2018.rds"</span></span></code></pre>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">SpParams</span><span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/fill_traits.html">fill_traits</a></span><span class="op">(</span><span class="va">SpParams</span>, <span class="va">harmonized_trait_path</span>, </span>
-<span>                                      progress <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">SpParams</span><span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/fill_harmonized_traits.html">fill_harmonized_traits</a></span><span class="op">(</span><span class="va">SpParams</span>, <span class="va">harmonized_trait_path</span>, </span>
+<span>                                                 progress <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning in get_trait_data(harmonized_trait_path, "Gs_P50", is_numeric = TRUE, :</span></span>
 <span><span class="co">## NAs introduced by coercion</span></span></code></pre>
 <pre><code><span><span class="co">## Warning in get_trait_data(harmonized_trait_path, trait_name, is_numeric = TRUE,</span></span>
@@ -397,7 +418,7 @@ using package <strong>taxize</strong>.</p>
 <div class="section level2">
 <h2 id="checking-species-parameter-tables">Checking species parameter tables<a class="anchor" aria-label="anchor" href="#checking-species-parameter-tables"></a>
 </h2>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_spparams.html">check_spparams</a></span><span class="op">(</span><span class="va">SpParams</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Strict parameter column 'GrowthForm' should not contain any missing value.</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Strict parameter column 'LifeForm' should not contain any missing value.</span></span></code></pre>
@@ -413,9 +434,9 @@ using package <strong>taxize</strong>.</p>
 <div class="section level2">
 <h2 id="completing-strict-parameters">Completing strict parameters<a class="anchor" aria-label="anchor" href="#completing-strict-parameters"></a>
 </h2>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/complete_strict.html">complete_strict</a></span><span class="op">(</span><span class="va">SpParams</span>, progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_spparams.html">check_spparams</a></span><span class="op">(</span><span class="va">SpParams</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> The data frame is acceptable as species parameter table for medfate.</span></span></code></pre>
 </div>
