@@ -22,7 +22,7 @@ fill_inventory_traits<-function(SpParams,
                                 quantile_fHDmin = 0.05,
                                 quantile_fHDmax = 0.95,
                                 progress = TRUE, verbose = FALSE) {
-  if(!inherits(SpParams, "data.frame")) cli::cli_abort("SpParams should be a data frame")
+  if(!inherits(SpParams, "data.frame")) cli::cli_abort("SpParams should be a species parameter data frame")
   if(!inherits(x, "data.frame") && !inherits(x, "list")) cli::cli_abort("x should be a data frame or a list")
   if(inherits(x, "data.frame")) {
     if(!("forest" %in% names(x))) cli::cli_abort("x does not contain a column called `forest`")

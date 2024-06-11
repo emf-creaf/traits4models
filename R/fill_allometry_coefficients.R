@@ -1,85 +1,10 @@
-#' Populate tree species allometries
-#'
-#' Internal functions to populates allometric coefficients for tree species and genus of an input parameter table on the basis of their
-#' accepted name.
-#'
-#' @param SpParams A data frame of medfate species parameters to be populated
-#' @param allom_table A data frame of allometric parameters in columns and taxonomic entities (species or genus) as row names.
-#' @param allom_type A string with the type of allometry to be filled, either "foliarbiomass", "barkthickness", "crownwidth" or "crownratio".
-#' @param erase_previous A boolean flag to indicate that values should be set to NA before populating with data
-#'
-#' @return A modified data frame of medfate species parameters
-#' @export
-#'
-#' @name populate_allometries
-#' @encoding UTF-8
-#' @author Miquel De \enc{Cáceres}{Caceres} Ainsa, EMF-CREAF
-#' @seealso \code{\link{initSpParams}}
-#' @keywords internal
-#'
-populate_tree_allometries<-function(SpParams,
-                                  allom_table,
-                                  allom_type = "foliarbiomass",
-                                  erase_previous = FALSE) {
 
-  allom_type <- match.arg(allom_type, c("foliarbiomass", "barkthickness","crownratio","crownwidth"))
-  if(allom_type=="foliarbiomass") {
-    allom_vars <- c("a_fbt","b_fbt","c_fbt")
-  } else if(allom_type=="barkthickness") {
-    allom_vars <- c("a_bt","b_bt")
-  } else if(allom_type=="crownratio") {
-    allom_vars <- c("a_cr","b_1cr","b_2cr","b_3cr","c_1cr","c_2cr")
-  } else if(allom_type=="crownwidth") {
-    allom_vars <- c("a_cw","b_cw")
-  }
-  if(sum(names(allom_table) %in% allom_vars)!=length(allom_vars)) stop("Allometry table should contain all requested vars!")
-  allom_names <- row.names(allom_table)
-  ntree <- 0
-  nmis <- 0
-  nsp <- 0
-  ngen <- 0
-  if(erase_previous) SpParams[,allom_vars] = NA
-  for(i in 1:nrow(SpParams)) {
-    nm = SpParams$AcceptedName[i]
-    genus = SpParams$Genus[i]
-    family = SpParams$Family[i]
-    order = SpParams$Order[i]
-    group = SpParams$Group[i]
-    growth_form = SpParams$GrowthForm[i]
-    ## Find species
-    allom_row <- NA
-    found <- FALSE
-    if(nm %in% allom_names) { # Species level
-      allom_row <- which(allom_names==nm)
-      if(nm==genus) {
-        ngen <- ngen + 1
-      } else {
-        nsp <- nsp + 1
-      }
-      found <- TRUE
-    }
-    if(found) {
-      SpParams[i, allom_vars] <- allom_table[allom_row, allom_vars]
-    } else {
-      nmis <- nmis +1
-    }
-  }
-  message(paste0("Assignments species: ", nsp, " genus: ", ngen))
-  if(nmis>0) message(paste0(nmis,
-                            " missing allometry coefficients (", round(100*nmis/nrow(SpParams)),
-                            "% of ", nrow(SpParams), " species) after populating with input data.\n"))
-  return(SpParams)
-}
-
-
-#' @rdname populate_allometries
 #'
 #' @param coef_mapping A named string vector specifying which data column should used to populate each medfate param. Elements are data base columns and names are medfate params.
 #' @param sp_params_allom A data table of species allometric coefficients (typically from package medfuels)
 #' @param group_params_allom A data table of group allometric coefficients (typically from package medfuels)
 #' @param species_groups A data table specifying raunkiaer forms for many species (typically from package medfuels)
 #'
-#' @export
 #' @keywords internal
 populate_shrub_allometries_from_medfuels<-function(SpParams,
                                                coef_mapping,
@@ -141,4 +66,60 @@ populate_shrub_allometries_from_medfuels<-function(SpParams,
   }
   return(SpParams)
 
+}
+
+
+
+#' Populate tree species allometries
+#'
+#' Internal functions to populates allometric coefficients for tree species and genus of an input parameter table on the basis of their
+#' accepted name.
+#'
+#' @param SpParams A data frame of medfate species parameters to be populated
+#' @param allom_table A data frame of allometric parameters in columns and taxonomic entities (species or genus) as row names.
+#' @param allom_type A string with the type of allometry to be filled, either "foliarbiomass", "barkthickness", "crownwidth" or "crownratio".
+#' @param progress A boolean flag to prompt progress.
+#' @param verbose A boolean flag to indicate extra console output.
+#'
+#' @return A modified data frame of medfate species parameters
+#' @export
+#'
+#' @name fill_allometry_coefficients
+#' @encoding UTF-8
+#' @author Miquel De \enc{Cáceres}{Caceres} Ainsa, EMF-CREAF
+#' @seealso \code{\link{init_spparams}}
+#'
+fill_allometry_coefficients<-function(SpParams,
+                                      allom_table,
+                                      allom_type = "foliarbiomass",
+                                      progress = TRUE, verbose = FALSE) {
+  if(!inherits(SpParams, "data.frame")) cli::cli_abort("SpParams should be a species parameter data frame")
+  if(!inherits(allom_table, "data.frame")) cli::cli_abort("allom_table should be a data frame")
+  allom_type <- match.arg(allom_type, c("foliarbiomass", "barkthickness","crownratio","crownwidth"))
+  if(allom_type=="foliarbiomass") {
+    allom_vars <- c("a_fbt","b_fbt","c_fbt")
+  } else if(allom_type=="barkthickness") {
+    allom_vars <- c("a_bt","b_bt")
+  } else if(allom_type=="crownratio") {
+    allom_vars <- c("a_cr","b_1cr","b_2cr","b_3cr","c_1cr","c_2cr")
+  } else if(allom_type=="crownwidth") {
+    allom_vars <- c("a_cw","b_cw")
+  }
+  if(sum(names(allom_table) %in% allom_vars)!=length(allom_vars)) cli::cli_abort("Allometry table should contain all requested vars!")
+
+  allom_names <- row.names(allom_table)
+  for(i in 1:nrow(SpParams)) {
+    nm = SpParams$AcceptedName[i]
+    ## Find species
+    allom_row <- NA
+    found <- FALSE
+    if(nm %in% allom_names) { # Species level
+      allom_row <- which(allom_names==nm)
+      found <- TRUE
+    }
+    if(found) {
+      SpParams[i, allom_vars] <- allom_table[allom_row, allom_vars]
+    }
+  }
+  return(SpParams)
 }

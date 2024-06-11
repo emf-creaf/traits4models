@@ -55,14 +55,19 @@ The set of species parameters needed to run the models included in **medfate** a
 
 ### Steps to build a species parameter table
 
-The following sections describe different steps that we used to obtain the species parameter table, which can be grouped into four main tasks:
+The following sections describe different steps that we used to obtain the species parameter table, which can be grouped into six main steps:
 
- 1. Initialize the parameter table with target taxonomic entities.
- 2. Draw species parameters from forest inventory (IFN in our case) data.
- 3. Populate tree and shrub allometric coefficients from suitable allometric databases.
- 4. Populate plant functional traits from available data bases
- 5. Checking the final parameter table and, if needed, completing strict parameters.
- 
+| # | Step                                                  | Function(s) |
+|---|-------------------------------------------------------|----------|
+| 1 | Initialize the parameter table with target taxonomic entities | `init_spparams()` |
+| 2 | Populate species parameters from forest inventory data | `fill_inventory_traits()` |
+| 3 | Populate tree and shrub allometric coefficients from suitable databases |  `fill_allometry_coefficients()`|
+| 4 | Populate plant functional traits from harmonized data bases |  `fill_harmonized_traits()`|
+| 5 | Checking the final parameter table | `check_spparams()` |
+| 6 | If necessary, completing strict parameters | `complete_strict()` |
+
+The remainder of this vignette illustrates each of these steps.
+
 ## Initializing a species parameter table
 
 ### Target taxonomic entities
@@ -116,7 +121,7 @@ SpParams |> tibble::as_tibble()
 
 Taxonomic entities above species are obtained from accepted names using package **taxize**.
 
-## Drawing structural parameters from forest inventory data
+## Filling structural parameters from forest inventory data
 
 ```{r}
 sf_IFN3 <- readRDS("~/OneDrive/mcaceres_work/model_initialisation/medfate_initialisation/IFN/Products/IFN3/Spain/IFN3_spain_final_ETRS89H30.rds")
@@ -124,7 +129,7 @@ sf_IFN3 <- readRDS("~/OneDrive/mcaceres_work/model_initialisation/medfate_initia
 
 ```{r}
 SpParams<- traits4models::fill_inventory_traits(SpParams, sf_IFN3, 
-                                                progress = TRUE)
+                                                progress = FALSE)
 ```
 
 
