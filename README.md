@@ -8,12 +8,15 @@ traits4models - from plant traits to model parameters
 ## Introduction
 
 Package **traits4models** is designed to facilitate creating plant
-species parameter tables for process-based models. Specifically utility
-functions are provided to harmonize plant trait data bases and defining
-tables from them. At present, species parameter estimation is tailored
-to be used for the models included in package
-[medfate](https://emf-creaf.github.io/medfate), but it other functions
-could be added to become useful for other process-based models.
+species parameter tables for process-based models of forest function
+and/or dynamics. Specifically utility functions are provided to
+harmonize plant trait data bases and defining tables from them. At
+present, species parameter estimation is tailored to be used for the
+models included in packages
+[medfate](https://emf-creaf.github.io/medfate) and
+[medfateland](https://emf-creaf.github.io/medfateland), but it other
+functions could be added to become useful for other process-based
+models.
 
 ## Package installation
 
@@ -40,15 +43,17 @@ package [website](https://emf-creaf.github.io/traits4models/).
 
 ## Companion R packages
 
-The development of **traits4models** is intended to complement other
-packages of the same modelling framework:
+The development of **traits4models** is intended to complement packages
+**medfate** and **medfateland**. Another package of the same modelling
+framework is:
 
-- Package [**medfateland**](https://emf-creaf.github.io/medfateland)
-  extends **medfate** by allowing simulations to be performed in a
-  spatially explicit context.
 - Package [**meteoland**](https://emf-creaf.github.io/meteoland) allows
   generating daily weather input for simulation models in **medfate**
   and **medfateland**.
+
+The relationships between the four packages are illustrated in the
+figure below, where black arrows indicate package dependencies and gray
+arrows indicate model parameter provision.
 
 <img src="man/figures/packages.png" width="60%" style="display: block; margin: auto;" />
 
