@@ -1,3 +1,8 @@
+url: https://emf-creaf.github.io/traits4models/
+
+template:
+  bootstrap: 5
+
 home:
   links:
   - text: medfate package
@@ -5,14 +10,18 @@ home:
   - text: Reference book
     href: https://emf-creaf.github.io/medfatebook/index.html
 
-articles:
-- title: Trait database harmonization
-  contents:
-    - starts_with("Trait")
-
-- title: Building species parameter tables
-  contents:
-    - starts_with("Species")
+navbar:
+  components:
+    articles:
+      text: Articles
+      menu:
+      - text: Data preparation
+      - text: Trait database harmonization
+        href: articles/TraitDatabaseHarmonization.html
+      - text: -------
+      - text: Building species parameter tables
+      - text: Building species parameter tables for medfate
+        href: articles/SpeciesParameterization.html
 
 reference:
 - title: Trait database harmonization
