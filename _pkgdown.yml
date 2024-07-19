@@ -2,6 +2,9 @@ url: https://emf-creaf.github.io/traits4models/
 
 template:
   bootstrap: 5
+  bslib:
+    bootswatch: materia
+    pkgdown-nav-height: 80px
 
 home:
   links:

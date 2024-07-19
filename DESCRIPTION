@@ -10,6 +10,7 @@ Authors@R: c(
   )
 Description: Utility functions to facilitate harmonizing plant trait data bases and defining species parameter tables for process-based models.
 License: GPL (>= 2)
+URL: https://emf-creaf.github.io/traits4models/
 Depends: R (>= 3.5.0), medfate (>= 4.0.0)
 Imports: 
     assertthat,
