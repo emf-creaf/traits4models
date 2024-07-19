@@ -1,63 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/articles/SpeciesParameterization.html</loc>
-  </url>
-  <url>
-    <loc>/articles/TraitDatabaseHarmonization.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/HarmonizedTraitDefinition.html</loc>
-  </url>
-  <url>
-    <loc>/reference/SpParamsES.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_harmonized_table.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check_spparams.html</loc>
-  </url>
-  <url>
-    <loc>/reference/complete_strict.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fill_allometry_coefficients.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fill_harmonized_traits.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fill_inventory_traits.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_trait_data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/harmonize_taxonomy_WFO.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/init_spparams.html</loc>
-  </url>
-  <url>
-    <loc>/reference/populate_traits.html</loc>
-  </url>
-  <url>
-    <loc>/reference/traits4models-package.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://emf-creaf.github.io/traits4models/404.html</loc></url>
+<url><loc>https://emf-creaf.github.io/traits4models/articles/SpeciesParameterization.html</loc></url>
+<url><loc>https://emf-creaf.github.io/traits4models/articles/TraitDatabaseHarmonization.html</loc></url>
+<url><loc>https://emf-creaf.github.io/traits4models/articles/index.html</loc></url>
+<url><loc>https://emf-creaf.github.io/traits4models/authors.html</loc></url>
+<url><loc>https://emf-creaf.github.io/traits4models/index.html</loc></url>
+<url><loc>https://emf-creaf.github.io/traits4models/reference/HarmonizedTraitDefinition.html</loc></url>
+<url><loc>https://emf-creaf.github.io/traits4models/reference/SpParamsES.html</loc></url>
+<url><loc>https://emf-creaf.github.io/traits4models/reference/check_harmonized_table.html</loc></url>
+<url><loc>https://emf-creaf.github.io/traits4models/reference/check_spparams.html</loc></url>
+<url><loc>https://emf-creaf.github.io/traits4models/reference/complete_strict.html</loc></url>
+<url><loc>https://emf-creaf.github.io/traits4models/reference/fill_allometry_coefficients.html</loc></url>
+<url><loc>https://emf-creaf.github.io/traits4models/reference/fill_harmonized_traits.html</loc></url>
+<url><loc>https://emf-creaf.github.io/traits4models/reference/fill_inventory_traits.html</loc></url>
+<url><loc>https://emf-creaf.github.io/traits4models/reference/get_trait_data.html</loc></url>
+<url><loc>https://emf-creaf.github.io/traits4models/reference/harmonize_taxonomy_WFO.html</loc></url>
+<url><loc>https://emf-creaf.github.io/traits4models/reference/index.html</loc></url>
+<url><loc>https://emf-creaf.github.io/traits4models/reference/init_spparams.html</loc></url>
+<url><loc>https://emf-creaf.github.io/traits4models/reference/populate_traits.html</loc></url>
+<url><loc>https://emf-creaf.github.io/traits4models/reference/traits4models-package.html</loc></url>
 </urlset>
+
