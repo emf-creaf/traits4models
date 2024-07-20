@@ -1,5 +1,5 @@
-traits4models - from plant traits to model parameters
-================
+
+# From plant traits to model parameters
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/emf-creaf/traits4models/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/emf-creaf/traits4models/actions/workflows/R-CMD-check.yaml)
@@ -13,16 +13,17 @@ and/or dynamics. Specifically utility functions are provided to
 harmonize plant trait data bases and defining tables from them. At
 present, species parameter estimation is tailored to be used for the
 models included in packages
-[medfate](https://emf-creaf.github.io/medfate) and
-[medfateland](https://emf-creaf.github.io/medfateland), but it other
+[**medfate**](https://emf-creaf.github.io/medfate) and
+[**medfateland**](https://emf-creaf.github.io/medfateland), but it other
 functions could be added to become useful for other process-based
 models.
 
 ## Package installation
 
 Since both packages evolve together, installing **traits4models**
-normally requires an up-to-date version of package **medfate**, which is
-available at [CRAN](https://cran.r-project.org/package=medfate).
+normally requires an up-to-date version of package
+[**medfate**](https://emf-creaf.github.io/medfate), which is available
+at [CRAN](https://cran.r-project.org/package=medfate).
 
 The latest stable versions GitHub as follows (required package
 \`remotes\`\` should be installed/updated first):

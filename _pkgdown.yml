@@ -4,12 +4,11 @@ template:
   bootstrap: 5
   bslib:
     bootswatch: materia
-    pkgdown-nav-height: 80px
+    pkgdown-nav-height: 100px
+    primary: "#241F1C"
 
 home:
   links:
-  - text: medfate package
-    href: https://emf-creaf.github.io/medfate/index.html
   - text: Reference book
     href: https://emf-creaf.github.io/medfatebook/index.html
 
