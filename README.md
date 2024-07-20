@@ -1,5 +1,5 @@
 
-# From plant traits to model parameters
+# From plant traits to model parameters <a href="https://emf-creaf.github.io/traits4models/"><img src="man/figures/logo.png" align="right" height="139" alt="traits4models website" /></a>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/emf-creaf/traits4models/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/emf-creaf/traits4models/actions/workflows/R-CMD-check.yaml)
@@ -45,8 +45,9 @@ package [website](https://emf-creaf.github.io/traits4models/).
 ## Companion R packages
 
 The development of **traits4models** is intended to complement packages
-**medfate** and **medfateland**. Another package of the same modelling
-framework is:
+[**medfate**](https://emf-creaf.github.io/medfate) and
+[**medfateland**](https://emf-creaf.github.io/medfateland). Another
+package of the same modelling framework is:
 
 - Package [**meteoland**](https://emf-creaf.github.io/meteoland) allows
   generating daily weather input for simulation models in **medfate**
