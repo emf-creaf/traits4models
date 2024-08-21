@@ -4,13 +4,17 @@
 \alias{harmonize_taxonomy_WFO}
 \title{Harmonizes taxonomy}
 \usage{
-harmonize_taxonomy_WFO(db, WFO_backbone_file)
+harmonize_taxonomy_WFO(db, WFO_backbone_file, progress = TRUE, verbose = FALSE)
 }
 \arguments{
 \item{db}{Data frame to harmonize, with species names in a column called 'originalName'. The data frame will normally
 include other columns which are transferred unaltered to the output data frame.}
 
-\item{WFO_backbone_file}{Path to file containing the backbone of World Flora Online}
+\item{WFO_backbone_file}{Path to file containing the backbone of World Flora Online.}
+
+\item{progress}{A boolean flag to prompt progress.}
+
+\item{verbose}{A boolean flag to print console output with matching information.}
 }
 \value{
 A data frame with columns:
