@@ -15,3 +15,9 @@ An (invisible) boolean indicating whether the data frame is acceptable or not.
 \description{
 Checks that the input data frame has the appropriate format and data for model parameter filling.
 }
+\details{
+The function checks that the input data frame conforms to the following requirements:
+  \itemize{
+    \item{Has columns called \code{originalName}, \code{acceptedName}, \code{acceptedNameAuthorship}, \code{family}, \code{genus}, \code{specificEpithet}, and \code{taxonRank}}
+  }
+}
