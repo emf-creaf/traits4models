@@ -573,7 +573,7 @@ example, <code>Leaf P50 (MPa)</code> is the water potential
 corresponding to the 50% conductance loss in leaves, and should be named
 <code>VCleaf_P50</code> according to
 <code>HarmonizedTraitDefinition</code>, and so on. We can use
-<strong>dplyr</strong> function <code><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename()</a></code> to harmonize
+<strong>dplyr</strong> function <code><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename()</a></code> to harmonize trait
 notation. In this case, all plant traits we are interested in are given
 in units of MPa, and <code>HarmonizedTraitDefinition</code> reports the
 same units for these traits, so there is no need to harmonize
@@ -631,74 +631,10 @@ called <em>classification.csv</em>.</p>
 <code class="sourceCode R"><span><span class="va">WFO_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">DB_path</span>, <span class="st">"WFO_Backbone/classification.csv"</span><span class="op">)</span></span></code></pre></div>
 <p>Taxonomic harmonization is done by calling function
 <code><a href="../reference/harmonize_taxonomy_WFO.html">harmonize_taxonomy_WFO()</a></code> with a data frame (where notation
-and units are already harmonized) and the path to the WFO backbone:</p>
+and units are already harmonized) and the path to the WFO backbone (we
+omit the console output):</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">db_post</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/harmonize_taxonomy_WFO.html">harmonize_taxonomy_WFO</a></span><span class="op">(</span><span class="va">db_var</span>, <span class="va">WFO_file</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">1496575</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">29</span></span></span>
-<span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span></span>
-<span><span class="co">## <span style="font-weight: bold;">Delimiter:</span> "\t"</span></span>
-<span><span class="co">## <span style="color: #BB0000;">chr</span>  (25): taxonID, scientificNameID, localID, scientificName, taxonRank, pa...</span></span>
-<span><span class="co">## <span style="color: #BBBB00;">lgl</span>   (2): subtribe, nameAccordingToID</span></span>
-<span><span class="co">## <span style="color: #0000BB;">date</span>  (2): created, modified</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
-<span><span class="co">## Checking for fuzzy matches for 16 records</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Fuzzy matches for  Aleurites moluccana were:  Aleurites moluccanus, Aleurites moluccanus var. alaunii, Aleurites moluccanus var. floccosus, Aleurites moluccanus var. katoi, Aleurites moluccanus var. remyi, Aleurites moluccanus var. rockinghamensis, Aleurites moluccanus var. serotinus, Aleurites moluccanus var. moluccanus, Aleurites moluccanus var. aulanii</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Best fuzzy matches for  Aleurites moluccana were:  Aleurites moluccanus</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Fuzzy matches for  Corymbia callophylla were:  Corymbia calophylla</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Fuzzy matches for  Encelia califonica were:  Encelia californica, Encelia californica var. californica, Encelia californica var. asperifolia</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Best fuzzy matches for  Encelia califonica were:  Encelia californica</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Fuzzy matches for  Ficus religosa were:  Ficus religiosa, Ficus religiosa var. cordata, Ficus religiosa var. rhynchophylla</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Best fuzzy matches for  Ficus religosa were:  Ficus religiosa</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Fuzzy matches for  Hymenaea stignocarpa were:  Hymenaea stigonocarpa, Hymenaea stigonocarpa var. pubescens, Hymenaea stigonocarpa  var. stigonocarpa, Hymenaea stigonocarpa  var. brevipetiolata, Hymenaea stigonocarpa var. olfersiana</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Best fuzzy matches for  Hymenaea stignocarpa were:  Hymenaea stigonocarpa</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Fuzzy matches for  Macaranga denticulate were:  Macaranga denticulata, Macaranga denticulata var. pustulata, Macaranga denticulata var. zollingeri</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Best fuzzy matches for  Macaranga denticulate were:  Macaranga denticulata</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Fuzzy matches for  Milletia atropurpurea were:  Millettia atropurpurea</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Fuzzy matches for  Nothofagus alessandri were:  Nothofagus alessandrii</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Fuzzy matches for Palaquium sumatrana malaysia were only found for first 2 terms (Palaquium sumatrana)</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## With Fuzzy.two, reduced matches to those of 2 words only</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Fuzzy matches for  Palaquium sumatrana malaysia were:  Palaquium sumatranum</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Fuzzy matches for  Rhododendron macrophylum were:  Rhododendron microphyllum, Rhododendron acrophilum, Rhododendron macrophyllum, Rhododendron macrophyllum f. album</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Best fuzzy matches for  Rhododendron macrophylum were:  Rhododendron macrophyllum</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Fuzzy matches for  Schinus terebinthifolius were:  Schinus terebinthifolia, Schinus terebinthifolius var. glaziovianus, Schinus terebinthifolia var. rhoifolia, Schinus terebinthifolius var. pohlianus, Schinus terebinthifolius var. raddianus, Schinus terebinthifolius var. damazianus, Schinus terebinthifolius var. selloanus, Schinus terebinthifolius var. ternifolius, Schinus terebinthifolius  var. acutifolius</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Best fuzzy matches for  Schinus terebinthifolius were:  Schinus terebinthifolia</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Fuzzy matches for  Sweitenia macrophylla were:  Swietenia macrophylla, Swietenia macrophylla var. marabaensis</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Best fuzzy matches for  Sweitenia macrophylla were:  Swietenia macrophylla</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Fuzzy matches for  Juniperus sillcicola were:  Juniperus silicicola</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Fuzzy matches for  Pinus elliotii were:  Pinus elliottii  var. densa, Pinus elliottii, Pinus elliottii subsp. densa, Pinus elliottii subsp. austrokeysensis, Pinus elliottii  var. elliottii</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Best fuzzy matches for  Pinus elliotii were:  Pinus elliottii</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Checking new accepted IDs</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">## Different candidates for original record # 39, including Berberis microphylla</span></span></code></pre>
 <pre><code><span><span class="co">##               spec.name       spec.name.ORIG Squished Brackets.detected</span></span>
 <span><span class="co">## 39 Berberis microphylla Berberis microphylla    FALSE             FALSE</span></span>
 <span><span class="co">## 40 Berberis microphylla Berberis microphylla    FALSE             FALSE</span></span>
@@ -802,10 +738,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">##                Old.name</span></span>
 <span><span class="co">## 39                     </span></span>
 <span><span class="co">## 40 Berberis microphylla</span></span>
-<span><span class="co">## 41 Berberis microphylla</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 39</span></span>
-<span><span class="co">## Different candidates for original record # 47, including Camellia sasanqua</span></span></code></pre>
-<pre><code><span><span class="co">##            spec.name    spec.name.ORIG Squished Brackets.detected</span></span>
+<span><span class="co">## 41 Berberis microphylla</span></span>
+<span><span class="co">##            spec.name    spec.name.ORIG Squished Brackets.detected</span></span>
 <span><span class="co">## 49 Camellia sasanqua Camellia sasanqua    FALSE             FALSE</span></span>
 <span><span class="co">## 50 Camellia sasanqua Camellia sasanqua    FALSE             FALSE</span></span>
 <span><span class="co">##    Number.detected Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one</span></span>
@@ -882,10 +816,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 50          A kew-2694757                TRUE    Synonym wfo-0000582653</span></span>
 <span><span class="co">##             Old.name</span></span>
 <span><span class="co">## 49                  </span></span>
-<span><span class="co">## 50 Camellia sasanqua</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 47</span></span>
-<span><span class="co">## Different candidates for original record # 52, including Ceanothus cuneatus</span></span></code></pre>
-<pre><code><span><span class="co">##             spec.name     spec.name.ORIG Squished Brackets.detected</span></span>
+<span><span class="co">## 50 Camellia sasanqua</span></span>
+<span><span class="co">##             spec.name     spec.name.ORIG Squished Brackets.detected</span></span>
 <span><span class="co">## 55 Ceanothus cuneatus Ceanothus cuneatus    FALSE             FALSE</span></span>
 <span><span class="co">## 56 Ceanothus cuneatus Ceanothus cuneatus    FALSE             FALSE</span></span>
 <span><span class="co">## 57 Ceanothus cuneatus Ceanothus cuneatus    FALSE             FALSE</span></span>
@@ -980,10 +912,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">##    majorGroup       tplID Hybrid New.accepted Old.status Old.ID Old.name</span></span>
 <span><span class="co">## 55          A kew-2706648               FALSE                           </span></span>
 <span><span class="co">## 56          A kew-2706649               FALSE                           </span></span>
-<span><span class="co">## 57          A kew-2706650               FALSE</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique Accepted case for record # 52</span></span>
-<span><span class="co">## Different candidates for original record # 54, including Ceanothus megacarpus</span></span></code></pre>
-<pre><code><span><span class="co">##               spec.name       spec.name.ORIG Squished Brackets.detected</span></span>
+<span><span class="co">## 57          A kew-2706650               FALSE                           </span></span>
+<span><span class="co">##               spec.name       spec.name.ORIG Squished Brackets.detected</span></span>
 <span><span class="co">## 59 Ceanothus megacarpus Ceanothus megacarpus    FALSE             FALSE</span></span>
 <span><span class="co">## 60 Ceanothus megacarpus Ceanothus megacarpus    FALSE             FALSE</span></span>
 <span><span class="co">##    Number.detected Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one</span></span>
@@ -1060,10 +990,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 60          A kew-2706794                TRUE    Synonym wfo-0000591971</span></span>
 <span><span class="co">##                Old.name</span></span>
 <span><span class="co">## 59                     </span></span>
-<span><span class="co">## 60 Ceanothus megacarpus</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 54</span></span>
-<span><span class="co">## Different candidates for original record # 56, including Ceanothus spinosus</span></span></code></pre>
-<pre><code><span><span class="co">##             spec.name     spec.name.ORIG Squished Brackets.detected</span></span>
+<span><span class="co">## 60 Ceanothus megacarpus</span></span>
+<span><span class="co">##             spec.name     spec.name.ORIG Squished Brackets.detected</span></span>
 <span><span class="co">## 62 Ceanothus spinosus Ceanothus spinosus    FALSE             FALSE</span></span>
 <span><span class="co">## 63 Ceanothus spinosus Ceanothus spinosus    FALSE             FALSE</span></span>
 <span><span class="co">##    Number.detected Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one</span></span>
@@ -1140,11 +1068,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 63 World Checklist of Vascular Plants. Facilitated by the Royal Botanic Gardens, Kew.</span></span>
 <span><span class="co">##    majorGroup        tplID Hybrid New.accepted Old.status Old.ID Old.name</span></span>
 <span><span class="co">## 62          A  kew-2706898               FALSE                           </span></span>
-<span><span class="co">## 63          A tro-50133704               FALSE</span></span></code></pre>
-<pre><code><span><span class="co">## Smallest ID candidates for  56 were:  Ceanothus spinosus, Ceanothus spinosus</span></span>
-<span><span class="co">## Selected record with smallest ID for record # 56</span></span>
-<span><span class="co">## Different candidates for original record # 71, including Combretum latifolium</span></span></code></pre>
-<pre><code><span><span class="co">##               spec.name       spec.name.ORIG Squished Brackets.detected</span></span>
+<span><span class="co">## 63          A tro-50133704               FALSE                           </span></span>
+<span><span class="co">##               spec.name       spec.name.ORIG Squished Brackets.detected</span></span>
 <span><span class="co">## 78 Combretum latifolium Combretum latifolium    FALSE             FALSE</span></span>
 <span><span class="co">## 79 Combretum latifolium Combretum latifolium    FALSE             FALSE</span></span>
 <span><span class="co">##    Number.detected Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one</span></span>
@@ -1215,10 +1140,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 79 World Checklist of Vascular Plants. Facilitated by the Royal Botanic Gardens, Kew.</span></span>
 <span><span class="co">##    majorGroup       tplID Hybrid New.accepted Old.status Old.ID Old.name</span></span>
 <span><span class="co">## 78          A kew-2732728               FALSE                           </span></span>
-<span><span class="co">## 79          A kew-2732729               FALSE</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique Accepted case for record # 71</span></span>
-<span><span class="co">## Different candidates for original record # 73, including Cordia americana</span></span></code></pre>
-<pre><code><span><span class="co">##           spec.name   spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
+<span><span class="co">## 79          A kew-2732729               FALSE                           </span></span>
+<span><span class="co">##           spec.name   spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
 <span><span class="co">## 81 Cordia americana Cordia americana    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">## 82 Cordia americana Cordia americana    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">##    Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one Fuzzy.dist OriSeq</span></span>
@@ -1283,10 +1206,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 82                                                  &lt;NA&gt; The Boraginaceae TEN</span></span>
 <span><span class="co">##    majorGroup       tplID Hybrid New.accepted Old.status Old.ID Old.name</span></span>
 <span><span class="co">## 81          A kew-2736534               FALSE                           </span></span>
-<span><span class="co">## 82          A        &lt;NA&gt;               FALSE</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique Accepted case for record # 73</span></span>
-<span><span class="co">## Different candidates for original record # 75, including Cordia dentata</span></span></code></pre>
-<pre><code><span><span class="co">##         spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
+<span><span class="co">## 82          A        &lt;NA&gt;               FALSE                           </span></span>
+<span><span class="co">##         spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
 <span><span class="co">## 84 Cordia dentata Cordia dentata    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">## 85 Cordia dentata Cordia dentata    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">##    Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one Fuzzy.dist OriSeq</span></span>
@@ -1357,10 +1278,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 85 The Boraginaceae TEN          A        &lt;NA&gt;               FALSE           </span></span>
 <span><span class="co">##    Old.ID Old.name</span></span>
 <span><span class="co">## 84                </span></span>
-<span><span class="co">## 85</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique Accepted case for record # 75</span></span>
-<span><span class="co">## Different candidates for original record # 80, including Corylus cornuta</span></span></code></pre>
-<pre><code><span><span class="co">##          spec.name  spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
+<span><span class="co">## 85                </span></span>
+<span><span class="co">##          spec.name  spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
 <span><span class="co">## 90 Corylus cornuta Corylus cornuta    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">## 91 Corylus cornuta Corylus cornuta    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">##    Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one Fuzzy.dist OriSeq</span></span>
@@ -1437,10 +1356,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 91          A kew-47871                TRUE    Synonym wfo-0000925297</span></span>
 <span><span class="co">##           Old.name</span></span>
 <span><span class="co">## 90                </span></span>
-<span><span class="co">## 91 Corylus cornuta</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 80</span></span>
-<span><span class="co">## Different candidates for original record # 112, including Ficus hispida</span></span></code></pre>
-<pre><code><span><span class="co">##         spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
+<span><span class="co">## 91 Corylus cornuta</span></span>
+<span><span class="co">##         spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
 <span><span class="co">## 123 Ficus hispida  Ficus hispida    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">## 124 Ficus hispida  Ficus hispida    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">##     Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one Fuzzy.dist OriSeq</span></span>
@@ -1517,10 +1434,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 124          A kew-2812689                TRUE    Synonym wfo-0000688702</span></span>
 <span><span class="co">##          Old.name</span></span>
 <span><span class="co">## 123              </span></span>
-<span><span class="co">## 124 Ficus hispida</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 112</span></span>
-<span><span class="co">## Different candidates for original record # 114, including Ficus racemosa</span></span></code></pre>
-<pre><code><span><span class="co">##          spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
+<span><span class="co">## 124 Ficus hispida</span></span>
+<span><span class="co">##          spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
 <span><span class="co">## 126 Ficus racemosa Ficus racemosa    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">## 127 Ficus racemosa Ficus racemosa    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">##     Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one Fuzzy.dist OriSeq</span></span>
@@ -1597,10 +1512,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 127          A kew-2812669                TRUE    Synonym wfo-0000689978</span></span>
 <span><span class="co">##           Old.name</span></span>
 <span><span class="co">## 126               </span></span>
-<span><span class="co">## 127 Ficus racemosa</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 114</span></span>
-<span><span class="co">## Different candidates for original record # 115, including Ficus religiosa</span></span></code></pre>
-<pre><code><span><span class="co">##          spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
+<span><span class="co">## 127 Ficus racemosa</span></span>
+<span><span class="co">##          spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
 <span><span class="co">## 128 Ficus religosa Ficus religosa    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">## 129 Ficus religosa Ficus religosa    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">##     Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one Fuzzy.dist OriSeq</span></span>
@@ -1677,10 +1590,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 129          A kew-2811805                TRUE    Synonym wfo-0000690027</span></span>
 <span><span class="co">##            Old.name</span></span>
 <span><span class="co">## 128                </span></span>
-<span><span class="co">## 129 Ficus religiosa</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 115</span></span>
-<span><span class="co">## Different candidates for original record # 116, including Ficus semicordata</span></span></code></pre>
-<pre><code><span><span class="co">##             spec.name    spec.name.ORIG Squished Brackets.detected</span></span>
+<span><span class="co">## 129 Ficus religiosa</span></span>
+<span><span class="co">##             spec.name    spec.name.ORIG Squished Brackets.detected</span></span>
 <span><span class="co">## 130 Ficus semicordata Ficus semicordata    FALSE             FALSE</span></span>
 <span><span class="co">## 131 Ficus semicordata Ficus semicordata    FALSE             FALSE</span></span>
 <span><span class="co">##     Number.detected Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one</span></span>
@@ -1757,10 +1668,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 131          A kew-2810328                TRUE    Synonym wfo-0000690283</span></span>
 <span><span class="co">##              Old.name</span></span>
 <span><span class="co">## 130                  </span></span>
-<span><span class="co">## 131 Ficus semicordata</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 116</span></span>
-<span><span class="co">## Different candidates for original record # 119, including Gaultheria hispida</span></span></code></pre>
-<pre><code><span><span class="co">##              spec.name     spec.name.ORIG Squished Brackets.detected</span></span>
+<span><span class="co">## 131 Ficus semicordata</span></span>
+<span><span class="co">##              spec.name     spec.name.ORIG Squished Brackets.detected</span></span>
 <span><span class="co">## 134 Gaultheria hispida Gaultheria hispida    FALSE             FALSE</span></span>
 <span><span class="co">## 135 Gaultheria hispida Gaultheria hispida    FALSE             FALSE</span></span>
 <span><span class="co">##     Number.detected Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one</span></span>
@@ -1831,10 +1740,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 135 The Ericaceae Taxonomic Expert Network          A kew-2818427       </span></span>
 <span><span class="co">##     New.accepted Old.status         Old.ID           Old.name</span></span>
 <span><span class="co">## 134        FALSE                                             </span></span>
-<span><span class="co">## 135         TRUE    Synonym wfo-0000695196 Gaultheria hispida</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 119</span></span>
-<span><span class="co">## Different candidates for original record # 127, including Heteromeles arbutifolia</span></span></code></pre>
-<pre><code><span><span class="co">##                   spec.name          spec.name.ORIG Squished Brackets.detected</span></span>
+<span><span class="co">## 135         TRUE    Synonym wfo-0000695196 Gaultheria hispida</span></span>
+<span><span class="co">##                   spec.name          spec.name.ORIG Squished Brackets.detected</span></span>
 <span><span class="co">## 143 Heteromeles arbutifolia Heteromeles arbutifolia    FALSE             FALSE</span></span>
 <span><span class="co">## 144 Heteromeles arbutifolia Heteromeles arbutifolia    FALSE             FALSE</span></span>
 <span><span class="co">##     Number.detected Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one</span></span>
@@ -1911,10 +1818,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 144 World Checklist of Vascular Plants. Facilitated by the Royal Botanic Gardens, Kew.</span></span>
 <span><span class="co">##     majorGroup     tplID Hybrid New.accepted Old.status Old.ID Old.name</span></span>
 <span><span class="co">## 143          A rjp-24374               FALSE                           </span></span>
-<span><span class="co">## 144          A  rjp-5651               FALSE</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique Accepted case for record # 127</span></span>
-<span><span class="co">## Different candidates for original record # 133, including Ilex aquifolium</span></span></code></pre>
-<pre><code><span><span class="co">##           spec.name  spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
+<span><span class="co">## 144          A  rjp-5651               FALSE                           </span></span>
+<span><span class="co">##           spec.name  spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
 <span><span class="co">## 150 Ilex aquifolium Ilex aquifolium    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">## 151 Ilex aquifolium Ilex aquifolium    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">##     Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one Fuzzy.dist OriSeq</span></span>
@@ -1985,10 +1890,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 151 The Aquifoliaceae Taxonomic Expert Network          A kew-2860380       </span></span>
 <span><span class="co">##     New.accepted Old.status Old.ID Old.name</span></span>
 <span><span class="co">## 150        FALSE                           </span></span>
-<span><span class="co">## 151        FALSE</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique Accepted case for record # 133</span></span>
-<span><span class="co">## Different candidates for original record # 140, including Kielmeyera coriacea</span></span></code></pre>
-<pre><code><span><span class="co">##               spec.name      spec.name.ORIG Squished Brackets.detected</span></span>
+<span><span class="co">## 151        FALSE                           </span></span>
+<span><span class="co">##               spec.name      spec.name.ORIG Squished Brackets.detected</span></span>
 <span><span class="co">## 158 Kielmeyera coriacea Kielmeyera coriacea    FALSE             FALSE</span></span>
 <span><span class="co">## 159 Kielmeyera coriacea Kielmeyera coriacea    FALSE             FALSE</span></span>
 <span><span class="co">##     Number.detected Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one</span></span>
@@ -2065,10 +1968,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 159          A kew-2333753                TRUE    Synonym wfo-0001296075</span></span>
 <span><span class="co">##                Old.name</span></span>
 <span><span class="co">## 158                    </span></span>
-<span><span class="co">## 159 Kielmeyera coriacea</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 140</span></span>
-<span><span class="co">## Different candidates for original record # 149, including Lycium chilense</span></span></code></pre>
-<pre><code><span><span class="co">##           spec.name  spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
+<span><span class="co">## 159 Kielmeyera coriacea</span></span>
+<span><span class="co">##           spec.name  spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
 <span><span class="co">## 168 Lycium chilense Lycium chilense    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">## 169 Lycium chilense Lycium chilense    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">## 170 Lycium chilense Lycium chilense    FALSE             FALSE           FALSE</span></span>
@@ -2163,10 +2064,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">##            Old.name</span></span>
 <span><span class="co">## 168 Lycium chilense</span></span>
 <span><span class="co">## 169                </span></span>
-<span><span class="co">## 170 Lycium chilense</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 149</span></span>
-<span><span class="co">## Different candidates for original record # 198, including Prunus armeniaca</span></span></code></pre>
-<pre><code><span><span class="co">##            spec.name   spec.name.ORIG Squished Brackets.detected</span></span>
+<span><span class="co">## 170 Lycium chilense</span></span>
+<span><span class="co">##            spec.name   spec.name.ORIG Squished Brackets.detected</span></span>
 <span><span class="co">## 219 Prunus armeniaca Prunus armeniaca    FALSE             FALSE</span></span>
 <span><span class="co">## 220 Prunus armeniaca Prunus armeniaca    FALSE             FALSE</span></span>
 <span><span class="co">## 221 Prunus armeniaca Prunus armeniaca    FALSE             FALSE</span></span>
@@ -2309,10 +2208,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 220          A rjp-25688               FALSE                           </span></span>
 <span><span class="co">## 221          A rjp-25781               FALSE                           </span></span>
 <span><span class="co">## 222          A rjp-40143               FALSE                           </span></span>
-<span><span class="co">## 223          A rjp-49325               FALSE</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique Accepted case for record # 198</span></span>
-<span><span class="co">## Different candidates for original record # 201, including Psychotria horizontalis</span></span></code></pre>
-<pre><code><span><span class="co">##                   spec.name          spec.name.ORIG Squished Brackets.detected</span></span>
+<span><span class="co">## 223          A rjp-49325               FALSE                           </span></span>
+<span><span class="co">##                   spec.name          spec.name.ORIG Squished Brackets.detected</span></span>
 <span><span class="co">## 226 Psychotria horizontalis Psychotria horizontalis    FALSE             FALSE</span></span>
 <span><span class="co">## 227 Psychotria horizontalis Psychotria horizontalis    FALSE             FALSE</span></span>
 <span><span class="co">##     Number.detected Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one</span></span>
@@ -2389,10 +2286,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 227          A kew-168964                TRUE    Synonym wfo-0000286104</span></span>
 <span><span class="co">##                    Old.name</span></span>
 <span><span class="co">## 226                        </span></span>
-<span><span class="co">## 227 Psychotria horizontalis</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 201</span></span>
-<span><span class="co">## Different candidates for original record # 204, including Quercus agrifolia</span></span></code></pre>
-<pre><code><span><span class="co">##             spec.name    spec.name.ORIG Squished Brackets.detected</span></span>
+<span><span class="co">## 227 Psychotria horizontalis</span></span>
+<span><span class="co">##             spec.name    spec.name.ORIG Squished Brackets.detected</span></span>
 <span><span class="co">## 230 Quercus agrifolia Quercus agrifolia    FALSE             FALSE</span></span>
 <span><span class="co">## 231 Quercus agrifolia Quercus agrifolia    FALSE             FALSE</span></span>
 <span><span class="co">##     Number.detected Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one</span></span>
@@ -2463,10 +2358,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 231          A kew-171705      ×         TRUE    Synonym wfo-0000289443</span></span>
 <span><span class="co">##              Old.name</span></span>
 <span><span class="co">## 230                  </span></span>
-<span><span class="co">## 231 Quercus agrifolia</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 204</span></span>
-<span><span class="co">## Different candidates for original record # 210, including Quercus ilex</span></span></code></pre>
-<pre><code><span><span class="co">##        spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
+<span><span class="co">## 231 Quercus agrifolia</span></span>
+<span><span class="co">##        spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
 <span><span class="co">## 237 Quercus ilex   Quercus ilex    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">## 238 Quercus ilex   Quercus ilex    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">##     Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one Fuzzy.dist OriSeq</span></span>
@@ -2537,10 +2430,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 238          A kew-173047                TRUE    Synonym wfo-0000291203</span></span>
 <span><span class="co">##         Old.name</span></span>
 <span><span class="co">## 237             </span></span>
-<span><span class="co">## 238 Quercus ilex</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 210</span></span>
-<span><span class="co">## Different candidates for original record # 216, including Quercus robur</span></span></code></pre>
-<pre><code><span><span class="co">##         spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
+<span><span class="co">## 238 Quercus ilex</span></span>
+<span><span class="co">##         spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
 <span><span class="co">## 244 Quercus robur  Quercus robur    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">## 245 Quercus robur  Quercus robur    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">##     Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one Fuzzy.dist OriSeq</span></span>
@@ -2611,10 +2502,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 245          A kew-174771                TRUE    Synonym wfo-0001275587</span></span>
 <span><span class="co">##          Old.name</span></span>
 <span><span class="co">## 244              </span></span>
-<span><span class="co">## 245 Quercus robur</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 216</span></span>
-<span><span class="co">## Different candidates for original record # 237, including Shorea parvifolia</span></span></code></pre>
-<pre><code><span><span class="co">##             spec.name    spec.name.ORIG Squished Brackets.detected</span></span>
+<span><span class="co">## 245 Quercus robur</span></span>
+<span><span class="co">##             spec.name    spec.name.ORIG Squished Brackets.detected</span></span>
 <span><span class="co">## 266 Shorea parvifolia Shorea parvifolia    FALSE             FALSE</span></span>
 <span><span class="co">## 267 Shorea parvifolia Shorea parvifolia    FALSE             FALSE</span></span>
 <span><span class="co">##     Number.detected Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one</span></span>
@@ -2685,10 +2574,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 267 The Dipterocarpaceae TEN          A kew-2593976                TRUE</span></span>
 <span><span class="co">##     Old.status         Old.ID          Old.name</span></span>
 <span><span class="co">## 266                                            </span></span>
-<span><span class="co">## 267    Synonym wfo-1000040285 Shorea parvifolia</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 237</span></span>
-<span><span class="co">## Different candidates for original record # 239, including Sorbus torminalis</span></span></code></pre>
-<pre><code><span><span class="co">##             spec.name    spec.name.ORIG Squished Brackets.detected</span></span>
+<span><span class="co">## 267    Synonym wfo-1000040285 Shorea parvifolia</span></span>
+<span><span class="co">##             spec.name    spec.name.ORIG Squished Brackets.detected</span></span>
 <span><span class="co">## 269 Sorbus torminalis Sorbus torminalis    FALSE             FALSE</span></span>
 <span><span class="co">## 270 Sorbus torminalis Sorbus torminalis    FALSE             FALSE</span></span>
 <span><span class="co">##     Number.detected Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one</span></span>
@@ -2759,10 +2646,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 270 World Checklist of Vascular Plants. Facilitated by the Royal Botanic Gardens, Kew.</span></span>
 <span><span class="co">##     majorGroup     tplID Hybrid New.accepted Old.status Old.ID Old.name</span></span>
 <span><span class="co">## 269          A rjp-28672               FALSE                           </span></span>
-<span><span class="co">## 270          A   rjp-595               FALSE</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique Accepted case for record # 239</span></span>
-<span><span class="co">## Different candidates for original record # 240, including Styrax ferrugineus</span></span></code></pre>
-<pre><code><span><span class="co">##              spec.name     spec.name.ORIG Squished Brackets.detected</span></span>
+<span><span class="co">## 270          A   rjp-595               FALSE                           </span></span>
+<span><span class="co">##              spec.name     spec.name.ORIG Squished Brackets.detected</span></span>
 <span><span class="co">## 271 Styrax ferrugineus Styrax ferrugineus    FALSE             FALSE</span></span>
 <span><span class="co">## 272 Styrax ferrugineus Styrax ferrugineus    FALSE             FALSE</span></span>
 <span><span class="co">##     Number.detected Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one</span></span>
@@ -2839,10 +2724,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 272          A tro-30800040                TRUE    Synonym wfo-0001316413</span></span>
 <span><span class="co">##               Old.name</span></span>
 <span><span class="co">## 271                   </span></span>
-<span><span class="co">## 272 Styrax ferrugineus</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 240</span></span>
-<span><span class="co">## Different candidates for original record # 263, including Abies alba</span></span></code></pre>
-<pre><code><span><span class="co">##      spec.name spec.name.ORIG Squished Brackets.detected Number.detected Unique</span></span>
+<span><span class="co">## 272 Styrax ferrugineus</span></span>
+<span><span class="co">##      spec.name spec.name.ORIG Squished Brackets.detected Number.detected Unique</span></span>
 <span><span class="co">## 295 Abies alba     Abies alba    FALSE             FALSE           FALSE   TRUE</span></span>
 <span><span class="co">## 296 Abies alba     Abies alba    FALSE             FALSE           FALSE   TRUE</span></span>
 <span><span class="co">##     Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one Fuzzy.dist OriSeq Subseq</span></span>
@@ -2913,10 +2796,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 296 The Conifer Taxonomic Expert Network          G kew-2563473       </span></span>
 <span><span class="co">##     New.accepted Old.status         Old.ID   Old.name</span></span>
 <span><span class="co">## 295        FALSE                                     </span></span>
-<span><span class="co">## 296         TRUE    Synonym wfo-0000510977 Abies alba</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 263</span></span>
-<span><span class="co">## Different candidates for original record # 266, including Abies grandis</span></span></code></pre>
-<pre><code><span><span class="co">##         spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
+<span><span class="co">## 296         TRUE    Synonym wfo-0000510977 Abies alba</span></span>
+<span><span class="co">##         spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
 <span><span class="co">## 299 Abies grandis  Abies grandis    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">## 300 Abies grandis  Abies grandis    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">##     Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one Fuzzy.dist OriSeq</span></span>
@@ -2987,10 +2868,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 300 The Conifer Taxonomic Expert Network          G kew-2609703       </span></span>
 <span><span class="co">##     New.accepted Old.status         Old.ID      Old.name</span></span>
 <span><span class="co">## 299        FALSE                                        </span></span>
-<span><span class="co">## 300         TRUE    Synonym wfo-0000735864 Abies grandis</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 266</span></span>
-<span><span class="co">## Different candidates for original record # 267, including Abies grandis</span></span></code></pre>
-<pre><code><span><span class="co">##            spec.name   spec.name.ORIG Squished Brackets.detected</span></span>
+<span><span class="co">## 300         TRUE    Synonym wfo-0000735864 Abies grandis</span></span>
+<span><span class="co">##            spec.name   spec.name.ORIG Squished Brackets.detected</span></span>
 <span><span class="co">## 301 Abies lasiocarpa Abies lasiocarpa    FALSE             FALSE</span></span>
 <span><span class="co">## 302 Abies lasiocarpa Abies lasiocarpa    FALSE             FALSE</span></span>
 <span><span class="co">##     Number.detected Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one</span></span>
@@ -3061,10 +2940,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 302 The Conifer Taxonomic Expert Network          G kew-2609926       </span></span>
 <span><span class="co">##     New.accepted Old.status         Old.ID         Old.name</span></span>
 <span><span class="co">## 301         TRUE    Synonym wfo-0000511231 Abies lasiocarpa</span></span>
-<span><span class="co">## 302        FALSE</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 267</span></span>
-<span><span class="co">## Different candidates for original record # 272, including Juniperus barbadensis</span></span></code></pre>
-<pre><code><span><span class="co">##                 spec.name        spec.name.ORIG Squished Brackets.detected</span></span>
+<span><span class="co">## 302        FALSE                                           </span></span>
+<span><span class="co">##                 spec.name        spec.name.ORIG Squished Brackets.detected</span></span>
 <span><span class="co">## 307 Juniperus barbadensis Juniperus barbadensis    FALSE             FALSE</span></span>
 <span><span class="co">## 308 Juniperus barbadensis Juniperus barbadensis    FALSE             FALSE</span></span>
 <span><span class="co">##     Number.detected Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one</span></span>
@@ -3135,10 +3012,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 308 The Caryophyllales TEN          G kew-2332634                TRUE</span></span>
 <span><span class="co">##     Old.status         Old.ID              Old.name</span></span>
 <span><span class="co">## 307                                                </span></span>
-<span><span class="co">## 308    Synonym wfo-0000355561 Juniperus barbadensis</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 272</span></span>
-<span><span class="co">## Different candidates for original record # 273, including Juniperus communis</span></span></code></pre>
-<pre><code><span><span class="co">##              spec.name     spec.name.ORIG Squished Brackets.detected</span></span>
+<span><span class="co">## 308    Synonym wfo-0000355561 Juniperus barbadensis</span></span>
+<span><span class="co">##              spec.name     spec.name.ORIG Squished Brackets.detected</span></span>
 <span><span class="co">## 309 Juniperus communis Juniperus communis    FALSE             FALSE</span></span>
 <span><span class="co">## 310 Juniperus communis Juniperus communis    FALSE             FALSE</span></span>
 <span><span class="co">##     Number.detected Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one</span></span>
@@ -3215,10 +3090,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 310 The Caryophyllales TEN          G kew-2331642                TRUE</span></span>
 <span><span class="co">##     Old.status         Old.ID           Old.name</span></span>
 <span><span class="co">## 309                                             </span></span>
-<span><span class="co">## 310    Synonym wfo-0000355588 Juniperus communis</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 273</span></span>
-<span><span class="co">## Different candidates for original record # 279, including Juniperus communis</span></span></code></pre>
-<pre><code><span><span class="co">##                  spec.name         spec.name.ORIG Squished Brackets.detected</span></span>
+<span><span class="co">## 310    Synonym wfo-0000355588 Juniperus communis</span></span>
+<span><span class="co">##                  spec.name         spec.name.ORIG Squished Brackets.detected</span></span>
 <span><span class="co">## 316 Juniperus occidentalis Juniperus occidentalis    FALSE             FALSE</span></span>
 <span><span class="co">## 317 Juniperus occidentalis Juniperus occidentalis    FALSE             FALSE</span></span>
 <span><span class="co">##     Number.detected Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one</span></span>
@@ -3289,10 +3162,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 317 The Caryophyllales TEN          G kew-2332719               FALSE</span></span>
 <span><span class="co">##     Old.status         Old.ID               Old.name</span></span>
 <span><span class="co">## 316    Synonym wfo-0000355667 Juniperus occidentalis</span></span>
-<span><span class="co">## 317</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 279</span></span>
-<span><span class="co">## Different candidates for original record # 291, including Pinus mugo</span></span></code></pre>
-<pre><code><span><span class="co">##          spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
+<span><span class="co">## 317                                                 </span></span>
+<span><span class="co">##          spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
 <span><span class="co">## 329 Pinus echinata Pinus echinata    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">## 330 Pinus echinata Pinus echinata    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">##     Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one Fuzzy.dist OriSeq</span></span>
@@ -3363,10 +3234,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 330 The Conifer Taxonomic Expert Network          G kew-2561909       </span></span>
 <span><span class="co">##     New.accepted Old.status         Old.ID       Old.name</span></span>
 <span><span class="co">## 329         TRUE    Synonym wfo-0000481274 Pinus echinata</span></span>
-<span><span class="co">## 330        FALSE</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 291</span></span>
-<span><span class="co">## Different candidates for original record # 296, including Pinus nigra</span></span></code></pre>
-<pre><code><span><span class="co">##       spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
+<span><span class="co">## 330        FALSE                                         </span></span>
+<span><span class="co">##       spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
 <span><span class="co">## 335 Pinus nigra    Pinus nigra    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">## 336 Pinus nigra    Pinus nigra    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">## 337 Pinus nigra    Pinus nigra    FALSE             FALSE           FALSE</span></span>
@@ -3461,11 +3330,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">##     New.accepted Old.status         Old.ID    Old.name</span></span>
 <span><span class="co">## 335        FALSE                                      </span></span>
 <span><span class="co">## 336        FALSE                                      </span></span>
-<span><span class="co">## 337         TRUE    Synonym wfo-0000481698 Pinus nigra</span></span></code></pre>
-<pre><code><span><span class="co">## Smallest ID candidates for  296 were:  Pinus nigra, Pinus nigra</span></span>
-<span><span class="co">## Selected record with smallest ID for record # 296</span></span>
-<span><span class="co">## Different candidates for original record # 302, including Pinus kesiya  var. langbianensis</span></span></code></pre>
-<pre><code><span><span class="co">##       spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
+<span><span class="co">## 337         TRUE    Synonym wfo-0000481698 Pinus nigra</span></span>
+<span><span class="co">##       spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
 <span><span class="co">## 343 Pinus taeda    Pinus taeda    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">## 344 Pinus taeda    Pinus taeda    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">##     Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one Fuzzy.dist OriSeq</span></span>
@@ -3536,10 +3402,8 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">## 344 The Conifer Taxonomic Expert Network          G kew-2562300       </span></span>
 <span><span class="co">##     New.accepted Old.status         Old.ID    Old.name</span></span>
 <span><span class="co">## 343         TRUE    Synonym wfo-0000481631 Pinus taeda</span></span>
-<span><span class="co">## 344        FALSE</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 302</span></span>
-<span><span class="co">## Different candidates for original record # 308, including Cephalotaxus harringtonii</span></span></code></pre>
-<pre><code><span><span class="co">##         spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
+<span><span class="co">## 344        FALSE                                      </span></span>
+<span><span class="co">##         spec.name spec.name.ORIG Squished Brackets.detected Number.detected</span></span>
 <span><span class="co">## 350 Taxus baccata  Taxus baccata    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">## 351 Taxus baccata  Taxus baccata    FALSE             FALSE           FALSE</span></span>
 <span><span class="co">##     Unique Matched Fuzzy Fuzzy.toomany Fuzzy.two Fuzzy.one Fuzzy.dist OriSeq</span></span>
@@ -3611,48 +3475,53 @@ and units are already harmonized) and the path to the WFO backbone:</p>
 <span><span class="co">##     New.accepted Old.status         Old.ID      Old.name</span></span>
 <span><span class="co">## 350         TRUE    Synonym wfo-0000408628 Taxus baccata</span></span>
 <span><span class="co">## 351        FALSE</span></span></code></pre>
-<pre><code><span><span class="co">## Found unique non-synonym case for record # 308</span></span></code></pre>
-<p>The function requires a column called <code>originalName</code>. It
-performs both direct and fuzzy matching, which may lead to large
-processing time for large datasets. If we inspect the result, we will
-see the additional columns, informing about accepted names and parent
+<p>The function requires that the input data frame contains a column
+called <code>originalName</code>, to identify the original taxa names
+(additional columns are simply transferred to the output). It performs
+both direct and fuzzy matching, which may lead to large processing time
+for large datasets. If we inspect the resulting data frame, we will see
+the additional columns, informing about accepted names and parent
 taxonomic entities:</p>
-<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">db_post</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 310 × 15</span></span></span>
-<span><span class="co">##    originalName acceptedName acceptedNameAuthorship family genus specificEpithet</span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Acacia greg… Senegalia g… (A.Gray) Britton &amp; Ro… Fabac… Sene… greggii        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Acer campes… Acer campes… L.                     Sapin… Acer  campestre      </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Acer grandi… Acer saccha… (Nutt.) Desmarais      Sapin… Acer  saccharum      </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Acer monspe… Acer monspe… L.                     Sapin… Acer  monspessulanum </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Acer negundo Acer negundo L.                     Sapin… Acer  negundo        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Acer pseudo… Acer pseudo… L.                     Sapin… Acer  pseudoplatanus </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Acer rubrum  Acer rubrum  L.                     Sapin… Acer  rubrum         </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Acer saccha… Acer saccha… Marshall               Sapin… Acer  saccharum      </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Adansonia r… Adansonia f… (Jum. &amp; H.Perrier) H.… Malva… Adan… fony           </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> Adansonia za Adansonia za Baill.                 Malva… Adan… za             </span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 300 more rows</span></span></span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">db_post</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 15</span></span></span>
+<span><span class="co">##   originalName  acceptedName acceptedNameAuthorship family genus specificEpithet</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> Acacia gregg… Senegalia g… (A.Gray) Britton &amp; Ro… Fabac… Sene… greggii        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> Acer campest… Acer campes… L.                     Sapin… Acer  campestre      </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> Acer grandid… Acer saccha… (Nutt.) Desmarais      Sapin… Acer  saccharum      </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> Acer monspes… Acer monspe… L.                     Sapin… Acer  monspessulanum </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span> Acer negundo  Acer negundo L.                     Sapin… Acer  negundo        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span> Acer pseudop… Acer pseudo… L.                     Sapin… Acer  pseudoplatanus </span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 9 more variables: taxonRank &lt;chr&gt;, VCleaf_P50 &lt;dbl&gt;, VCstem_P50 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   VCstem_P88 &lt;dbl&gt;, VCstem_P12 &lt;dbl&gt;, VCroot_P50 &lt;dbl&gt;, Gs_P50 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   Gs_P95 &lt;dbl&gt;, Reference &lt;chr&gt;</span></span></span></code></pre>
 </div>
 <div class="section level2">
-<h2 id="checking-and-storing-harmonized-dataset">Checking and storing harmonized dataset<a class="anchor" aria-label="anchor" href="#checking-and-storing-harmonized-dataset"></a>
+<h2 id="checking-harmonized-trait-data">Checking harmonized trait data<a class="anchor" aria-label="anchor" href="#checking-harmonized-trait-data"></a>
 </h2>
 <p>The packages includes function <code><a href="../reference/check_harmonized_table.html">check_harmonized_table()</a></code>
 to check whether a given data frame conforms in structure and content to
-what is later needed for parameter table filling:</p>
-<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+what is later required for parameter table filling:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_harmonized_table.html">check_harmonized_table</a></span><span class="op">(</span><span class="va">db_post</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> The data frame is acceptable as harmonized source data.</span></span></code></pre>
 <p>In this case, the data set is ready to be used in parameter
-estimation.</p>
+estimation. As an example, we can run the same checking function with
+the data base before taxonomic harmonization:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_harmonized_table.html">check_harmonized_table</a></span><span class="op">(</span><span class="va">db_var</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Taxonomy columns missing: acceptedName acceptedNameAuthorship family genus specificEpithet taxonRank</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> The data frame is not acceptable as harmonized source data.</span></span></code></pre>
+</div>
+<div class="section level2">
+<h2 id="storing-harmonized-dataset">Storing harmonized dataset<a class="anchor" aria-label="anchor" href="#storing-harmonized-dataset"></a>
+</h2>
 <p>Harmonized data tables should be preferably stored in compressed
 <strong>.rds</strong> format. Moreover, all tables should be stored in
 the same directory, here in the <code>Products/harmonized/</code>
 path.</p>
-<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">file_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">DB_path</span>, <span class="st">"Products/harmonized/Bartlett_et_al_2016.rds"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">db_post</span>, <span class="va">file_out</span><span class="op">)</span></span></code></pre></div>
 </div>

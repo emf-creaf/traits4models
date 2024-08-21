@@ -58,12 +58,19 @@
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An (invisible) boolean indicating whether the data frame is acceptable or not.</p>
+    <p>An (invisible) logical indicating whether the data frame is acceptable or not.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The function checks that the input data frame conforms to the following requirements:</p><ul><li><p>Has columns called <code>originalName</code>, <code>acceptedName</code>, <code>acceptedNameAuthorship</code>, <code>family</code>, <code>genus</code>, <code>specificEpithet</code>, and <code>taxonRank</code></p></li>
+    <p>The function checks that the input data frame conforms to the following requirements:</p><ul><li><p>Has columns called <code>originalName</code>, <code>acceptedName</code>, <code>acceptedNameAuthorship</code>, <code>family</code>, <code>genus</code>, <code>specificEpithet</code>, and <code>taxonRank</code>,
+    as returned by function <code><a href="harmonize_taxonomy_WFO.html">harmonize_taxonomy_WFO</a></code>.</p></li>
+<li><p>The names of the remaining columns are "Units", "Reference" or a valid trait name according to the notation required in <code><a href="HarmonizedTraitDefinition.html">HarmonizedTraitDefinition</a></code>.</p></li>
+<li><p>For trait columns, their values conform to the required type in <code><a href="HarmonizedTraitDefinition.html">HarmonizedTraitDefinition</a></code>.</p></li>
 </ul></div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><code><a href="harmonize_taxonomy_WFO.html">harmonize_taxonomy_WFO</a></code>, <code><a href="HarmonizedTraitDefinition.html">HarmonizedTraitDefinition</a></code></p></div>
+    </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
