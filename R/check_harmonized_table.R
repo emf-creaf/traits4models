@@ -6,9 +6,13 @@
 #'
 #' @details The function checks that the input data frame conforms to the following requirements:
 #'   \itemize{
-#'     \item{Has columns called \code{originalName}, \code{acceptedName}, \code{acceptedNameAuthorship}, \code{family}, \code{genus}, \code{specificEpithet}, and \code{taxonRank}}
+#'     \item{Has columns called \code{originalName}, \code{acceptedName}, \code{acceptedNameAuthorship}, \code{family}, \code{genus}, \code{specificEpithet}, and \code{taxonRank},
+#'     as returned by function \code{\link{harmonize_taxonomy_WFO}}.}
+#'     \item{The names of the remaining columns are "Units", "Reference" or a valid trait name according to the notation required in \code{\link{HarmonizedTraitDefinition}}.}
+#'     \item{For trait columns, their values conform to the required type in \code{\link{HarmonizedTraitDefinition}}.}
 #'   }
-#' @returns An (invisible) boolean indicating whether the data frame is acceptable or not.
+#' @returns An (invisible) logical indicating whether the data frame is acceptable or not.
+#' @seealso \code{\link{harmonize_taxonomy_WFO}}, \code{\link{HarmonizedTraitDefinition}}
 #' @export
 #'
 check_harmonized_table<- function(x) {

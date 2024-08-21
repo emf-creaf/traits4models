@@ -9,13 +9,23 @@ read_WFO_backbone<- function(WFO_backbone_file) {
 #'
 #' Harmonizes plant taxonomy according to World Flora Online
 #'
-#' @param db Data frame to harmonize, with species names in column 'originalName'
+#' @param db Data frame to harmonize, with species names in a column called 'originalName'. The data frame will normally
+#' include other columns which are transferred unaltered to the output data frame.
 #' @param WFO_backbone_file Path to file containing the backbone of World Flora Online
 #'
-#' @return A data frame
+#' @return A data frame with columns:
+#'  \itemize{
+#'    \item{\code{originalName}: Original taxon name given in the input data frame.}
+#'    \item{\code{acceptedName}: Accepted taxon name according to World Flora Online.}
+#'    \item{\code{acceptedNameAuthorship}: Accepted taxon name with authorship according to World Flora Online.}
+#'    \item{\code{family}: Taxonomic family of the accepted taxon.}
+#'    \item{\code{genus}: Taxonomic genus of the accepted taxon.}
+#'    \item{\code{specificEpithet}: Specific epithet of the accepted taxon.}
+#'    \item{\code{taxonRank}: Taxonomic rank of the accepted taxon (e.g. "species", "subspecies", "genus", ...).}
+#'  }
+#'  Additional columns may be present, coming from the input data frame. These are left unmodified.
 #' @export
 #'
-#' @examples
 harmonize_taxonomy_WFO <- function(db, WFO_backbone_file) {
 
   classification <- read_WFO_backbone(WFO_backbone_file)

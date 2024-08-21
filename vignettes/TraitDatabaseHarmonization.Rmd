@@ -58,7 +58,7 @@ data("HarmonizedTraitDefinition")
 knitr::kable(HarmonizedTraitDefinition)
 ```
 
-In the case of Bartlett's dataset we are interested in points of the vulnerability curve and stomatal behavior. We can check their corresponding names in `HarmonizedTraitDefinition`. For example, `Leaf P50 (MPa)` is the water potential corresponding to the 50% conductance loss in leaves, and should be named `VCleaf_P50` according to `HarmonizedTraitDefinition`, and so on. We can use **dplyr** function `rename()` to harmonize notation. In this case, all plant traits we are interested in are given in units of MPa, and `HarmonizedTraitDefinition` reports the same units for these traits, so there is no need to harmonize measurement units. The code for notation harmonization could be as follows:
+In the case of Bartlett's dataset we are interested in points of the vulnerability curve and stomatal behavior. We can check their corresponding names in `HarmonizedTraitDefinition`. For example, `Leaf P50 (MPa)` is the water potential corresponding to the 50% conductance loss in leaves, and should be named `VCleaf_P50` according to `HarmonizedTraitDefinition`, and so on. We can use **dplyr** function `rename()` to harmonize trait notation. In this case, all plant traits we are interested in are given in units of MPa, and `HarmonizedTraitDefinition` reports the same units for these traits, so there is no need to harmonize measurement units. The code for notation harmonization could be as follows:
 
 ```{r}
 db_var <- db |>
@@ -90,28 +90,34 @@ Package **traits4models** currently relies on [World Flora Online](https://www.w
 WFO_file <- paste0(DB_path, "WFO_Backbone/classification.csv")
 ```
 
-Taxonomic harmonization is done by calling function `harmonize_taxonomy_WFO()` with a data frame (where notation and units are already harmonized) and the path to the WFO backbone:
+Taxonomic harmonization is done by calling function `harmonize_taxonomy_WFO()` with a data frame (where notation and units are already harmonized) and the path to the WFO backbone (we omit the console output):
 
-```{r}
+```{r, message= FALSE, warning=FALSE, error=FALSE, include = TRUE}
 db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file)
 ```
 
-The function requires a column called `originalName`. It performs both direct and fuzzy matching, which may lead to large processing time for large datasets. If we inspect the result, we will see the additional columns, informing about accepted names and parent taxonomic entities:
+The function requires that the input data frame contains a column called `originalName`, to identify the original taxa names (additional columns are simply transferred to the output). It performs both direct and fuzzy matching, which may lead to large processing time for large datasets. If we inspect the resulting data frame, we will see the additional columns, informing about accepted names and parent taxonomic entities:
 
 ```{r}
-db_post
+head(db_post)
 ```
 
 
-## Checking and storing harmonized dataset
+## Checking harmonized trait data
 
-The packages includes function `check_harmonized_table()` to check whether a given data frame conforms in structure and content to what is later needed for parameter table filling:
+The packages includes function `check_harmonized_table()` to check whether a given data frame conforms in structure and content to what is later required for parameter table filling:
 
 ```{r}
 check_harmonized_table(db_post)
 ```
 
-In this case, the data set is ready to be used in parameter estimation.
+In this case, the data set is ready to be used in parameter estimation. As an example, we can run the same checking function with the data base before taxonomic harmonization:
+
+```{r}
+check_harmonized_table(db_var)
+```
+
+## Storing harmonized dataset
 
 Harmonized data tables should be preferably stored in compressed **.rds** format. Moreover, all tables should be stored in the same directory, here in the `Products/harmonized/` path.
 

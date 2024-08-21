@@ -5,8 +5,12 @@
 \alias{HarmonizedTraitDefinition}
 \title{Plant trait definitions}
 \format{
+A data frame with parameters in rows and columns:
 \itemize{
-  \item{Data frame \code{HarmonizedTraitDefinition} has parameters in rows and columns 'Definition', 'Notation', 'Type' and 'Units'.}
+  \item{\code{Definition}: Trait definition}
+  \item{\code{Notation}: Trait notation required for harmonization.}
+  \item{\code{Type}: Either 'Numeric' (for quantitative traits) or 'String' (for qualitative traits).}
+  \item{\code{Units}: Required units for quantitative traits.}
 }
 }
 \description{
