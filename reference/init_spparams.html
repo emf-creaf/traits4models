@@ -46,7 +46,7 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">init_spparams</span><span class="op">(</span></span>
-<span>  <span class="va">sp_names</span>,</span>
+<span>  <span class="va">x</span>,</span>
 <span>  accepted_names <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fill_taxonomy <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  complete_rows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -59,12 +59,13 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-sp-names">sp_names<a class="anchor" aria-label="anchor" href="#arg-sp-names"></a></dt>
-<dd><p>Vector of plant names, either taxon names or arbitrary species group names.</p></dd>
+<dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
+<dd><p>A vector of plant names, either taxon names or arbitrary species group names (in that case, <code>accepted_names</code> should be supplied).
+Alternatively, a data frame with columns as returned by function <code><a href="harmonize_taxonomy_WFO.html">harmonize_taxonomy_WFO</a></code>.</p></dd>
 
 
 <dt id="arg-accepted-names">accepted_names<a class="anchor" aria-label="anchor" href="#arg-accepted-names"></a></dt>
-<dd><p>Vector of accepted taxon names of the same length of <code>sp_names</code>.</p></dd>
+<dd><p>Vector of accepted taxon names of the same length of <code>x</code>.</p></dd>
 
 
 <dt id="arg-fill-taxonomy">fill_taxonomy<a class="anchor" aria-label="anchor" href="#arg-fill-taxonomy"></a></dt>
@@ -91,7 +92,9 @@ The data frame will normally contain more rows than <code>sp_names</code> becaus
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Taxonomic information is retrieved using functions in package taxize and GBIF as data source.</p>
+    <p>Taxonomic information is retrieved using functions in package taxize and GBIF as data source.
+If <code>x</code> is a data frame returned by function <code><a href="harmonize_taxonomy_WFO.html">harmonize_taxonomy_WFO</a></code>, taxonomy is taken from the input data frame,
+and package taxize is used for the taxa above family, only.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -107,7 +110,19 @@ The data frame will normally contain more rows than <code>sp_names</code> becaus
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Simple example with two species</span></span></span>
 <span class="r-in"><span><span class="va">sp_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Salvia rosmarinus"</span>, <span class="st">"Pinus contorta"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">init_spparams</span><span class="op">(</span><span class="va">sp_names</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">init_spparams</span><span class="op">(</span><span class="va">sp_names</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Initializing parameter table</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Initializing parameter table <span style="color: #B2B2B2;">[13ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Retrieving taxonomy data for 2 accepted names</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Retrieving taxonomy data for 2 accepted names <span style="color: #B2B2B2;">[2.1s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Completing rows with 2 genera</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Completing rows with 2 genera <span style="color: #B2B2B2;">[23ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Finalizing</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Finalizing <span style="color: #B2B2B2;">[8ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                Name SpIndex      AcceptedName           Species  Genus</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1             Pinus       0             Pinus              &lt;NA&gt;  Pinus</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2    Pinus contorta       1    Pinus contorta    Pinus contorta  Pinus</span>
@@ -212,7 +227,19 @@ The data frame will normally contain more rows than <code>sp_names</code> becaus
 <span class="r-in"><span><span class="co"># Simple example with three species using synonyms and subspecies</span></span></span>
 <span class="r-in"><span><span class="va">sp_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Rosmarinus officinalis"</span>, <span class="st">"Pinus contorta"</span>, <span class="st">"Quercus ilex subsp. ilex"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">accepted_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Salvia rosmarinus"</span>, <span class="st">"Pinus contorta"</span>, <span class="st">"Quercus ilex subsp. ilex"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">init_spparams</span><span class="op">(</span><span class="va">sp_names</span>, <span class="va">accepted_names</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">init_spparams</span><span class="op">(</span><span class="va">sp_names</span>, <span class="va">accepted_names</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Initializing parameter table</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Initializing parameter table <span style="color: #B2B2B2;">[9ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Retrieving taxonomy data for 3 accepted names</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Retrieving taxonomy data for 3 accepted names <span style="color: #B2B2B2;">[1.6s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Completing rows with 3 genera</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Completing rows with 3 genera <span style="color: #B2B2B2;">[19ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Finalizing</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Finalizing <span style="color: #B2B2B2;">[8ms]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                       Name SpIndex             AcceptedName           Species</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                    Pinus       0                    Pinus              &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2           Pinus contorta       1           Pinus contorta    Pinus contorta</span>
@@ -353,8 +380,6 @@ The data frame will normally contain more rows than <code>sp_names</code> becaus
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4       NA       NA       NA                  NA              NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5       NA       NA       NA                  NA              NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6       NA       NA       NA                  NA              NA</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

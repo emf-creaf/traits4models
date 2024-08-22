@@ -68,7 +68,7 @@
                         <h4 data-toc-skip class="author">Miquel De
 Cáceres / Nicolas Martin-StPaul</h4>
             
-            <h4 data-toc-skip class="date">2024-08-21</h4>
+            <h4 data-toc-skip class="date">2024-08-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/emf-creaf/traits4models/blob/HEAD/vignettes/SpeciesParameterization.Rmd" class="external-link"><code>vignettes/SpeciesParameterization.Rmd</code></a></small>
       <div class="d-none name"><code>SpeciesParameterization.Rmd</code></div>
@@ -218,13 +218,13 @@ reference used in <strong>traits4models</strong>, i.e. <a href="https://www.wor
 <p>Here we will assume that such harmonization has been conducted for
 the SFI taxon list that is included as external data in the package:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"NFI_SP_mapping.csv"</span>, package <span class="op">=</span> <span class="st">"traits4models"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"NFI_ES_mapping.csv"</span>, package <span class="op">=</span> <span class="st">"traits4models"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">NFI_SP_mapping</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="va">file</span>, sep<span class="op">=</span><span class="st">";"</span>, header<span class="op">=</span><span class="cn">TRUE</span>, na.strings <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">NFI_ES_mapping</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="va">file</span>, sep<span class="op">=</span><span class="st">";"</span>, header<span class="op">=</span><span class="cn">TRUE</span>, na.strings <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>NFICode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">NFICode</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">NFI_SP_mapping</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 480 × 8</span></span></span>
+<span><span class="va">NFI_ES_mapping</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 480 × 10</span></span></span>
 <span><span class="co">##    NFICode NFIName             originalName  originalNameAuthorship acceptedName</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> 31      Abies alba          Abies alba    Mill.                  Abies alba  </span></span>
@@ -238,71 +238,89 @@ the SFI taxon list that is included as external data in the package:</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> 476     Acer opalus         Acer opalus   Mill.                  Acer opalus </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> 676     Acer platanoides    Acer platano… L.                     Acer platan…</span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 470 more rows</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 3 more variables: acceptedNameAuthorship &lt;chr&gt;, taxonomicStatus &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   taxonRank &lt;chr&gt;</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># ℹ 5 more variables: acceptedNameAuthorship &lt;chr&gt;, family &lt;chr&gt;, genus &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   specificEpithet &lt;chr&gt;, taxonRank &lt;chr&gt;</span></span></span></code></pre>
 <p>Here <code>NFIName</code> corresponds to the name used in the forest
 inventory, while <code>originalName</code> contains the names that where
-used for taxonomy harmonization. Therefore, it has the same value as
-<code>NFIName</code> for a scientific taxon, and is otherwise missing.
-Therefore, we can filter non-scientific taxon names using:</p>
+used for taxonomy harmonization, and <code>acceptedName</code>
+corresponds to the accepted name according to World Flora Online.
+<code>originalName</code> has the same value as <code>NFIName</code> for
+a scientific taxon, and is otherwise missing. Non-scientific names
+(e.g. ‘Cultivated trees’) of forest inventory records cannot be used in
+simulated because they cannot be matched with plant trait data.
+Therefore, we need to filter non-scientific taxon names using:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Filter entities not recognized</span></span>
-<span><span class="va">spp_filt</span> <span class="op">&lt;-</span> <span class="va">NFI_SP_mapping</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">originalName</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">NFIName</span>, <span class="va">acceptedName</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">spp_filt</span> <span class="op">&lt;-</span> <span class="va">NFI_ES_mapping</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">acceptedName</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="initialization">Initialization<a class="anchor" aria-label="anchor" href="#initialization"></a>
 </h3>
 <p>Package <strong>traits4models</strong> provides function
 <code><a href="../reference/init_spparams.html">init_spparams()</a></code> to initialize a species parameter table
-according to a given set of taxon names. Here we call the function with
-both <code>NFIName</code> and <code>acceptedName</code>.
-<code>NFIName</code> will be to match the names used in
+according to a given input, which can be a vector of plant names or a
+data frame. Here we call the function with <code>NFI_ES_mapping</code>.
+Column <code>originalName</code> will be to match the names used in
 <code>forest</code> objects derived from forest inventory data, while
-<code>acceptedName</code> will be used to ensure that matching with
-trait information is done using the appropriate (harmonized) taxonomic
-nomenclature.</p>
+column <code>acceptedName</code> will be used to ensure that matching
+with trait information is done using the appropriate (harmonized)
+taxonomic nomenclature. Other columns are used to fill taxonomy:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/init_spparams.html">init_spparams</a></span><span class="op">(</span>sp_names <span class="op">=</span> <span class="va">spp_filt</span><span class="op">$</span><span class="va">NFIName</span>,</span>
-<span>                                         accepted_names <span class="op">=</span> <span class="va">spp_filt</span><span class="op">$</span><span class="va">acceptedName</span>,</span>
-<span>                                         verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/init_spparams.html">init_spparams</a></span><span class="op">(</span><span class="va">spp_filt</span>,</span>
+<span>                                         verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Initializing parameter table</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Initializing parameter table <span style="color: #B2B2B2;">[14ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Retrieving taxonomy data for 61 family names</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Retrieving taxonomy data for 61 family names <span style="color: #B2B2B2;">[22.5s]</span></span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Completing rows with 79 genera</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Completing rows with 79 genera <span style="color: #B2B2B2;">[184ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Completing rows with 6 species</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Completing rows with 6 species <span style="color: #B2B2B2;">[24ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Finalizing</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Finalizing <span style="color: #B2B2B2;">[8ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
 <p>The result is an empty data frame, except for the first columns,
 which correspond to taxonomic hierarchy of each entity (genus, family,
-group, …).</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+group, …), where missing taxonomic information is completed using
+package <strong>taxize</strong>. The number of rows in the output data
+frame can be larger than the input, because by default the function
+creates additional rows for species (when sub-species of that species
+have been cited) or genus (when species of that genus have been
+cites).</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">|&gt;</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 520 × 153</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 548 × 154</span></span></span>
 <span><span class="co">##    Name         SpIndex AcceptedName Species Genus Family Order Group GrowthForm</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Abies              0 Abies        <span style="color: #BB0000;">NA</span>      Abies Pinac… Pina… Gymn… <span style="color: #BB0000;">NA</span>        </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Abies alba         1 Abies alba   Abies … Abies Pinac… Pina… Gymn… <span style="color: #BB0000;">NA</span>        </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Abies pinsa…       2 Abies pinsa… Abies … Abies Pinac… Pina… Gymn… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Acacia deal…       3 Acacia deal… Acacia… Acac… Fabac… Faba… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Acacia mela…       4 Acacia mela… Acacia… Acac… Fabac… Faba… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Acacia spp.        5 Acacia       <span style="color: #BB0000;">NA</span>      Acac… Fabac… Faba… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Acer campes…       6 Acer campes… Acer c… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Acer monspe…       7 Acer monspe… Acer m… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Acer negundo       8 Acer negundo Acer n… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> Acer opalus        9 Acer opalus  Acer o… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 510 more rows</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 144 more variables: LifeForm &lt;lgl&gt;, LeafShape &lt;lgl&gt;, LeafSize &lt;lgl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Acacia             3 Acacia       Acacia  Acac… Fabac… Faba… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Acacia deal…       4 Acacia deal… Acacia… Acac… Fabac… Faba… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Acacia mela…       5 Acacia mela… Acacia… Acac… Fabac… Faba… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Acer               6 Acer         Acer    Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Acer               7 Acer         Acer    Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Acer campes…       8 Acer campes… Acer c… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Acer monspe…       9 Acer monspe… Acer m… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 538 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 145 more variables: LifeForm &lt;lgl&gt;, LeafShape &lt;lgl&gt;, LeafSize &lt;lgl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   PhenologyType &lt;lgl&gt;, DispersalType &lt;lgl&gt;, Hmed &lt;lgl&gt;, Hmax &lt;lgl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   Z50 &lt;lgl&gt;, Z95 &lt;lgl&gt;, fHDmin &lt;lgl&gt;, fHDmax &lt;lgl&gt;, a_ash &lt;lgl&gt;, b_ash &lt;lgl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   a_bsh &lt;lgl&gt;, b_bsh &lt;lgl&gt;, a_btsh &lt;lgl&gt;, b_btsh &lt;lgl&gt;, cr &lt;lgl&gt;, BTsh &lt;lgl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   a_fbt &lt;lgl&gt;, b_fbt &lt;lgl&gt;, c_fbt &lt;lgl&gt;, a_cr &lt;lgl&gt;, b_1cr &lt;lgl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   b_2cr &lt;lgl&gt;, b_3cr &lt;lgl&gt;, c_1cr &lt;lgl&gt;, c_2cr &lt;lgl&gt;, a_cw &lt;lgl&gt;, …</span></span></span></code></pre>
-<p>Taxonomic entities above species are obtained from accepted names
-using package <strong>taxize</strong>.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="filling-structural-parameters-from-forest-inventory-data">Filling structural parameters from forest inventory data<a class="anchor" aria-label="anchor" href="#filling-structural-parameters-from-forest-inventory-data"></a>
 </h2>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sf_IFN3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="st">"~/OneDrive/mcaceres_work/model_initialisation/medfate_initialisation/IFN/Products/IFN3/Spain/IFN3_spain_final_ETRS89H30.rds"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span><span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/fill_inventory_traits.html">fill_inventory_traits</a></span><span class="op">(</span><span class="va">SpParams</span>, <span class="va">sf_IFN3</span>, </span>
 <span>                                                progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -313,9 +331,9 @@ using package <strong>taxize</strong>.</p>
 <div class="section level2">
 <h2 id="filling-parameters-from-harmonized-trait-databases">Filling parameters from harmonized trait databases<a class="anchor" aria-label="anchor" href="#filling-parameters-from-harmonized-trait-databases"></a>
 </h2>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">harmonized_trait_path</span> <span class="op">&lt;-</span> <span class="st">"~/OneDrive/EMF_datasets/PlantTraitDatabases/Products/harmonized"</span></span></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trait_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">harmonized_trait_path</span>, full.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">trait_files</span></span></code></pre></div>
 <pre><code><span><span class="co">##   [1] "00_compilation_CCfineroot.rds"                          </span></span>
@@ -433,7 +451,7 @@ using package <strong>taxize</strong>.</p>
 <span><span class="co">## [113] "Yebra_et_al_2024_LFMC.rds"                              </span></span>
 <span><span class="co">## [114] "Zhu_et_al_2016.rds"                                     </span></span>
 <span><span class="co">## [115] "Zhu_et_al_2018.rds"</span></span></code></pre>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span><span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/fill_harmonized_traits.html">fill_harmonized_traits</a></span><span class="op">(</span><span class="va">SpParams</span>, <span class="va">harmonized_trait_path</span>, </span>
 <span>                                                 progress <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning in get_trait_data(harmonized_trait_path, "Gs_P50", is_numeric = TRUE, :</span></span>
@@ -446,9 +464,8 @@ using package <strong>taxize</strong>.</p>
 <div class="section level2">
 <h2 id="checking-species-parameter-tables">Checking species parameter tables<a class="anchor" aria-label="anchor" href="#checking-species-parameter-tables"></a>
 </h2>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_spparams.html">check_spparams</a></span><span class="op">(</span><span class="va">SpParams</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Parameter columns missing: Gsw_AC_slope</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Strict parameter column 'GrowthForm' should not contain any missing value.</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Strict parameter column 'LifeForm' should not contain any missing value.</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Strict parameter column 'LeafShape' should not contain any missing value.</span></span></code></pre>
@@ -463,12 +480,11 @@ using package <strong>taxize</strong>.</p>
 <div class="section level2">
 <h2 id="completing-strict-parameters">Completing strict parameters<a class="anchor" aria-label="anchor" href="#completing-strict-parameters"></a>
 </h2>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/complete_strict.html">complete_strict</a></span><span class="op">(</span><span class="va">SpParams</span>, progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_spparams.html">check_spparams</a></span><span class="op">(</span><span class="va">SpParams</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Parameter columns missing: Gsw_AC_slope</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> The data frame is not acceptable as species parameter table for medfate.</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> The data frame is acceptable as species parameter table for medfate.</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
