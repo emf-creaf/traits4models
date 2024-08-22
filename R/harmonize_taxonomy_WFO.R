@@ -32,6 +32,9 @@ read_WFO_backbone<- function(WFO_backbone_file) {
 #'
 harmonize_taxonomy_WFO <- function(db, WFO_backbone_file, progress = TRUE, verbose = FALSE) {
 
+  if(!inherits(db, "data.frame")) cli::cli_abort("'db' should be a data frame.")
+  if(!("originalName" %in% names(db)))  cli::cli_abort("'db' should contain a column called 'originalName'.")
+
   if(progress) cli::cli_progress_step("Reading WFO backbone")
   classification <- read_WFO_backbone(WFO_backbone_file)
 
@@ -46,9 +49,16 @@ harmonize_taxonomy_WFO <- function(db, WFO_backbone_file, progress = TRUE, verbo
   if(progress) cli::cli_progress_step("Finalizing")
   db_post <- db |>
     dplyr::left_join(WFO.one[,c("spec.name", "scientificName", "scientificNameAuthorship", "family", "genus", "specificEpithet", "taxonRank")], by = c("originalName" = "spec.name"))|>
-    dplyr::relocate(scientificName, scientificNameAuthorship, family, genus, specificEpithet, taxonRank, .after = originalName) |>
     dplyr::rename(acceptedName = scientificName,
                   acceptedNameAuthorship = scientificNameAuthorship)
+
+  if("originalNameAuthorship" %in% names(db_post)) {
+    db_post <- db_post |>
+      dplyr::relocate(acceptedName, acceptedNameAuthorship, family, genus, specificEpithet, taxonRank, .after = originalNameAuthorship)
+  } else {
+    db_post <- db_post |>
+      dplyr::relocate(acceptedName, acceptedNameAuthorship, family, genus, specificEpithet, taxonRank, .after = originalName)
+  }
 
   if(progress) cli::cli_progress_done()
   return(db_post)

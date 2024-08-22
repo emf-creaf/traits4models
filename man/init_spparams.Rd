@@ -6,7 +6,7 @@
 \title{Initializes species parameter table}
 \usage{
 init_spparams(
-  sp_names,
+  x,
   accepted_names = NULL,
   fill_taxonomy = TRUE,
   complete_rows = TRUE,
@@ -15,9 +15,10 @@ init_spparams(
 )
 }
 \arguments{
-\item{sp_names}{Vector of plant names, either taxon names or arbitrary species group names.}
+\item{x}{A vector of plant names, either taxon names or arbitrary species group names (in that case, \code{accepted_names} should be supplied).
+Alternatively, a data frame with columns as returned by function \code{\link{harmonize_taxonomy_WFO}}.}
 
-\item{accepted_names}{Vector of accepted taxon names of the same length of \code{sp_names}.}
+\item{accepted_names}{Vector of accepted taxon names of the same length of \code{x}.}
 
 \item{fill_taxonomy}{Boolean flag to indicate that taxonomic information should be filled (retrieved from GBIF using package taxize).}
 
@@ -37,19 +38,19 @@ Creates an empty plant parameter table for medfate, populating taxonomic informa
 }
 \details{
 Taxonomic information is retrieved using functions in package taxize and GBIF as data source.
+If \code{x} is a data frame returned by function \code{\link{harmonize_taxonomy_WFO}}, taxonomy is taken from the input data frame,
+and package taxize is used for the taxa above family, only.
 }
 \examples{
 \donttest{
 # Simple example with two species
 sp_names <- c("Salvia rosmarinus", "Pinus contorta")
-init_spparams(sp_names)
+init_spparams(sp_names, verbose = TRUE)
 
 # Simple example with three species using synonyms and subspecies
 sp_names <- c("Rosmarinus officinalis", "Pinus contorta", "Quercus ilex subsp. ilex")
 accepted_names <- c("Salvia rosmarinus", "Pinus contorta", "Quercus ilex subsp. ilex")
-init_spparams(sp_names, accepted_names)
-
-
+init_spparams(sp_names, accepted_names, verbose = TRUE)
 }
 }
 \seealso{

@@ -77,49 +77,40 @@ The species parameter table for **medfate** starts with a vector of species name
 Here we will assume that such harmonization has been conducted for the SFI taxon list that is included as external data in the package:
 
 ```{r}
-file <- system.file("extdata", "NFI_SP_mapping.csv", package = "traits4models")
+file <- system.file("extdata", "NFI_ES_mapping.csv", package = "traits4models")
 ```
 
 ```{r}
-NFI_SP_mapping <- read.table(file, sep=";", header=TRUE, na.strings = "") |>
+NFI_ES_mapping <- read.table(file, sep=";", header=TRUE, na.strings = "") |>
   tibble::as_tibble() |>
   dplyr::mutate(NFICode = as.character(NFICode))
-NFI_SP_mapping
+NFI_ES_mapping
 ```
 
-Here `NFIName` corresponds to the name used in the forest inventory, while `originalName` contains the names that where used for taxonomy harmonization. Therefore, it has the same value as `NFIName` for a scientific taxon, and is otherwise missing. Therefore, we can filter non-scientific taxon names using:
+Here `NFIName` corresponds to the name used in the forest inventory, while `originalName` contains the names that where used for taxonomy harmonization, and `acceptedName` corresponds to the accepted name according to World Flora Online. `originalName`  has the same value as `NFIName` for a scientific taxon, and is otherwise missing. Non-scientific names (e.g. 'Cultivated trees') of forest inventory records cannot be used in simulated because they cannot be matched with plant trait data. Therefore, we need to filter non-scientific taxon names using:
 
 ```{r}
-# Filter entities not recognized
-spp_filt <- NFI_SP_mapping |>
-  dplyr::filter(!is.na(originalName)) |>
-  dplyr::select(NFIName, acceptedName) |>
-  unique()
+spp_filt <- NFI_ES_mapping |>
+  dplyr::filter(!is.na(acceptedName)) 
 ```
 
 
 
 ### Initialization
 
-Package **traits4models** provides function `init_spparams()` to initialize a species parameter table according to a given set of taxon names. Here we call the function with both `NFIName` and `acceptedName`. `NFIName` will be to match the names used in `forest` objects derived from forest inventory data, while `acceptedName` will be used to ensure that matching with trait information is done using the appropriate (harmonized) taxonomic nomenclature.
+Package **traits4models** provides function `init_spparams()` to initialize a species parameter table according to a given input, which can be a vector of plant names or a data frame. Here we call the function with `NFI_ES_mapping`. Column `originalName` will be to match the names used in `forest` objects derived from forest inventory data, while column `acceptedName` will be used to ensure that matching with trait information is done using the appropriate (harmonized) taxonomic nomenclature. Other columns are used to fill taxonomy:
 
-```{r, eval = FALSE}
-SpParams <- traits4models::init_spparams(sp_names = spp_filt$NFIName,
-                                         accepted_names = spp_filt$acceptedName,
-                                         verbose = FALSE)
+```{r}
+SpParams <- traits4models::init_spparams(spp_filt,
+                                         verbose = TRUE)
 ```
 
-```{r, echo = FALSE}
-SpParams <- readRDS("SpParams_init_sp.rds")
-```
-
-The result is an empty data frame, except for the first columns, which correspond to taxonomic hierarchy of each entity (genus, family, group, ...). 
+The result is an empty data frame, except for the first columns, which correspond to taxonomic hierarchy of each entity (genus, family, group, ...), where missing taxonomic information is completed using package **taxize**. The number of rows in the output data frame can be larger than the input, because by default the function creates additional rows for species (when sub-species of that species have been cited) or genus (when species of that genus have been cites).
 
 ```{r}
 SpParams |> tibble::as_tibble()
 ```
 
-Taxonomic entities above species are obtained from accepted names using package **taxize**.
 
 ## Filling structural parameters from forest inventory data
 
