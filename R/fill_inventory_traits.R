@@ -12,6 +12,18 @@
 #' @param verbose A boolean flag to indicate extra console output.
 #'
 #' @return A modified data frame of medfate species parameters
+#'
+#' @details
+#' This function fills information of the species parameter table from the data of the target forest inventory where simulations
+#' are to be conducted. Matching is performed between `Species` of the forest inventory data and `Name` of the species parameter table.
+#' The following information is extracted:
+#' \itemize{
+#' \item{\code{GrowthForm}: Growth form according to the usage in the forest inventory. For example, if the species is cited in \code{treeData} tables but not in \code{shrubData} tables, then growth form will be \code{"Tree"}.}
+#' \item{\code{Hmax}: Maximum tree/shrub height (cm), according to the `Height` column in \code{treeData} or \code{shrubData} and \code{quantile_Hmax} parameter.}
+#' \item{\code{Hmed}: Median tree/shrub height (cm), according to the `Height` column in \code{treeData} or \code{shrubData} and \code{quantile_Hmed} parameter.}
+#' \item{\code{fHDmin, fHDmax}: Minimum or maximum height to diameter ratio for trees, according to the `Height` and `DBH` columns in \code{treeData} and \code{quantile_fHDmin} or \code{quantile_fHDmax} parameters, respectively.}
+#' }
+#'
 #' @export
 #'
 #' @examples
@@ -41,46 +53,42 @@ fill_inventory_traits<-function(SpParams,
   tree_data <- dplyr::bind_rows(tree_list)
   shrub_data <- dplyr::bind_rows(shrub_list)
 
-  if(progress) cli::cli_progress_step("Translating to correct taxa names")
-  tree_data_accepted <- tree_data |>
-    dplyr::left_join(SpParams[,c("Name", "AcceptedName")], by = c("Species" = "Name"))
-  shrub_data_accepted <- shrub_data |>
-    dplyr::left_join(SpParams[,c("Name", "AcceptedName")], by = c("Species" = "Name"))
+  height_values <- c(as.numeric(tree_data$Height),
+                     as.numeric(shrub_data$Height))
+  dbh_values <- c(as.numeric(tree_data$DBH),
+                  rep(NA, nrow(shrub_data)))
+  names_species <- c(as.character(tree_data$Species),
+                        as.character(shrub_data$Species))
+  is_tree <- c(rep(TRUE,nrow(tree_data)), rep(FALSE, nrow(shrub_data)))
 
-  height_values <- c(as.numeric(tree_data_accepted$Height),
-                     as.numeric(shrub_data_accepted$Height))
-  dbh_values <- c(as.numeric(tree_data_accepted$DBH),
-                  rep(NA, nrow(shrub_data_accepted)))
-  accepted_species <- c(as.character(tree_data_accepted$AcceptedName),
-                        as.character(shrub_data_accepted$AcceptedName))
-  is_tree <- c(rep(TRUE,nrow(tree_data_accepted)), rep(FALSE, nrow(shrub_data_accepted)))
-
-
-  toRemove <- is.na(height_values) | is.na(accepted_species)
+  toRemove <- is.na(names_species)
   if(sum(toRemove)>0) {
     height_values <- height_values[!toRemove]
     dbh_values <- dbh_values[!toRemove]
-    accepted_species <- accepted_species[!toRemove]
+    names_species <- names_species[!toRemove]
     is_tree <- is_tree[!toRemove]
-    if(progress) cli::cli_progress_message(paste0(sum(toRemove), " species/height missing values removed from input."))
+    if(progress) cli::cli_progress_message(paste0(sum(toRemove), " species missing values removed from inventory records."))
   }
 
-  if(progress) cli::cli_progress_bar("Species", total = nrow(SpParams))
+  if(progress) cli::cli_progress_step("Extracting growth form")
   for(i in 1:nrow(SpParams)) {
-    if(progress) cli::cli_progress_update()
-    heights <- height_values[accepted_species == SpParams$AcceptedName[i]]
-    dbhs <- dbh_values[accepted_species == SpParams$AcceptedName[i]]
-    is_t <- is_tree[accepted_species == SpParams$AcceptedName[i]]
+    is_t <- is_tree[names_species == SpParams$Name[i]]
+    if(all(is_t)) SpParams$GrowthForm[i] <- "Tree"
+    else if(all(!is_t)) SpParams$GrowthForm[i] <- "Shrub"
+    else SpParams$GrowthForm[i] <- "Tree/Shrub"
+  }
+  if(progress) cli::cli_progress_step("Extracting plant size")
+  for(i in 1:nrow(SpParams)) {
+    heights <- height_values[names_species == SpParams$Name[i]]
+    dbhs <- dbh_values[names_species == SpParams$Name[i]]
     if(length(heights)>0) {
-      if(all(is_t)) SpParams$GrowthForm[i] <- "Tree"
-      else if(all(!is_t)) SpParams$GrowthForm[i] <- "Shrub"
-      else SpParams$GrowthForm[i] <- "Tree/Shrub"
       plant_heights <- heights[!is.na(heights)]
       if(length(plant_heights)>0) {
         SpParams$Hmed[i] <- round(as.numeric(quantile(plant_heights, probs=quantile_Hmed, na.rm=FALSE)))
         SpParams$Hmax[i] <- round(as.numeric(quantile(plant_heights, probs=quantile_Hmax, na.rm=FALSE)))
       }
       HD_values <- heights/dbhs
+      HD_values <- HD_values[!is.na(heights)]
       HD_values <- HD_values[!is.na(dbhs)]
       HD_values <- HD_values[dbhs>=5]
       HD_values <- HD_values[!is.na(HD_values)]

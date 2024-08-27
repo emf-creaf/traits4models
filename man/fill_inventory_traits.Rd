@@ -38,3 +38,14 @@ A modified data frame of medfate species parameters
 \description{
 Extracts species parameter values from forest inventory data
 }
+\details{
+This function fills information of the species parameter table from the data of the target forest inventory where simulations
+are to be conducted. Matching is performed between `Species` of the forest inventory data and `Name` of the species parameter table.
+The following information is extracted:
+\itemize{
+\item{\code{GrowthForm}: Growth form according to the usage in the forest inventory. For example, if the species is cited in \code{treeData} tables but not in \code{shrubData} tables, then growth form will be \code{"Tree"}.}
+\item{\code{Hmax}: Maximum tree/shrub height (cm), according to the `Height` column in \code{treeData} or \code{shrubData} and \code{quantile_Hmax} parameter.}
+\item{\code{Hmed}: Median tree/shrub height (cm), according to the `Height` column in \code{treeData} or \code{shrubData} and \code{quantile_Hmed} parameter.}
+\item{\code{fHDmin, fHDmax}: Minimum or maximum height to diameter ratio for trees, according to the `Height` and `DBH` columns in \code{treeData} and \code{quantile_fHDmin} or \code{quantile_fHDmax} parameters, respectively.}
+}
+}

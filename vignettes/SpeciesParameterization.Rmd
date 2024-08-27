@@ -72,7 +72,7 @@ The remainder of this vignette illustrates each of these steps.
 
 ### Target taxonomic entities
 
-The species parameter table for **medfate** starts with a vector of species names. Here, we will assume that those names correspond to taxa mentioned in a national forest inventory, more specifically the Spanish National Forest Inventory (SFI). Note that taxon entities in a forest inventory will refer to their own taxonomic reference. Hence, it is important to harmonize taxonomy with the reference used in **traits4models**, i.e. [World Flora Online](https://www.worldfloraonline.org/). 
+The species parameter table for **medfate** starts with a vector of species names. Here, we will assume that those names correspond to taxa (genus, species, subspecies, ...) mentioned in a national forest inventory, more specifically the Spanish National Forest Inventory (SFI). Note that taxon names in a forest inventory will correspond with concepts of their own taxonomic reference. Hence, it is important to harmonize taxonomy with the reference used in **traits4models**, i.e. [World Flora Online](https://www.worldfloraonline.org/), for which function `harmonize_taxonomy_WFO()` may be useful. 
 
 Here we will assume that such harmonization has been conducted for the SFI taxon list that is included as external data in the package:
 
@@ -87,25 +87,26 @@ NFI_ES_mapping <- read.table(file, sep=";", header=TRUE, na.strings = "") |>
 NFI_ES_mapping
 ```
 
-Here `NFIName` corresponds to the name used in the forest inventory, while `originalName` contains the names that where used for taxonomy harmonization, and `acceptedName` corresponds to the accepted name according to World Flora Online. `originalName`  has the same value as `NFIName` for a scientific taxon, and is otherwise missing. Non-scientific names (e.g. 'Cultivated trees') of forest inventory records cannot be used in simulated because they cannot be matched with plant trait data. Therefore, we need to filter non-scientific taxon names using:
+Here `NFIName` corresponds to the name used in the Spanish forest inventory, while `originalName` contains the names that where used for taxonomy harmonization with function `harmonize_taxonomy_WFO()`, and `acceptedName` corresponds to the accepted name according to World Flora Online. Column `originalName`  has the same values as `NFIName` for a scientific taxa, but is otherwise missing. Non-scientific plant names (e.g. 'Cultivated trees') or taxa names that could not be identified cannot be used in medfate simulations because they cannot be matched with plant trait data. Therefore, we need to filter those names using:
 
 ```{r}
 spp_filt <- NFI_ES_mapping |>
   dplyr::filter(!is.na(acceptedName)) 
 ```
 
-
-
 ### Initialization
 
-Package **traits4models** provides function `init_spparams()` to initialize a species parameter table according to a given input, which can be a vector of plant names or a data frame. Here we call the function with `NFI_ES_mapping`. Column `originalName` will be to match the names used in `forest` objects derived from forest inventory data, while column `acceptedName` will be used to ensure that matching with trait information is done using the appropriate (harmonized) taxonomic nomenclature. Other columns are used to fill taxonomy:
+Package **traits4models** provides function `init_spparams()` to initialize a species parameter table according to a given input, which can be either a vector of plant names or a data frame with taxonomic information. Here we call the function with `NFI_ES_mapping`. Column `originalName` will be used to match the `Species` names in `forest` objects derived from the Spanish forest inventory, while column `acceptedName` will be used to ensure that matching with trait information is done using the appropriate (harmonized) taxonomic nomenclature. Other columns are used to fill in taxonomy:
 
-```{r}
+```{r, eval = FALSE}
 SpParams <- traits4models::init_spparams(spp_filt,
-                                         verbose = TRUE)
+                                         verbose = FALSE)
+```
+```{r, include = FALSE}
+SpParams <- readRDS("~/OneDrive/mcaceres_work/model_development/medfate_development/MedfateSpeciesParametrization/NFIs_parametrization/Rdata/es/SpParams_init_es.rds")
 ```
 
-The result is an empty data frame, except for the first columns, which correspond to taxonomic hierarchy of each entity (genus, family, group, ...), where missing taxonomic information is completed using package **taxize**. The number of rows in the output data frame can be larger than the input, because by default the function creates additional rows for species (when sub-species of that species have been cited) or genus (when species of that genus have been cites).
+The result is an empty data frame, except for the first columns, which correspond to taxonomic hierarchy of each entity (genus, family, group, ...), where missing taxonomic information is completed using package **taxize**. The number of rows in the output data frame can be larger than the input, because by default the function creates additional rows for species (when only sub-species of that species have been cited) or genus (when species of that genus have been cited).
 
 ```{r}
 SpParams |> tibble::as_tibble()
@@ -114,17 +115,83 @@ SpParams |> tibble::as_tibble()
 
 ## Filling structural parameters from forest inventory data
 
+Some species parameters can be withdrawn from the data of the target forest inventory where simulations are to be conducted. We load a data frame (actually an `sf` object) containing data from the Third Spanish Forest Inventory:
+
 ```{r}
 sf_IFN3 <- readRDS("~/OneDrive/mcaceres_work/model_initialisation/medfate_initialisation/IFN/Products/IFN3/Spain/IFN3_spain_final_ETRS89H30.rds")
+sf_IFN3
 ```
+Column `forest` contains the forest inventory plots that will be used to withdraw parameters. For example, the first `forest` object is:
+
+```{r}
+sf_IFN3$forest[[1]]
+```
+
+**traits4models** provides function `fill_inventory_traits()` to perform the parameter extraction:
 
 ```{r}
 SpParams<- traits4models::fill_inventory_traits(SpParams, sf_IFN3, 
                                                 progress = FALSE)
 ```
 
+Species matching is performed between column `Species` of the tree or shrub data tables and `Name` of the species parameter table; and the following information is extracted:
+
+* `GrowthForm`: Growth form according to the usage in the forest inventory. For example, if the species is cited in `treeData` tables but not in `shrubData` tables, then growth form will be `"Tree"`.
+* `Hmax`: Maximum tree/shrub height (cm), according to the `Height` column in `treeData` or `shrubData` and `quantile_Hmax` parameter.
+* `Hmed`: Median tree/shrub height (cm), according to the `Height` column in `treeData` or `shrubData` and `quantile_Hmed` parameter.
+* `fHDmin`, `fHDmax`: Minimum or maximum height to diameter ratio for trees, according to the `Height` and `DBH` columns in `treeData` and `quantile_fHDmin` or `quantile_fHDmax` parameters, respectively.
 
 ## Filling allometric coefficients
+
+```{r}
+allom_path = "~/OneDrive/mcaceres_work/model_development/medfate_development/MedfateSpeciesParametrization/AllometryDatabases/"
+```
+
+
+### Tree foliar biomass
+
+```{r}
+  fb_models <- openxlsx::read.xlsx(paste0(allom_path, "TreeAllometries/TreeAllometries.xlsx"), sheet= "Tree_FB_models", rowNames = TRUE)
+```
+
+```{r}
+SpParams <- traits4models::fill_allometry_coefficients(SpParams, fb_models, "foliarbiomass")
+```
+
+### Tree crown ratio
+
+```{r}
+  cr_models <- openxlsx::read.xlsx(paste0(allom_path,"TreeAllometries/TreeAllometries.xlsx"), 
+                                   sheet= "Tree_CR_models", rowNames = TRUE)
+```
+
+```{r}
+SpParams <- traits4models::fill_allometry_coefficients(SpParams, cr_models, "crownratio")
+```
+
+### Tree crown width
+
+```{r}
+cw_models <- openxlsx::read.xlsx(paste0(allom_path,"TreeAllometries/TreeAllometries.xlsx"), 
+                                   sheet= "Tree_CW_models", rowNames = TRUE)
+```
+
+```{r}
+SpParams <- traits4models::fill_allometry_coefficients(SpParams, cw_models, "crownwidth")
+```
+
+### Shrub fine biomass
+
+### Bark thickness
+
+```{r}
+bt_models <- openxlsx::read.xlsx(paste0(allom_path,"TreeAllometries/TreeAllometries.xlsx"), 
+                                   sheet= "Tree_BT_models", rowNames = TRUE)
+```
+
+```{r}
+SpParams <- traits4models::fill_allometry_coefficients(SpParams, bt_models, "barkthickness")
+```
 
 
 ## Filling parameters from harmonized trait databases
