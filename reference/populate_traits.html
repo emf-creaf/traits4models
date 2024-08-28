@@ -51,6 +51,7 @@
 <span>  <span class="va">trait_mapping</span>,</span>
 <span>  <span class="va">taxon_column</span>,</span>
 <span>  genus_column <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  priority_column <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  character_traits <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  summary_function <span class="op">=</span> <span class="st">"median"</span>,</span>
 <span>  summary_params <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
@@ -84,6 +85,10 @@ to populate each medfate param. Elements are data base columns and names are med
 
 <dt id="arg-genus-column">genus_column<a class="anchor" aria-label="anchor" href="#arg-genus-column"></a></dt>
 <dd><p>A string identifying the column in <code>trait_table</code> that identifies genus. If <code>NULL</code> then genus are taken from first word of taxon names.</p></dd>
+
+
+<dt id="arg-priority-column">priority_column<a class="anchor" aria-label="anchor" href="#arg-priority-column"></a></dt>
+<dd><p>A string identifying the column in <code>trait_table</code> that identifies the priority of some data sources above others (lower values of priority are processed earlier).</p></dd>
 
 
 <dt id="arg-character-traits">character_traits<a class="anchor" aria-label="anchor" href="#arg-character-traits"></a></dt>
@@ -123,7 +128,8 @@ median values are taken for quantitative traits and the most frequent value is t
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Matches column 'AcceptedName' of SpParams with trait parameter sources.
 If the target taxon is a species, values are taken from those rows in trait_table where species names match.
-If the target taxon is a genus, then values are taken from those rows where genus is the same.</p>
+If the target taxon is a genus, then values are taken from those rows where genus is the same.
+If column <code>priority_column</code> is supplied, the function will prioritize sources with higher priority first.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

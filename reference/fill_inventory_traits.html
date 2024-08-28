@@ -97,6 +97,15 @@
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A modified data frame of medfate species parameters</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>This function fills information of the species parameter table from the data of the target forest inventory where simulations
+are to be conducted. Matching is performed between `Species` of the forest inventory data and `Name` of the species parameter table.
+The following information is extracted:</p><ul><li><p><code>GrowthForm</code>: Growth form according to the usage in the forest inventory. For example, if the species is cited in <code>treeData</code> tables but not in <code>shrubData</code> tables, then growth form will be <code>"Tree"</code>.</p></li>
+<li><p><code>Hmax</code>: Maximum tree/shrub height (cm), according to the `Height` column in <code>treeData</code> or <code>shrubData</code> and <code>quantile_Hmax</code> parameter.</p></li>
+<li><p><code>Hmed</code>: Median tree/shrub height (cm), according to the `Height` column in <code>treeData</code> or <code>shrubData</code> and <code>quantile_Hmed</code> parameter.</p></li>
+<li><p><code>fHDmin, fHDmax</code>: Minimum or maximum height to diameter ratio for trees, according to the `Height` and `DBH` columns in <code>treeData</code> and <code>quantile_fHDmin</code> or <code>quantile_fHDmax</code> parameters, respectively.</p></li>
+</ul></div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
