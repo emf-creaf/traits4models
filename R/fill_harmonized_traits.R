@@ -38,6 +38,7 @@ load_harmonized_tables <- function(harmonized_trait_path, progress = TRUE) {
     tab <- readRDS(trait_files[[i]]) |>
       as.data.frame()|>
       dplyr::filter(!is.na(acceptedName))
+    if(!("Priority" %in% names(tab))) tab$Priority <- 1
     trait_tables[[i]] <- tab
   }
   names(trait_tables) <- trait_files_short
@@ -58,7 +59,7 @@ get_trait_data <- function(harmonized_trait_path,
   if(progress) cli::cli_progress_step(paste0("Filtering for trait: ", trait_name))
   trait_tables <- vector("list", length(all_tables))
   fixed <- c("originalName", "acceptedName","acceptedNameAuthorship","family",
-             "genus", "specificEpithet","taxonRank", "Units", "Reference")
+             "genus", "specificEpithet","taxonRank", "Units", "Reference", "Priority")
   n_tab <- 0
   for(i in 1:length(all_tables)) {
     tab <- all_tables[[i]]

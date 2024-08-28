@@ -208,7 +208,7 @@ trait_files
 
 ```{r}
 SpParams<- traits4models::fill_harmonized_traits(SpParams, harmonized_trait_path, 
-                                                 progress = FALSE, verbose = FALSE)
+                                                 progress = TRUE, verbose = FALSE)
 ```
 
 

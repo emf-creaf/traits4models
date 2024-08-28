@@ -33,7 +33,10 @@ check_harmonized_table<- function(x) {
   if(!("Reference" %in% cn)) {
     cli::cli_alert_info("Column 'Reference' should preferably be defined.")
   }
-  other <- cn[!(cn %in% c(fixed, "Units", "Reference"))]
+  if(!("Priority" %in% cn)) {
+    cli::cli_alert_info("Column 'Priority' should preferably be defined.")
+  }
+  other <- cn[!(cn %in% c(fixed, "Units", "Reference", "Priority"))]
   for(t in other) {
     if(!(t %in% HarmonizedTraitDefinition$Notation)) {
       acceptable <- FALSE

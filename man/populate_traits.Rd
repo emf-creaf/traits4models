@@ -11,6 +11,7 @@ populate_traits(
   trait_mapping,
   taxon_column,
   genus_column = NULL,
+  priority_column = NULL,
   character_traits = FALSE,
   summary_function = "median",
   summary_params = list(na.rm = TRUE),
@@ -31,6 +32,8 @@ to populate each medfate param. Elements are data base columns and names are med
 \item{taxon_column}{A string identifying the column in \code{trait_table} that identifies taxon names).}
 
 \item{genus_column}{A string identifying the column in \code{trait_table} that identifies genus. If \code{NULL} then genus are taken from first word of taxon names.}
+
+\item{priority_column}{A string identifying the column in \code{trait_table} that identifies the priority of some data sources above others (lower values of priority are processed earlier).}
 
 \item{character_traits}{Boolean flag to treat traits as character-valued}
 
@@ -57,6 +60,7 @@ Internal function to fill medfate species trait parameters from a data table of 
 Matches column 'AcceptedName' of SpParams with trait parameter sources.
 If the target taxon is a species, values are taken from those rows in trait_table where species names match.
 If the target taxon is a genus, then values are taken from those rows where genus is the same.
+If column \code{priority_column} is supplied, the function will prioritize sources with higher priority first.
 }
 \seealso{
 \code{\link{init_spparams}}

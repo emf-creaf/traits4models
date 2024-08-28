@@ -71,11 +71,18 @@ db_var <- db |>
                 VCstem_P88 = "Stem P88 (MPa)",
                 VCroot_P50 = "Root P50 (MPa)",
                 Gs_P50 = "Gs P50 (MPa)",
-                Gs_P95 = "Gs 95 (MPa)") |>
-  dplyr::mutate(Reference = "Bartlett et al. (2016)")
+                Gs_P95 = "Gs 95 (MPa)") 
 ```
 
-Note that we also renamed the column containing the plant species into `originalName`. The original name represents the taxon name that is used by the data set owner/provider and is key for taxonomic harmonization. The result of this step should contain `originalName`, plus one column for each harmonized trait, and (preferably) a column called `Reference`.
+Note that we also renamed the column containing the plant species into `originalName`. The original name represents the taxon name that is used by the data set owner/provider and is key for taxonomic harmonization. The result of this step should contain `originalName`, plus one column for each harmonized trait, and (preferably) two columns called `Reference` and `Priority`. We can add those columns manually using:
+
+```{r}
+db_var <- db_var |>
+  dplyr::mutate(Reference = "Bartlett et al. (2016)",
+                Priority = 3)
+```
+
+Column `Reference` indicates the bibliographic source of the data, whereas `Priority` allows defining an order in which trait data sources will be processed. Those with highest priority order (lowest value of `Priority`) will be given preference.
 
 ```{r}
 db_var
