@@ -8,8 +8,12 @@
 #' @param verbose A boolean flag to prompt detailed process information.
 #'
 #' @details
-#' IMPORTANT: This function performs imputation of strict parameters on the basis of non-missing values in taxonomically-close taxa. It should be used with care because of the
-#' potential source of errors.
+#' The function performs imputation of strict parameters on the basis of non-missing values in taxonomically-close taxa.
+#' Strict parameters are defined as such in \code{\link[medfate]{SpParamsDefinition}}.
+#' First, if the taxon with missing values is a subspecies, the function looks for values at the species level. Missing values at the species level are filled with data at the
+#' genus, family, order or group levels, depending on the availability of information. Quantitative values are averaged, whereas for qualitative values the first non-missing value is used.
+#' Beware that imputation can result in errors if the initial amount of information is scarce. Therefore, users should revised the output of this function and correct
+#' potential errors manually, whenever detected.
 #'
 #' @return A species parameter data frame with imputed strict parameter values
 #' @export

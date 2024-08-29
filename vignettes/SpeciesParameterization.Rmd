@@ -215,18 +215,27 @@ SpParams<- traits4models::fill_harmonized_traits(SpParams, harmonized_trait_path
 
 ## Checking species parameter tables
 
+Before using a given species parameter table, it is important to verify that the table does not contain missing values in key parameters. In medfate, those parameters that are always required non-missing values are called `Strict` (see `SpParamsDefinition` in package **medfate**). Function `check_spparams()` checks, among other things, that strict parameters do not contain missing values:
+
 ```{r}
 check_spparams(SpParams)
 ```
 
+Normally, the information of plant trait data bases will not contain information for all species and strict parameters, even if most of them are qualitative traits. This problem is raised by `check_spparams()` and must be addressed.
+
 ## Completing strict parameters
+
+Package **trait4models** includes function `complete_strict()` to perform imputation of strict parameters, so that the result table can be used for simulations. Imputation is performed on the basis of available information for similar taxa. Taxonomically closer entities are given priority over higher order taxa (i.e. species of the same genus are priorized as sources before searching for species in the same family):
 
 ```{r}
 SpParams <- traits4models::complete_strict(SpParams, progress = FALSE)
 ```
 
+After completion of strict paratemers, the species parameter table should pass the previous check:
 ```{r}
 check_spparams(SpParams)
 ```
+
+And we can store the table for its use in model simulations.
 
 ## References

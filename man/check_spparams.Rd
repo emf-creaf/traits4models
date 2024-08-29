@@ -15,3 +15,11 @@ An (invisible) boolean indicating whether the data frame is acceptable or not.
 \description{
 Checks that the input data frame has the appropriate format and data for simulations with medfate.
 }
+\details{
+The function performs the following checks:
+\itemize{
+  \item{The input is a data frame.}
+  \item{All parameter names defined in \code{\link[medfate]{SpParamsDefinition}} should be listed as columns.}
+  \item{Strict parameters should not contain missing values. Strict parameters are defined as such in \code{\link[medfate]{SpParamsDefinition}}.}
+}
+}

@@ -31,6 +31,9 @@ Function \code{get_trait_data()} returns a data table with the pooled informatio
 \description{
 Functions to load harmonized trait data
 }
+\details{
+Both functions will add \code{Priority = 1} to those trait data sources where \code{Priority} column is not defined.
+}
 \examples{
 \dontrun{
  harmonized_trait_path = "~/OneDrive/EMF_datasets/PlantTraitDatabases/Products/harmonized"
