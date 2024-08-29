@@ -29,7 +29,9 @@ get_taxon_data(harmonized_trait_path, accepted_name, progress = TRUE)
 \value{
 Function \code{load_harmonized_tables()} returns the list with all harmonized trait data tables.
 
-Function \code{get_trait_data()} returns a data table with the pooled information of a single trait.
+Function \code{get_trait_data()} returns a data frame with the pooled information of a single trait.
+
+Function \code{get_taxon_data()} returns a data frame with the pooled information for a given taxon.
 }
 \description{
 Functions to load harmonized trait data
@@ -50,5 +52,8 @@ Both functions will add \code{Priority = 1} to those trait data sources where \c
  head(l[[1]])
 
  get_trait_data(harmonized_trait_path, "SLA")
+
+ # Load taxon data
+ get_taxon_data(harmonized_trait_path, "Pinus halepensis")
 }
 }

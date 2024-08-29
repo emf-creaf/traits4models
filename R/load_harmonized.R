@@ -8,7 +8,9 @@
 #' @return
 #' Function \code{load_harmonized_tables()} returns the list with all harmonized trait data tables.
 #'
-#' Function \code{get_trait_data()} returns a data table with the pooled information of a single trait.
+#' Function \code{get_trait_data()} returns a data frame with the pooled information of a single trait.
+#'
+#' Function \code{get_taxon_data()} returns a data frame with the pooled information for a given taxon.
 #'
 #' @details
 #' Both functions will add \code{Priority = 1} to those trait data sources where \code{Priority} column is not defined.
@@ -29,6 +31,9 @@
 #'  head(l[[1]])
 #'
 #'  get_trait_data(harmonized_trait_path, "SLA")
+#'
+#'  # Load taxon data
+#'  get_taxon_data(harmonized_trait_path, "Pinus halepensis")
 #'}
 load_harmonized_tables <- function(harmonized_trait_path, progress = TRUE) {
   trait_files_short <- list.files(path = harmonized_trait_path, full.names = FALSE)
@@ -103,20 +108,31 @@ get_taxon_data<- function(harmonized_trait_path,
       traits <- names(tab)
       traits <- traits[!(traits %in% fixed)]
       for(trait_name in traits) {
-        df_i <- data.frame(Trait = rep(trait_name, nrow(tab)),
-                           Value = as.character(tab[[trait_name]]))
-        if("Units" %in% names(tab)) df_i$Units = tab$Units
-        else {
-          unit <- HarmonizedTraitDefinition$Units[HarmonizedTraitDefinition$Notation==trait_name]
-          if(length(unit)==1) df_i$Units <- rep(unit, nrow(tab))
+        if(trait_name %in% HarmonizedTraitDefinition$Notation) {
+          df_i <- data.frame(Trait = rep(trait_name, nrow(tab)),
+                             Value = as.character(tab[[trait_name]]))
+          if("Units" %in% names(tab)) df_i$Units = tab$Units
+          else {
+            unit <- HarmonizedTraitDefinition$Units[HarmonizedTraitDefinition$Notation==trait_name]
+            if(length(unit)==1) df_i$Units <- rep(unit, nrow(tab))
+          }
+          if("Reference" %in% names(tab)) df_i$Reference = tab$Reference
+          if("Priority" %in% names(tab)) df_i$Priority = tab$Priority
+          df_i <- df_i[!is.na(df_i$Value), , drop = FALSE]
+          taxon_table <- dplyr::bind_rows(taxon_table, df_i)
         }
-        if("Reference" %in% names(tab)) df_i$Reference = tab$Reference
-        if("Priority" %in% names(tab)) df_i$Priority = tab$Priority
-        df_i <- df_i[!is.na(df_i$Value), , drop = FALSE]
-        taxon_table <- dplyr::bind_rows(taxon_table, df_i)
       }
     }
   }
+  if(progress) cli::cli_progress_step(paste0("Reordering"))
+  odf <- data.frame(Trait = HarmonizedTraitDefinition$Notation,
+                    Order = 1:nrow(HarmonizedTraitDefinition))
+  taxon_table <- taxon_table |>
+    dplyr::left_join(odf, by="Trait") |>
+    dplyr::arrange(Order) |>
+    dplyr::select(-Order) |>
+    unique()
+
   if(progress) cli::cli_progress_done()
   return(taxon_table)
 }

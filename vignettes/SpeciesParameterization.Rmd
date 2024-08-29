@@ -57,8 +57,8 @@ The set of species parameters needed to run the models included in **medfate** a
 
 The following sections describe different steps that we used to obtain the species parameter table, which can be grouped into six main steps:
 
-| # | Step                                                  | Function(s) |
-|---|-------------------------------------------------------|----------|
+| # | Step                                                  | Function(s)         |
+|---|-------------------------------------------------------|---------------------|
 | 1 | Initialize the parameter table with target taxonomic entities | `init_medfate_params()` |
 | 2 | Populate species parameters from forest inventory data | `fill_medfate_inventory_traits()` |
 | 3 | Populate tree and shrub allometric coefficients from suitable databases |  `fill_medfate_allometries()`|
