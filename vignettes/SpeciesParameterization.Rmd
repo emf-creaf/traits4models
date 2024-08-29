@@ -196,22 +196,48 @@ SpParams <- traits4models::fill_medfate_allometries(SpParams, bt_models, "barkth
 
 ## Filling parameters from harmonized trait databases
 
+### List of harmonized trait databases
+
+As mentioned in the introduction, here it is assumed that a set of plant trait databases have been harmonized. In our case, harmonized data files have been stored as **.rds** files in the following path:
+
 ```{r}
 harmonized_trait_path <- "~/OneDrive/EMF_datasets/PlantTraitDatabases/Products/harmonized"
 ```
 
+We can list the set of harmonized sources using:
 ```{r}
 trait_files <- list.files(path = harmonized_trait_path, full.names = FALSE)
 trait_files
 ```
+### Querying data for particular traits or species
 
+Before filling any species parameter table, it may be useful to inspect the amount of information available for particular traits or species. Package **trait4models** provides a couple of utility functions for this. For example, we can load all values for Gswmin, the minimum stomatal conductanace, using function `get_trait_data()`:
 
 ```{r}
-SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path, 
-                                              progress = TRUE, verbose = FALSE)
+sla_data <- get_trait_data(harmonized_trait_path, "Gswmin",
+                           progress = FALSE)
+sla_data
+```
+
+Analogously, if we are interested in querying trait information for a particular taxa, we can use function `get_taxon_data()`:
+
+```{r}
+ph_data <- get_taxon_data(harmonized_trait_path, "Pinus halepensis",
+                          progress = FALSE)
+ph_data
 ```
 
 
+### Parameter filling
+
+Function `fill_medfate_traits()` performs trait parameter filling for **medfate** using the available data:
+
+```{r}
+SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path, 
+                                              progress = FALSE, verbose = FALSE)
+```
+
+Parameter filling sometimes implies translating trait data into the units required for model parameters. The function identifies the row of the species parameter table to modify by matching column `AcceptedName` of `SpParams` with the column `acceptedName` of the harmonized trait data sources. When multiple values of a given species are available, the function takes the median value (for quantitative traits) or the mode (i.e. the most frequent value; for qualitative traits). In addition, data sources of higher priority are processed first. Thus, data sources of lower priority being used for those cases not covered by prioritized sources.
 
 ## Checking species parameter tables
 
