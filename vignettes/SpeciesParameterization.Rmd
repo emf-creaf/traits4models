@@ -59,12 +59,12 @@ The following sections describe different steps that we used to obtain the speci
 
 | # | Step                                                  | Function(s) |
 |---|-------------------------------------------------------|----------|
-| 1 | Initialize the parameter table with target taxonomic entities | `init_spparams()` |
-| 2 | Populate species parameters from forest inventory data | `fill_inventory_traits()` |
-| 3 | Populate tree and shrub allometric coefficients from suitable databases |  `fill_allometry_coefficients()`|
-| 4 | Populate plant functional traits from harmonized data bases |  `fill_harmonized_traits()`|
-| 5 | Checking the final parameter table | `check_spparams()` |
-| 6 | If necessary, completing strict parameters | `complete_strict()` |
+| 1 | Initialize the parameter table with target taxonomic entities | `init_medfate_params()` |
+| 2 | Populate species parameters from forest inventory data | `fill_medfate_inventory_traits()` |
+| 3 | Populate tree and shrub allometric coefficients from suitable databases |  `fill_medfate_allometries()`|
+| 4 | Populate plant functional traits from harmonized data bases |  `fill_medfate_traits()`|
+| 5 | Checking the final parameter table | `check_medfate_params()` |
+| 6 | If necessary, completing strict parameters | `complete_medfate_strict()` |
 
 The remainder of this vignette illustrates each of these steps.
 
@@ -96,11 +96,11 @@ spp_filt <- NFI_ES_mapping |>
 
 ### Initialization
 
-Package **traits4models** provides function `init_spparams()` to initialize a species parameter table according to a given input, which can be either a vector of plant names or a data frame with taxonomic information. Here we call the function with `NFI_ES_mapping`. Column `originalName` will be used to match the `Species` names in `forest` objects derived from the Spanish forest inventory, while column `acceptedName` will be used to ensure that matching with trait information is done using the appropriate (harmonized) taxonomic nomenclature. Other columns are used to fill in taxonomy:
+Package **traits4models** provides function `init_medfate_params()` to initialize a species parameter table for **medfate** according to a given input, which can be either a vector of plant names or a data frame with taxonomic information. Here we call the function with `NFI_ES_mapping`. Column `originalName` will be used to match the `Species` names in `forest` objects derived from the Spanish forest inventory, while column `acceptedName` will be used to ensure that matching with trait information is done using the appropriate (harmonized) taxonomic nomenclature. Other columns are used to fill in taxonomy:
 
 ```{r, eval = FALSE}
-SpParams <- traits4models::init_spparams(spp_filt,
-                                         verbose = FALSE)
+SpParams <- traits4models::init_medfate_params(spp_filt,
+                                               verbose = FALSE)
 ```
 ```{r, include = FALSE}
 SpParams <- readRDS("~/OneDrive/mcaceres_work/model_development/medfate_development/MedfateSpeciesParametrization/NFIs_parametrization/Rdata/es/SpParams_init_es.rds")
@@ -127,11 +127,11 @@ Column `forest` contains the forest inventory plots that will be used to withdra
 sf_IFN3$forest[[1]]
 ```
 
-**traits4models** provides function `fill_inventory_traits()` to perform the parameter extraction:
+**traits4models** provides function `fill_medfate_inventory_traits()` to perform the parameter extraction:
 
 ```{r}
-SpParams<- traits4models::fill_inventory_traits(SpParams, sf_IFN3, 
-                                                progress = FALSE)
+SpParams<- traits4models::fill_medfate_inventory_traits(SpParams, sf_IFN3, 
+                                                        progress = FALSE)
 ```
 
 Species matching is performed between column `Species` of the tree or shrub data tables and `Name` of the species parameter table; and the following information is extracted:
@@ -155,7 +155,7 @@ allom_path = "~/OneDrive/mcaceres_work/model_development/medfate_development/Med
 ```
 
 ```{r}
-SpParams <- traits4models::fill_allometry_coefficients(SpParams, fb_models, "foliarbiomass")
+SpParams <- traits4models::fill_medfate_allometries(SpParams, fb_models, "foliarbiomass")
 ```
 
 ### Tree crown ratio
@@ -166,7 +166,7 @@ SpParams <- traits4models::fill_allometry_coefficients(SpParams, fb_models, "fol
 ```
 
 ```{r}
-SpParams <- traits4models::fill_allometry_coefficients(SpParams, cr_models, "crownratio")
+SpParams <- traits4models::fill_medfate_allometries(SpParams, cr_models, "crownratio")
 ```
 
 ### Tree crown width
@@ -177,7 +177,7 @@ cw_models <- openxlsx::read.xlsx(paste0(allom_path,"TreeAllometries/TreeAllometr
 ```
 
 ```{r}
-SpParams <- traits4models::fill_allometry_coefficients(SpParams, cw_models, "crownwidth")
+SpParams <- traits4models::fill_medfate_allometries(SpParams, cw_models, "crownwidth")
 ```
 
 ### Shrub fine biomass
@@ -190,7 +190,7 @@ bt_models <- openxlsx::read.xlsx(paste0(allom_path,"TreeAllometries/TreeAllometr
 ```
 
 ```{r}
-SpParams <- traits4models::fill_allometry_coefficients(SpParams, bt_models, "barkthickness")
+SpParams <- traits4models::fill_medfate_allometries(SpParams, bt_models, "barkthickness")
 ```
 
 
@@ -207,33 +207,33 @@ trait_files
 
 
 ```{r}
-SpParams<- traits4models::fill_harmonized_traits(SpParams, harmonized_trait_path, 
-                                                 progress = TRUE, verbose = FALSE)
+SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path, 
+                                              progress = TRUE, verbose = FALSE)
 ```
 
 
 
 ## Checking species parameter tables
 
-Before using a given species parameter table, it is important to verify that the table does not contain missing values in key parameters. In medfate, those parameters that are always required non-missing values are called `Strict` (see `SpParamsDefinition` in package **medfate**). Function `check_spparams()` checks, among other things, that strict parameters do not contain missing values:
+Before using a given species parameter table, it is important to verify that the table does not contain missing values in key parameters. In medfate, those parameters that are always required non-missing values are called `Strict` (see `SpParamsDefinition` in package **medfate**). Function `check_medfate_params()` checks, among other things, that strict parameters do not contain missing values:
 
 ```{r}
-check_spparams(SpParams)
+check_medfate_params(SpParams)
 ```
 
-Normally, the information of plant trait data bases will not contain information for all species and strict parameters, even if most of them are qualitative traits. This problem is raised by `check_spparams()` and must be addressed.
+Normally, the information of plant trait data bases will not contain information for all species and strict parameters, even if most of them are qualitative traits. This problem is raised by `check_medfate_params()` and must be addressed.
 
 ## Completing strict parameters
 
-Package **trait4models** includes function `complete_strict()` to perform imputation of strict parameters, so that the result table can be used for simulations. Imputation is performed on the basis of available information for similar taxa. Taxonomically closer entities are given priority over higher order taxa (i.e. species of the same genus are priorized as sources before searching for species in the same family):
+Package **trait4models** includes function `complete_medfate_strict()` to perform imputation of strict parameters, so that the result table can be used for simulations. Imputation is performed on the basis of available information for similar taxa. Taxonomically closer entities are given priority over higher order taxa (i.e. species of the same genus are priorized as sources before searching for species in the same family):
 
 ```{r}
-SpParams <- traits4models::complete_strict(SpParams, progress = FALSE)
+SpParams <- traits4models::complete_medfate_strict(SpParams, progress = FALSE)
 ```
 
 After completion of strict paratemers, the species parameter table should pass the previous check:
 ```{r}
-check_spparams(SpParams)
+check_medfate_params(SpParams)
 ```
 
 And we can store the table for its use in model simulations.

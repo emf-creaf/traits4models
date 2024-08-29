@@ -61,8 +61,8 @@ check_harmonized_table<- function(x) {
       }
     }
   }
-  if(!acceptable) cli::cli_alert_warning("The data frame is not acceptable as harmonized source data.")
-  else  cli::cli_alert_success("The data frame is acceptable as harmonized source data.")
+  if(!acceptable) cli::cli_alert_warning("The data frame is not acceptable as harmonized trait data source.")
+  else  cli::cli_alert_success("The data frame is acceptable as harmonized trait data source.")
 
   return(invisible(acceptable))
 }

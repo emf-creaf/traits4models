@@ -1,4 +1,4 @@
-#' Complete strict parameters
+#' Complete strict parameters for medfate
 #'
 #' Taxonomy-based imputation of strict parameters in medfate.
 #'
@@ -18,7 +18,7 @@
 #' @return A species parameter data frame with imputed strict parameter values
 #' @export
 #'
-complete_strict<- function(SpParams, params = NULL, progress = TRUE, verbose = FALSE) {
+complete_medfate_strict<- function(SpParams, params = NULL, progress = TRUE, verbose = FALSE) {
   data("SpParamsDefinition", package = "medfate")
   if("Strict" %in% names(SpParamsDefinition)) {
     strict_params <- SpParamsDefinition$ParameterName[SpParamsDefinition$Strict]

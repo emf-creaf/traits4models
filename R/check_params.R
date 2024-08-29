@@ -14,7 +14,7 @@
 #' }
 #' @export
 #'
-check_spparams<- function(x) {
+check_medfate_params<- function(x) {
   if(!inherits(x, "data.frame")) cli::cli_abort("Input should be a data frame")
   data("SpParamsDefinition", package = "medfate")
   cn <- names(x)

@@ -27,13 +27,13 @@
 #' @export
 #'
 #' @examples
-fill_inventory_traits<-function(SpParams,
-                                x,
-                                quantile_Hmed = 0.5,
-                                quantile_Hmax = 0.99,
-                                quantile_fHDmin = 0.05,
-                                quantile_fHDmax = 0.95,
-                                progress = TRUE, verbose = FALSE) {
+fill_medfate_inventory_traits<-function(SpParams,
+                                        x,
+                                        quantile_Hmed = 0.5,
+                                        quantile_Hmax = 0.99,
+                                        quantile_fHDmin = 0.05,
+                                        quantile_fHDmax = 0.95,
+                                        progress = TRUE, verbose = FALSE) {
   if(!inherits(SpParams, "data.frame")) cli::cli_abort("SpParams should be a species parameter data frame")
   if(!inherits(x, "data.frame") && !inherits(x, "list")) cli::cli_abort("x should be a data frame or a list")
   if(inherits(x, "data.frame")) {

@@ -84,15 +84,15 @@ populate_shrub_allometries_from_medfuels<-function(SpParams,
 #' @return A modified data frame of medfate species parameters
 #' @export
 #'
-#' @name fill_allometry_coefficients
+#' @name fill_medfate_allometries
 #' @encoding UTF-8
 #' @author Miquel De \enc{Cáceres}{Caceres} Ainsa, EMF-CREAF
 #' @seealso \code{\link{init_spparams}}
 #'
-fill_allometry_coefficients<-function(SpParams,
-                                      allom_table,
-                                      allom_type = "foliarbiomass",
-                                      progress = TRUE, verbose = FALSE) {
+fill_medfate_allometries<-function(SpParams,
+                                   allom_table,
+                                   allom_type = "foliarbiomass",
+                                   progress = TRUE, verbose = FALSE) {
   if(!inherits(SpParams, "data.frame")) cli::cli_abort("SpParams should be a species parameter data frame")
   if(!inherits(allom_table, "data.frame")) cli::cli_abort("allom_table should be a data frame")
   allom_type <- match.arg(allom_type, c("foliarbiomass", "barkthickness","crownratio","crownwidth"))

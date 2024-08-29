@@ -33,18 +33,18 @@ reference:
   - starts_with("check_harmonized_table")
   - HarmonizedTraitDefinition
 
-- title: Load harmonized trait data
-  desc:  Load harmonized trait data
+- title: Harmonized trait data
+  desc:  Read and summarize harmonized trait data
   contents:
   - starts_with("get_trait")
 
-- title: Building species parameter tables for medfate
+- title: Building species parameter tables
   desc:  Creation of species parameter tables
   contents:
-  - init_spparams
+  - starts_with("init_")
   - starts_with("fill_")
-  - complete_strict
-  - check_spparams
+  - starts_with("complete_")
+  - starts_with("check_medfate_")
 
 - title: Species parameter datasets for medfate
   desc:  Species parameter datasets for different countries

@@ -36,12 +36,12 @@
 #' accepted_names <- c("Salvia rosmarinus", "Pinus contorta", "Quercus ilex subsp. ilex")
 #' init_spparams(sp_names, accepted_names, verbose = TRUE)
 #' }
-init_spparams<-function(x,
-                       accepted_names = NULL,
-                       fill_taxonomy = TRUE,
-                       complete_rows = TRUE,
-                       sort = TRUE,
-                       verbose = FALSE) {
+init_medfate_params<-function(x,
+                              accepted_names = NULL,
+                              fill_taxonomy = TRUE,
+                              complete_rows = TRUE,
+                              sort = TRUE,
+                              verbose = FALSE) {
 
   if(is.character(x)) {
     names <- x
