@@ -736,10 +736,10 @@ the data base before taxonomic harmonization:</p>
 <div class="section level2">
 <h2 id="storing-harmonized-dataset">Storing harmonized dataset<a class="anchor" aria-label="anchor" href="#storing-harmonized-dataset"></a>
 </h2>
-<p>Harmonized data tables should be preferably stored in compressed
-<strong>.rds</strong> format. Moreover, all tables should be stored in
-the same directory, here in the <code>Products/harmonized/</code>
-path.</p>
+<p>Harmonized data tables can be stored in <strong>.csv</strong> text
+format or compressed <strong>.rds</strong> format. Moreover, all tables
+should be stored in the same directory, here in the
+<code>Products/harmonized/</code> path.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">file_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">DB_path</span>, <span class="st">"Products/harmonized/Bartlett_et_al_2016.rds"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">db_post</span>, <span class="va">file_out</span><span class="op">)</span></span></code></pre></div>
@@ -752,8 +752,7 @@ path.</p>
 </h3>
 <p>As mentioned in the introduction, here it is assumed that a set of
 plant trait databases have been harmonized. In our case, harmonized data
-files have been stored as <strong>.rds</strong> files in the following
-path:</p>
+files have been stored in the following path:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">harmonized_trait_path</span> <span class="op">&lt;-</span> <span class="st">"~/OneDrive/EMF_datasets/PlantTraitDatabases/Products/harmonized"</span></span></code></pre></div>
 <p>We can list the set of harmonized sources using:</p>

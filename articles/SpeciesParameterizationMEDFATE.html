@@ -407,13 +407,29 @@ data files have been stored as <strong>.rds</strong> or
 parameter filling for <strong>medfate</strong> using the available
 data:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">SpParams</span><span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/fill_medfate_allometries.html">fill_medfate_allometries</a></span><span class="op">(</span><span class="va">SpParams</span>, <span class="va">harmonized_allometry_path</span>, </span>
-<span>                                              progress <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">SpParams</span><span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/fill_medfate_allometries.html">fill_medfate_allometries</a></span><span class="op">(</span><span class="va">SpParams</span>, </span>
+<span>                                                   <span class="va">harmonized_allometry_path</span>, </span>
+<span>                                                   progress <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: FoliarBiomass</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: FoliarBiomass <span style="color: #B2B2B2;">[28ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: FoliarBiomass <span style="color: #B2B2B2;">[31ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: CrownRatio</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownRatio <span style="color: #B2B2B2;">[7ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownRatio <span style="color: #B2B2B2;">[24ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: CrownWidth</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownWidth <span style="color: #B2B2B2;">[20ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: BarkThickness</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: BarkThickness <span style="color: #B2B2B2;">[16ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: CrownArea</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownArea <span style="color: #B2B2B2;">[15ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: FineFuelBiomass</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: FineFuelBiomass <span style="color: #B2B2B2;">[15ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: TotalBiomass</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: TotalBiomass <span style="color: #B2B2B2;">[7ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 </div>
 <div class="section level2">
@@ -423,11 +439,11 @@ data:</p>
 plant trait databases have been harmonized. In our case, harmonized data
 files have been stored as <strong>.rds</strong> or <strong>.csv</strong>
 files in the following path:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">harmonized_trait_path</span> <span class="op">&lt;-</span> <span class="st">"~/OneDrive/EMF_datasets/PlantTraitDatabases/Products/harmonized"</span></span></code></pre></div>
 <p>Function <code><a href="../reference/fill_medfate_traits.html">fill_medfate_traits()</a></code> performs trait parameter
 filling for <strong>medfate</strong> using the available data:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span><span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/fill_medfate_traits.html">fill_medfate_traits</a></span><span class="op">(</span><span class="va">SpParams</span>, <span class="va">harmonized_trait_path</span>, </span>
 <span>                                              progress <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning in get_trait_data(harmonized_trait_path, trait_name, is_numeric = TRUE,</span></span>
@@ -454,7 +470,7 @@ are called <code>Strict</code> (see <code>SpParamsDefinition</code> in
 package <strong>medfate</strong>). Function
 <code><a href="../reference/check_medfate_params.html">check_medfate_params()</a></code> checks, among other things, that
 strict parameters do not contain missing values:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_medfate_params.html">check_medfate_params</a></span><span class="op">(</span><span class="va">SpParams</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Strict parameter column 'GrowthForm' should not contain any missing value.</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Strict parameter column 'LifeForm' should not contain any missing value.</span></span></code></pre>
@@ -481,11 +497,11 @@ Imputation is performed on the basis of available information for
 similar taxa. Taxonomically closer entities are given priority over
 higher order taxa (i.e. species of the same genus are priorized as
 sources before searching for species in the same family):</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/complete_medfate_strict.html">complete_medfate_strict</a></span><span class="op">(</span><span class="va">SpParams</span>, progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>After completion of strict paratemers, the species parameter table
 should pass the previous check:</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_medfate_params.html">check_medfate_params</a></span><span class="op">(</span><span class="va">SpParams</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> The data frame is acceptable as species parameter table for medfate.</span></span></code></pre>
 <p>And we can store the table for its use in model simulations.</p>

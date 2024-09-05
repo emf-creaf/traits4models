@@ -251,10 +251,10 @@ the data base before taxonomic harmonization:</p>
 <div class="section level2">
 <h2 id="storing-harmonized-dataset">Storing harmonized dataset<a class="anchor" aria-label="anchor" href="#storing-harmonized-dataset"></a>
 </h2>
-<p>Harmonized data tables should be preferably stored in compressed
-<strong>.rds</strong> format. Moreover, all tables should be stored in
-the same directory, here in the <code>Products/harmonized/</code>
-path.</p>
+<p>Harmonized data tables can be stored in <strong>.csv</strong> text
+format or compressed <strong>.rds</strong> format. Moreover, all tables
+should be stored in the same directory, here in the
+<code>Products/harmonized/</code> path.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv2</a></span><span class="op">(</span><span class="va">db_post</span>, <span class="st">"Products/harmonized/tree_crown_ratio_europe.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -266,8 +266,7 @@ path.</p>
 </h3>
 <p>As mentioned in the introduction, here it is assumed that a set of
 plant allometry databases have been harmonized. In our case, harmonized
-data files have been stored as <strong>.rds</strong> or
-<strong>.csv</strong> files in the following path:</p>
+data files have been stored in the following path:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">harmonized_allometry_path</span> <span class="op">=</span> <span class="st">"~/OneDrive/EMF_datasets/AllometryDatabases/Products/harmonized"</span></span></code></pre></div>
 <p>We can list the set of harmonized sources using:</p>
