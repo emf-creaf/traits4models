@@ -143,31 +143,11 @@ Species matching is performed between column `Species` of the tree or shrub data
 
 ## Filling allometric coefficients
 
-### List of harmonized allometry databases
-
 As mentioned in the introduction, here it is assumed that a set of plant allometry databases have been harmonized. In our case, harmonized data files have been stored as **.rds** or **.csv** files in the following path:
 
 ```{r}
 harmonized_allometry_path = "~/OneDrive/EMF_datasets/AllometryDatabases/Products/harmonized"
 ```
-
-We can list the set of harmonized sources using:
-```{r}
-allometry_files <- list.files(path = harmonized_allometry_path, full.names = FALSE)
-allometry_files
-```
-
-### Querying allometry data for particular response
-
-Before filling any species parameter table, it may be useful to inspect the amount of information available for particular response. Package **trait4models** provides function `get_allometry_data()`:
-
-```{r}
-fb_data <- get_allometry_data(harmonized_allometry_path, "FoliarBiomass",
-                           progress = FALSE)
-head(fb_data)
-```
-
-### Parameter filling
 
 Function `fill_medfate_allometries()` performs trait parameter filling for **medfate** using the available data:
 

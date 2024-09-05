@@ -13,15 +13,7 @@ params:
 
 ## Introduction
 
-Species parameter values cannot be drawn from a single data source. Moreover, the availability of plant trait data continuously increases, as additional efforts are made in observational or experimental studies [@Kattge2020]. This means that multiple data sources need to be harmonized before species parameter tables are build, in terms of:
 
-    a) Nomenclature of measured variables.
-    b) Measurement units.
-    c) Taxonomy of the measured biological entities. 
-
-The result of this harmonization needs to be stored in a harmonized format for subsequent use when creating species parameter tables. This vignette illustrates the harmonization procedures for an example data set using package **trait4models** and the usual **tidyverse** packages. Harmonization of allometric equations follows an analogous procedure, which will not be illustrated here.
-
->**IMPORTANT**: This vignette is not self-contained, in the sense that it cannot be reproduced without access to data sets that are not included. Nevertheless, it is intended to serve as example of species parameterization for other regions.
 
 ### Required packages
 
@@ -35,11 +27,11 @@ library(readr)
 
 ### Example dataset
 
-As example for the harmonization process, here we will use data from a Bartlett et al. [-@Bartlett2016]. Much larger data sets can (and should) be processed, but they take much more time. Bartlett et al. provide traits that describe the leaf/stem/root hydraulic vulnerability curves of several species as well as water potential corresponding to stomatal aperture. We start by loading the dataset:
 
 ```{r, message=FALSE}
-DB_path <- "~/OneDrive/EMF_datasets/PlantTraitDatabases/"
-db <- readr::read_csv(paste0(DB_path, "Sources/Bartlett_et_al_2016/pnas.1604088113.sd01.csv"))
+DB_path <- "~/OneDrive/EMF_datasets/AllometryDatabases/"
+db <- openxlsx::read.xlsx(paste0(DB_path, "Sources/TreeAllometries/TreeAllometries.xlsx"),
+                                 sheet= "Tree_CR_models")
 ```
 
 The data looks as follows:
@@ -48,44 +40,33 @@ db
 ```
 
 
-## Harmonizing notation and measurement units
-
-The first steps to be done are to harmonize trait notation, i.e. how plant traits are referred to, and if necessary, change their units. Package **traits4models** includes a data table called `HarmonizedTraitDefinition` that presents plant trait definitions and their required notation and units:
-
-
-```{r, echo = FALSE}
-data("HarmonizedTraitDefinition")
-knitr::kable(HarmonizedTraitDefinition)
-```
-
-In the case of Bartlett's dataset we are interested in points of the vulnerability curve and stomatal behavior. We can check their corresponding names in `HarmonizedTraitDefinition`. For example, `Leaf P50 (MPa)` is the water potential corresponding to the 50% conductance loss in leaves, and should be named `VCleaf_P50` according to `HarmonizedTraitDefinition`, and so on. We can use **dplyr** function `rename()` to harmonize trait notation. In this case, all plant traits we are interested in are given in units of MPa, and `HarmonizedTraitDefinition` reports the same units for these traits, so there is no need to harmonize measurement units. The code for notation harmonization could be as follows:
+## Harmonizing equations and notation
 
 ```{r}
 db_var <- db |>
-  dplyr::select(Name, "Leaf P50 (MPa)", "Stem P50 (MPa)", "Stem P88 (MPa)", "Stem P12 (MPa)", 
-                "Root P50 (MPa)", "Gs P50 (MPa)", "Gs 95 (MPa)") |>
-  dplyr::rename(originalName = Name,
-                VCleaf_P50 = "Leaf P50 (MPa)",
-                VCstem_P50 = "Stem P50 (MPa)",
-                VCstem_P12 = "Stem P12 (MPa)",
-                VCstem_P88 = "Stem P88 (MPa)",
-                VCroot_P50 = "Root P50 (MPa)",
-                Gs_P50 = "Gs P50 (MPa)",
-                Gs_P95 = "Gs 95 (MPa)") 
-```
-
-Note that we also renamed the column containing the plant species into `originalName`. The original name represents the taxon name that is used by the data set owner/provider and is key for taxonomic harmonization. The result of this step should contain `originalName`, plus one column for each harmonized trait, and (preferably) two columns called `Reference` and `Priority`. We can add those columns manually using:
-
-```{r}
-db_var <- db_var |>
-  dplyr::mutate(Reference = "Bartlett et al. (2016)",
-                Priority = 3)
-```
-
-Column `Reference` indicates the bibliographic source of the data, whereas `Priority` allows defining an order in which trait data sources will be processed. Those with highest priority order (lowest value of `Priority`) will be given preference.
-
-```{r}
-db_var
+  dplyr::rename(originalName = "Name",
+                a = "a_cr",
+                b = "b_1cr",
+                c = "b_2cr",
+                d = "b_3cr",
+                e = "c_1cr",
+                f = "c_2cr",
+                Reference = "Source") |>
+  dplyr::mutate(Equation = "CrownRatio = 1/(1 + exp(a + b·HD + c·(H/100) + d·DBH^2 + e·BAL + f·ln(CCF)))",
+                Response = "CrownRatio",
+                ResponseDescription = "Crown ratio",
+                Predictor1 = "HD",
+                PredictorDescription1 = "Height-diameter ratio (m·m-1)",
+                Predictor2 = "H",
+                PredictorDescription2 = "Tree height (m)",
+                Predictor3 = "DBH",
+                PredictorDescription3 = "Diameter at breast height (cm)",
+                Predictor4 = "BAL",
+                PredictorDescription4 = "Basal area of larger trees",
+                Predictor5 = "CCF",
+                PredictorDescription5 = "Crown competition factor",
+                Priority = 1) |>
+  dplyr::relocate(Reference, .after = PredictorDescription5)
 ```
 
 
@@ -94,7 +75,7 @@ db_var
 Package **traits4models** currently relies on [World Flora Online](https://www.worldfloraonline.org/) for taxonomic harmonization, via package **WorldFlora** [@kindt_worldflora_2020] available at [CRAN](https://cran.r-project.org/package=WorldFlora). This latter package requires a static copy of the World Flora Online Taxonomic Backbone data that can be downloaded from the [World Flora Online](https://www.worldfloraonline.org/) website. Note that you should use a different DOI reference when reporting your harmonization procedures. We are using here [v.2024.06](https://doi.org/10.5281/zenodo.7460141). We assume the user has already downloaded the backbone and stored it in a file called *classification.csv*. 
 
 ```{r}
-WFO_file <- paste0(DB_path, "WFO_Backbone/classification.csv")
+WFO_file <- paste0(DB_path, "../PlantTraitDatabases/WFO_Backbone/classification.csv")
 ```
 
 Taxonomic harmonization is done by calling function `harmonize_taxonomy_WFO()` with a data frame (where notation and units are already harmonized) and the path to the WFO backbone (we omit the console output):
@@ -113,19 +94,18 @@ The function requires that the input data frame contains a column called `origin
 head(db_post)
 ```
 
+## Checking harmonized allometry data
 
-## Checking harmonized trait data
-
-The packages includes function `check_harmonized_trait()` to check whether a given data frame conforms in structure and content to what is later required for parameter table filling:
+The packages includes function `check_harmonized_allometry()` to check whether a given data frame conforms in structure and content to what is later required for parameter table filling:
 
 ```{r}
-check_harmonized_trait(db_post)
+check_harmonized_allometry(db_post)
 ```
 
 In this case, the data set is ready to be used in parameter estimation. As an example, we can run the same checking function with the data base before taxonomic harmonization:
 
 ```{r}
-check_harmonized_trait(db_var)
+check_harmonized_allometry(db_var)
 ```
 
 ## Storing harmonized dataset
@@ -133,42 +113,34 @@ check_harmonized_trait(db_var)
 Harmonized data tables should be preferably stored in compressed **.rds** format. Moreover, all tables should be stored in the same directory, here in the `Products/harmonized/` path.
 
 ```{r, eval = FALSE}
-file_out <- paste0(DB_path, "Products/harmonized/Bartlett_et_al_2016.rds")
-saveRDS(db_post, file_out)
+write.csv2(db_post, "Products/harmonized/tree_crown_ratio_europe.csv", row.names = FALSE)
 ```
 
-## Accessing harmonized trait data
+## Accessing harmonized allometry data
 
-### List of harmonized trait databases
+### List of harmonized allometry databases
 
-As mentioned in the introduction, here it is assumed that a set of plant trait databases have been harmonized. In our case, harmonized data files have been stored as **.rds** files in the following path:
+As mentioned in the introduction, here it is assumed that a set of plant allometry databases have been harmonized. In our case, harmonized data files have been stored as **.rds** or **.csv** files in the following path:
 
 ```{r}
-harmonized_trait_path <- "~/OneDrive/EMF_datasets/PlantTraitDatabases/Products/harmonized"
+harmonized_allometry_path = "~/OneDrive/EMF_datasets/AllometryDatabases/Products/harmonized"
 ```
 
 We can list the set of harmonized sources using:
 ```{r}
-trait_files <- list.files(path = harmonized_trait_path, full.names = FALSE)
-trait_files
+allometry_files <- list.files(path = harmonized_allometry_path, full.names = FALSE)
+allometry_files
 ```
 
-### Querying data for particular traits or species
+### Querying allometry data for particular response variable
 
-Before filling any species parameter table, it may be useful to inspect the amount of information available for particular traits or species. Package **trait4models** provides a couple of utility functions for this. For example, we can load all values for Gswmin, the minimum stomatal conductance, using function `get_trait_data()`:
+Before filling any species parameter table, it may be useful to inspect the amount of information available for particular response. Package **trait4models** provides function `get_allometry_data()`:
 
 ```{r}
-gsmin_data <- get_trait_data(harmonized_trait_path, "Gswmin",
+fb_data <- get_allometry_data(harmonized_allometry_path, "FoliarBiomass",
                            progress = FALSE)
-head(gsmin_data)
+head(fb_data)
 ```
 
-Analogously, if we are interested in querying trait information for a particular taxa, we can use function `get_taxon_data()`:
-
-```{r}
-ph_data <- get_taxon_data(harmonized_trait_path, "Pinus halepensis",
-                          progress = FALSE)
-head(ph_data)
-```
 
 ## References
