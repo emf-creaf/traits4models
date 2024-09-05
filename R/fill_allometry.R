@@ -69,15 +69,36 @@ populate_shrub_allometries_from_medfuels<-function(SpParams,
 }
 
 
+.fill_allometry_table<-function(SpParams,
+                                allom_table,
+                                allom_vars,
+                                target_params) {
+  for(i in 1:nrow(SpParams)) {
+    nm = SpParams$AcceptedName[i]
+    ## Find species
+    allom_row <- NA
+    found <- FALSE
+    if(nm %in% allom_table$acceptedName) { # Species level
+      allom_row <- which(allom_table$acceptedName==nm)
+      found <- TRUE
+    }
+    if(found) {
+      SpParams[i, target_params] <- allom_table[allom_row[1], allom_vars]
+    }
+  }
+  return(SpParams)
+}
 
-#' Populate tree species allometries
+#' Fill plant allometries
 #'
-#' Internal functions to populates allometric coefficients for tree species and genus of an input parameter table on the basis of their
+#' Function to populate allometric coefficients for taxa of an input parameter table on the basis of their
 #' accepted name.
 #'
 #' @param SpParams A data frame of medfate species parameters to be populated
-#' @param allom_table A data frame of allometric parameters in columns and taxonomic entities (species or genus) as row names.
-#' @param allom_type A string with the type of allometry to be filled, either "foliarbiomass", "barkthickness", "crownwidth" or "crownratio".
+#' @param harmonized_trait_path The path to harmonized trait data files (.rds or .csv format).
+#' @param priorization A boolean flag to perform priorization of some data sources over others.
+#' @param replace_previous A boolean flag to indicate that non-missing previous values should be replaced with new data
+#' @param erase_previous A boolean flag to indicate that all previous values should be set to NA before populating with new data
 #' @param progress A boolean flag to prompt progress.
 #' @param verbose A boolean flag to indicate extra console output.
 #'
@@ -98,43 +119,27 @@ fill_medfate_allometries<-function(SpParams,
 
   priority_column <- NULL
   if(priorization) priority_column <- "Priority"
-  for(response in c("FoliarBiomass", "BarkThickness", "CrownRatio", "CrownWidth")) {
+  cli::cli_progress_step("Processing response: FoliarBiomass")
+  response_data <- get_allometry_data(harmonized_allometry_path, response = "FoliarBiomass", progress = FALSE)
+  allom_table <-response_data |>
+    dplyr::filter(Equation == "FoliarBiomass = a·DBH^b·exp(c·BAL)·DBH^(d·BAL)")
+  if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table, c("a", "b", "c"), c("a_fbt", "b_fbt", "c_fbt"))
+  allom_table <-response_data |>
+    dplyr::filter(Equation == "FoliarBiomass = a·DBH^b·exp(c·BAL)")
+  if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table, c("a", "b", "c"), c("a_fbt", "b_fbt", "c_fbt"))
+  allom_table <-response_data |>
+    dplyr::filter(Equation == "FoliarBiomass = a·DBH^b")
+  if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table, c("a", "b"), c("a_fbt", "b_fbt"))
 
-  }
-
-}
-
-fill_medfate_allometries<-function(SpParams,
-                                   allom_table,
-                                   allom_type = "foliarbiomass",
-                                   progress = TRUE, verbose = FALSE) {
-  if(!inherits(SpParams, "data.frame")) cli::cli_abort("SpParams should be a species parameter data frame")
-  if(!inherits(allom_table, "data.frame")) cli::cli_abort("allom_table should be a data frame")
-  allom_type <- match.arg(allom_type, c("foliarbiomass", "barkthickness","crownratio","crownwidth"))
-  if(allom_type=="foliarbiomass") {
-    allom_vars <- c("a_fbt","b_fbt","c_fbt")
-  } else if(allom_type=="barkthickness") {
-    allom_vars <- c("a_bt","b_bt")
-  } else if(allom_type=="crownratio") {
-    allom_vars <- c("a_cr","b_1cr","b_2cr","b_3cr","c_1cr","c_2cr")
-  } else if(allom_type=="crownwidth") {
-    allom_vars <- c("a_cw","b_cw")
-  }
-  if(sum(names(allom_table) %in% allom_vars)!=length(allom_vars)) cli::cli_abort("Allometry table should contain all requested vars!")
-
-  allom_names <- row.names(allom_table)
-  for(i in 1:nrow(SpParams)) {
-    nm = SpParams$AcceptedName[i]
-    ## Find species
-    allom_row <- NA
-    found <- FALSE
-    if(nm %in% allom_names) { # Species level
-      allom_row <- which(allom_names==nm)
-      found <- TRUE
-    }
-    if(found) {
-      SpParams[i, allom_vars] <- allom_table[allom_row, allom_vars]
-    }
-  }
+  cli::cli_progress_step("Processing response: CrownRatio")
+  response_data <- get_allometry_data(harmonized_allometry_path, response = "CrownRatio", progress = FALSE)
+  allom_table <-response_data |>
+    dplyr::filter(Equation == "CrownRatio = 1/(1 + exp(a + b·HD + c·(H/100) + d·DBH^2 + e·BAL + f·ln(CCF)))")
+  if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
+                                                              c("a", "b", "c", "d", "e", "f"),
+                                                              c("a_cr", "b_1cr", "b_2cr", "b_3cr", "c_1cr", "c_2cr"))
+  cli::cli_process_done()
   return(SpParams)
 }
+
+

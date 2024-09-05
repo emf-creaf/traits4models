@@ -44,6 +44,9 @@
 #'  # Load all harmonized allometry data
 #'  l <- load_harmonized_allometry_tables(harmonized_allometry_path)
 #'  head(l[[1]])
+#'
+#'  # Get allometry data for one specific response
+#'  get_allometry_data(harmonized_allometry_path, "FoliarBiomass")
 #'}
 load_harmonized_trait_tables <- function(harmonized_trait_path, progress = TRUE) {
   trait_files_short <- list.files(path = harmonized_trait_path, full.names = FALSE)
@@ -137,6 +140,26 @@ get_trait_data <- function(harmonized_trait_path,
   return(trait_table)
 }
 
+#' @export
+#' @rdname get_trait_data
+get_allometry_data <-function(harmonized_allometry_path,
+                              response, progress = TRUE) {
+  if(progress) cli::cli_progress_step("Loading harmonized source allometry tables")
+  allom_tables <- load_harmonized_allometry_tables(harmonized_allometry_path, progress = progress)
+  if(progress) cli::cli_progress_step(paste0("Filtering for allometry: ", response))
+  response_tables <- vector("list", length(allom_tables))
+  for(i in 1:length(allom_tables)) {
+    tab <- allom_tables[[i]]
+    tab <- tab[tab$Response == response, , drop =FALSE]
+    if(nrow(tab)>0) response_tables[[i]] <- tab
+  }
+  if(progress) cli::cli_progress_done()
+  allometry_response_table <- dplyr::bind_rows(response_tables)
+  if(nrow(allometry_response_table)==0) {
+    cli::cli_inform(paste0("Allometry data not found for: ", response))
+  }
+  return(allometry_response_table)
+}
 
 #' @export
 #' @rdname get_trait_data

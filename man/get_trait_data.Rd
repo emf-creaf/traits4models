@@ -4,6 +4,7 @@
 \alias{get_trait_data}
 \alias{load_harmonized_trait_tables}
 \alias{load_harmonized_allometry_tables}
+\alias{get_allometry_data}
 \alias{get_taxon_data}
 \title{Load harmonized trait/allometry data}
 \usage{
@@ -17,6 +18,8 @@ get_trait_data(
   is_numeric = TRUE,
   progress = TRUE
 )
+
+get_allometry_data(harmonized_allometry_path, response, progress = TRUE)
 
 get_taxon_data(harmonized_trait_path, accepted_name, progress = TRUE)
 }
@@ -69,5 +72,8 @@ Both functions will add \code{Priority = 1} to those trait data sources where \c
  # Load all harmonized allometry data
  l <- load_harmonized_allometry_tables(harmonized_allometry_path)
  head(l[[1]])
+
+ # Get allometry data for one specific response
+ get_allometry_data(harmonized_allometry_path, "FoliarBiomass")
 }
 }

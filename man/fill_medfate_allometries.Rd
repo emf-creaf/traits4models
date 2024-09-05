@@ -3,12 +3,14 @@
 \encoding{UTF-8}
 \name{fill_medfate_allometries}
 \alias{fill_medfate_allometries}
-\title{Populate tree species allometries}
+\title{Fill plant allometries}
 \usage{
 fill_medfate_allometries(
   SpParams,
-  allom_table,
-  allom_type = "foliarbiomass",
+  harmonized_allometry_path,
+  priorization = TRUE,
+  erase_previous = TRUE,
+  replace_previous = TRUE,
   progress = TRUE,
   verbose = FALSE
 )
@@ -16,19 +18,23 @@ fill_medfate_allometries(
 \arguments{
 \item{SpParams}{A data frame of medfate species parameters to be populated}
 
-\item{allom_table}{A data frame of allometric parameters in columns and taxonomic entities (species or genus) as row names.}
+\item{priorization}{A boolean flag to perform priorization of some data sources over others.}
 
-\item{allom_type}{A string with the type of allometry to be filled, either "foliarbiomass", "barkthickness", "crownwidth" or "crownratio".}
+\item{erase_previous}{A boolean flag to indicate that all previous values should be set to NA before populating with new data}
+
+\item{replace_previous}{A boolean flag to indicate that non-missing previous values should be replaced with new data}
 
 \item{progress}{A boolean flag to prompt progress.}
 
 \item{verbose}{A boolean flag to indicate extra console output.}
+
+\item{harmonized_trait_path}{The path to harmonized trait data files (.rds or .csv format).}
 }
 \value{
 A modified data frame of medfate species parameters
 }
 \description{
-Internal functions to populates allometric coefficients for tree species and genus of an input parameter table on the basis of their
+Function to populate allometric coefficients for taxa of an input parameter table on the basis of their
 accepted name.
 }
 \seealso{
