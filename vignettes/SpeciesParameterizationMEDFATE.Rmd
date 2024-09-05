@@ -148,7 +148,7 @@ Species matching is performed between column `Species` of the tree or shrub data
 As mentioned in the introduction, here it is assumed that a set of plant allometry databases have been harmonized. In our case, harmonized data files have been stored as **.rds** or **.csv** files in the following path:
 
 ```{r}
-allom_path = "~/OneDrive/EMF_datasets/AllometryDatabases/"
+harmonized_allometry_path = "~/OneDrive/EMF_datasets/AllometryDatabases/Products/harmonized"
 ```
 
 We can list the set of harmonized sources using:
@@ -178,39 +178,11 @@ SpParams<- traits4models::fill_medfate_allometries(SpParams, harmonized_allometr
 
 ## Filling parameters from harmonized trait databases
 
-### List of harmonized trait databases
-
-As mentioned in the introduction, here it is assumed that a set of plant trait databases have been harmonized. In our case, harmonized data files have been stored as **.rds** files in the following path:
+As mentioned in the introduction, here it is assumed that a set of plant trait databases have been harmonized. In our case, harmonized data files have been stored as **.rds** or **.csv** files in the following path:
 
 ```{r}
 harmonized_trait_path <- "~/OneDrive/EMF_datasets/PlantTraitDatabases/Products/harmonized"
 ```
-
-We can list the set of harmonized sources using:
-```{r}
-trait_files <- list.files(path = harmonized_trait_path, full.names = FALSE)
-trait_files
-```
-### Querying data for particular traits or species
-
-Before filling any species parameter table, it may be useful to inspect the amount of information available for particular traits or species. Package **trait4models** provides a couple of utility functions for this. For example, we can load all values for Gswmin, the minimum stomatal conductance, using function `get_trait_data()`:
-
-```{r}
-sla_data <- get_trait_data(harmonized_trait_path, "Gswmin",
-                           progress = FALSE)
-head(sla_data)
-```
-
-Analogously, if we are interested in querying trait information for a particular taxa, we can use function `get_taxon_data()`:
-
-```{r}
-ph_data <- get_taxon_data(harmonized_trait_path, "Pinus halepensis",
-                          progress = FALSE)
-head(ph_data)
-```
-
-
-### Parameter filling
 
 Function `fill_medfate_traits()` performs trait parameter filling for **medfate** using the available data:
 

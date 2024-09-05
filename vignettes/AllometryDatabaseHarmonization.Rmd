@@ -1,5 +1,5 @@
 ---
-title: "Trait database harmonization"
+title: "Allometry database harmonization"
 author: "Miquel De Cáceres / Nicolas Martin-StPaul"
 date: "`r Sys.Date()`"
 output: 

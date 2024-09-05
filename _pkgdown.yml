@@ -20,10 +20,12 @@ navbar:
       - text: Data preparation
       - text: Trait database harmonization
         href: articles/TraitDatabaseHarmonization.html
+      - text: Allometry database harmonization
+        href: articles/AllometryDatabaseHarmonization.html
       - text: -------
       - text: Building species parameter tables
       - text: Building species parameter tables for medfate
-        href: articles/SpeciesParameterization.html
+        href: articles/SpeciesParameterizationMEDFATE.html
 
 reference:
 - title: Trait and allometry database harmonization
