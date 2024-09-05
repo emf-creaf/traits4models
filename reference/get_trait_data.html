@@ -20,9 +20,10 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><h6 class="dropdown-header" data-toc-skip>Data preparation</h6></li>
     <li><a class="dropdown-item" href="../articles/TraitDatabaseHarmonization.html">Trait database harmonization</a></li>
+    <li><a class="dropdown-item" href="../articles/AllometryDatabaseHarmonization.html">Allometry database harmonization</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Building species parameter tables</h6></li>
-    <li><a class="dropdown-item" href="../articles/SpeciesParameterization.html">Building species parameter tables for medfate</a></li>
+    <li><a class="dropdown-item" href="../articles/SpeciesParameterizationMEDFATE.html">Building species parameter tables for medfate</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -55,6 +56,8 @@
 <span>  is_numeric <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  progress <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_allometry_data</span><span class="op">(</span><span class="va">harmonized_allometry_path</span>, <span class="va">response</span>, progress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">get_taxon_data</span><span class="op">(</span><span class="va">harmonized_trait_path</span>, <span class="va">accepted_name</span>, progress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -119,6 +122,9 @@
 <span class="r-in"><span> <span class="co"># Load all harmonized allometry data</span></span></span>
 <span class="r-in"><span> <span class="va">l</span> <span class="op">&lt;-</span> <span class="fu">load_harmonized_allometry_tables</span><span class="op">(</span><span class="va">harmonized_allometry_path</span><span class="op">)</span></span></span>
 <span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">l</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span> <span class="co"># Get allometry data for one specific response</span></span></span>
+<span class="r-in"><span> <span class="fu">get_allometry_data</span><span class="op">(</span><span class="va">harmonized_allometry_path</span>, <span class="st">"FoliarBiomass"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

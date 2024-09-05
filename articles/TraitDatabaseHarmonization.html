@@ -41,9 +41,10 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><h6 class="dropdown-header" data-toc-skip>Data preparation</h6></li>
     <li><a class="dropdown-item" href="../articles/TraitDatabaseHarmonization.html">Trait database harmonization</a></li>
+    <li><a class="dropdown-item" href="../articles/AllometryDatabaseHarmonization.html">Allometry database harmonization</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Building species parameter tables</h6></li>
-    <li><a class="dropdown-item" href="../articles/SpeciesParameterization.html">Building species parameter tables for medfate</a></li>
+    <li><a class="dropdown-item" href="../articles/SpeciesParameterizationMEDFATE.html">Building species parameter tables for medfate</a></li>
   </ul>
 </li>
       </ul>
@@ -159,10 +160,10 @@ Package <strong>traits4models</strong> includes a data table called
 definitions and their required notation and units:</p>
 <table class="table">
 <colgroup>
-<col width="72%">
-<col width="9%">
+<col width="65%">
+<col width="17%">
 <col width="4%">
-<col width="13%">
+<col width="11%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">Definition</th>
@@ -556,7 +557,7 @@ content, LDMC)</td>
 <td align="left">%</td>
 </tr>
 <tr class="even">
-<td align="left">Barck thickness</td>
+<td align="left">Bark thickness</td>
 <td align="left">BarkThickness</td>
 <td align="left">Numeric</td>
 <td align="left">mm</td>
@@ -572,6 +573,46 @@ content, LDMC)</td>
 <td align="left">SeedMass</td>
 <td align="left">Numeric</td>
 <td align="left">mg</td>
+</tr>
+<tr class="odd">
+<td align="left">Succulence (g of water /m2 of projected leaf)</td>
+<td align="left">LeafSucculence</td>
+<td align="left">Numeric</td>
+<td align="left">g/m2</td>
+</tr>
+<tr class="even">
+<td align="left">Leaf projected to half developed area (m2/m2)</td>
+<td align="left">LeafProjectedToHalfDevelopedArea</td>
+<td align="left">Numeric</td>
+<td align="left">m2/m2</td>
+</tr>
+<tr class="odd">
+<td align="left">Minimum conductance of the leaf to water vapor on
+developed area basis (including cuticule and stomatal leakiness)</td>
+<td align="left">GminLeaf</td>
+<td align="left">Numeric</td>
+<td align="left">mmolm-2s-1</td>
+</tr>
+<tr class="even">
+<td align="left">Q10 of the initial gmin response to temperature (before
+Tp)</td>
+<td align="left">Q10gminPhase1</td>
+<td align="left">Numeric</td>
+<td align="left">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Q10 of the initial gmin response to temperature (after
+Tp)</td>
+<td align="left">Q10gminPhase2</td>
+<td align="left">Numeric</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Transition phase for gmin dependence to
+temperature</td>
+<td align="left">GminTransitionPhase</td>
+<td align="left">Numeric</td>
+<td align="left">C</td>
 </tr>
 </tbody>
 </table>
@@ -702,6 +743,205 @@ path.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">file_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">DB_path</span>, <span class="st">"Products/harmonized/Bartlett_et_al_2016.rds"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">db_post</span>, <span class="va">file_out</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="accessing-harmonized-trait-data">Accessing harmonized trait data<a class="anchor" aria-label="anchor" href="#accessing-harmonized-trait-data"></a>
+</h2>
+<div class="section level3">
+<h3 id="list-of-harmonized-trait-databases">List of harmonized trait databases<a class="anchor" aria-label="anchor" href="#list-of-harmonized-trait-databases"></a>
+</h3>
+<p>As mentioned in the introduction, here it is assumed that a set of
+plant trait databases have been harmonized. In our case, harmonized data
+files have been stored as <strong>.rds</strong> files in the following
+path:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">harmonized_trait_path</span> <span class="op">&lt;-</span> <span class="st">"~/OneDrive/EMF_datasets/PlantTraitDatabases/Products/harmonized"</span></span></code></pre></div>
+<p>We can list the set of harmonized sources using:</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">trait_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">harmonized_trait_path</span>, full.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">trait_files</span></span></code></pre></div>
+<pre><code><span><span class="co">##   [1] "00_compilation_CCfineroot.rds"                          </span></span>
+<span><span class="co">##   [2] "00_compilation_CCleaf.rds"                              </span></span>
+<span><span class="co">##   [3] "00_compilation_CCsapwood.rds"                           </span></span>
+<span><span class="co">##   [4] "00_compilation_FineFuelRatio.rds"                       </span></span>
+<span><span class="co">##   [5] "00_compilation_Flammability_HeatContent.rds"            </span></span>
+<span><span class="co">##   [6] "00_compilation_Flammability_SAV.rds"                    </span></span>
+<span><span class="co">##   [7] "00_compilation_Phenology_Budburst.rds"                  </span></span>
+<span><span class="co">##   [8] "00_compilation_Phenology_Senescence.rds"                </span></span>
+<span><span class="co">##   [9] "Baez_et_al_2022_BarkThickness.rds"                      </span></span>
+<span><span class="co">##  [10] "Baez_et_al_2022_GrowthForm.rds"                         </span></span>
+<span><span class="co">##  [11] "Baez_et_al_2022_Ks.rds"                                 </span></span>
+<span><span class="co">##  [12] "Baez_et_al_2022_LDMC.rds"                               </span></span>
+<span><span class="co">##  [13] "Baez_et_al_2022_LeafArea.rds"                           </span></span>
+<span><span class="co">##  [14] "Baez_et_al_2022_Nleaf.rds"                              </span></span>
+<span><span class="co">##  [15] "Baez_et_al_2022_SLA.rds"                                </span></span>
+<span><span class="co">##  [16] "Baez_et_al_2022_WoodDensity.rds"                        </span></span>
+<span><span class="co">##  [17] "Bartlett_et_al_2012.rds"                                </span></span>
+<span><span class="co">##  [18] "Bartlett_et_al_2016.rds"                                </span></span>
+<span><span class="co">##  [19] "Bjorkman_et_al_2018_Hact.rds"                           </span></span>
+<span><span class="co">##  [20] "Bjorkman_et_al_2018_LDMC.rds"                           </span></span>
+<span><span class="co">##  [21] "Bjorkman_et_al_2018_LeafArea.rds"                       </span></span>
+<span><span class="co">##  [22] "Bjorkman_et_al_2018_Nleaf.rds"                          </span></span>
+<span><span class="co">##  [23] "Bjorkman_et_al_2018_SeedMass.rds"                       </span></span>
+<span><span class="co">##  [24] "Bjorkman_et_al_2018_SLA.rds"                            </span></span>
+<span><span class="co">##  [25] "Bjorkman_et_al_2018_Z95.rds"                            </span></span>
+<span><span class="co">##  [26] "Chianucci_et_al_2018_LeafAngle.rds"                     </span></span>
+<span><span class="co">##  [27] "Choat_et_al_2012_XFT.rds"                               </span></span>
+<span><span class="co">##  [28] "Duursma_et_al_2018.rds"                                 </span></span>
+<span><span class="co">##  [29] "Falster_et_al_2021_Al2As.rds"                           </span></span>
+<span><span class="co">##  [30] "Falster_et_al_2021_Hact.rds"                            </span></span>
+<span><span class="co">##  [31] "Falster_et_al_2021_Jmax.rds"                            </span></span>
+<span><span class="co">##  [32] "Falster_et_al_2021_Ks.rds"                              </span></span>
+<span><span class="co">##  [33] "Falster_et_al_2021_LeafAngle.rds"                       </span></span>
+<span><span class="co">##  [34] "Falster_et_al_2021_LeafArea.rds"                        </span></span>
+<span><span class="co">##  [35] "Falster_et_al_2021_LeafDensity.rds"                     </span></span>
+<span><span class="co">##  [36] "Falster_et_al_2021_LeafDuration.rds"                    </span></span>
+<span><span class="co">##  [37] "Falster_et_al_2021_LeafEPS.rds"                         </span></span>
+<span><span class="co">##  [38] "Falster_et_al_2021_LeafPI0.rds"                         </span></span>
+<span><span class="co">##  [39] "Falster_et_al_2021_LeafShape.rds"                       </span></span>
+<span><span class="co">##  [40] "Falster_et_al_2021_LeafWidth.rds"                       </span></span>
+<span><span class="co">##  [41] "Falster_et_al_2021_LifeForm.rds"                        </span></span>
+<span><span class="co">##  [42] "Falster_et_al_2021_Nsapwood.rds"                        </span></span>
+<span><span class="co">##  [43] "Falster_et_al_2021_SeedMass.rds"                        </span></span>
+<span><span class="co">##  [44] "Falster_et_al_2021_SLA.rds"                             </span></span>
+<span><span class="co">##  [45] "Falster_et_al_2021_SRL.rds"                             </span></span>
+<span><span class="co">##  [46] "Falster_et_al_2021_StemEPS.rds"                         </span></span>
+<span><span class="co">##  [47] "Falster_et_al_2021_VCstem_P12.rds"                      </span></span>
+<span><span class="co">##  [48] "Falster_et_al_2021_VCstem_P50.rds"                      </span></span>
+<span><span class="co">##  [49] "Falster_et_al_2021_VCstem_P88.rds"                      </span></span>
+<span><span class="co">##  [50] "Falster_et_al_2021_Vmax.rds"                            </span></span>
+<span><span class="co">##  [51] "Falster_et_al_2021_WoodDensity.rds"                     </span></span>
+<span><span class="co">##  [52] "Guerrero_Ramirez_et_al_2021_GRooT_FineRootDensity.rds"  </span></span>
+<span><span class="co">##  [53] "Guerrero_Ramirez_et_al_2021_GRooT_Nfineroot.rds"        </span></span>
+<span><span class="co">##  [54] "Guerrero_Ramirez_et_al_2021_GRooT_RootingDepth.rds"     </span></span>
+<span><span class="co">##  [55] "Guerrero_Ramirez_et_al_2021_GRooT_SRL.rds"              </span></span>
+<span><span class="co">##  [56] "Guillemot_et_al_2022.rds"                               </span></span>
+<span><span class="co">##  [57] "Henry_et_al_2019.rds"                                   </span></span>
+<span><span class="co">##  [58] "Hoshika_et_al_2018.rds"                                 </span></span>
+<span><span class="co">##  [59] "Kattge_et_al_2020_DispersalMode.rds"                    </span></span>
+<span><span class="co">##  [60] "Kattge_et_al_2020_GrowthForm.rds"                       </span></span>
+<span><span class="co">##  [61] "Kattge_et_al_2020_Hact.rds"                             </span></span>
+<span><span class="co">##  [62] "Kattge_et_al_2020_Jmax.rds"                             </span></span>
+<span><span class="co">##  [63] "Kattge_et_al_2020_LeafAngle.rds"                        </span></span>
+<span><span class="co">##  [64] "Kattge_et_al_2020_LeafArea.rds"                         </span></span>
+<span><span class="co">##  [65] "Kattge_et_al_2020_LeafDensity.rds"                      </span></span>
+<span><span class="co">##  [66] "Kattge_et_al_2020_LeafDuration.rds"                     </span></span>
+<span><span class="co">##  [67] "Kattge_et_al_2020_LeafEPS.rds"                          </span></span>
+<span><span class="co">##  [68] "Kattge_et_al_2020_LeafPI0.rds"                          </span></span>
+<span><span class="co">##  [69] "Kattge_et_al_2020_LeafShape.rds"                        </span></span>
+<span><span class="co">##  [70] "Kattge_et_al_2020_LeafWidth.rds"                        </span></span>
+<span><span class="co">##  [71] "Kattge_et_al_2020_LifeForm.rds"                         </span></span>
+<span><span class="co">##  [72] "Kattge_et_al_2020_LigninPercent.rds"                    </span></span>
+<span><span class="co">##  [73] "Kattge_et_al_2020_Nfineroot.rds"                        </span></span>
+<span><span class="co">##  [74] "Kattge_et_al_2020_Nleaf.rds"                            </span></span>
+<span><span class="co">##  [75] "Kattge_et_al_2020_Nsapwood.rds"                         </span></span>
+<span><span class="co">##  [76] "Kattge_et_al_2020_PhenologyType.rds"                    </span></span>
+<span><span class="co">##  [77] "Kattge_et_al_2020_SeedLongevity.rds"                    </span></span>
+<span><span class="co">##  [78] "Kattge_et_al_2020_SeedMass.rds"                         </span></span>
+<span><span class="co">##  [79] "Kattge_et_al_2020_ShadeTol.rds"                         </span></span>
+<span><span class="co">##  [80] "Kattge_et_al_2020_SLA.rds"                              </span></span>
+<span><span class="co">##  [81] "Kattge_et_al_2020_SRL.rds"                              </span></span>
+<span><span class="co">##  [82] "Kattge_et_al_2020_Vmax.rds"                             </span></span>
+<span><span class="co">##  [83] "Kattge_et_al_2020_WoodC.rds"                            </span></span>
+<span><span class="co">##  [84] "Kattge_et_al_2020_WoodDensity.rds"                      </span></span>
+<span><span class="co">##  [85] "Kattge_et_al_2020_Z95.rds"                              </span></span>
+<span><span class="co">##  [86] "Klein_et_al_2014.rds"                                   </span></span>
+<span><span class="co">##  [87] "Kunert_Tomaskova_2020.rds"                              </span></span>
+<span><span class="co">##  [88] "Lens_et_al_2016.rds"                                    </span></span>
+<span><span class="co">##  [89] "Lin_et_al_2015.rds"                                     </span></span>
+<span><span class="co">##  [90] "Liu_et_al_2019.rds"                                     </span></span>
+<span><span class="co">##  [91] "MartinStPaul_et_al_2017.rds"                            </span></span>
+<span><span class="co">##  [92] "Morris_et_al_2016.rds"                                  </span></span>
+<span><span class="co">##  [93] "Ocampo_Zuleta_Pausas_Paula_2023_FLAMITS_HeatContent.rds"</span></span>
+<span><span class="co">##  [94] "Petruzzellis_et_al_2021.rds"                            </span></span>
+<span><span class="co">##  [95] "Pisek_Adamson_2020_LeafAngle.rds"                       </span></span>
+<span><span class="co">##  [96] "Ramirez_Valiente_et_al_2020.rds"                        </span></span>
+<span><span class="co">##  [97] "Sjoman_et_al_2015.rds"                                  </span></span>
+<span><span class="co">##  [98] "Sjoman_et_al_2018.rds"                                  </span></span>
+<span><span class="co">##  [99] "Tavsanoglu_Pausas_2018_Hact.rds"                        </span></span>
+<span><span class="co">## [100] "Tavsanoglu_Pausas_2018_LDMC.rds"                        </span></span>
+<span><span class="co">## [101] "Tavsanoglu_Pausas_2018_LeafArea.rds"                    </span></span>
+<span><span class="co">## [102] "Tavsanoglu_Pausas_2018_LeafDuration.rds"                </span></span>
+<span><span class="co">## [103] "Tavsanoglu_Pausas_2018_LeafShape.rds"                   </span></span>
+<span><span class="co">## [104] "Tavsanoglu_Pausas_2018_LifeForm.rds"                    </span></span>
+<span><span class="co">## [105] "Tavsanoglu_Pausas_2018_pDead.rds"                       </span></span>
+<span><span class="co">## [106] "Tavsanoglu_Pausas_2018_PhenologyType.rds"               </span></span>
+<span><span class="co">## [107] "Tavsanoglu_Pausas_2018_SeedMass.rds"                    </span></span>
+<span><span class="co">## [108] "Tavsanoglu_Pausas_2018_SLA.rds"                         </span></span>
+<span><span class="co">## [109] "Tavsanoglu_Pausas_2018_WoodDensity.rds"                 </span></span>
+<span><span class="co">## [110] "Tavsanoglu_Pausas_2018_Z95.rds"                         </span></span>
+<span><span class="co">## [111] "Tumber_Davila_et_al_2022.rds"                           </span></span>
+<span><span class="co">## [112] "Vilagrosa_et_al_2014.rds"                               </span></span>
+<span><span class="co">## [113] "Wang_et_al_2022_CPTD.rds"                               </span></span>
+<span><span class="co">## [114] "Wang_et_al_2024.rds"                                    </span></span>
+<span><span class="co">## [115] "Wolfe_et_al_2023.rds"                                   </span></span>
+<span><span class="co">## [116] "Yan_et_al_2020.rds"                                     </span></span>
+<span><span class="co">## [117] "Yebra_et_al_2024_LFMC.rds"                              </span></span>
+<span><span class="co">## [118] "Zhu_et_al_2016.rds"                                     </span></span>
+<span><span class="co">## [119] "Zhu_et_al_2018.rds"</span></span></code></pre>
+</div>
+<div class="section level3">
+<h3 id="querying-data-for-particular-traits-or-species">Querying data for particular traits or species<a class="anchor" aria-label="anchor" href="#querying-data-for-particular-traits-or-species"></a>
+</h3>
+<p>Before filling any species parameter table, it may be useful to
+inspect the amount of information available for particular traits or
+species. Package <strong>trait4models</strong> provides a couple of
+utility functions for this. For example, we can load all values for
+Gswmin, the minimum stomatal conductance, using function
+<code><a href="../reference/get_trait_data.html">get_trait_data()</a></code>:</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">gsmin_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_trait_data.html">get_trait_data</a></span><span class="op">(</span><span class="va">harmonized_trait_path</span>, <span class="st">"Gswmin"</span>,</span>
+<span>                           progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">gsmin_data</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##       originalName     acceptedName acceptedNameAuthorship   family  genus</span></span>
+<span><span class="co">## 1       Abies alba       Abies alba                  Mill. Pinaceae  Abies</span></span>
+<span><span class="co">## 2 Abies lasiocarpa Abies lasiocarpa          (Hook.) Nutt. Pinaceae  Abies</span></span>
+<span><span class="co">## 3   Abies sibirica   Abies sibirica                 Ledeb. Pinaceae  Abies</span></span>
+<span><span class="co">## 4       Acacia koa       Acacia koa                 A.Gray Fabaceae Acacia</span></span>
+<span><span class="co">## 5  Acacia maidenii  Acacia maidenii               F.Muell. Fabaceae Acacia</span></span>
+<span><span class="co">## 6   Acacia mangium   Acacia mangium                 Willd. Fabaceae Acacia</span></span>
+<span><span class="co">##   specificEpithet taxonRank      Gswmin                         Reference</span></span>
+<span><span class="co">## 1            alba   species 0.001500000                Wang et al. (2024)</span></span>
+<span><span class="co">## 2      lasiocarpa   species 0.004779429         Boyce and Saunders (2000)</span></span>
+<span><span class="co">## 3        sibirica   species 0.003044600    Brodribb McAdam, et al. (2014)</span></span>
+<span><span class="co">## 4             koa   species 0.003800000 Pasquet-Kok Creese, et al. (2010)</span></span>
+<span><span class="co">## 5        maidenii   species 0.004200000      Warren Aranda, et al. (2011)</span></span>
+<span><span class="co">## 6         mangium   species 0.004750000      Warren Aranda, et al. (2011)</span></span>
+<span><span class="co">##   Priority</span></span>
+<span><span class="co">## 1        1</span></span>
+<span><span class="co">## 2        1</span></span>
+<span><span class="co">## 3        1</span></span>
+<span><span class="co">## 4        1</span></span>
+<span><span class="co">## 5        1</span></span>
+<span><span class="co">## 6        1</span></span></code></pre>
+<p>Analogously, if we are interested in querying trait information for a
+particular taxa, we can use function <code><a href="../reference/get_trait_data.html">get_taxon_data()</a></code>:</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ph_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_trait_data.html">get_taxon_data</a></span><span class="op">(</span><span class="va">harmonized_trait_path</span>, <span class="st">"Pinus halepensis"</span>,</span>
+<span>                          progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ph_data</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##        Trait        Value Units</span></span>
+<span><span class="co">## 1   LifeForm Phanerophyte  &lt;NA&gt;</span></span>
+<span><span class="co">## 2   LifeForm Phanerophyte  &lt;NA&gt;</span></span>
+<span><span class="co">## 3   LifeForm Phanerophyte  &lt;NA&gt;</span></span>
+<span><span class="co">## 4 GrowthForm         Tree  &lt;NA&gt;</span></span>
+<span><span class="co">## 5 GrowthForm         Tree  &lt;NA&gt;</span></span>
+<span><span class="co">## 8  LeafShape       Needle  &lt;NA&gt;</span></span>
+<span><span class="co">##                                                                                                                                                                                                                                Reference</span></span>
+<span><span class="co">## 1                                                           Sophie Gachet, Errol V\xe9la, Thierry Tatoni, 2005, BASECO: a floristic and ecological database of Mediterranean French flora. Biodiversity and Conservation 14(4):1023-1034</span></span>
+<span><span class="co">## 2 Dressler S, M Schmidt, G Zizka (2014) Introducing African Plants\x97A Photo Guide\x97An Interactive Photo Data-Base and Rapid Identification Tool for Continental Africa. Taxon 63(5) 1159-1161 DOI: http://dx.doi.org/10.12705/635.26</span></span>
+<span><span class="co">## 3                                                                                                                                                                                                                            Greuter1984</span></span>
+<span><span class="co">## 4                                                                      Weigelt, P., C. K\xf6nig, and H. Kreft (2019) GIFT \x96 A Global Inventory of Floras and Traits for macroecology and biogeography. bioRxiv doi.org/10.1101/535005</span></span>
+<span><span class="co">## 5                                                                                                                                                                                                                        Liu et al. 2019</span></span>
+<span><span class="co">## 8                                                                                                                                                                                                                                 unpub.</span></span>
+<span><span class="co">##   Priority</span></span>
+<span><span class="co">## 1        1</span></span>
+<span><span class="co">## 2        1</span></span>
+<span><span class="co">## 3        1</span></span>
+<span><span class="co">## 4        1</span></span>
+<span><span class="co">## 5        2</span></span>
+<span><span class="co">## 8        1</span></span></code></pre>
+</div>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
