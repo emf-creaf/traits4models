@@ -15,35 +15,16 @@ params:
 
 ### Aim
 
-This vignette describes the procedures used to create and fill species parameter data tables (such as `SpParamsES`, `SpParamsFR` and `SpParamsUS` included in package **traits4models**) for simulations with packages **medfate** and **medfateland**. Here it is assumed that a set of plant trait databases have been harmonized and will be used as source data for parameter estimation (see vignette [Trait database haramonization](https://emf-creaf.github.io/traits4models/articles/TraitDatabaseHarmonization.html). 
+This vignette describes the procedures used to create and fill species parameter data tables (such as `SpParamsES`, `SpParamsFR` and `SpParamsUS` included in package **traits4models**) for simulations with packages **medfate** and **medfateland**. Here it is assumed that a set of plant trait and allometry databases have been harmonized and will be used as source data for parameter estimation (see vignettes [Trait database haramonization](https://emf-creaf.github.io/traits4models/articles/TraitDatabaseHarmonization.html and [Allometry database haramonization](https://emf-creaf.github.io/traits4models/articles/AllometryDatabaseHarmonization.html). 
 
 >**IMPORTANT**: This vignette is not self-contained, in the sense that it cannot be reproduced without access to data sets that are not included. Nevertheless, it is intended to serve as example of species parameterization for other regions.
 
 ### Required packages
 
-Installed version of **medfate** should be **ver 4.3.1** or higher. 
-```{r, eval = FALSE}
-install.packages("medfate")
-```
-
-Package **traits4models** is required for the species parameter estimation process, as it includes several functions that facilitate parsing data sources into parameter values. Package **traits4models** is installed only from GitHub:
-
-```{r, eval = FALSE}
-remotes::install_github("emf-creaf/traits4models")
-```
-
-In our example, package **medfuels** is also needed because it includes allometric coefficients for Mediterranean shrub species. In other regions, however, other sources should be sought for allometric data. As before, package **medfuels** is installed only from GitHub:
-
-```{r, eval = FALSE}
-remotes::install_github("spif-ctfc/medfuels")
-```
-
-Once we have **medfate**, **traits4models** and  **medfuels**, we load them and other common packages that we will employ in this vignette:
+Assuming we have **medfate** and **traits4models** correctly installed, we load them and other common packages that we will employ in this vignette:
 ```{r message=FALSE}
 library(medfate)
 library(traits4models)
-library(medfuels)
-# library(IFNread)
 library(tidyverse)
 library(openxlsx)
 library(sf)
@@ -61,7 +42,7 @@ The following sections describe different steps that we used to obtain the speci
 |---|-------------------------------------------------------|---------------------|
 | 1 | Initialize the parameter table with target taxonomic entities | `init_medfate_params()` |
 | 2 | Populate species parameters from forest inventory data | `fill_medfate_inventory_traits()` |
-| 3 | Populate tree and shrub allometric coefficients from suitable databases |  `fill_medfate_allometries()`|
+| 3 | Populate plant allometric coefficients from suitable databases |  `fill_medfate_allometries()`|
 | 4 | Populate plant functional traits from harmonized data bases |  `fill_medfate_traits()`|
 | 5 | Checking the final parameter table | `check_medfate_params()` |
 | 6 | If necessary, completing strict parameters | `complete_medfate_strict()` |

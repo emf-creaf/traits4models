@@ -45,12 +45,12 @@ and package taxize is used for the taxa above family, only.
 \donttest{
 # Simple example with two species
 sp_names <- c("Salvia rosmarinus", "Pinus contorta")
-init_spparams(sp_names, verbose = TRUE)
+init_medfate_params(sp_names, verbose = TRUE)
 
 # Simple example with three species using synonyms and subspecies
 sp_names <- c("Rosmarinus officinalis", "Pinus contorta", "Quercus ilex subsp. ilex")
 accepted_names <- c("Salvia rosmarinus", "Pinus contorta", "Quercus ilex subsp. ilex")
-init_spparams(sp_names, accepted_names, verbose = TRUE)
+init_medfate_params(sp_names, accepted_names, verbose = TRUE)
 }
 }
 \seealso{

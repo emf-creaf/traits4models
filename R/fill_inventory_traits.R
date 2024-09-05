@@ -25,8 +25,6 @@
 #' }
 #'
 #' @export
-#'
-#' @examples
 fill_medfate_inventory_traits<-function(SpParams,
                                         x,
                                         quantile_Hmed = 0.5,

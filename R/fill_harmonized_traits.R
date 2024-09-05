@@ -25,7 +25,6 @@
 #'
 #' @seealso \code{\link{harmonize_taxonomy_WFO}}
 #' @name fill_medfate_traits
-#' @examples
 fill_medfate_traits<-function(SpParams,
                               harmonized_trait_path,
                               priorization = TRUE,

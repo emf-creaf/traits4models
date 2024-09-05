@@ -33,6 +33,10 @@ get_taxon_data(harmonized_trait_path, accepted_name, progress = TRUE)
 \item{trait_name}{A string of an accepted trait name}
 
 \item{is_numeric}{A boolean indicating whether the trait is numeric}
+
+\item{response}{String indicating a response variable for allometric equations.}
+
+\item{accepted_name}{String of an accepted taxon name.}
 }
 \value{
 Function \code{load_harmonized_trait_tables()} returns the list with all harmonized trait data tables.

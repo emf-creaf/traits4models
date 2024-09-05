@@ -3,7 +3,7 @@
 \encoding{UTF-8}
 \name{fill_medfate_allometries}
 \alias{fill_medfate_allometries}
-\title{Fill plant allometries}
+\title{Allometry filling from harmonized data}
 \usage{
 fill_medfate_allometries(
   SpParams,
@@ -16,9 +16,9 @@ fill_medfate_allometries(
 )
 }
 \arguments{
-\item{SpParams}{A data frame of medfate species parameters to be populated}
+\item{SpParams}{A data frame of medfate species parameters to be populated.}
 
-\item{priorization}{A boolean flag to perform priorization of some data sources over others.}
+\item{priorization}{A boolean flag to perform priorization of some data sources over others (not yet implemented!).}
 
 \item{erase_previous}{A boolean flag to indicate that all previous values should be set to NA before populating with new data}
 
@@ -31,14 +31,13 @@ fill_medfate_allometries(
 \item{harmonized_trait_path}{The path to harmonized trait data files (.rds or .csv format).}
 }
 \value{
-A modified data frame of medfate species parameters
+A modified data frame of medfate species parameters.
 }
 \description{
-Function to populate allometric coefficients for taxa of an input parameter table on the basis of their
-accepted name.
+Function that uses harmonized allometric equations to fill medfate allometric coefficients for taxa on the basis of their accepted name.
 }
 \seealso{
-\code{\link{init_spparams}}
+\code{\link{init_medfate_params}}
 }
 \author{
 Miquel De \enc{Cáceres}{Caceres} Ainsa, EMF-CREAF

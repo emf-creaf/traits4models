@@ -19,7 +19,7 @@ Species parameter values cannot be drawn from a single data source. Moreover, th
     b) Measurement units.
     c) Taxonomy of the measured biological entities. 
 
-The result of this harmonization needs to be stored in a harmonized format for subsequent use when creating species parameter tables. This vignette illustrates the harmonization procedures for an example data set using package **trait4models** and the usual **tidyverse** packages. Harmonization of allometric equations follows an analogous procedure, which will not be illustrated here.
+The result of this harmonization needs to be stored in a harmonized format for subsequent use when creating species parameter tables. This vignette illustrates the harmonization procedures for an example data set using package **trait4models** and the usual **tidyverse** packages. Harmonization of allometric equations is explained in a companion vignette.
 
 >**IMPORTANT**: This vignette is not self-contained, in the sense that it cannot be reproduced without access to data sets that are not included. Nevertheless, it is intended to serve as example of species parameterization for other regions.
 

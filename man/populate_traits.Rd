@@ -63,7 +63,7 @@ If the target taxon is a genus, then values are taken from those rows where genu
 If column \code{priority_column} is supplied, the function will prioritize sources with higher priority first.
 }
 \seealso{
-\code{\link{init_spparams}}
+\code{\link{init_medfate_params}}
 }
 \author{
 Miquel De \enc{Cáceres}{Caceres} Ainsa, EMF-CREAF

@@ -141,6 +141,7 @@ get_trait_data <- function(harmonized_trait_path,
 }
 
 #' @export
+#' @param response String indicating a response variable for allometric equations.
 #' @rdname get_trait_data
 get_allometry_data <-function(harmonized_allometry_path,
                               response, progress = TRUE) {
@@ -162,6 +163,7 @@ get_allometry_data <-function(harmonized_allometry_path,
 }
 
 #' @export
+#' @param accepted_name String of an accepted taxon name.
 #' @rdname get_trait_data
 get_taxon_data<- function(harmonized_trait_path,
                           accepted_name, progress = TRUE) {

@@ -30,7 +30,7 @@
 #' @keywords internal
 #' @encoding UTF-8
 #' @author Miquel De \enc{Cáceres}{Caceres} Ainsa, EMF-CREAF
-#' @seealso \code{\link{init_spparams}}
+#' @seealso \code{\link{init_medfate_params}}
 populate_traits<-function(SpParams,
                          trait_table,
                          trait_mapping,

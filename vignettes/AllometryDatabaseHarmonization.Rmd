@@ -13,7 +13,13 @@ params:
 
 ## Introduction
 
+The availability of plant allometric equations continuously increases, as additional efforts are made in observational studies. This means that multiple data sources need to be harmonized before species parameter tables are build, in terms of:
 
+    a) Nomenclature of the response and predictor variables.
+    b) Allometric equation fitted.
+    c) Taxonomy of the measured biological entities. 
+
+The result of this harmonization needs to be stored in a harmonized format for subsequent use when creating species parameter tables. This vignette illustrates the harmonization procedures for an example data set using package **trait4models** and the usual **tidyverse** packages. Harmonization of plant trait data is explained in a companion vignette.
 
 ### Required packages
 
@@ -27,11 +33,12 @@ library(readr)
 
 ### Example dataset
 
+As an example of allometric equations, we will use a small compilation of crown width models, from different sources, that depend on diameter at breast height:
 
 ```{r, message=FALSE}
 DB_path <- "~/OneDrive/EMF_datasets/AllometryDatabases/"
 db <- openxlsx::read.xlsx(paste0(DB_path, "Sources/TreeAllometries/TreeAllometries.xlsx"),
-                                 sheet= "Tree_CR_models")
+                                 sheet= "Tree_CW_models")
 ```
 
 The data looks as follows:
@@ -42,31 +49,42 @@ db
 
 ## Harmonizing equations and notation
 
+The allometric equation has two parameters that are used to estimate crown width from diameter at breast height (DBH). We start our harmonization by subsetting the necessary data:
 ```{r}
 db_var <- db |>
   dplyr::rename(originalName = "Name",
-                a = "a_cr",
-                b = "b_1cr",
-                c = "b_2cr",
-                d = "b_3cr",
-                e = "c_1cr",
-                f = "c_2cr",
-                Reference = "Source") |>
-  dplyr::mutate(Equation = "CrownRatio = 1/(1 + exp(a + b·HD + c·(H/100) + d·DBH^2 + e·BAL + f·ln(CCF)))",
-                Response = "CrownRatio",
-                ResponseDescription = "Crown ratio",
-                Predictor1 = "HD",
-                PredictorDescription1 = "Height-diameter ratio (m·m-1)",
-                Predictor2 = "H",
-                PredictorDescription2 = "Tree height (m)",
-                Predictor3 = "DBH",
-                PredictorDescription3 = "Diameter at breast height (cm)",
-                Predictor4 = "BAL",
-                PredictorDescription4 = "Basal area of larger trees",
-                Predictor5 = "CCF",
-                PredictorDescription5 = "Crown competition factor",
-                Priority = 1) |>
-  dplyr::relocate(Reference, .after = PredictorDescription5)
+                a = "a_cw",
+                b = "b_cw",
+                Reference = "Source") 
+```
+
+Importantly, for the allometry to be used, we need to specify the equation:
+```{r}
+db_var <- db_var |>
+  dplyr::mutate(Equation = "CrownWidth = a·DBH^b")
+```
+
+We also add information on the response variable and predictor variable:
+```{r}
+db_var <- db_var |>
+                dplyr::mutate(Response = "CrownWidth",
+                ResponseDescription = "Crown width (m)",
+                Predictor1 = "DBH",
+                PredictorDescription1 = "Diameter at breast height (cm)")
+```
+
+If we want **traits4models** to correctly interpret the allometric equation at the stage of model parameter filling, it is important that columns `Equation` and `Response` are appropriately filled. Note, in addition, that the allometric equation starts with the name of the response on the left hand side of the equation.
+
+Finally, we may add the priority of processing:
+```{r}
+db_var <- db_var |>
+          dplyr::mutate(Priority = 1) |>
+          dplyr::relocate(Reference, .after = PredictorDescription1)
+```
+
+The database after harmonizing allometry information looks as follows:
+```{r}
+db_var
 ```
 
 
@@ -110,11 +128,12 @@ check_harmonized_allometry(db_var)
 
 ## Storing harmonized dataset
 
-Harmonized data tables can be stored in **.csv** text format or compressed **.rds** format. Moreover, all tables should be stored in the same directory, here in the `Products/harmonized/` path.
+Harmonized data tables can be stored in **.csv** text format or compressed **.rds** format. 
 
 ```{r, eval = FALSE}
-write.csv2(db_post, "Products/harmonized/tree_crown_ratio_europe.csv", row.names = FALSE)
+write.csv2(db_post, "Products/harmonized/tree_crown_width_europe.csv", row.names = FALSE)
 ```
+Note that all tables should be stored in the same directory, here in the `Products/harmonized/` path, for populate model parameters.
 
 ## Accessing harmonized allometry data
 
@@ -138,7 +157,7 @@ Before filling any species parameter table, it may be useful to inspect the amou
 
 ```{r}
 fb_data <- get_allometry_data(harmonized_allometry_path, "FoliarBiomass",
-                           progress = FALSE)
+                              progress = FALSE)
 head(fb_data)
 ```
 
