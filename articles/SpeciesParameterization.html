@@ -68,7 +68,7 @@
                         <h4 data-toc-skip class="author">Miquel De
 Cáceres / Nicolas Martin-StPaul</h4>
             
-            <h4 data-toc-skip class="date">2024-08-30</h4>
+            <h4 data-toc-skip class="date">2024-09-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/emf-creaf/traits4models/blob/HEAD/vignettes/SpeciesParameterization.Rmd" class="external-link"><code>vignettes/SpeciesParameterization.Rmd</code></a></small>
       <div class="d-none name"><code>SpeciesParameterization.Rmd</code></div>
@@ -397,46 +397,7 @@ respectively.</li>
 <h2 id="filling-allometric-coefficients">Filling allometric coefficients<a class="anchor" aria-label="anchor" href="#filling-allometric-coefficients"></a>
 </h2>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">allom_path</span> <span class="op">=</span> <span class="st">"~/OneDrive/mcaceres_work/model_development/medfate_development/MedfateSpeciesParametrization/AllometryDatabases/"</span></span></code></pre></div>
-<div class="section level3">
-<h3 id="tree-foliar-biomass">Tree foliar biomass<a class="anchor" aria-label="anchor" href="#tree-foliar-biomass"></a>
-</h3>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>  <span class="va">fb_models</span> <span class="op">&lt;-</span> <span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/read.xlsx.html" class="external-link">read.xlsx</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">allom_path</span>, <span class="st">"TreeAllometries/TreeAllometries.xlsx"</span><span class="op">)</span>, sheet<span class="op">=</span> <span class="st">"Tree_FB_models"</span>, rowNames <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/fill_medfate_allometries.html">fill_medfate_allometries</a></span><span class="op">(</span><span class="va">SpParams</span>, <span class="va">fb_models</span>, <span class="st">"foliarbiomass"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="tree-crown-ratio">Tree crown ratio<a class="anchor" aria-label="anchor" href="#tree-crown-ratio"></a>
-</h3>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>  <span class="va">cr_models</span> <span class="op">&lt;-</span> <span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/read.xlsx.html" class="external-link">read.xlsx</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">allom_path</span>,<span class="st">"TreeAllometries/TreeAllometries.xlsx"</span><span class="op">)</span>, </span>
-<span>                                   sheet<span class="op">=</span> <span class="st">"Tree_CR_models"</span>, rowNames <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/fill_medfate_allometries.html">fill_medfate_allometries</a></span><span class="op">(</span><span class="va">SpParams</span>, <span class="va">cr_models</span>, <span class="st">"crownratio"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="tree-crown-width">Tree crown width<a class="anchor" aria-label="anchor" href="#tree-crown-width"></a>
-</h3>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cw_models</span> <span class="op">&lt;-</span> <span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/read.xlsx.html" class="external-link">read.xlsx</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">allom_path</span>,<span class="st">"TreeAllometries/TreeAllometries.xlsx"</span><span class="op">)</span>, </span>
-<span>                                   sheet<span class="op">=</span> <span class="st">"Tree_CW_models"</span>, rowNames <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/fill_medfate_allometries.html">fill_medfate_allometries</a></span><span class="op">(</span><span class="va">SpParams</span>, <span class="va">cw_models</span>, <span class="st">"crownwidth"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="shrub-fine-biomass">Shrub fine biomass<a class="anchor" aria-label="anchor" href="#shrub-fine-biomass"></a>
-</h3>
-</div>
-<div class="section level3">
-<h3 id="bark-thickness">Bark thickness<a class="anchor" aria-label="anchor" href="#bark-thickness"></a>
-</h3>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">bt_models</span> <span class="op">&lt;-</span> <span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/read.xlsx.html" class="external-link">read.xlsx</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">allom_path</span>,<span class="st">"TreeAllometries/TreeAllometries.xlsx"</span><span class="op">)</span>, </span>
-<span>                                   sheet<span class="op">=</span> <span class="st">"Tree_BT_models"</span>, rowNames <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/fill_medfate_allometries.html">fill_medfate_allometries</a></span><span class="op">(</span><span class="va">SpParams</span>, <span class="va">bt_models</span>, <span class="st">"barkthickness"</span><span class="op">)</span></span></code></pre></div>
-</div>
+<code class="sourceCode R"><span><span class="va">allom_path</span> <span class="op">=</span> <span class="st">"~/OneDrive/EMF_datasets/AllometryDatabases/"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="filling-parameters-from-harmonized-trait-databases">Filling parameters from harmonized trait databases<a class="anchor" aria-label="anchor" href="#filling-parameters-from-harmonized-trait-databases"></a>
@@ -448,10 +409,10 @@ respectively.</li>
 plant trait databases have been harmonized. In our case, harmonized data
 files have been stored as <strong>.rds</strong> files in the following
 path:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">harmonized_trait_path</span> <span class="op">&lt;-</span> <span class="st">"~/OneDrive/EMF_datasets/PlantTraitDatabases/Products/harmonized"</span></span></code></pre></div>
 <p>We can list the set of harmonized sources using:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">trait_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">harmonized_trait_path</span>, full.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">trait_files</span></span></code></pre></div>
 <pre><code><span><span class="co">##   [1] "00_compilation_CCfineroot.rds"                          </span></span>
@@ -581,9 +542,9 @@ path:</p>
 inspect the amount of information available for particular traits or
 species. Package <strong>trait4models</strong> provides a couple of
 utility functions for this. For example, we can load all values for
-Gswmin, the minimum stomatal conductanace, using function
+Gswmin, the minimum stomatal conductance, using function
 <code><a href="../reference/get_trait_data.html">get_trait_data()</a></code>:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sla_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_trait_data.html">get_trait_data</a></span><span class="op">(</span><span class="va">harmonized_trait_path</span>, <span class="st">"Gswmin"</span>,</span>
 <span>                           progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sla_data</span><span class="op">)</span></span></code></pre></div>
@@ -610,7 +571,7 @@ Gswmin, the minimum stomatal conductanace, using function
 <span><span class="co">## 6        1</span></span></code></pre>
 <p>Analogously, if we are interested in querying trait information for a
 particular taxa, we can use function <code><a href="../reference/get_trait_data.html">get_taxon_data()</a></code>:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ph_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_trait_data.html">get_taxon_data</a></span><span class="op">(</span><span class="va">harmonized_trait_path</span>, <span class="st">"Pinus halepensis"</span>,</span>
 <span>                          progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ph_data</span><span class="op">)</span></span></code></pre></div>
@@ -641,7 +602,7 @@ particular taxa, we can use function <code><a href="../reference/get_trait_data.
 </h3>
 <p>Function <code><a href="../reference/fill_medfate_traits.html">fill_medfate_traits()</a></code> performs trait parameter
 filling for <strong>medfate</strong> using the available data:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span><span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/fill_medfate_traits.html">fill_medfate_traits</a></span><span class="op">(</span><span class="va">SpParams</span>, <span class="va">harmonized_trait_path</span>, </span>
 <span>                                              progress <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning in get_trait_data(harmonized_trait_path, trait_name, is_numeric = TRUE,</span></span>
@@ -669,7 +630,7 @@ are called <code>Strict</code> (see <code>SpParamsDefinition</code> in
 package <strong>medfate</strong>). Function
 <code><a href="../reference/check_medfate_params.html">check_medfate_params()</a></code> checks, among other things, that
 strict parameters do not contain missing values:</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_medfate_params.html">check_medfate_params</a></span><span class="op">(</span><span class="va">SpParams</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Strict parameter column 'GrowthForm' should not contain any missing value.</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Strict parameter column 'LifeForm' should not contain any missing value.</span></span></code></pre>
@@ -696,11 +657,11 @@ Imputation is performed on the basis of available information for
 similar taxa. Taxonomically closer entities are given priority over
 higher order taxa (i.e. species of the same genus are priorized as
 sources before searching for species in the same family):</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/complete_medfate_strict.html">complete_medfate_strict</a></span><span class="op">(</span><span class="va">SpParams</span>, progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>After completion of strict paratemers, the species parameter table
 should pass the previous check:</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_medfate_params.html">check_medfate_params</a></span><span class="op">(</span><span class="va">SpParams</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> The data frame is acceptable as species parameter table for medfate.</span></span></code></pre>
 <p>And we can store the table for its use in model simulations.</p>

@@ -68,7 +68,7 @@
                         <h4 data-toc-skip class="author">Miquel De
 Cáceres / Nicolas Martin-StPaul</h4>
             
-            <h4 data-toc-skip class="date">2024-08-30</h4>
+            <h4 data-toc-skip class="date">2024-09-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/emf-creaf/traits4models/blob/HEAD/vignettes/TraitDatabaseHarmonization.Rmd" class="external-link"><code>vignettes/TraitDatabaseHarmonization.Rmd</code></a></small>
       <div class="d-none name"><code>TraitDatabaseHarmonization.Rmd</code></div>
@@ -92,7 +92,9 @@ c) Taxonomy of the measured biological entities. </code></pre>
 format for subsequent use when creating species parameter tables. This
 vignette illustrates the harmonization procedures for an example data
 set using package <strong>trait4models</strong> and the usual
-<strong>tidyverse</strong> packages.</p>
+<strong>tidyverse</strong> packages. Harmonization of allometric
+equations follows an analogous procedure, which will not be illustrated
+here.</p>
 <blockquote>
 <p><strong>IMPORTANT</strong>: This vignette is not self-contained, in
 the sense that it cannot be reproduced without access to data sets that
@@ -676,17 +678,17 @@ taxonomic entities:</p>
 <div class="section level2">
 <h2 id="checking-harmonized-trait-data">Checking harmonized trait data<a class="anchor" aria-label="anchor" href="#checking-harmonized-trait-data"></a>
 </h2>
-<p>The packages includes function <code><a href="../reference/check_harmonized_table.html">check_harmonized_table()</a></code>
+<p>The packages includes function <code><a href="../reference/check_harmonized_trait.html">check_harmonized_trait()</a></code>
 to check whether a given data frame conforms in structure and content to
 what is later required for parameter table filling:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_harmonized_table.html">check_harmonized_table</a></span><span class="op">(</span><span class="va">db_post</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_harmonized_trait.html">check_harmonized_trait</a></span><span class="op">(</span><span class="va">db_post</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> The data frame is acceptable as harmonized trait data source.</span></span></code></pre>
 <p>In this case, the data set is ready to be used in parameter
 estimation. As an example, we can run the same checking function with
 the data base before taxonomic harmonization:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_harmonized_table.html">check_harmonized_table</a></span><span class="op">(</span><span class="va">db_var</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_harmonized_trait.html">check_harmonized_trait</a></span><span class="op">(</span><span class="va">db_var</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Taxonomy columns missing: acceptedName acceptedNameAuthorship family genus specificEpithet taxonRank</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> The data frame is not acceptable as harmonized trait data source.</span></span></code></pre>
 </div>
