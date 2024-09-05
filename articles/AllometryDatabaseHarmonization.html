@@ -80,12 +80,25 @@ Cáceres / Nicolas Martin-StPaul</h4>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
+<p>The availability of plant allometric equations continuously
+increases, as additional efforts are made in observational studies. This
+means that multiple data sources need to be harmonized before species
+parameter tables are build, in terms of:</p>
+<pre><code>a) Nomenclature of the response and predictor variables.
+b) Allometric equation fitted.
+c) Taxonomy of the measured biological entities. </code></pre>
+<p>The result of this harmonization needs to be stored in a harmonized
+format for subsequent use when creating species parameter tables. This
+vignette illustrates the harmonization procedures for an example data
+set using package <strong>trait4models</strong> and the usual
+<strong>tidyverse</strong> packages. Harmonization of plant trait data
+is explained in a companion vignette.</p>
 <div class="section level3">
 <h3 id="required-packages">Required packages<a class="anchor" aria-label="anchor" href="#required-packages"></a>
 </h3>
 <p>Assuming we have <strong>traits4models</strong> installed, we load it
 and other common packages that we will employ in this vignette:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://emf-creaf.github.io/traits4models/">traits4models</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org" class="external-link">readr</a></span><span class="op">)</span></span></code></pre></div>
@@ -93,57 +106,130 @@ and other common packages that we will employ in this vignette:</p>
 <div class="section level3">
 <h3 id="example-dataset">Example dataset<a class="anchor" aria-label="anchor" href="#example-dataset"></a>
 </h3>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<p>As an example of allometric equations, we will use a small
+compilation of crown width models, from different sources, that depend
+on diameter at breast height:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">DB_path</span> <span class="op">&lt;-</span> <span class="st">"~/OneDrive/EMF_datasets/AllometryDatabases/"</span></span>
 <span><span class="va">db</span> <span class="op">&lt;-</span> <span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/read.xlsx.html" class="external-link">read.xlsx</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">DB_path</span>, <span class="st">"Sources/TreeAllometries/TreeAllometries.xlsx"</span><span class="op">)</span>,</span>
-<span>                                 sheet<span class="op">=</span> <span class="st">"Tree_CR_models"</span><span class="op">)</span></span></code></pre></div>
+<span>                                 sheet<span class="op">=</span> <span class="st">"Tree_CW_models"</span><span class="op">)</span></span></code></pre></div>
 <p>The data looks as follows:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">db</span></span></code></pre></div>
-<pre><code><span><span class="co">##               Name    a_cr     b_1cr     b_2cr        b_3cr     c_1cr    c_2cr</span></span>
-<span><span class="co">## 1       Abies alba 2.36476 -0.763000 -0.022850  0.000074049 -0.010180 -0.27004</span></span>
-<span><span class="co">## 2  Fagus sylvatica 3.85373 -0.743000 -0.024680  0.000135686  0.000000 -0.38434</span></span>
-<span><span class="co">## 3      Pinus nigra 2.26205  0.000000 -0.019340  0.000000000 -0.013730 -0.44909</span></span>
-<span><span class="co">## 4 Pinus sylvestris 1.50576 -0.706481 -0.078039  0.000182000 -0.007262  0.00000</span></span>
-<span><span class="co">## 5          Quercus 1.98539 -0.552000 -0.013860 -0.000110736 -0.006850 -0.20101</span></span>
-<span><span class="co">## 6            Abies 2.36476 -0.763000 -0.022850  0.000074049 -0.010180 -0.27004</span></span>
-<span><span class="co">##                        Source</span></span>
-<span><span class="co">## 1 Hasenauer &amp; Monserud (1996)</span></span>
-<span><span class="co">## 2 Hasenauer &amp; Monserud (1996)</span></span>
-<span><span class="co">## 3 Hasenauer &amp; Monserud (1996)</span></span>
-<span><span class="co">## 4     Dominguez et al. (2006)</span></span>
-<span><span class="co">## 5 Hasenauer &amp; Monserud (1996)</span></span>
-<span><span class="co">## 6                  Abies alba</span></span></code></pre>
+<pre><code><span><span class="co">##                 Name      a_cw   b_cw                           Source</span></span>
+<span><span class="co">## 1         Abies alba 1.0963648 0.5380    Hasenauer (1997) - Abies alba</span></span>
+<span><span class="co">## 2               Acer 1.5189207 0.5285     Hasenauer (1997) - Acer spp.</span></span>
+<span><span class="co">## 3    Castanea sativa 1.3065630 0.5856             Condés &amp; Sterba 2005</span></span>
+<span><span class="co">## 4    Fagus sylvatica 0.8386180 0.7347             Condés &amp; Sterba 2005</span></span>
+<span><span class="co">## 5           Fraxinus 1.1951838 0.5665 Hasenauer (1997) - Fraxinus spp.</span></span>
+<span><span class="co">## 6   Pinus halepensis 0.6415296 0.7310             Condés &amp; Sterba 2005</span></span>
+<span><span class="co">## 7        Pinus nigra 0.5076312 0.7699             Condés &amp; Sterba 2005</span></span>
+<span><span class="co">## 8     Pinus pinaster 0.3889517 0.8307             Condés &amp; Sterba 2005</span></span>
+<span><span class="co">## 9      Pinus radiata 0.8418950 0.6353             Condés &amp; Sterba 2005</span></span>
+<span><span class="co">## 10  Pinus sylvestris 0.7474409 0.6716             Condés &amp; Sterba 2005</span></span>
+<span><span class="co">## 11     Quercus ilex  0.5681897 0.7974             Condés &amp; Sterba 2005</span></span>
+<span><span class="co">## 12 Quercus pyrenaica 0.7469926 0.7257             Condés &amp; Sterba 2005</span></span>
+<span><span class="co">## 13     Quercus robur 0.0716000 0.6563             Condés &amp; Sterba 2005</span></span>
+<span><span class="co">## 14     Quercus suber 0.4473000 0.7918     Sánchez-Gonzalez et al. 2007</span></span>
+<span><span class="co">## 15             Pinus 0.7474409 0.6716                 Pinus sylvestris</span></span>
+<span><span class="co">## 16           Quercus 0.5681897 0.7974                           Q.ilex</span></span>
+<span><span class="co">## 17             Abies 1.0963648 0.5380                       Abies alba</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
 <h2 id="harmonizing-equations-and-notation">Harmonizing equations and notation<a class="anchor" aria-label="anchor" href="#harmonizing-equations-and-notation"></a>
 </h2>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<p>The allometric equation has two parameters that are used to estimate
+crown width from diameter at breast height (DBH). We start our
+harmonization by subsetting the necessary data:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">db_var</span> <span class="op">&lt;-</span> <span class="va">db</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>originalName <span class="op">=</span> <span class="st">"Name"</span>,</span>
-<span>                a <span class="op">=</span> <span class="st">"a_cr"</span>,</span>
-<span>                b <span class="op">=</span> <span class="st">"b_1cr"</span>,</span>
-<span>                c <span class="op">=</span> <span class="st">"b_2cr"</span>,</span>
-<span>                d <span class="op">=</span> <span class="st">"b_3cr"</span>,</span>
-<span>                e <span class="op">=</span> <span class="st">"c_1cr"</span>,</span>
-<span>                f <span class="op">=</span> <span class="st">"c_2cr"</span>,</span>
-<span>                Reference <span class="op">=</span> <span class="st">"Source"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Equation <span class="op">=</span> <span class="st">"CrownRatio = 1/(1 + exp(a + b·HD + c·(H/100) + d·DBH^2 + e·BAL + f·ln(CCF)))"</span>,</span>
-<span>                Response <span class="op">=</span> <span class="st">"CrownRatio"</span>,</span>
-<span>                ResponseDescription <span class="op">=</span> <span class="st">"Crown ratio"</span>,</span>
-<span>                Predictor1 <span class="op">=</span> <span class="st">"HD"</span>,</span>
-<span>                PredictorDescription1 <span class="op">=</span> <span class="st">"Height-diameter ratio (m·m-1)"</span>,</span>
-<span>                Predictor2 <span class="op">=</span> <span class="st">"H"</span>,</span>
-<span>                PredictorDescription2 <span class="op">=</span> <span class="st">"Tree height (m)"</span>,</span>
-<span>                Predictor3 <span class="op">=</span> <span class="st">"DBH"</span>,</span>
-<span>                PredictorDescription3 <span class="op">=</span> <span class="st">"Diameter at breast height (cm)"</span>,</span>
-<span>                Predictor4 <span class="op">=</span> <span class="st">"BAL"</span>,</span>
-<span>                PredictorDescription4 <span class="op">=</span> <span class="st">"Basal area of larger trees"</span>,</span>
-<span>                Predictor5 <span class="op">=</span> <span class="st">"CCF"</span>,</span>
-<span>                PredictorDescription5 <span class="op">=</span> <span class="st">"Crown competition factor"</span>,</span>
-<span>                Priority <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html" class="external-link">relocate</a></span><span class="op">(</span><span class="va">Reference</span>, .after <span class="op">=</span> <span class="va">PredictorDescription5</span><span class="op">)</span></span></code></pre></div>
+<span>                a <span class="op">=</span> <span class="st">"a_cw"</span>,</span>
+<span>                b <span class="op">=</span> <span class="st">"b_cw"</span>,</span>
+<span>                Reference <span class="op">=</span> <span class="st">"Source"</span><span class="op">)</span> </span></code></pre></div>
+<p>Importantly, for the allometry to be used, we need to specify the
+equation:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">db_var</span> <span class="op">&lt;-</span> <span class="va">db_var</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Equation <span class="op">=</span> <span class="st">"CrownWidth = a·DBH^b"</span><span class="op">)</span></span></code></pre></div>
+<p>We also add information on the response variable and predictor
+variable:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">db_var</span> <span class="op">&lt;-</span> <span class="va">db_var</span> <span class="op">|&gt;</span></span>
+<span>                <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Response <span class="op">=</span> <span class="st">"CrownWidth"</span>,</span>
+<span>                ResponseDescription <span class="op">=</span> <span class="st">"Crown width (m)"</span>,</span>
+<span>                Predictor1 <span class="op">=</span> <span class="st">"DBH"</span>,</span>
+<span>                PredictorDescription1 <span class="op">=</span> <span class="st">"Diameter at breast height (cm)"</span><span class="op">)</span></span></code></pre></div>
+<p>If we want <strong>traits4models</strong> to correctly interpret the
+allometric equation at the stage of model parameter filling, it is
+important that columns <code>Equation</code> and <code>Response</code>
+are appropriately filled. Note, in addition, that the allometric
+equation starts with the name of the response on the left hand side of
+the equation.</p>
+<p>Finally, we may add the priority of processing:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">db_var</span> <span class="op">&lt;-</span> <span class="va">db_var</span> <span class="op">|&gt;</span></span>
+<span>          <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Priority <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>          <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html" class="external-link">relocate</a></span><span class="op">(</span><span class="va">Reference</span>, .after <span class="op">=</span> <span class="va">PredictorDescription1</span><span class="op">)</span></span></code></pre></div>
+<p>The database after harmonizing allometry information looks as
+follows:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">db_var</span></span></code></pre></div>
+<pre><code><span><span class="co">##         originalName         a      b             Equation   Response</span></span>
+<span><span class="co">## 1         Abies alba 1.0963648 0.5380 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 2               Acer 1.5189207 0.5285 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 3    Castanea sativa 1.3065630 0.5856 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 4    Fagus sylvatica 0.8386180 0.7347 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 5           Fraxinus 1.1951838 0.5665 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 6   Pinus halepensis 0.6415296 0.7310 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 7        Pinus nigra 0.5076312 0.7699 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 8     Pinus pinaster 0.3889517 0.8307 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 9      Pinus radiata 0.8418950 0.6353 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 10  Pinus sylvestris 0.7474409 0.6716 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 11     Quercus ilex  0.5681897 0.7974 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 12 Quercus pyrenaica 0.7469926 0.7257 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 13     Quercus robur 0.0716000 0.6563 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 14     Quercus suber 0.4473000 0.7918 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 15             Pinus 0.7474409 0.6716 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 16           Quercus 0.5681897 0.7974 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 17             Abies 1.0963648 0.5380 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">##    ResponseDescription Predictor1          PredictorDescription1</span></span>
+<span><span class="co">## 1      Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 2      Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 3      Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 4      Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 5      Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 6      Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 7      Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 8      Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 9      Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 10     Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 11     Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 12     Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 13     Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 14     Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 15     Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 16     Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 17     Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">##                           Reference Priority</span></span>
+<span><span class="co">## 1     Hasenauer (1997) - Abies alba        1</span></span>
+<span><span class="co">## 2      Hasenauer (1997) - Acer spp.        1</span></span>
+<span><span class="co">## 3              Condés &amp; Sterba 2005        1</span></span>
+<span><span class="co">## 4              Condés &amp; Sterba 2005        1</span></span>
+<span><span class="co">## 5  Hasenauer (1997) - Fraxinus spp.        1</span></span>
+<span><span class="co">## 6              Condés &amp; Sterba 2005        1</span></span>
+<span><span class="co">## 7              Condés &amp; Sterba 2005        1</span></span>
+<span><span class="co">## 8              Condés &amp; Sterba 2005        1</span></span>
+<span><span class="co">## 9              Condés &amp; Sterba 2005        1</span></span>
+<span><span class="co">## 10             Condés &amp; Sterba 2005        1</span></span>
+<span><span class="co">## 11             Condés &amp; Sterba 2005        1</span></span>
+<span><span class="co">## 12             Condés &amp; Sterba 2005        1</span></span>
+<span><span class="co">## 13             Condés &amp; Sterba 2005        1</span></span>
+<span><span class="co">## 14     Sánchez-Gonzalez et al. 2007        1</span></span>
+<span><span class="co">## 15                 Pinus sylvestris        1</span></span>
+<span><span class="co">## 16                           Q.ilex        1</span></span>
+<span><span class="co">## 17                       Abies alba        1</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="taxonomic-harmonization">Taxonomic harmonization<a class="anchor" aria-label="anchor" href="#taxonomic-harmonization"></a>
@@ -156,13 +242,13 @@ Note that you should use a different DOI reference when reporting your
 harmonization procedures. We are using here <a href="https://doi.org/10.5281/zenodo.7460141" class="external-link">v.2024.06</a>. We assume
 the user has already downloaded the backbone and stored it in a file
 called <em>classification.csv</em>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">WFO_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">DB_path</span>, <span class="st">"../PlantTraitDatabases/WFO_Backbone/classification.csv"</span><span class="op">)</span></span></code></pre></div>
 <p>Taxonomic harmonization is done by calling function
 <code><a href="../reference/harmonize_taxonomy_WFO.html">harmonize_taxonomy_WFO()</a></code> with a data frame (where notation
 and units are already harmonized) and the path to the WFO backbone (we
 omit the console output):</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">db_post</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/harmonize_taxonomy_WFO.html">harmonize_taxonomy_WFO</a></span><span class="op">(</span><span class="va">db_var</span>, <span class="va">WFO_file</span><span class="op">)</span></span></code></pre></div>
 <p>The function requires that the input data frame contains a column
 called <code>originalName</code>, to identify the original taxa names
@@ -171,64 +257,36 @@ both direct and fuzzy matching, which may lead to large processing time
 for large datasets. If we inspect the resulting data frame, we will see
 the additional columns, informing about accepted names and parent
 taxonomic entities:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">db_post</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##       originalName     acceptedName acceptedNameAuthorship   family   genus</span></span>
-<span><span class="co">## 1       Abies alba       Abies alba                  Mill. Pinaceae   Abies</span></span>
-<span><span class="co">## 2  Fagus sylvatica  Fagus sylvatica                     L. Fagaceae   Fagus</span></span>
-<span><span class="co">## 3      Pinus nigra      Pinus nigra             J.F.Arnold Pinaceae   Pinus</span></span>
-<span><span class="co">## 4 Pinus sylvestris Pinus sylvestris                     L. Pinaceae   Pinus</span></span>
-<span><span class="co">## 5          Quercus          Quercus                     L. Fagaceae Quercus</span></span>
-<span><span class="co">## 6            Abies            Abies                  Mill. Pinaceae   Abies</span></span>
-<span><span class="co">##   specificEpithet taxonRank       a         b         c            d         e</span></span>
-<span><span class="co">## 1            alba   species 2.36476 -0.763000 -0.022850  0.000074049 -0.010180</span></span>
-<span><span class="co">## 2       sylvatica   species 3.85373 -0.743000 -0.024680  0.000135686  0.000000</span></span>
-<span><span class="co">## 3           nigra   species 2.26205  0.000000 -0.019340  0.000000000 -0.013730</span></span>
-<span><span class="co">## 4      sylvestris   species 1.50576 -0.706481 -0.078039  0.000182000 -0.007262</span></span>
-<span><span class="co">## 5            &lt;NA&gt;     genus 1.98539 -0.552000 -0.013860 -0.000110736 -0.006850</span></span>
-<span><span class="co">## 6            &lt;NA&gt;     genus 2.36476 -0.763000 -0.022850  0.000074049 -0.010180</span></span>
-<span><span class="co">##          f</span></span>
-<span><span class="co">## 1 -0.27004</span></span>
-<span><span class="co">## 2 -0.38434</span></span>
-<span><span class="co">## 3 -0.44909</span></span>
-<span><span class="co">## 4  0.00000</span></span>
-<span><span class="co">## 5 -0.20101</span></span>
-<span><span class="co">## 6 -0.27004</span></span>
-<span><span class="co">##                                                                       Equation</span></span>
-<span><span class="co">## 1 CrownRatio = 1/(1 + exp(a + b·HD + c·(H/100) + d·DBH^2 + e·BAL + f·ln(CCF)))</span></span>
-<span><span class="co">## 2 CrownRatio = 1/(1 + exp(a + b·HD + c·(H/100) + d·DBH^2 + e·BAL + f·ln(CCF)))</span></span>
-<span><span class="co">## 3 CrownRatio = 1/(1 + exp(a + b·HD + c·(H/100) + d·DBH^2 + e·BAL + f·ln(CCF)))</span></span>
-<span><span class="co">## 4 CrownRatio = 1/(1 + exp(a + b·HD + c·(H/100) + d·DBH^2 + e·BAL + f·ln(CCF)))</span></span>
-<span><span class="co">## 5 CrownRatio = 1/(1 + exp(a + b·HD + c·(H/100) + d·DBH^2 + e·BAL + f·ln(CCF)))</span></span>
-<span><span class="co">## 6 CrownRatio = 1/(1 + exp(a + b·HD + c·(H/100) + d·DBH^2 + e·BAL + f·ln(CCF)))</span></span>
-<span><span class="co">##     Response ResponseDescription Predictor1         PredictorDescription1</span></span>
-<span><span class="co">## 1 CrownRatio         Crown ratio         HD Height-diameter ratio (m·m-1)</span></span>
-<span><span class="co">## 2 CrownRatio         Crown ratio         HD Height-diameter ratio (m·m-1)</span></span>
-<span><span class="co">## 3 CrownRatio         Crown ratio         HD Height-diameter ratio (m·m-1)</span></span>
-<span><span class="co">## 4 CrownRatio         Crown ratio         HD Height-diameter ratio (m·m-1)</span></span>
-<span><span class="co">## 5 CrownRatio         Crown ratio         HD Height-diameter ratio (m·m-1)</span></span>
-<span><span class="co">## 6 CrownRatio         Crown ratio         HD Height-diameter ratio (m·m-1)</span></span>
-<span><span class="co">##   Predictor2 PredictorDescription2 Predictor3          PredictorDescription3</span></span>
-<span><span class="co">## 1          H       Tree height (m)        DBH Diameter at breast height (cm)</span></span>
-<span><span class="co">## 2          H       Tree height (m)        DBH Diameter at breast height (cm)</span></span>
-<span><span class="co">## 3          H       Tree height (m)        DBH Diameter at breast height (cm)</span></span>
-<span><span class="co">## 4          H       Tree height (m)        DBH Diameter at breast height (cm)</span></span>
-<span><span class="co">## 5          H       Tree height (m)        DBH Diameter at breast height (cm)</span></span>
-<span><span class="co">## 6          H       Tree height (m)        DBH Diameter at breast height (cm)</span></span>
-<span><span class="co">##   Predictor4      PredictorDescription4 Predictor5    PredictorDescription5</span></span>
-<span><span class="co">## 1        BAL Basal area of larger trees        CCF Crown competition factor</span></span>
-<span><span class="co">## 2        BAL Basal area of larger trees        CCF Crown competition factor</span></span>
-<span><span class="co">## 3        BAL Basal area of larger trees        CCF Crown competition factor</span></span>
-<span><span class="co">## 4        BAL Basal area of larger trees        CCF Crown competition factor</span></span>
-<span><span class="co">## 5        BAL Basal area of larger trees        CCF Crown competition factor</span></span>
-<span><span class="co">## 6        BAL Basal area of larger trees        CCF Crown competition factor</span></span>
-<span><span class="co">##                     Reference Priority</span></span>
-<span><span class="co">## 1 Hasenauer &amp; Monserud (1996)        1</span></span>
-<span><span class="co">## 2 Hasenauer &amp; Monserud (1996)        1</span></span>
-<span><span class="co">## 3 Hasenauer &amp; Monserud (1996)        1</span></span>
-<span><span class="co">## 4     Dominguez et al. (2006)        1</span></span>
-<span><span class="co">## 5 Hasenauer &amp; Monserud (1996)        1</span></span>
-<span><span class="co">## 6                  Abies alba        1</span></span></code></pre>
+<pre><code><span><span class="co">##       originalName     acceptedName acceptedNameAuthorship      family    genus</span></span>
+<span><span class="co">## 1       Abies alba       Abies alba                  Mill.    Pinaceae    Abies</span></span>
+<span><span class="co">## 2             Acer             Acer                     L. Sapindaceae     Acer</span></span>
+<span><span class="co">## 3  Castanea sativa  Castanea sativa                  Mill.    Fagaceae Castanea</span></span>
+<span><span class="co">## 4  Fagus sylvatica  Fagus sylvatica                     L.    Fagaceae    Fagus</span></span>
+<span><span class="co">## 5         Fraxinus         Fraxinus           Tourn. ex L.    Oleaceae Fraxinus</span></span>
+<span><span class="co">## 6 Pinus halepensis Pinus halepensis                  Mill.    Pinaceae    Pinus</span></span>
+<span><span class="co">##   specificEpithet taxonRank         a      b             Equation   Response</span></span>
+<span><span class="co">## 1            alba   species 1.0963648 0.5380 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 2            &lt;NA&gt;     genus 1.5189207 0.5285 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 3          sativa   species 1.3065630 0.5856 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 4       sylvatica   species 0.8386180 0.7347 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 5            &lt;NA&gt;     genus 1.1951838 0.5665 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">## 6      halepensis   species 0.6415296 0.7310 CrownWidth = a·DBH^b CrownWidth</span></span>
+<span><span class="co">##   ResponseDescription Predictor1          PredictorDescription1</span></span>
+<span><span class="co">## 1     Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 2     Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 3     Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 4     Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 5     Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 6     Crown width (m)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">##                          Reference Priority</span></span>
+<span><span class="co">## 1    Hasenauer (1997) - Abies alba        1</span></span>
+<span><span class="co">## 2     Hasenauer (1997) - Acer spp.        1</span></span>
+<span><span class="co">## 3             Condés &amp; Sterba 2005        1</span></span>
+<span><span class="co">## 4             Condés &amp; Sterba 2005        1</span></span>
+<span><span class="co">## 5 Hasenauer (1997) - Fraxinus spp.        1</span></span>
+<span><span class="co">## 6             Condés &amp; Sterba 2005        1</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="checking-harmonized-allometry-data">Checking harmonized allometry data<a class="anchor" aria-label="anchor" href="#checking-harmonized-allometry-data"></a>
@@ -237,13 +295,13 @@ taxonomic entities:</p>
 <code><a href="../reference/check_harmonized_trait.html">check_harmonized_allometry()</a></code> to check whether a given data
 frame conforms in structure and content to what is later required for
 parameter table filling:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_harmonized_trait.html">check_harmonized_allometry</a></span><span class="op">(</span><span class="va">db_post</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> The data frame is acceptable as harmonized allometry data source.</span></span></code></pre>
 <p>In this case, the data set is ready to be used in parameter
 estimation. As an example, we can run the same checking function with
 the data base before taxonomic harmonization:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_harmonized_trait.html">check_harmonized_allometry</a></span><span class="op">(</span><span class="va">db_var</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Required columns missing: acceptedName acceptedNameAuthorship family genus specificEpithet taxonRank</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> The data frame is not acceptable as harmonized allometry data source.</span></span></code></pre>
@@ -252,11 +310,12 @@ the data base before taxonomic harmonization:</p>
 <h2 id="storing-harmonized-dataset">Storing harmonized dataset<a class="anchor" aria-label="anchor" href="#storing-harmonized-dataset"></a>
 </h2>
 <p>Harmonized data tables can be stored in <strong>.csv</strong> text
-format or compressed <strong>.rds</strong> format. Moreover, all tables
-should be stored in the same directory, here in the
-<code>Products/harmonized/</code> path.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv2</a></span><span class="op">(</span><span class="va">db_post</span>, <span class="st">"Products/harmonized/tree_crown_ratio_europe.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+format or compressed <strong>.rds</strong> format.</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv2</a></span><span class="op">(</span><span class="va">db_post</span>, <span class="st">"Products/harmonized/tree_crown_width_europe.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>Note that all tables should be stored in the same directory, here in
+the <code>Products/harmonized/</code> path, for populate model
+parameters.</p>
 </div>
 <div class="section level2">
 <h2 id="accessing-harmonized-allometry-data">Accessing harmonized allometry data<a class="anchor" aria-label="anchor" href="#accessing-harmonized-allometry-data"></a>
@@ -267,10 +326,10 @@ should be stored in the same directory, here in the
 <p>As mentioned in the introduction, here it is assumed that a set of
 plant allometry databases have been harmonized. In our case, harmonized
 data files have been stored in the following path:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">harmonized_allometry_path</span> <span class="op">=</span> <span class="st">"~/OneDrive/EMF_datasets/AllometryDatabases/Products/harmonized"</span></span></code></pre></div>
 <p>We can list the set of harmonized sources using:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">allometry_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">harmonized_allometry_path</span>, full.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">allometry_files</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "shrub_crown_area_catalonia.csv"         </span></span>
@@ -289,9 +348,9 @@ data files have been stored in the following path:</p>
 inspect the amount of information available for particular response.
 Package <strong>trait4models</strong> provides function
 <code><a href="../reference/get_trait_data.html">get_allometry_data()</a></code>:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fb_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_trait_data.html">get_allometry_data</a></span><span class="op">(</span><span class="va">harmonized_allometry_path</span>, <span class="st">"FoliarBiomass"</span>,</span>
-<span>                           progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>                              progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fb_data</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##        originalName      acceptedName acceptedNameAuthorship      family</span></span>
 <span><span class="co">## 1        Abies alba        Abies alba                  Mill.    Pinaceae</span></span>

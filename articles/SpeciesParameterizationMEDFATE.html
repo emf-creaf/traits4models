@@ -88,8 +88,10 @@ species parameter data tables (such as <code>SpParamsES</code>,
 <code>SpParamsFR</code> and <code>SpParamsUS</code> included in package
 <strong>traits4models</strong>) for simulations with packages
 <strong>medfate</strong> and <strong>medfateland</strong>. Here it is
-assumed that a set of plant trait databases have been harmonized and
-will be used as source data for parameter estimation (see vignette <a href="https://emf-creaf.github.io/traits4models/articles/TraitDatabaseHarmonization.html">Trait
+assumed that a set of plant trait and allometry databases have been
+harmonized and will be used as source data for parameter estimation (see
+vignettes [Trait database haramonization](<a href="https://emf-creaf.github.io/traits4models/articles/TraitDatabaseHarmonization.html" class="uri">https://emf-creaf.github.io/traits4models/articles/TraitDatabaseHarmonization.html</a>
+and <a href="https://emf-creaf.github.io/traits4models/articles/AllometryDatabaseHarmonization.html">Allometry
 database haramonization</a>.</p>
 <blockquote>
 <p><strong>IMPORTANT</strong>: This vignette is not self-contained, in
@@ -101,31 +103,12 @@ species parameterization for other regions.</p>
 <div class="section level3">
 <h3 id="required-packages">Required packages<a class="anchor" aria-label="anchor" href="#required-packages"></a>
 </h3>
-<p>Installed version of <strong>medfate</strong> should be <strong>ver
-4.3.1</strong> or higher.</p>
+<p>Assuming we have <strong>medfate</strong> and
+<strong>traits4models</strong> correctly installed, we load them and
+other common packages that we will employ in this vignette:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"medfate"</span><span class="op">)</span></span></code></pre></div>
-<p>Package <strong>traits4models</strong> is required for the species
-parameter estimation process, as it includes several functions that
-facilitate parsing data sources into parameter values. Package
-<strong>traits4models</strong> is installed only from GitHub:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"emf-creaf/traits4models"</span><span class="op">)</span></span></code></pre></div>
-<p>In our example, package <strong>medfuels</strong> is also needed
-because it includes allometric coefficients for Mediterranean shrub
-species. In other regions, however, other sources should be sought for
-allometric data. As before, package <strong>medfuels</strong> is
-installed only from GitHub:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"spif-ctfc/medfuels"</span><span class="op">)</span></span></code></pre></div>
-<p>Once we have <strong>medfate</strong>, <strong>traits4models</strong>
-and <strong>medfuels</strong>, we load them and other common packages
-that we will employ in this vignette:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://emf-creaf.github.io/medfate/" class="external-link">medfate</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://emf-creaf.github.io/traits4models/">traits4models</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">medfuels</span><span class="op">)</span></span>
-<span><span class="co"># library(IFNread)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ycphs.github.io/openxlsx/index.html" class="external-link">openxlsx</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span></code></pre></div>
@@ -179,8 +162,7 @@ steps:</p>
 </tr>
 <tr class="odd">
 <td>3</td>
-<td>Populate tree and shrub allometric coefficients from suitable
-databases</td>
+<td>Populate plant allometric coefficients from suitable databases</td>
 <td><code><a href="../reference/fill_medfate_allometries.html">fill_medfate_allometries()</a></code></td>
 </tr>
 <tr class="even">
@@ -220,9 +202,9 @@ important to harmonize taxonomy with the reference used in
 which function <code><a href="../reference/harmonize_taxonomy_WFO.html">harmonize_taxonomy_WFO()</a></code> may be useful.</p>
 <p>Here we will assume that such harmonization has been conducted for
 the SFI taxon list that is included as external data in the package:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"NFI_ES_mapping.csv"</span>, package <span class="op">=</span> <span class="st">"traits4models"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">NFI_ES_mapping</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="va">file</span>, sep<span class="op">=</span><span class="st">";"</span>, header<span class="op">=</span><span class="cn">TRUE</span>, na.strings <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>NFICode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">NFICode</span><span class="op">)</span><span class="op">)</span></span>
@@ -254,7 +236,7 @@ names (e.g. ‘Cultivated trees’) or taxa names that could not be
 identified cannot be used in medfate simulations because they cannot be
 matched with plant trait data. Therefore, we need to filter those names
 using:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">spp_filt</span> <span class="op">&lt;-</span> <span class="va">NFI_ES_mapping</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">acceptedName</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
 </div>
@@ -272,7 +254,7 @@ the Spanish forest inventory, while column <code>acceptedName</code>
 will be used to ensure that matching with trait information is done
 using the appropriate (harmonized) taxonomic nomenclature. Other columns
 are used to fill in taxonomy:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/init_medfate_params.html">init_medfate_params</a></span><span class="op">(</span><span class="va">spp_filt</span>,</span>
 <span>                                               verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>The result is an empty data frame, except for the first columns,
@@ -283,7 +265,7 @@ frame can be larger than the input, because by default the function
 creates additional rows for species (when only sub-species of that
 species have been cited) or genus (when species of that genus have been
 cited).</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">|&gt;</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 548 × 154</span></span></span>
 <span><span class="co">##    Name         SpIndex AcceptedName Species Genus Family Order Group GrowthForm</span></span>
@@ -314,7 +296,7 @@ cited).</p>
 forest inventory where simulations are to be conducted. We load a data
 frame (actually an <code>sf</code> object) containing data from the
 Third Spanish Forest Inventory:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sf_IFN3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="st">"~/OneDrive/mcaceres_work/model_initialisation/medfate_initialisation/IFN/Products/IFN3/Spain/IFN3_spain_final_ETRS89H30.rds"</span><span class="op">)</span></span>
 <span><span class="va">sf_IFN3</span></span></code></pre></div>
 <pre><code><span><span class="co">## Simple feature collection with 98497 features and 14 fields</span></span>
@@ -341,7 +323,7 @@ Third Spanish Forest Inventory:</p>
 <p>Column <code>forest</code> contains the forest inventory plots that
 will be used to withdraw parameters. For example, the first
 <code>forest</code> object is:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sf_IFN3</span><span class="op">$</span><span class="va">forest</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">## $treeData</span></span>
 <span><span class="co">## [1] IFNcode  Species  DBH      Height   N        Z50      Z95      OrdenIf2</span></span>
@@ -366,7 +348,7 @@ will be used to withdraw parameters. For example, the first
 <p><strong>traits4models</strong> provides function
 <code><a href="../reference/fill_medfate_inventory_traits.html">fill_medfate_inventory_traits()</a></code> to perform the parameter
 extraction:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span><span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/fill_medfate_inventory_traits.html">fill_medfate_inventory_traits</a></span><span class="op">(</span><span class="va">SpParams</span>, <span class="va">sf_IFN3</span>, </span>
 <span>                                                        progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>Species matching is performed between column <code>Species</code> of
@@ -401,23 +383,23 @@ respectively.</li>
 plant allometry databases have been harmonized. In our case, harmonized
 data files have been stored as <strong>.rds</strong> or
 <strong>.csv</strong> files in the following path:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">harmonized_allometry_path</span> <span class="op">=</span> <span class="st">"~/OneDrive/EMF_datasets/AllometryDatabases/Products/harmonized"</span></span></code></pre></div>
 <p>Function <code><a href="../reference/fill_medfate_allometries.html">fill_medfate_allometries()</a></code> performs trait
 parameter filling for <strong>medfate</strong> using the available
 data:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span><span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/fill_medfate_allometries.html">fill_medfate_allometries</a></span><span class="op">(</span><span class="va">SpParams</span>, </span>
 <span>                                                   <span class="va">harmonized_allometry_path</span>, </span>
 <span>                                                   progress <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: FoliarBiomass</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: FoliarBiomass <span style="color: #B2B2B2;">[31ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: FoliarBiomass <span style="color: #B2B2B2;">[29ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: CrownRatio</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownRatio <span style="color: #B2B2B2;">[24ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownRatio <span style="color: #B2B2B2;">[22ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: CrownWidth</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownWidth <span style="color: #B2B2B2;">[20ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownWidth <span style="color: #B2B2B2;">[19ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: BarkThickness</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: BarkThickness <span style="color: #B2B2B2;">[16ms]</span></span></span></code></pre>
@@ -429,7 +411,7 @@ data:</p>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: FineFuelBiomass <span style="color: #B2B2B2;">[15ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: TotalBiomass</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: TotalBiomass <span style="color: #B2B2B2;">[7ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: TotalBiomass <span style="color: #B2B2B2;">[6ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 </div>
 <div class="section level2">
@@ -439,11 +421,11 @@ data:</p>
 plant trait databases have been harmonized. In our case, harmonized data
 files have been stored as <strong>.rds</strong> or <strong>.csv</strong>
 files in the following path:</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">harmonized_trait_path</span> <span class="op">&lt;-</span> <span class="st">"~/OneDrive/EMF_datasets/PlantTraitDatabases/Products/harmonized"</span></span></code></pre></div>
 <p>Function <code><a href="../reference/fill_medfate_traits.html">fill_medfate_traits()</a></code> performs trait parameter
 filling for <strong>medfate</strong> using the available data:</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span><span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/fill_medfate_traits.html">fill_medfate_traits</a></span><span class="op">(</span><span class="va">SpParams</span>, <span class="va">harmonized_trait_path</span>, </span>
 <span>                                              progress <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning in get_trait_data(harmonized_trait_path, trait_name, is_numeric = TRUE,</span></span>
@@ -470,7 +452,7 @@ are called <code>Strict</code> (see <code>SpParamsDefinition</code> in
 package <strong>medfate</strong>). Function
 <code><a href="../reference/check_medfate_params.html">check_medfate_params()</a></code> checks, among other things, that
 strict parameters do not contain missing values:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_medfate_params.html">check_medfate_params</a></span><span class="op">(</span><span class="va">SpParams</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Strict parameter column 'GrowthForm' should not contain any missing value.</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Strict parameter column 'LifeForm' should not contain any missing value.</span></span></code></pre>
@@ -497,11 +479,11 @@ Imputation is performed on the basis of available information for
 similar taxa. Taxonomically closer entities are given priority over
 higher order taxa (i.e. species of the same genus are priorized as
 sources before searching for species in the same family):</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/complete_medfate_strict.html">complete_medfate_strict</a></span><span class="op">(</span><span class="va">SpParams</span>, progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>After completion of strict paratemers, the species parameter table
 should pass the previous check:</p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/check_medfate_params.html">check_medfate_params</a></span><span class="op">(</span><span class="va">SpParams</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> The data frame is acceptable as species parameter table for medfate.</span></span></code></pre>
 <p>And we can store the table for its use in model simulations.</p>
