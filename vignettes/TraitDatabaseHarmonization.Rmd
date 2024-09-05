@@ -19,7 +19,7 @@ Species parameter values cannot be drawn from a single data source. Moreover, th
     b) Measurement units.
     c) Taxonomy of the measured biological entities. 
 
-The result of this harmonization needs to be stored in a harmonized format for subsequent use when creating species parameter tables. This vignette illustrates the harmonization procedures for an example data set using package **trait4models** and the usual **tidyverse** packages.
+The result of this harmonization needs to be stored in a harmonized format for subsequent use when creating species parameter tables. This vignette illustrates the harmonization procedures for an example data set using package **trait4models** and the usual **tidyverse** packages. Harmonization of allometric equations follows an analogous procedure, which will not be illustrated here.
 
 >**IMPORTANT**: This vignette is not self-contained, in the sense that it cannot be reproduced without access to data sets that are not included. Nevertheless, it is intended to serve as example of species parameterization for other regions.
 
@@ -47,7 +47,7 @@ The data looks as follows:
 db
 ```
 
- 
+
 ## Harmonizing notation and measurement units
 
 The first steps to be done are to harmonize trait notation, i.e. how plant traits are referred to, and if necessary, change their units. Package **traits4models** includes a data table called `HarmonizedTraitDefinition` that presents plant trait definitions and their required notation and units:
@@ -116,16 +116,16 @@ head(db_post)
 
 ## Checking harmonized trait data
 
-The packages includes function `check_harmonized_table()` to check whether a given data frame conforms in structure and content to what is later required for parameter table filling:
+The packages includes function `check_harmonized_trait()` to check whether a given data frame conforms in structure and content to what is later required for parameter table filling:
 
 ```{r}
-check_harmonized_table(db_post)
+check_harmonized_trait(db_post)
 ```
 
 In this case, the data set is ready to be used in parameter estimation. As an example, we can run the same checking function with the data base before taxonomic harmonization:
 
 ```{r}
-check_harmonized_table(db_var)
+check_harmonized_trait(db_var)
 ```
 
 ## Storing harmonized dataset

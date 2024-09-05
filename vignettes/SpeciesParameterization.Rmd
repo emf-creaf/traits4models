@@ -144,53 +144,7 @@ Species matching is performed between column `Species` of the tree or shrub data
 ## Filling allometric coefficients
 
 ```{r}
-allom_path = "~/OneDrive/mcaceres_work/model_development/medfate_development/MedfateSpeciesParametrization/AllometryDatabases/"
-```
-
-
-### Tree foliar biomass
-
-```{r}
-  fb_models <- openxlsx::read.xlsx(paste0(allom_path, "TreeAllometries/TreeAllometries.xlsx"), sheet= "Tree_FB_models", rowNames = TRUE)
-```
-
-```{r}
-SpParams <- traits4models::fill_medfate_allometries(SpParams, fb_models, "foliarbiomass")
-```
-
-### Tree crown ratio
-
-```{r}
-  cr_models <- openxlsx::read.xlsx(paste0(allom_path,"TreeAllometries/TreeAllometries.xlsx"), 
-                                   sheet= "Tree_CR_models", rowNames = TRUE)
-```
-
-```{r}
-SpParams <- traits4models::fill_medfate_allometries(SpParams, cr_models, "crownratio")
-```
-
-### Tree crown width
-
-```{r}
-cw_models <- openxlsx::read.xlsx(paste0(allom_path,"TreeAllometries/TreeAllometries.xlsx"), 
-                                   sheet= "Tree_CW_models", rowNames = TRUE)
-```
-
-```{r}
-SpParams <- traits4models::fill_medfate_allometries(SpParams, cw_models, "crownwidth")
-```
-
-### Shrub fine biomass
-
-### Bark thickness
-
-```{r}
-bt_models <- openxlsx::read.xlsx(paste0(allom_path,"TreeAllometries/TreeAllometries.xlsx"), 
-                                   sheet= "Tree_BT_models", rowNames = TRUE)
-```
-
-```{r}
-SpParams <- traits4models::fill_medfate_allometries(SpParams, bt_models, "barkthickness")
+allom_path = "~/OneDrive/EMF_datasets/AllometryDatabases/"
 ```
 
 
@@ -211,12 +165,12 @@ trait_files
 ```
 ### Querying data for particular traits or species
 
-Before filling any species parameter table, it may be useful to inspect the amount of information available for particular traits or species. Package **trait4models** provides a couple of utility functions for this. For example, we can load all values for Gswmin, the minimum stomatal conductanace, using function `get_trait_data()`:
+Before filling any species parameter table, it may be useful to inspect the amount of information available for particular traits or species. Package **trait4models** provides a couple of utility functions for this. For example, we can load all values for Gswmin, the minimum stomatal conductance, using function `get_trait_data()`:
 
 ```{r}
 sla_data <- get_trait_data(harmonized_trait_path, "Gswmin",
                            progress = FALSE)
-sla_data
+head(sla_data)
 ```
 
 Analogously, if we are interested in querying trait information for a particular taxa, we can use function `get_taxon_data()`:
@@ -224,7 +178,7 @@ Analogously, if we are interested in querying trait information for a particular
 ```{r}
 ph_data <- get_taxon_data(harmonized_trait_path, "Pinus halepensis",
                           progress = FALSE)
-ph_data
+head(ph_data)
 ```
 
 

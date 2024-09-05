@@ -1,12 +1,15 @@
-#' Load harmonized trait data
+#' Load harmonized trait/allometry data
 #'
-#' Functions to load harmonized trait data
+#' Functions to load harmonized trait data and harmonized allometry data
 #'
-#' @param harmonized_trait_path The path to harmonized trait data files (.rds)
+#' @param harmonized_trait_path The path to harmonized trait data files (.rds or .csv format).
+#' @param harmonized_allometry_path The path to harmonized allometry data files (.rds or .csv format).
 #' @param progress A boolean flag to prompt progress.
 #'
 #' @return
-#' Function \code{load_harmonized_tables()} returns the list with all harmonized trait data tables.
+#' Function \code{load_harmonized_trait_tables()} returns the list with all harmonized trait data tables.
+#'
+#' Function \code{load_harmonized_allometry_tables()} returns the list with all harmonized allometry data tables.
 #'
 #' Function \code{get_trait_data()} returns a data frame with the pooled information of a single trait.
 #'
@@ -20,37 +23,81 @@
 #' @name get_trait_data
 #' @examples
 #' \dontrun{
+#'  # List harmonized trait files
 #'  harmonized_trait_path = "~/OneDrive/EMF_datasets/PlantTraitDatabases/Products/harmonized"
+#'  list.files(path = harmonized_trait_path)
 #'
-#'  # List of files
-#'  trait_files <- list.files(path = harmonized_trait_path)
-#'  head(trait_files)
-#'
-#'  # Load trait data
-#'  l <- load_harmonized_tables(harmonized_trait_path)
+#'  # Load all harmonized trait data
+#'  l <- load_harmonized_trait_tables(harmonized_trait_path)
 #'  head(l[[1]])
 #'
+#'  # Get data for one specific trait
 #'  get_trait_data(harmonized_trait_path, "SLA")
 #'
-#'  # Load taxon data
+#'  # Get trait data for one specific taxon
 #'  get_taxon_data(harmonized_trait_path, "Pinus halepensis")
+#'
+#'  # List harmonized allometry files
+#'  harmonized_allometry_path = "~/OneDrive/EMF_datasets/AllometryDatabases/Products/harmonized"
+#'  list.files(path = harmonized_allometry_path)
+#'
+#'  # Load all harmonized allometry data
+#'  l <- load_harmonized_allometry_tables(harmonized_allometry_path)
+#'  head(l[[1]])
 #'}
-load_harmonized_tables <- function(harmonized_trait_path, progress = TRUE) {
+load_harmonized_trait_tables <- function(harmonized_trait_path, progress = TRUE) {
   trait_files_short <- list.files(path = harmonized_trait_path, full.names = FALSE)
   trait_files <- list.files(path = harmonized_trait_path, full.names = TRUE)
+  filter <- endsWith(trait_files_short, ".csv") | endsWith(trait_files_short, ".rds")
+  trait_files_short <- trait_files_short[filter]
+  trait_files <- trait_files[filter]
   trait_tables <- vector("list", length(trait_files))
 
   if(progress) cli::cli_progress_bar("Tables", total = length(trait_files))
   for(i in 1:length(trait_files)) {
     if(progress) cli::cli_progress_update()
-    tab <- readRDS(trait_files[[i]]) |>
-      as.data.frame()|>
-      dplyr::filter(!is.na(acceptedName))
+    if(endsWith(trait_files[i], ".rds")) {
+      tab <- readRDS(trait_files[i]) |>
+        as.data.frame()|>
+        dplyr::filter(!is.na(acceptedName))
+    } else if(endsWith(trait_files[i], ".csv")) {
+      tab <- read.csv2(trait_files[i]) |>
+        as.data.frame()|>
+        dplyr::filter(!is.na(acceptedName))
+    }
     if(!("Priority" %in% names(tab))) tab$Priority <- 1
     trait_tables[[i]] <- tab
   }
   names(trait_tables) <- trait_files_short
   return(trait_tables)
+}
+
+#' @rdname get_trait_data
+#' @export
+load_harmonized_allometry_tables <- function(harmonized_allometry_path, progress = TRUE) {
+  allometry_files_short <- list.files(path = harmonized_allometry_path, full.names = FALSE)
+  allometry_files <- list.files(path = harmonized_allometry_path, full.names = TRUE)
+  filter <- endsWith(allometry_files_short, ".csv") | endsWith(allometry_files_short, ".rds")
+  allometry_files_short <- allometry_files_short[filter]
+  allometry_files <- allometry_files[filter]
+  allometry_tables <- vector("list", length(allometry_files))
+  if(progress) cli::cli_progress_bar("Tables", total = length(allometry_files))
+  for(i in 1:length(allometry_files)) {
+    if(progress) cli::cli_progress_update()
+    if(endsWith(allometry_files[i], ".rds")) {
+      tab <- readRDS(allometry_files[i]) |>
+        as.data.frame()|>
+        dplyr::filter(!is.na(acceptedName))
+    } else if(endsWith(allometry_files[i], ".csv")) {
+      tab <- read.csv2(allometry_files[i]) |>
+        as.data.frame()|>
+        dplyr::filter(!is.na(acceptedName))
+    }
+    if(!("Priority" %in% names(tab))) tab$Priority <- 1
+    allometry_tables[[i]] <- tab
+  }
+  names(allometry_tables) <- allometry_files_short
+  return(allometry_tables)
 }
 
 #' @param trait_name A string of an accepted trait name
@@ -63,7 +110,7 @@ get_trait_data <- function(harmonized_trait_path,
                            trait_name,
                            is_numeric = TRUE, progress = TRUE) {
   if(progress) cli::cli_progress_step("Loading harmonized source trait tables")
-  all_tables <- load_harmonized_tables(harmonized_trait_path, progress = progress)
+  all_tables <- load_harmonized_trait_tables(harmonized_trait_path, progress = progress)
   if(progress) cli::cli_progress_step(paste0("Filtering for trait: ", trait_name))
   trait_tables <- vector("list", length(all_tables))
   fixed <- c("originalName", "acceptedName","acceptedNameAuthorship","family",
@@ -96,7 +143,7 @@ get_trait_data <- function(harmonized_trait_path,
 get_taxon_data<- function(harmonized_trait_path,
                           accepted_name, progress = TRUE) {
   if(progress) cli::cli_progress_step("Loading harmonized source trait tables")
-  all_tables <- load_harmonized_tables(harmonized_trait_path, progress = progress)
+  all_tables <- load_harmonized_trait_tables(harmonized_trait_path, progress = progress)
   if(progress) cli::cli_progress_step(paste0("Filtering for taxon: ", accepted_name))
   taxon_table <- data.frame(Trait = character(0), Value = character(0), Units = character(0), Reference = character(0))
   fixed <- c("originalName", "acceptedName","acceptedNameAuthorship","family",

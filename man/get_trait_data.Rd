@@ -2,11 +2,14 @@
 % Please edit documentation in R/load_harmonized.R
 \name{get_trait_data}
 \alias{get_trait_data}
-\alias{load_harmonized_tables}
+\alias{load_harmonized_trait_tables}
+\alias{load_harmonized_allometry_tables}
 \alias{get_taxon_data}
-\title{Load harmonized trait data}
+\title{Load harmonized trait/allometry data}
 \usage{
-load_harmonized_tables(harmonized_trait_path, progress = TRUE)
+load_harmonized_trait_tables(harmonized_trait_path, progress = TRUE)
+
+load_harmonized_allometry_tables(harmonized_allometry_path, progress = TRUE)
 
 get_trait_data(
   harmonized_trait_path,
@@ -18,42 +21,53 @@ get_trait_data(
 get_taxon_data(harmonized_trait_path, accepted_name, progress = TRUE)
 }
 \arguments{
-\item{harmonized_trait_path}{The path to harmonized trait data files (.rds)}
+\item{harmonized_trait_path}{The path to harmonized trait data files (.rds or .csv format).}
 
 \item{progress}{A boolean flag to prompt progress.}
+
+\item{harmonized_allometry_path}{The path to harmonized allometry data files (.rds or .csv format).}
 
 \item{trait_name}{A string of an accepted trait name}
 
 \item{is_numeric}{A boolean indicating whether the trait is numeric}
 }
 \value{
-Function \code{load_harmonized_tables()} returns the list with all harmonized trait data tables.
+Function \code{load_harmonized_trait_tables()} returns the list with all harmonized trait data tables.
+
+Function \code{load_harmonized_allometry_tables()} returns the list with all harmonized allometry data tables.
 
 Function \code{get_trait_data()} returns a data frame with the pooled information of a single trait.
 
 Function \code{get_taxon_data()} returns a data frame with the pooled information for a given taxon.
 }
 \description{
-Functions to load harmonized trait data
+Functions to load harmonized trait data and harmonized allometry data
 }
 \details{
 Both functions will add \code{Priority = 1} to those trait data sources where \code{Priority} column is not defined.
 }
 \examples{
 \dontrun{
+ # List harmonized trait files
  harmonized_trait_path = "~/OneDrive/EMF_datasets/PlantTraitDatabases/Products/harmonized"
+ list.files(path = harmonized_trait_path)
 
- # List of files
- trait_files <- list.files(path = harmonized_trait_path)
- head(trait_files)
-
- # Load trait data
- l <- load_harmonized_tables(harmonized_trait_path)
+ # Load all harmonized trait data
+ l <- load_harmonized_trait_tables(harmonized_trait_path)
  head(l[[1]])
 
+ # Get data for one specific trait
  get_trait_data(harmonized_trait_path, "SLA")
 
- # Load taxon data
+ # Get trait data for one specific taxon
  get_taxon_data(harmonized_trait_path, "Pinus halepensis")
+
+ # List harmonized allometry files
+ harmonized_allometry_path = "~/OneDrive/EMF_datasets/AllometryDatabases/Products/harmonized"
+ list.files(path = harmonized_allometry_path)
+
+ # Load all harmonized allometry data
+ l <- load_harmonized_allometry_tables(harmonized_allometry_path)
+ head(l[[1]])
 }
 }

@@ -26,15 +26,15 @@ navbar:
         href: articles/SpeciesParameterization.html
 
 reference:
-- title: Trait database harmonization
-  desc:  Harmonization of plant trait databases
+- title: Trait and allometry database harmonization
+  desc:  Harmonization of plant trait or allometry databases
   contents:
   - starts_with("harmonize")
-  - starts_with("check_harmonized_table")
+  - starts_with("check_harmonized")
   - HarmonizedTraitDefinition
 
-- title: Harmonized trait data
-  desc:  Read and summarize harmonized trait data
+- title: Harmonized trait and allometry data
+  desc:  Load and subset harmonized trait and allometry data
   contents:
   - starts_with("get_trait")
 

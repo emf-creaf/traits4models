@@ -142,8 +142,8 @@ fill_medfate_traits<-function(SpParams,
                               replace_previous = replace_previous, verbose = verbose)
 
   if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Vmax298"))
-  trait_table <- get_trait_data(harmonized_trait_path, "Vcmax", is_numeric = TRUE, progress = FALSE)
-  trait_mapping <- "Vcmax"
+  trait_table <- get_trait_data(harmonized_trait_path, "Vmax", is_numeric = TRUE, progress = FALSE)
+  trait_mapping <- "Vmax"
   names(trait_mapping) <- "Vmax298"
   SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
                               summary_function = "median",

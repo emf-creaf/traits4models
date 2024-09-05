@@ -90,6 +90,21 @@ populate_shrub_allometries_from_medfuels<-function(SpParams,
 #' @seealso \code{\link{init_spparams}}
 #'
 fill_medfate_allometries<-function(SpParams,
+                                   harmonized_allometry_path,
+                                   priorization = TRUE,
+                                   erase_previous = TRUE,
+                                   replace_previous = TRUE,
+                                   progress = TRUE, verbose = FALSE) {
+
+  priority_column <- NULL
+  if(priorization) priority_column <- "Priority"
+  for(response in c("FoliarBiomass", "BarkThickness", "CrownRatio", "CrownWidth")) {
+
+  }
+
+}
+
+fill_medfate_allometries<-function(SpParams,
                                    allom_table,
                                    allom_type = "foliarbiomass",
                                    progress = TRUE, verbose = FALSE) {
