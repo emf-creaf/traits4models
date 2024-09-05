@@ -119,7 +119,7 @@ fill_medfate_allometries<-function(SpParams,
 
   priority_column <- NULL
   if(priorization) priority_column <- "Priority"
-  cli::cli_progress_step("Processing response: FoliarBiomass")
+  if(progress) cli::cli_progress_step("Processing response: FoliarBiomass")
   response_data <- get_allometry_data(harmonized_allometry_path, response = "FoliarBiomass", progress = FALSE)
   allom_table <-response_data |>
     dplyr::filter(Equation == "FoliarBiomass = a·DBH^b·exp(c·BAL)·DBH^(d·BAL)")
@@ -131,14 +131,57 @@ fill_medfate_allometries<-function(SpParams,
     dplyr::filter(Equation == "FoliarBiomass = a·DBH^b")
   if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table, c("a", "b"), c("a_fbt", "b_fbt"))
 
-  cli::cli_progress_step("Processing response: CrownRatio")
+  if(progress) cli::cli_progress_step("Processing response: CrownRatio")
   response_data <- get_allometry_data(harmonized_allometry_path, response = "CrownRatio", progress = FALSE)
   allom_table <-response_data |>
     dplyr::filter(Equation == "CrownRatio = 1/(1 + exp(a + b·HD + c·(H/100) + d·DBH^2 + e·BAL + f·ln(CCF)))")
   if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
                                                               c("a", "b", "c", "d", "e", "f"),
                                                               c("a_cr", "b_1cr", "b_2cr", "b_3cr", "c_1cr", "c_2cr"))
-  cli::cli_process_done()
+
+  if(progress) cli::cli_progress_step("Processing response: CrownWidth")
+  response_data <- get_allometry_data(harmonized_allometry_path, response = "CrownWidth", progress = FALSE)
+  allom_table <-response_data |>
+    dplyr::filter(Equation == "CrownWidth = a·DBH^b")
+  if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
+                                                              c("a", "b"),
+                                                              c("a_cw", "b_cw"))
+
+  if(progress) cli::cli_progress_step("Processing response: BarkThickness")
+  response_data <- get_allometry_data(harmonized_allometry_path, response = "BarkThickness", progress = FALSE)
+  allom_table <-response_data |>
+    dplyr::filter(Equation == "BarkThickness = a·DBH^b")
+  if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
+                                                              c("a", "b"),
+                                                              c("a_bt", "b_bt"))
+
+
+  if(progress) cli::cli_progress_step("Processing response: CrownArea")
+  response_data <- get_allometry_data(harmonized_allometry_path, response = "CrownArea", progress = FALSE)
+  allom_table <-response_data |>
+    dplyr::filter(Equation == "CrownArea = a·Ht^b")
+  if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
+                                                              c("a", "b"),
+                                                              c("a_ash", "b_ash"))
+
+
+  if(progress) cli::cli_progress_step("Processing response: FineFuelBiomass")
+  response_data <- get_allometry_data(harmonized_allometry_path, response = "FineFuelBiomass", progress = FALSE)
+  allom_table <-response_data |>
+    dplyr::filter(Equation == "FineFuelBiomass = a·PHV^b")
+  if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
+                                                              c("a", "b"),
+                                                              c("a_bsh", "b_bsh"))
+
+  if(progress) cli::cli_progress_step("Processing response: TotalBiomass")
+  response_data <- get_allometry_data(harmonized_allometry_path, response = "TotalBiomass", progress = FALSE)
+  allom_table <-response_data |>
+    dplyr::filter(Equation == "TotalBiomass = a·PHV^b")
+  if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
+                                                              c("a", "b"),
+                                                              c("a_btsh", "b_btsh"))
+
+  if(progress) cli::cli_process_done()
   return(SpParams)
 }
 

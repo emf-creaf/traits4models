@@ -110,7 +110,7 @@ check_harmonized_allometry(db_var)
 
 ## Storing harmonized dataset
 
-Harmonized data tables should be preferably stored in compressed **.rds** format. Moreover, all tables should be stored in the same directory, here in the `Products/harmonized/` path.
+Harmonized data tables can be stored in **.csv** text format or compressed **.rds** format. Moreover, all tables should be stored in the same directory, here in the `Products/harmonized/` path.
 
 ```{r, eval = FALSE}
 write.csv2(db_post, "Products/harmonized/tree_crown_ratio_europe.csv", row.names = FALSE)
@@ -120,7 +120,7 @@ write.csv2(db_post, "Products/harmonized/tree_crown_ratio_europe.csv", row.names
 
 ### List of harmonized allometry databases
 
-As mentioned in the introduction, here it is assumed that a set of plant allometry databases have been harmonized. In our case, harmonized data files have been stored as **.rds** or **.csv** files in the following path:
+As mentioned in the introduction, here it is assumed that a set of plant allometry databases have been harmonized. In our case, harmonized data files have been stored in the following path:
 
 ```{r}
 harmonized_allometry_path = "~/OneDrive/EMF_datasets/AllometryDatabases/Products/harmonized"

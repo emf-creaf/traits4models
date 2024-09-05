@@ -152,8 +152,9 @@ harmonized_allometry_path = "~/OneDrive/EMF_datasets/AllometryDatabases/Products
 Function `fill_medfate_allometries()` performs trait parameter filling for **medfate** using the available data:
 
 ```{r}
-SpParams<- traits4models::fill_medfate_allometries(SpParams, harmonized_allometry_path, 
-                                              progress = FALSE, verbose = FALSE)
+SpParams<- traits4models::fill_medfate_allometries(SpParams, 
+                                                   harmonized_allometry_path, 
+                                                   progress = TRUE, verbose = FALSE)
 ```
 
 ## Filling parameters from harmonized trait databases
