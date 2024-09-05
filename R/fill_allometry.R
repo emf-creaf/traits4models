@@ -99,7 +99,7 @@
 #' Function that uses harmonized allometric equations to fill medfate allometric coefficients for taxa on the basis of their accepted name.
 #'
 #' @param SpParams A data frame of medfate species parameters to be populated.
-#' @param harmonized_trait_path The path to harmonized trait data files (.rds or .csv format).
+#' @param harmonized_allometry_path The path to harmonized trait data files (.rds or .csv format).
 #' @param priorization A boolean flag to perform priorization of some data sources over others (not yet implemented!).
 #' @param replace_previous A boolean flag to indicate that non-missing previous values should be replaced with new data
 #' @param erase_previous A boolean flag to indicate that all previous values should be set to NA before populating with new data

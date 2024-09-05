@@ -3,7 +3,7 @@
 #' Taxonomy-based imputation of strict parameters in medfate.
 #'
 #' @param SpParams A species parameter data frame to be completed
-#' @param param A character vector with strict parameters to be completed. If missing, all strict parameters will be checked for completion.
+#' @param params A character vector with strict parameters to be completed. If missing, all strict parameters will be checked for completion.
 #' @param progress A boolean flag to prompt progress.
 #' @param verbose A boolean flag to prompt detailed process information.
 #'

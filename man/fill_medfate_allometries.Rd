@@ -18,6 +18,8 @@ fill_medfate_allometries(
 \arguments{
 \item{SpParams}{A data frame of medfate species parameters to be populated.}
 
+\item{harmonized_allometry_path}{The path to harmonized trait data files (.rds or .csv format).}
+
 \item{priorization}{A boolean flag to perform priorization of some data sources over others (not yet implemented!).}
 
 \item{erase_previous}{A boolean flag to indicate that all previous values should be set to NA before populating with new data}
@@ -27,8 +29,6 @@ fill_medfate_allometries(
 \item{progress}{A boolean flag to prompt progress.}
 
 \item{verbose}{A boolean flag to indicate extra console output.}
-
-\item{harmonized_trait_path}{The path to harmonized trait data files (.rds or .csv format).}
 }
 \value{
 A modified data frame of medfate species parameters.

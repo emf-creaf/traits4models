@@ -14,11 +14,11 @@ complete_medfate_strict(
 \arguments{
 \item{SpParams}{A species parameter data frame to be completed}
 
+\item{params}{A character vector with strict parameters to be completed. If missing, all strict parameters will be checked for completion.}
+
 \item{progress}{A boolean flag to prompt progress.}
 
 \item{verbose}{A boolean flag to prompt detailed process information.}
-
-\item{param}{A character vector with strict parameters to be completed. If missing, all strict parameters will be checked for completion.}
 }
 \value{
 A species parameter data frame with imputed strict parameter values
