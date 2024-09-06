@@ -54,7 +54,7 @@ check_harmonized_trait<- function(x) {
   for(t in other) {
     if(!(t %in% HarmonizedTraitDefinition$Notation)) {
       acceptable <- FALSE
-      cli::cli_alert_warning(paste0("Trait column '", t, "' does not match any harmonized trait."))
+      cli::cli_alert_warning(paste0("Trait column '", t, "' does not match any harmonized trait definition."))
     } else {
       type <- HarmonizedTraitDefinition$Type[HarmonizedTraitDefinition$Notation == t]
       if(type=="String") {
