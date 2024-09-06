@@ -99,10 +99,10 @@ fill_medfate_traits<-function(SpParams,
                               replace_previous = replace_previous, verbose = verbose)
 
 
-  if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "CR"))
+  if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "cr"))
   trait_table <- get_trait_data(harmonized_trait_path, "CrownRatio", is_numeric = TRUE, progress = FALSE)
   trait_mapping <- "CrownRatio"
-  names(trait_mapping) <- "CR"
+  names(trait_mapping) <- "cr"
   SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
                               summary_function = "median",
                               taxon_column = "acceptedName", genus_column = "genus",
