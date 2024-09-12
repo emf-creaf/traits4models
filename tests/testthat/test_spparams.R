@@ -9,6 +9,8 @@ test_that("init_medfate_params returns a data frame",{
 })
 
 test_that("check_medfate_params works", {
+  expect_s3_class(check_medfate_params(init_medfate_params(sp_names_1, verbose = FALSE),
+                                       verbose = FALSE), "data.frame")
   expect_s3_class(check_medfate_params(SpParamsMED, verbose = FALSE), "data.frame")
   expect_s3_class(check_medfate_params(SpParamsES, verbose = FALSE), "data.frame")
   expect_s3_class(check_medfate_params(SpParamsFR, verbose = FALSE), "data.frame")

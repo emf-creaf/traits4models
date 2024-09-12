@@ -27,6 +27,29 @@ check_medfate_params<- function(x, verbose = TRUE) {
     w_mis <- fixed[!(fixed %in% cn)]
     cli::cli_abort(paste0("Parameter columns missing: ", paste0(w_mis, collapse =" ")))
   }
+  wrong_types <- rep(FALSE, length(fixed))
+  for(i in 1:length(fixed)) {
+    p <- fixed[i]
+    if(!all(is.na(x[[p]]))) {
+      type  <- SpParamsDefinition$Type[SpParamsDefinition$ParameterName==p]
+      if(type=="String") {
+        if(!is.character(x[[p]])) {
+          if(verbose) cli::cli_alert_warning(paste0("Parameter column '", p, "' should contain strings."))
+          wrong_types[i] <- TRUE
+        }
+      } else if(type=="Integer") {
+        if(!is.numeric(x[[p]])) {
+          if(verbose) cli::cli_alert_warning(paste0("Parameter column '", p, "' should contain integer values."))
+          wrong_types[i] <- TRUE
+        }
+      } else if(type=="Numeric") {
+        if(!is.numeric(x[[p]])) {
+          if(verbose) cli::cli_alert_warning(paste0("Parameter column '", p, "' should contain numeric values."))
+          wrong_types[i] <- TRUE
+        }
+      }
+    }
+  }
 
   # Strict parameters should not contain missing values
   strict_params <- SpParamsDefinition$ParameterName[SpParamsDefinition$Strict]
@@ -37,6 +60,6 @@ check_medfate_params<- function(x, verbose = TRUE) {
       if(verbose) cli::cli_alert_warning(paste0("Strict parameter column '", p, "' should not contain any missing value."))
     }
   }
-  if(sum(as.matrix(mis_strict))==0) if(verbose) cli::cli_alert_success("The data frame is acceptable as species parameter table for medfate.")
+  if(sum(wrong_types)==0 && sum(as.matrix(mis_strict))==0) if(verbose) cli::cli_alert_success("The data frame is acceptable as species parameter table for medfate.")
   return(invisible(mis_strict))
 }
