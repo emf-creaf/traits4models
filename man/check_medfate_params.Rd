@@ -28,5 +28,6 @@ The function performs the following checks:
 \examples{
 check_medfate_params(SpParamsES)
 check_medfate_params(SpParamsFR)
-
+check_medfate_params(SpParamsUS)
+check_medfate_params(SpParamsAU)
 }

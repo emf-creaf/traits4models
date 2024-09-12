@@ -17,7 +17,8 @@
 #' @examples
 #' check_medfate_params(SpParamsES)
 #' check_medfate_params(SpParamsFR)
-#'
+#' check_medfate_params(SpParamsUS)
+#' check_medfate_params(SpParamsAU)
 check_medfate_params<- function(x, verbose = TRUE) {
   if(!inherits(x, "data.frame")) cli::cli_abort("Input should be a data frame")
   data("SpParamsDefinition", package = "medfate", envir = environment())
