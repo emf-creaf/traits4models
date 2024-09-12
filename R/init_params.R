@@ -70,7 +70,7 @@ init_medfate_params<-function(x,
   } else {
     cli::cli_abort("Wrong input for 'x'. Should be either a character vector or a data frame.")
   }
-  data("SpParamsDefinition", package = "medfate")
+  data("SpParamsDefinition", package = "medfate", envir = environment())
   if(verbose) cli::cli_progress_step("Initializing parameter table")
   SpParams <- data.frame(Name = as.character(names))
   for(cn in SpParamsDefinition$ParameterName) {

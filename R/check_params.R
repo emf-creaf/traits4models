@@ -16,10 +16,11 @@
 #' @export
 #' @examples
 #' check_medfate_params(SpParamsES)
+#' check_medfate_params(SpParamsFR)
 #'
 check_medfate_params<- function(x, verbose = TRUE) {
   if(!inherits(x, "data.frame")) cli::cli_abort("Input should be a data frame")
-  data("SpParamsDefinition", package = "medfate")
+  data("SpParamsDefinition", package = "medfate", envir = environment())
   cn <- names(x)
   fixed <- SpParamsDefinition$ParameterName
   if(!all(fixed %in% cn)) {

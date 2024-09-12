@@ -39,11 +39,11 @@ names(resproutingParamsSpecies)[1] = "Species"
 SpParamsES = medfate::modifySpParams(SpParamsES, resproutingParamsSpecies, subsetSpecies = FALSE)
 usethis::use_data(SpParamsES, overwrite = T)
 
-SpParamsFR <- readRDS(paste0(NFIparamDir, "Rdata/fr/SpParams_filled_strict_allom_fr.rds"))
+SpParamsFR <- readRDS(paste0(NFIparamDir, "Rdata/fr/SpParams_final_fr.rds"))
 usethis::use_data(SpParamsFR, overwrite = T)
-SpParamsUS <- readRDS(paste0(NFIparamDir, "Rdata/us/SpParams_filled_strict_allom_us.rds"))
+SpParamsUS <- readRDS(paste0(NFIparamDir, "Rdata/us/SpParams_final_us.rds"))
 usethis::use_data(SpParamsUS, overwrite = T)
-SpParamsAU <- readRDS(paste0(NFIparamDir, "Rdata/au/SpParams_filled_strict_allom_au.rds"))
+SpParamsAU <- readRDS(paste0(NFIparamDir, "Rdata/au/SpParams_final_au.rds"))
 usethis::use_data(SpParamsAU, overwrite = T)
 
 # Species mapping table
