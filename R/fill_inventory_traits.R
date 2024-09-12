@@ -71,9 +71,11 @@ fill_medfate_inventory_traits<-function(SpParams,
   if(progress) cli::cli_progress_step("Extracting growth form")
   for(i in 1:nrow(SpParams)) {
     is_t <- is_tree[names_species == SpParams$Name[i]]
-    if(all(is_t)) SpParams$GrowthForm[i] <- "Tree"
-    else if(all(!is_t)) SpParams$GrowthForm[i] <- "Shrub"
-    else SpParams$GrowthForm[i] <- "Tree/Shrub"
+    if(length(is_t)>0) {
+      if(all(is_t)) SpParams$GrowthForm[i] <- "Tree"
+      else if(all(!is_t)) SpParams$GrowthForm[i] <- "Shrub"
+      else SpParams$GrowthForm[i] <- "Tree/Shrub"
+    }
   }
   if(progress) cli::cli_progress_step("Extracting plant size")
   for(i in 1:nrow(SpParams)) {

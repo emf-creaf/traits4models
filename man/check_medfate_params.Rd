@@ -4,13 +4,15 @@
 \alias{check_medfate_params}
 \title{Checks species parameter tables}
 \usage{
-check_medfate_params(x)
+check_medfate_params(x, verbose = TRUE)
 }
 \arguments{
 \item{x}{A data frame with species parameter data}
+
+\item{verbose}{A boolean flag to prompt detailed process information.}
 }
 \value{
-An (invisible) boolean indicating whether the data frame is acceptable or not.
+An (invisible) data frame with missing values in strict parameters.
 }
 \description{
 Checks that the input data frame has the appropriate format and data for simulations with medfate.
@@ -22,4 +24,8 @@ The function performs the following checks:
   \item{All parameter names defined in \code{\link[medfate]{SpParamsDefinition}} should be listed as columns.}
   \item{Strict parameters should not contain missing values. Strict parameters are defined as such in \code{\link[medfate]{SpParamsDefinition}}.}
 }
+}
+\examples{
+check_medfate_params(SpParamsES)
+
 }

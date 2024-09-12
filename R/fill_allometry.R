@@ -87,7 +87,7 @@
       if(replace_previous) SpParams[i, target_params] <- vals
       else {
         is_na_param <- is.na(SpParams[i, target_params])
-        SpParams[i, target_params[!is_na_param]] <- vals[is_na_param]
+        SpParams[i, target_params[is_na_param]] <- vals[is_na_param]
       }
     }
   }
@@ -207,7 +207,7 @@ fill_medfate_allometries<-function(SpParams,
                                                               c("a_btsh", "b_btsh"),
                                                               replace_previous = replace_previous)
 
-  if(progress) cli::cli_process_done()
+  if(progress) cli::cli_progress_done()
   return(SpParams)
 }
 

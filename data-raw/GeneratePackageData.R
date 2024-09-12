@@ -13,7 +13,7 @@ MFWdir <- "~/OneDrive/mcaceres_work/model_development/medfate_development/"
 NFIparamDir <- "~/OneDrive/mcaceres_work/model_development/medfate_development/MedfateSpeciesParametrization/NFIs_parametrization/"
 
 # SpParamsES, SpParamsUS, SpParamsFR, SpParamsAU --------------------------------------
-SpParamsES <- readRDS(paste0(NFIparamDir, "Rdata/sp/SpParams_filled_strict_allom_sp.rds"))
+SpParamsES <- readRDS(paste0(NFIparamDir, "Rdata/es/SpParams_final_es.rds"))
 # Results of meta-modelling exercise
 metamodellingParamsSpecies = readRDS(paste0(MFWdir, "Metamodelling_TR_WUE/Rdata/metamodelling_params.rds"))
 SpParamsES = medfate::modifySpParams(SpParamsES, metamodellingParamsSpecies, subsetSpecies = FALSE)

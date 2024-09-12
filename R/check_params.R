@@ -3,8 +3,9 @@
 #' Checks that the input data frame has the appropriate format and data for simulations with medfate.
 #'
 #' @param x A data frame with species parameter data
+#' @param verbose A boolean flag to prompt detailed process information.
 #'
-#' @returns An (invisible) boolean indicating whether the data frame is acceptable or not.
+#' @returns An (invisible) data frame with missing values in strict parameters.
 #'
 #' @details The function performs the following checks:
 #' \itemize{
@@ -13,32 +14,28 @@
 #'   \item{Strict parameters should not contain missing values. Strict parameters are defined as such in \code{\link[medfate]{SpParamsDefinition}}.}
 #' }
 #' @export
+#' @examples
+#' check_medfate_params(SpParamsES)
 #'
-check_medfate_params<- function(x) {
+check_medfate_params<- function(x, verbose = TRUE) {
   if(!inherits(x, "data.frame")) cli::cli_abort("Input should be a data frame")
   data("SpParamsDefinition", package = "medfate")
   cn <- names(x)
   fixed <- SpParamsDefinition$ParameterName
-  acceptable <- TRUE
   if(!all(fixed %in% cn)) {
     w_mis <- fixed[!(fixed %in% cn)]
-    acceptable <- FALSE
-    cli::cli_alert_warning(paste0("Parameter columns missing: ", paste0(w_mis, collapse =" ")))
+    cli::cli_abort(paste0("Parameter columns missing: ", paste0(w_mis, collapse =" ")))
   }
 
   # Strict parameters should not contain missing values
-  if("Strict" %in% names(SpParamsDefinition)) {
-    strict_params <- SpParamsDefinition$ParameterName[SpParamsDefinition$Strict]
-    for(p in strict_params) {
-      if(any(is.na(x[[p]]))) {
-        acceptable <- FALSE
-        cli::cli_alert_warning(paste0("Strict parameter column '", p, "' should not contain any missing value."))
-      }
+  strict_params <- SpParamsDefinition$ParameterName[SpParamsDefinition$Strict]
+  mis_strict <- data.frame(row.names = 1:nrow(x))
+  for(p in strict_params) {
+    mis_strict[[p]] <- is.na(x[[p]])
+    if(any(mis_strict[[p]])) {
+      if(verbose) cli::cli_alert_warning(paste0("Strict parameter column '", p, "' should not contain any missing value."))
     }
   }
-
-  if(!acceptable) cli::cli_alert_warning("The data frame is not acceptable as species parameter table for medfate.")
-  else  cli::cli_alert_success("The data frame is acceptable as species parameter table for medfate.")
-
-  return(invisible(acceptable))
+  if(sum(as.matrix(mis_strict))==0) if(verbose) cli::cli_alert_success("The data frame is acceptable as species parameter table for medfate.")
+  return(invisible(mis_strict))
 }

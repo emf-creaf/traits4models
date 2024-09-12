@@ -53,13 +53,18 @@ complete_medfate_strict<- function(SpParams, params = NULL, progress = TRUE, ver
     na_rows <- which(is.na(SpParams[[param]]))
     if(progress && verbose) cli::cli_li(paste0("Number of missing after assigning species to sub-species: ", length(na_rows)))
     for(r in na_rows) {
-      if(SpParams$AcceptedName[r] != SpParams$Genus[r]) {
-        rowGen = which(SpParams$AcceptedName==SpParams$Genus[r])
-        if(length(rowGen)>0) {
-          if(type=="String") {
-            SpParams[[param]][r] <- SpParams[[param]][rowGen[1]]
-          } else {
-            SpParams[[param]][r] <- mean(SpParams[[param]][rowGen], na.rm=TRUE)
+      acc_name <- SpParams$AcceptedName[r]
+      if(!is.na(acc_name)) {
+        if(acc_name != SpParams$Genus[r]) {
+          sel <- SpParams$AcceptedName==SpParams$Genus[r]
+          sel[is.na(sel)] <- FALSE
+          rowGen <- which(sel)
+          if(length(rowGen)>0) {
+            if(type=="String") {
+              SpParams[[param]][r] <- SpParams[[param]][rowGen[1]]
+            } else {
+              SpParams[[param]][r] <- mean(SpParams[[param]][rowGen], na.rm=TRUE)
+            }
           }
         }
       }
