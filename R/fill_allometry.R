@@ -127,19 +127,19 @@ fill_medfate_allometries<-function(SpParams,
   if(erase_previous) SpParams[,c("a_fbt", "b_fbt", "c_fbt")] <- NA
   response_data <- get_allometry_data(harmonized_allometry_path, response = "FoliarBiomass", progress = FALSE)
   allom_table <-response_data |>
-    dplyr::filter(Equation == "FoliarBiomass = a·DBH^b·exp(c·BAL)·DBH^(d·BAL)")
+    dplyr::filter(.data$Equation == "FoliarBiomass = a\u0183DBH^b\u0183exp(c\u00b7BAL)\u0183DBH^(d\u00b7BAL)")
   if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
                                                               c("a", "b", "c"),
                                                               c("a_fbt", "b_fbt", "c_fbt"),
                                                               replace_previous = replace_previous)
   allom_table <-response_data |>
-    dplyr::filter(Equation == "FoliarBiomass = a·DBH^b·exp(c·BAL)")
+    dplyr::filter(.data$Equation == "FoliarBiomass = a\u00b7DBH^b\u00b7exp(c\u00b7BAL)")
   if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
                                                               c("a", "b", "c"),
                                                               c("a_fbt", "b_fbt", "c_fbt"),
                                                               replace_previous = replace_previous)
   allom_table <-response_data |>
-    dplyr::filter(Equation == "FoliarBiomass = a·DBH^b")
+    dplyr::filter(.data$Equation == "FoliarBiomass = a\u00b7DBH^b")
   if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
                                                               c("a", "b"),
                                                               c("a_fbt", "b_fbt"),
@@ -149,7 +149,7 @@ fill_medfate_allometries<-function(SpParams,
   if(erase_previous) SpParams[,c("a_cr", "b_1cr", "b_2cr", "b_3cr", "c_1cr", "c_2cr")] <- NA
   response_data <- get_allometry_data(harmonized_allometry_path, response = "CrownRatio", progress = FALSE)
   allom_table <-response_data |>
-    dplyr::filter(Equation == "CrownRatio = 1/(1 + exp(a + b·HD + c·(H/100) + d·DBH^2 + e·BAL + f·ln(CCF)))")
+    dplyr::filter(.data$Equation == "CrownRatio = 1/(1 + exp(a + b\u00b7HD + c\u00b7(H/100) + d\u00b7DBH^2 + e\u00b7BAL + f\u00b7ln(CCF)))")
   if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
                                                               c("a", "b", "c", "d", "e", "f"),
                                                               c("a_cr", "b_1cr", "b_2cr", "b_3cr", "c_1cr", "c_2cr"),
@@ -159,7 +159,7 @@ fill_medfate_allometries<-function(SpParams,
   if(erase_previous) SpParams[,c("a_cw", "b_cw")] <- NA
   response_data <- get_allometry_data(harmonized_allometry_path, response = "CrownWidth", progress = FALSE)
   allom_table <-response_data |>
-    dplyr::filter(Equation == "CrownWidth = a·DBH^b")
+    dplyr::filter(.data$Equation == "CrownWidth = a\u00b7DBH^b")
   if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
                                                               c("a", "b"),
                                                               c("a_cw", "b_cw"),
@@ -169,7 +169,7 @@ fill_medfate_allometries<-function(SpParams,
   if(erase_previous) SpParams[,c("a_bt", "b_bt")] <- NA
   response_data <- get_allometry_data(harmonized_allometry_path, response = "BarkThickness", progress = FALSE)
   allom_table <-response_data |>
-    dplyr::filter(Equation == "BarkThickness = a·DBH^b")
+    dplyr::filter(.data$Equation == "BarkThickness = a\u00b7DBH^b")
   if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
                                                               c("a", "b"),
                                                               c("a_bt", "b_bt"),
@@ -180,7 +180,7 @@ fill_medfate_allometries<-function(SpParams,
   if(erase_previous) SpParams[,c("a_ash", "b_ash")] <- NA
   response_data <- get_allometry_data(harmonized_allometry_path, response = "CrownArea", progress = FALSE)
   allom_table <-response_data |>
-    dplyr::filter(Equation == "CrownArea = a·Ht^b")
+    dplyr::filter(.data$Equation == "CrownArea = a\u00b7Ht^b")
   if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
                                                               c("a", "b"),
                                                               c("a_ash", "b_ash"),
@@ -191,7 +191,7 @@ fill_medfate_allometries<-function(SpParams,
   if(erase_previous) SpParams[,c("a_bsh", "b_bsh")] <- NA
   response_data <- get_allometry_data(harmonized_allometry_path, response = "FineFuelBiomass", progress = FALSE)
   allom_table <-response_data |>
-    dplyr::filter(Equation == "FineFuelBiomass = a·PHV^b")
+    dplyr::filter(.data$Equation == "FineFuelBiomass = a\u00b7PHV^b")
   if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
                                                               c("a", "b"),
                                                               c("a_bsh", "b_bsh"),
@@ -201,7 +201,7 @@ fill_medfate_allometries<-function(SpParams,
   if(erase_previous) SpParams[,c("a_btsh", "b_btsh")] <- NA
   response_data <- get_allometry_data(harmonized_allometry_path, response = "TotalBiomass", progress = FALSE)
   allom_table <-response_data |>
-    dplyr::filter(Equation == "TotalBiomass = a·PHV^b")
+    dplyr::filter(.data$Equation == "TotalBiomass = a\u00b7PHV^b")
   if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
                                                               c("a", "b"),
                                                               c("a_btsh", "b_btsh"),

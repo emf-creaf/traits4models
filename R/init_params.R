@@ -72,7 +72,6 @@ init_medfate_params<-function(x,
   }
   if(verbose) cli::cli_progress_step("Initializing parameter table")
   SpParams <- data.frame(Name = as.character(names))
-  get("SpParamsDefinition", envir = environment())
   for(cn in SpParamsDefinition$ParameterName) {
     if(!(cn %in% names(SpParams))) {
       SpParams[[cn]] = NA
@@ -124,7 +123,7 @@ init_medfate_params<-function(x,
         s = strsplit(SpParams$AcceptedName[i]," ")[[1]]
         SpParams$Genus[i] = s[1] # Genus always first word
         if(length(s)>1) {
-          if(length(s)>2 && (s[2] %in% c("x", "×"))) {
+          if(length(s)>2 && (s[2] %in% c("x", "\u00d7"))) {
             SpParams$Species[i] = paste0(s[1], " ", s[2], " ", s[3])
           } else {
             SpParams$Species[i] = paste0(s[1], " ", s[2])
@@ -181,7 +180,7 @@ init_medfate_params<-function(x,
       species <- species[!(species %in% SpParams$AcceptedName)]
       species <- species[!(species %in% genera)]
       species <- species[!endsWith(species, "x")]
-      species <- species[!endsWith(species, "×")]
+      species <- species[!endsWith(species, "\u00d7")]
       if(length(species)>0) {
         if(verbose) cli::cli_progress_step(paste0("Completing rows with ", length(species), " species"))
         sp_vec <- vector("list", length(species))

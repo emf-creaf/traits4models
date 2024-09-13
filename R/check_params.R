@@ -22,7 +22,6 @@
 check_medfate_params<- function(x, verbose = TRUE) {
   if(!inherits(x, "data.frame")) cli::cli_abort("Input should be a data frame")
   cn <- names(x)
-  get("SpParamsDefinition", envir = environment())
   fixed <- SpParamsDefinition$ParameterName
   if(!all(fixed %in% cn)) {
     w_mis <- fixed[!(fixed %in% cn)]

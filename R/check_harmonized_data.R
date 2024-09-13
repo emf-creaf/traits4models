@@ -49,7 +49,6 @@ check_harmonized_trait<- function(x) {
   if(!("Priority" %in% cn)) {
     cli::cli_alert_info("Column 'Priority' should preferably be defined.")
   }
-  get("HarmonizedTraitDefinition", envir = environment())
   other <- cn[!(cn %in% c(fixed, "Units", "Reference", "Priority"))]
   for(t in other) {
     if(!(t %in% HarmonizedTraitDefinition$Notation)) {

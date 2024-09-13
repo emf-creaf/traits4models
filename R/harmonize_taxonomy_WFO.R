@@ -49,15 +49,19 @@ harmonize_taxonomy_WFO <- function(db, WFO_backbone_file, progress = TRUE, verbo
   if(progress) cli::cli_progress_step("Finalizing")
   db_post <- db |>
     dplyr::left_join(WFO.one[,c("spec.name", "scientificName", "scientificNameAuthorship", "family", "genus", "specificEpithet", "taxonRank")], by = c("originalName" = "spec.name"))|>
-    dplyr::rename(acceptedName = scientificName,
-                  acceptedNameAuthorship = scientificNameAuthorship)
+    dplyr::rename(acceptedName = .data$scientificName,
+                  acceptedNameAuthorship = .data$scientificNameAuthorship)
 
   if("originalNameAuthorship" %in% names(db_post)) {
     db_post <- db_post |>
-      dplyr::relocate(acceptedName, acceptedNameAuthorship, family, genus, specificEpithet, taxonRank, .after = originalNameAuthorship)
+      dplyr::relocate("acceptedName", "acceptedNameAuthorship", "family",
+                      "genus", "specificEpithet", "taxonRank",
+                      .after = "originalNameAuthorship")
   } else {
     db_post <- db_post |>
-      dplyr::relocate(acceptedName, acceptedNameAuthorship, family, genus, specificEpithet, taxonRank, .after = originalName)
+      dplyr::relocate("acceptedName", "acceptedNameAuthorship", "family",
+                      "genus", "specificEpithet", "taxonRank",
+                      .after = "originalName")
   }
 
   if(progress) cli::cli_progress_done()

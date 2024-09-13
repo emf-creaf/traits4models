@@ -62,11 +62,11 @@ load_harmonized_trait_tables <- function(harmonized_trait_path, progress = TRUE)
     if(endsWith(trait_files[i], ".rds")) {
       tab <- readRDS(trait_files[i]) |>
         as.data.frame()|>
-        dplyr::filter(!is.na(acceptedName))
+        dplyr::filter(!is.na(.data$acceptedName))
     } else if(endsWith(trait_files[i], ".csv")) {
       tab <- read.csv2(trait_files[i]) |>
         as.data.frame()|>
-        dplyr::filter(!is.na(acceptedName))
+        dplyr::filter(!is.na(.data$acceptedName))
     }
     if(!("Priority" %in% names(tab))) tab$Priority <- 1
     trait_tables[[i]] <- tab
@@ -90,11 +90,11 @@ load_harmonized_allometry_tables <- function(harmonized_allometry_path, progress
     if(endsWith(allometry_files[i], ".rds")) {
       tab <- readRDS(allometry_files[i]) |>
         as.data.frame()|>
-        dplyr::filter(!is.na(acceptedName))
+        dplyr::filter(!is.na(.data$acceptedName))
     } else if(endsWith(allometry_files[i], ".csv")) {
       tab <- read.csv2(allometry_files[i]) |>
         as.data.frame()|>
-        dplyr::filter(!is.na(acceptedName))
+        dplyr::filter(!is.na(.data$acceptedName))
     }
     if(!("Priority" %in% names(tab))) tab$Priority <- 1
     allometry_tables[[i]] <- tab
@@ -131,7 +131,7 @@ get_trait_data <- function(harmonized_trait_path,
   }
   if(n_tab>0) {
     trait_table <- dplyr::bind_rows(trait_tables) |>
-      dplyr::arrange(acceptedName)
+      dplyr::arrange(.data$acceptedName)
     trait_table <- trait_table[!is.na(trait_table[[trait_name]]), , drop = FALSE]
   } else {
     stop(paste0("Trait data not found for: ", trait_name))
@@ -175,7 +175,7 @@ get_taxon_data<- function(harmonized_trait_path,
              "genus", "specificEpithet","taxonRank", "Units", "Reference", "Priority")
   for(i in 1:length(all_tables)) {
     tab <- all_tables[[i]] |>
-      dplyr::filter(acceptedName == accepted_name)
+      dplyr::filter(.data$acceptedName == accepted_name)
     if(nrow(tab)>0) {
       traits <- names(tab)
       traits <- traits[!(traits %in% fixed)]
@@ -201,8 +201,8 @@ get_taxon_data<- function(harmonized_trait_path,
                     Order = 1:nrow(HarmonizedTraitDefinition))
   taxon_table <- taxon_table |>
     dplyr::left_join(odf, by="Trait") |>
-    dplyr::arrange(Order) |>
-    dplyr::select(-Order) |>
+    dplyr::arrange(.data$Order) |>
+    dplyr::select(-.data$Order) |>
     unique()
 
   if(progress) cli::cli_progress_done()
