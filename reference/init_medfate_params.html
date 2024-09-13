@@ -46,14 +46,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">init_medfate_params</span><span class="op">(</span></span>
-<span>  <span class="va">x</span>,</span>
-<span>  accepted_names <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  fill_taxonomy <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  complete_rows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  sort <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">init_medfate_params</span><span class="op">(</span><span class="va">x</span>, complete_rows <span class="op">=</span> <span class="cn">TRUE</span>, sort <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -61,16 +54,7 @@
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>A vector of plant names, either taxon names or arbitrary species group names (in that case, <code>accepted_names</code> should be supplied).
-Alternatively, a data frame with columns as returned by function <code><a href="harmonize_taxonomy_WFO.html">harmonize_taxonomy_WFO</a></code>.</p></dd>
-
-
-<dt id="arg-accepted-names">accepted_names<a class="anchor" aria-label="anchor" href="#arg-accepted-names"></a></dt>
-<dd><p>Vector of accepted taxon names of the same length of <code>x</code>.</p></dd>
-
-
-<dt id="arg-fill-taxonomy">fill_taxonomy<a class="anchor" aria-label="anchor" href="#arg-fill-taxonomy"></a></dt>
-<dd><p>Boolean flag to indicate that taxonomic information should be filled (retrieved from GBIF using package taxize).</p></dd>
+<dd><p>A data frame with columns as returned by function <code><a href="harmonize_taxonomy_WFO.html">harmonize_taxonomy_WFO</a></code>.</p></dd>
 
 
 <dt id="arg-complete-rows">complete_rows<a class="anchor" aria-label="anchor" href="#arg-complete-rows"></a></dt>
@@ -88,14 +72,11 @@ Alternatively, a data frame with columns as returned by function <code><a href="
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A data frame with empty species parameter values suitable for medfate simulations.
-The data frame will normally contain more rows than <code>sp_names</code> because of arguments
-<code>fill_taxonomy</code> and <code>complete_rows</code> are set to TRUE by default.</p>
+The data frame will normally contain more rows if <code>complete_rows</code> is set to TRUE.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Taxonomic information is retrieved using functions in package taxize and GBIF as data source.
-If <code>x</code> is a data frame returned by function <code><a href="harmonize_taxonomy_WFO.html">harmonize_taxonomy_WFO</a></code>, taxonomy is taken from the input data frame,
-and package taxize is used for the taxa above family, only.</p>
+    <p>Taxonomy is taken from the input data frame, and internal data obtained from package taxize is used for the taxa above family, only.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -106,284 +87,6 @@ and package taxize is used for the taxa above family, only.</p>
     <p>Miquel De Cáceres Ainsa, EMF-CREAF</p>
     </div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="co"># Simple example with two species</span></span></span>
-<span class="r-in"><span><span class="va">sp_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Salvia rosmarinus"</span>, <span class="st">"Pinus contorta"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">init_medfate_params</span><span class="op">(</span><span class="va">sp_names</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Initializing parameter table</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Initializing parameter table <span style="color: #B2B2B2;">[8ms]</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Retrieving taxonomy data for 2 accepted names</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Retrieving taxonomy data for 2 accepted names <span style="color: #B2B2B2;">[953ms]</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Completing rows with 2 genera</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Completing rows with 2 genera <span style="color: #B2B2B2;">[17ms]</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Finalizing</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Finalizing <span style="color: #B2B2B2;">[6ms]</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                Name SpIndex      AcceptedName           Species  Genus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1             Pinus       0             Pinus              &lt;NA&gt;  Pinus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    Pinus contorta       1    Pinus contorta    Pinus contorta  Pinus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3            Salvia       2            Salvia              &lt;NA&gt; Salvia</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Salvia rosmarinus       3 Salvia rosmarinus Salvia rosmarinus Salvia</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Family    Order      Group GrowthForm LifeForm LeafShape LeafSize</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  Pinaceae  Pinales Gymnosperm         NA       NA        NA       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  Pinaceae  Pinales Gymnosperm         NA       NA        NA       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Lamiaceae Lamiales Angiosperm         NA       NA        NA       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Lamiaceae Lamiales Angiosperm         NA       NA        NA       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   PhenologyType DispersalType Hmed Hmax Z50 Z95 fHDmin fHDmax a_ash b_ash a_bsh</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1            NA            NA   NA   NA  NA  NA     NA     NA    NA    NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2            NA            NA   NA   NA  NA  NA     NA     NA    NA    NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3            NA            NA   NA   NA  NA  NA     NA     NA    NA    NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4            NA            NA   NA   NA  NA  NA     NA     NA    NA    NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   b_bsh a_btsh b_btsh cr BTsh a_fbt b_fbt c_fbt a_cr b_1cr b_2cr b_3cr c_1cr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    NA     NA     NA NA   NA    NA    NA    NA   NA    NA    NA    NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    NA     NA     NA NA   NA    NA    NA    NA   NA    NA    NA    NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    NA     NA     NA NA   NA    NA    NA    NA   NA    NA    NA    NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    NA     NA     NA NA   NA    NA    NA    NA   NA    NA    NA    NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   c_2cr a_cw b_cw a_bt b_bt LeafDuration t0gdd Sgdd Tbgdd Ssen Phsen Tbsen xsen</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    NA   NA   NA   NA   NA           NA    NA   NA    NA   NA    NA    NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    NA   NA   NA   NA   NA           NA    NA   NA    NA   NA    NA    NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    NA   NA   NA   NA   NA           NA    NA   NA    NA   NA    NA    NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    NA   NA   NA   NA   NA           NA    NA   NA    NA   NA    NA    NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ysen SLA LeafDensity WoodDensity FineRootDensity conduit2sapwood r635 pDead</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   NA  NA          NA          NA              NA              NA   NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   NA  NA          NA          NA              NA              NA   NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   NA  NA          NA          NA              NA              NA   NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   NA  NA          NA          NA              NA              NA   NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Al2As Ar2Al LeafWidth SRL RLD maxFMC minFMC LeafPI0 LeafEPS LeafAF StemPI0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    NA    NA        NA  NA  NA     NA     NA      NA      NA     NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    NA    NA        NA  NA  NA     NA     NA      NA      NA     NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    NA    NA        NA  NA  NA     NA     NA      NA      NA     NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    NA    NA        NA  NA  NA     NA     NA      NA      NA     NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   StemEPS StemAF SAV HeatContent LigninPercent LeafAngle LeafAngleSD</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      NA     NA  NA          NA            NA        NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      NA     NA  NA          NA            NA        NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3      NA     NA  NA          NA            NA        NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4      NA     NA  NA          NA            NA        NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ClumpingIndex gammaSWR alphaSWR kPAR  g Tmax_LAI Tmax_LAIsq Psi_Extract</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1            NA       NA       NA   NA NA       NA         NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2            NA       NA       NA   NA NA       NA         NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3            NA       NA       NA   NA NA       NA         NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4            NA       NA       NA   NA NA       NA         NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Exp_Extract WUE WUE_par WUE_co2 WUE_vpd Gswmin Gswmax Gsw_AC_slope Gs_Toptim</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1          NA  NA      NA      NA      NA     NA     NA           NA        NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2          NA  NA      NA      NA      NA     NA     NA           NA        NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3          NA  NA      NA      NA      NA     NA     NA           NA        NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4          NA  NA      NA      NA      NA     NA     NA           NA        NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Gs_Tsens Gs_P50 Gs_slope VCleaf_kmax VCleaf_P12 VCleaf_P50 VCleaf_P88</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       NA     NA       NA          NA         NA         NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       NA     NA       NA          NA         NA         NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       NA     NA       NA          NA         NA         NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       NA     NA       NA          NA         NA         NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   VCleaf_slope Kmax_stemxylem VCstem_P12 VCstem_P50 VCstem_P88 VCstem_slope</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1           NA             NA         NA         NA         NA           NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2           NA             NA         NA         NA         NA           NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3           NA             NA         NA         NA         NA           NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4           NA             NA         NA         NA         NA           NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Kmax_rootxylem VCroot_P12 VCroot_P50 VCroot_P88 VCroot_slope Vmax298 Jmax298</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1             NA         NA         NA         NA           NA      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2             NA         NA         NA         NA           NA      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3             NA         NA         NA         NA           NA      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4             NA         NA         NA         NA           NA      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Nleaf Nsapwood Nfineroot WoodC RERleaf RERsapwood RERfineroot CCleaf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    NA       NA        NA    NA      NA         NA          NA     NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    NA       NA        NA    NA      NA         NA          NA     NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    NA       NA        NA    NA      NA         NA          NA     NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    NA       NA        NA    NA      NA         NA          NA     NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   CCsapwood CCfineroot RGRleafmax RGRsapwoodmax RGRcambiummax RGRfinerootmax</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        NA         NA         NA            NA            NA             NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        NA         NA         NA            NA            NA             NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        NA         NA         NA            NA            NA             NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        NA         NA         NA            NA            NA             NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   SRsapwood SRfineroot RSSG MortalityBaselineRate SurvivalModelStep SurvivalB0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        NA         NA   NA                    NA                NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        NA         NA   NA                    NA                NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        NA         NA   NA                    NA                NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        NA         NA   NA                    NA                NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   SurvivalB1 SeedProductionHeight SeedMass SeedLongevity DispersalDistance</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1         NA                   NA       NA            NA                NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2         NA                   NA       NA            NA                NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3         NA                   NA       NA            NA                NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4         NA                   NA       NA            NA                NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   DispersalShape ProbRecr MinTempRecr MinMoistureRecr MinFPARRecr RecrTreeDBH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1             NA       NA          NA              NA          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2             NA       NA          NA              NA          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3             NA       NA          NA              NA          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4             NA       NA          NA              NA          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   RecrTreeHeight RecrShrubHeight RecrTreeDensity RecrShrubCover RecrZ50 RecrZ95</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1             NA              NA              NA             NA      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2             NA              NA              NA             NA      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3             NA              NA              NA             NA      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4             NA              NA              NA             NA      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   RespFire RespDist RespClip IngrowthTreeDensity IngrowthTreeDBH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       NA       NA       NA                  NA              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       NA       NA       NA                  NA              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       NA       NA       NA                  NA              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       NA       NA       NA                  NA              NA</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Simple example with three species using synonyms and subspecies</span></span></span>
-<span class="r-in"><span><span class="va">sp_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Rosmarinus officinalis"</span>, <span class="st">"Pinus contorta"</span>, <span class="st">"Quercus ilex subsp. ilex"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">accepted_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Salvia rosmarinus"</span>, <span class="st">"Pinus contorta"</span>, <span class="st">"Quercus ilex subsp. ilex"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">init_medfate_params</span><span class="op">(</span><span class="va">sp_names</span>, <span class="va">accepted_names</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Initializing parameter table</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Initializing parameter table <span style="color: #B2B2B2;">[7ms]</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Retrieving taxonomy data for 3 accepted names</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Retrieving taxonomy data for 3 accepted names <span style="color: #B2B2B2;">[673ms]</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Completing rows with 3 genera</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Completing rows with 3 genera <span style="color: #B2B2B2;">[18ms]</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Finalizing</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Finalizing <span style="color: #B2B2B2;">[6ms]</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                       Name SpIndex             AcceptedName           Species</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                    Pinus       0                    Pinus              &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2           Pinus contorta       1           Pinus contorta    Pinus contorta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                  Quercus       2                  Quercus              &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Quercus ilex subsp. ilex       3 Quercus ilex subsp. ilex      Quercus ilex</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   Rosmarinus officinalis       4        Salvia rosmarinus Salvia rosmarinus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                   Salvia       5                   Salvia              &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Genus    Family    Order      Group GrowthForm LifeForm LeafShape LeafSize</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   Pinus  Pinaceae  Pinales Gymnosperm         NA       NA        NA       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   Pinus  Pinaceae  Pinales Gymnosperm         NA       NA        NA       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Quercus  Fagaceae  Fagales Angiosperm         NA       NA        NA       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Quercus  Fagaceae  Fagales Angiosperm         NA       NA        NA       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  Salvia Lamiaceae Lamiales Angiosperm         NA       NA        NA       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  Salvia Lamiaceae Lamiales Angiosperm         NA       NA        NA       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   PhenologyType DispersalType Hmed Hmax Z50 Z95 fHDmin fHDmax a_ash b_ash a_bsh</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1            NA            NA   NA   NA  NA  NA     NA     NA    NA    NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2            NA            NA   NA   NA  NA  NA     NA     NA    NA    NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3            NA            NA   NA   NA  NA  NA     NA     NA    NA    NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4            NA            NA   NA   NA  NA  NA     NA     NA    NA    NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5            NA            NA   NA   NA  NA  NA     NA     NA    NA    NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6            NA            NA   NA   NA  NA  NA     NA     NA    NA    NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   b_bsh a_btsh b_btsh cr BTsh a_fbt b_fbt c_fbt a_cr b_1cr b_2cr b_3cr c_1cr</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    NA     NA     NA NA   NA    NA    NA    NA   NA    NA    NA    NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    NA     NA     NA NA   NA    NA    NA    NA   NA    NA    NA    NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    NA     NA     NA NA   NA    NA    NA    NA   NA    NA    NA    NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    NA     NA     NA NA   NA    NA    NA    NA   NA    NA    NA    NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    NA     NA     NA NA   NA    NA    NA    NA   NA    NA    NA    NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    NA     NA     NA NA   NA    NA    NA    NA   NA    NA    NA    NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   c_2cr a_cw b_cw a_bt b_bt LeafDuration t0gdd Sgdd Tbgdd Ssen Phsen Tbsen xsen</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    NA   NA   NA   NA   NA           NA    NA   NA    NA   NA    NA    NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    NA   NA   NA   NA   NA           NA    NA   NA    NA   NA    NA    NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    NA   NA   NA   NA   NA           NA    NA   NA    NA   NA    NA    NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    NA   NA   NA   NA   NA           NA    NA   NA    NA   NA    NA    NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    NA   NA   NA   NA   NA           NA    NA   NA    NA   NA    NA    NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    NA   NA   NA   NA   NA           NA    NA   NA    NA   NA    NA    NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ysen SLA LeafDensity WoodDensity FineRootDensity conduit2sapwood r635 pDead</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   NA  NA          NA          NA              NA              NA   NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   NA  NA          NA          NA              NA              NA   NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   NA  NA          NA          NA              NA              NA   NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   NA  NA          NA          NA              NA              NA   NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   NA  NA          NA          NA              NA              NA   NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   NA  NA          NA          NA              NA              NA   NA    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Al2As Ar2Al LeafWidth SRL RLD maxFMC minFMC LeafPI0 LeafEPS LeafAF StemPI0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    NA    NA        NA  NA  NA     NA     NA      NA      NA     NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    NA    NA        NA  NA  NA     NA     NA      NA      NA     NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    NA    NA        NA  NA  NA     NA     NA      NA      NA     NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    NA    NA        NA  NA  NA     NA     NA      NA      NA     NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    NA    NA        NA  NA  NA     NA     NA      NA      NA     NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    NA    NA        NA  NA  NA     NA     NA      NA      NA     NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   StemEPS StemAF SAV HeatContent LigninPercent LeafAngle LeafAngleSD</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      NA     NA  NA          NA            NA        NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      NA     NA  NA          NA            NA        NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3      NA     NA  NA          NA            NA        NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4      NA     NA  NA          NA            NA        NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5      NA     NA  NA          NA            NA        NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6      NA     NA  NA          NA            NA        NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ClumpingIndex gammaSWR alphaSWR kPAR  g Tmax_LAI Tmax_LAIsq Psi_Extract</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1            NA       NA       NA   NA NA       NA         NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2            NA       NA       NA   NA NA       NA         NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3            NA       NA       NA   NA NA       NA         NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4            NA       NA       NA   NA NA       NA         NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5            NA       NA       NA   NA NA       NA         NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6            NA       NA       NA   NA NA       NA         NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Exp_Extract WUE WUE_par WUE_co2 WUE_vpd Gswmin Gswmax Gsw_AC_slope Gs_Toptim</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1          NA  NA      NA      NA      NA     NA     NA           NA        NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2          NA  NA      NA      NA      NA     NA     NA           NA        NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3          NA  NA      NA      NA      NA     NA     NA           NA        NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4          NA  NA      NA      NA      NA     NA     NA           NA        NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5          NA  NA      NA      NA      NA     NA     NA           NA        NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6          NA  NA      NA      NA      NA     NA     NA           NA        NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Gs_Tsens Gs_P50 Gs_slope VCleaf_kmax VCleaf_P12 VCleaf_P50 VCleaf_P88</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       NA     NA       NA          NA         NA         NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       NA     NA       NA          NA         NA         NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       NA     NA       NA          NA         NA         NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       NA     NA       NA          NA         NA         NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       NA     NA       NA          NA         NA         NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       NA     NA       NA          NA         NA         NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   VCleaf_slope Kmax_stemxylem VCstem_P12 VCstem_P50 VCstem_P88 VCstem_slope</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1           NA             NA         NA         NA         NA           NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2           NA             NA         NA         NA         NA           NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3           NA             NA         NA         NA         NA           NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4           NA             NA         NA         NA         NA           NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5           NA             NA         NA         NA         NA           NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6           NA             NA         NA         NA         NA           NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Kmax_rootxylem VCroot_P12 VCroot_P50 VCroot_P88 VCroot_slope Vmax298 Jmax298</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1             NA         NA         NA         NA           NA      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2             NA         NA         NA         NA           NA      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3             NA         NA         NA         NA           NA      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4             NA         NA         NA         NA           NA      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5             NA         NA         NA         NA           NA      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6             NA         NA         NA         NA           NA      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Nleaf Nsapwood Nfineroot WoodC RERleaf RERsapwood RERfineroot CCleaf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    NA       NA        NA    NA      NA         NA          NA     NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    NA       NA        NA    NA      NA         NA          NA     NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    NA       NA        NA    NA      NA         NA          NA     NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    NA       NA        NA    NA      NA         NA          NA     NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    NA       NA        NA    NA      NA         NA          NA     NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    NA       NA        NA    NA      NA         NA          NA     NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   CCsapwood CCfineroot RGRleafmax RGRsapwoodmax RGRcambiummax RGRfinerootmax</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        NA         NA         NA            NA            NA             NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        NA         NA         NA            NA            NA             NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        NA         NA         NA            NA            NA             NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        NA         NA         NA            NA            NA             NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        NA         NA         NA            NA            NA             NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6        NA         NA         NA            NA            NA             NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   SRsapwood SRfineroot RSSG MortalityBaselineRate SurvivalModelStep SurvivalB0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        NA         NA   NA                    NA                NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        NA         NA   NA                    NA                NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3        NA         NA   NA                    NA                NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4        NA         NA   NA                    NA                NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5        NA         NA   NA                    NA                NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6        NA         NA   NA                    NA                NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   SurvivalB1 SeedProductionHeight SeedMass SeedLongevity DispersalDistance</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1         NA                   NA       NA            NA                NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2         NA                   NA       NA            NA                NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3         NA                   NA       NA            NA                NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4         NA                   NA       NA            NA                NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5         NA                   NA       NA            NA                NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6         NA                   NA       NA            NA                NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   DispersalShape ProbRecr MinTempRecr MinMoistureRecr MinFPARRecr RecrTreeDBH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1             NA       NA          NA              NA          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2             NA       NA          NA              NA          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3             NA       NA          NA              NA          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4             NA       NA          NA              NA          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5             NA       NA          NA              NA          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6             NA       NA          NA              NA          NA          NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   RecrTreeHeight RecrShrubHeight RecrTreeDensity RecrShrubCover RecrZ50 RecrZ95</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1             NA              NA              NA             NA      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2             NA              NA              NA             NA      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3             NA              NA              NA             NA      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4             NA              NA              NA             NA      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5             NA              NA              NA             NA      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6             NA              NA              NA             NA      NA      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   RespFire RespDist RespClip IngrowthTreeDensity IngrowthTreeDBH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       NA       NA       NA                  NA              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       NA       NA       NA                  NA              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       NA       NA       NA                  NA              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       NA       NA       NA                  NA              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       NA       NA       NA                  NA              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       NA       NA       NA                  NA              NA</span>
-<span class="r-in"><span><span class="co"># }</span></span></span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

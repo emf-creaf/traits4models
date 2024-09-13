@@ -267,20 +267,20 @@ species have been cited) or genus (when species of that genus have been
 cited).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">|&gt;</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 518 × 154</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 463 × 154</span></span></span>
 <span><span class="co">##    Name         SpIndex AcceptedName Species Genus Family Order Group GrowthForm</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Abies              0 Abies        <span style="color: #BB0000;">NA</span>      Abies Pinac… Pina… Gymn… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Abies alba         1 Abies alba   Abies … Abies Pinac… Pina… Gymn… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Abies pinsa…       2 Abies pinsa… Abies … Abies Pinac… Pina… Gymn… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Abies alba         0 Abies alba   Abies … Abies Pinac… Pina… Gymn… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Abies pinsa…       1 Abies pinsa… Abies … Abies Pinac… Pina… Gymn… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Acacia             2 Acacia       Acacia  Acac… Fabac… Faba… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Acacia deal…       3 Acacia deal… Acacia… Acac… Fabac… Faba… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Acacia mela…       4 Acacia mela… Acacia… Acac… Fabac… Faba… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Acacia spp.        5 Acacia       Acacia  Acac… Fabac… Faba… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Acer campes…       6 Acer campes… Acer c… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Acer monspe…       7 Acer monspe… Acer m… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Acer negundo       8 Acer negundo Acer n… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> Acer opalus        9 Acer opalus  Acer o… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 508 more rows</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Acer               5 Acer         Acer    Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Acer               6 Acer         Acer    Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Acer campes…       7 Acer campes… Acer c… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Acer monspe…       8 Acer monspe… Acer m… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Acer negundo       9 Acer negundo Acer n… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 453 more rows</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 145 more variables: LifeForm &lt;lgl&gt;, LeafShape &lt;lgl&gt;, LeafSize &lt;lgl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   PhenologyType &lt;lgl&gt;, DispersalType &lt;lgl&gt;, Hmed &lt;lgl&gt;, Hmax &lt;lgl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   Z50 &lt;lgl&gt;, Z95 &lt;lgl&gt;, fHDmin &lt;lgl&gt;, fHDmax &lt;lgl&gt;, a_ash &lt;lgl&gt;, b_ash &lt;lgl&gt;,</span></span></span>
@@ -410,25 +410,25 @@ data:</p>
 <span>                                                   <span class="va">harmonized_allometry_path</span>, </span>
 <span>                                                   progress <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: FoliarBiomass</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: FoliarBiomass <span style="color: #B2B2B2;">[30ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: FoliarBiomass <span style="color: #B2B2B2;">[32ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: CrownRatio</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownRatio <span style="color: #B2B2B2;">[23ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownRatio <span style="color: #B2B2B2;">[45ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: CrownWidth</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownWidth <span style="color: #B2B2B2;">[20ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownWidth <span style="color: #B2B2B2;">[24ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: BarkThickness</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: BarkThickness <span style="color: #B2B2B2;">[16ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: BarkThickness <span style="color: #B2B2B2;">[20ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: CrownArea</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownArea <span style="color: #B2B2B2;">[15ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownArea <span style="color: #B2B2B2;">[19ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: FineFuelBiomass</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: FineFuelBiomass <span style="color: #B2B2B2;">[15ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: FineFuelBiomass <span style="color: #B2B2B2;">[19ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: TotalBiomass</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: TotalBiomass <span style="color: #B2B2B2;">[15ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: TotalBiomass <span style="color: #B2B2B2;">[19ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 </div>
 <div class="section level2">
