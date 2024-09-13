@@ -68,7 +68,7 @@ NFI_ES_mapping <- read.table(file, sep=";", header=TRUE, na.strings = "") |>
 NFI_ES_mapping
 ```
 
-Here `NFIName` corresponds to the name used in the Spanish forest inventory, while `originalName` contains the names that where used for taxonomy harmonization with function `harmonize_taxonomy_WFO()`, and `acceptedName` corresponds to the accepted name according to World Flora Online. Column `originalName`  has the same values as `NFIName` for a scientific taxa, but is otherwise missing. Non-scientific plant names (e.g. 'Cultivated trees') or taxa names that could not be identified cannot be used in medfate simulations because they cannot be matched with plant trait data. Therefore, we need to filter those names using:
+Here `NFIName` corresponds to the name used in the Spanish forest inventory, while `originalName` contains the names that where used for taxonomy harmonization with function `harmonize_taxonomy_WFO()`, and `acceptedName` corresponds to the accepted name according to World Flora Online. Column `originalName`  has the same values as `NFIName` for a scientific taxa, but is otherwise missing. Non-scientific plant names (e.g. 'Cultivated trees', 'Other conifers') or taxa names that could not be identified cannot be used in medfate simulations because they cannot be matched with plant trait data. Normally, we will need to filter those names using:
 
 ```{r}
 spp_filt <- NFI_ES_mapping |>
@@ -85,7 +85,10 @@ SpParams <- traits4models::init_medfate_params(spp_filt,
 ```
 ```{r, include = FALSE}
 SpParams <- readRDS("~/OneDrive/mcaceres_work/model_development/medfate_development/MedfateSpeciesParametrization/NFIs_parametrization/Rdata/es/SpParams_init_es.rds")
+SpParams <- SpParams |>
+  dplyr::filter(!is.na(AcceptedName))
 ```
+
 
 The result is an empty data frame, except for the first columns, which correspond to taxonomic hierarchy of each entity (genus, family, group, ...), where missing taxonomic information is completed using package **taxize**. The number of rows in the output data frame can be larger than the input, because by default the function creates additional rows for species (when only sub-species of that species have been cited) or genus (when species of that genus have been cited).
 
@@ -99,13 +102,13 @@ SpParams |> tibble::as_tibble()
 Some species parameters can be withdrawn from the data of the target forest inventory where simulations are to be conducted. We load a data frame (actually an `sf` object) containing data from the Third Spanish Forest Inventory:
 
 ```{r}
-sf_IFN3 <- readRDS("~/OneDrive/mcaceres_work/model_initialisation/medfate_initialisation/IFN/Products/IFN3/Spain/IFN3_spain_final_ETRS89H30.rds")
+sf_IFN3 <- readRDS("~/OneDrive/mcaceres_work/model_initialisation/medfate_initialisation/IFN/Products/SpParamsES/IFN3/soilmod/IFN3_spain_soilmod_WGS84.rds")
 sf_IFN3
 ```
-Column `forest` contains the forest inventory plots that will be used to withdraw parameters. For example, the first `forest` object is:
+Column `forest` contains the forest inventory plots that will be used to withdraw parameters. For example, the second `forest` object is:
 
 ```{r}
-sf_IFN3$forest[[1]]
+sf_IFN3$forest[[2]]
 ```
 
 **traits4models** provides function `fill_medfate_inventory_traits()` to perform the parameter extraction:
