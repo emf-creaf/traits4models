@@ -26,6 +26,7 @@
 
 ## usethis namespace: start
 #' @import medfate
+#' @import data.table
 #' @importFrom assertthat assert_that
 #' @importFrom cli cli_li cli_progress_bar cli_progress_update cli_progress_done
 #' @importFrom dplyr bind_rows relocate left_join rename
