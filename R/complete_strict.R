@@ -19,7 +19,7 @@
 #' @export
 #'
 complete_medfate_strict<- function(SpParams, params = NULL, progress = TRUE, verbose = FALSE) {
-  data("SpParamsDefinition", package = "medfate")
+  get("SpParamsDefinition", envir = environment())
   if("Strict" %in% names(SpParamsDefinition)) {
     strict_params <- SpParamsDefinition$ParameterName[SpParamsDefinition$Strict]
     strict_params <-strict_params[!(strict_params %in% c("Name", "SpIndex", "AcceptedName", "Genus", "Family", "Order", "Group"))]
@@ -29,7 +29,6 @@ complete_medfate_strict<- function(SpParams, params = NULL, progress = TRUE, ver
   if(is.null(params)) params <- strict_params
   else params <- match.arg(params, strict_params, several.ok = TRUE)
   for(param in params) {
-    data("SpParamsDefinition")
     type <- SpParamsDefinition$Type[SpParamsDefinition$ParameterName==param]
     if(progress) cli::cli_progress_step(paste0("Filling missing values for: ", param, " [", type,"]"))
     # Look for species if subspecies

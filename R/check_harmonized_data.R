@@ -31,7 +31,6 @@
 #'
 check_harmonized_trait<- function(x) {
   if(!inherits(x, "data.frame")) cli::cli_abort("Input should be a data frame")
-  data("HarmonizedTraitDefinition", package = "traits4models")
   cn <- names(x)
   fixed <- c("originalName", "acceptedName","acceptedNameAuthorship","family",
              "genus", "specificEpithet","taxonRank")
@@ -50,6 +49,7 @@ check_harmonized_trait<- function(x) {
   if(!("Priority" %in% cn)) {
     cli::cli_alert_info("Column 'Priority' should preferably be defined.")
   }
+  get("HarmonizedTraitDefinition", envir = environment())
   other <- cn[!(cn %in% c(fixed, "Units", "Reference", "Priority"))]
   for(t in other) {
     if(!(t %in% HarmonizedTraitDefinition$Notation)) {

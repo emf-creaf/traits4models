@@ -17,3 +17,6 @@ test_that("check_medfate_params works", {
   expect_s3_class(check_medfate_params(SpParamsUS, verbose = FALSE), "data.frame")
   expect_s3_class(check_medfate_params(SpParamsAU, verbose = FALSE), "data.frame")
 })
+test_that("complete_medfate_strict works", {
+  expect_s3_class(complete_medfate_strict(SpParamsMED, verbose = FALSE), "data.frame")
+})
