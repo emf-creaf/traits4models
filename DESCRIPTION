@@ -19,7 +19,6 @@ Imports:
     memoise,
     readr,
     rlang,
-    taxize,
     tibble,
     WorldFlora
 Suggests: 

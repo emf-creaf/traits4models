@@ -33,7 +33,6 @@
 #' @importFrom rlang .data
 #' @importFrom stats family quantile
 #' @importFrom readr read_delim
-#' @importFrom taxize classification get_gbifid_
 #' @importFrom tibble tibble as_tibble
 #' @importFrom utils data
 #' @importFrom WorldFlora WFO.match WFO.one

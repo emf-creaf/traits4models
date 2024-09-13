@@ -57,3 +57,27 @@ usethis::use_data(SpParamsAU, overwrite = T)
 # usethis::use_data(NFI_SP_mapping, overwrite = T, internal = TRUE)
 
 
+# Family data
+DB_path <- "~/OneDrive/EMF_datasets/PlantTraitDatabases/"
+WFO_file <- paste0(DB_path, "WFO_Backbone/classification.csv")
+classification  <- readr::read_delim(file = WFO_file,
+                                     delim = "\t", escape_double = FALSE,
+                                     trim_ws = TRUE)|> tibble::tibble()
+families <- classification$scientificName[classification$taxonRank=="family"]
+fam_data <- data.frame(Family = families, Order = NA, Group = NA)
+id_df<-taxize::get_gbifid_(families, messages = TRUE)
+for(i in 1:nrow(fam_data)) {
+  if(nrow(id_df[[i]])>0 && "order" %in% names(id_df[[i]])) {
+    ord <- id_df[[i]]$order[1]
+    if(!is.na(ord)) {
+      fam_data$Order[i] <- ord
+      if(fam_data$Order[i] %in% c("Ginkgoales", "Pinales", "Welwitschiales", "Ephedrales")) {
+        fam_data$Group[i] = "Gymnosperm"
+      } else {
+        fam_data$Group[i] = "Angiosperm"
+      }
+    }
+  }
+}
+fam_data <- fam_data |> dplyr::distinct()
+usethis::use_data(fam_data, internal = TRUE, overwrite = TRUE)

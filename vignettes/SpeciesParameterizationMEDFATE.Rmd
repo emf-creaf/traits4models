@@ -83,11 +83,6 @@ Package **traits4models** provides function `init_medfate_params()` to initializ
 SpParams <- traits4models::init_medfate_params(spp_filt,
                                                verbose = FALSE)
 ```
-```{r, include = FALSE}
-SpParams <- readRDS("~/OneDrive/mcaceres_work/model_development/medfate_development/MedfateSpeciesParametrization/NFIs_parametrization/Rdata/es/SpParams_init_es.rds")
-SpParams <- SpParams |>
-  dplyr::filter(!is.na(AcceptedName))
-```
 
 
 The result is an empty data frame, except for the first columns, which correspond to taxonomic hierarchy of each entity (genus, family, group, ...), where missing taxonomic information is completed using package **taxize**. The number of rows in the output data frame can be larger than the input, because by default the function creates additional rows for species (when only sub-species of that species have been cited) or genus (when species of that genus have been cited).
