@@ -56,6 +56,44 @@ init_medfate_params<-function(x,
   SpParams$Order <- df_fam$Order
   SpParams$Group <- df_fam$Group
 
+  if(complete_rows) {
+    genera <- unique(SpParams$Genus)
+    genera <- genera[!is.na(genera)]
+    genera <- genera[!(genera %in% SpParams$AcceptedName)]
+    if(length(genera)>0) {
+      if(verbose) cli::cli_progress_step(paste0("Completing rows with ", length(genera), " genera"))
+      gen_vec <- vector("list", length(genera))
+      SpParams_filt <- SpParams[!is.na(SpParams$Genus),, drop = FALSE]
+      for(i in 1:length(genera)) {
+        g <- genera[i]
+        row_g <- SpParams_filt[SpParams_filt$Genus == g,][1,, drop = FALSE]
+        row_g$Name <- g
+        row_g$AcceptedName <- g
+        row_g$Species <- NA
+        gen_vec[[i]] <- row_g
+      }
+      SpParams <- dplyr::bind_rows(SpParams, gen_vec)
+    }
+    species <- unique(SpParams$Species)
+    species <- species[!is.na(species)]
+    species <- species[!(species %in% SpParams$AcceptedName)]
+    species <- species[!(species %in% genera)]
+    species <- species[!endsWith(species, "x")]
+    species <- species[!endsWith(species, "\u00d7")]
+    if(length(species)>0) {
+      if(verbose) cli::cli_progress_step(paste0("Completing rows with ", length(species), " species"))
+      sp_vec <- vector("list", length(species))
+      SpParams_filt <- SpParams[!is.na(SpParams$Species),, drop = FALSE]
+      for(i in 1:length(species)) {
+        s <- species[i]
+        row_s <- SpParams_filt[SpParams_filt$Species == s,][1,, drop = FALSE]
+        row_s$Name <- s
+        row_s$AcceptedName <- s
+        sp_vec[[i]] <- row_s
+      }
+      SpParams <- dplyr::bind_rows(SpParams, sp_vec)
+    }
+  }
   if(verbose) cli::cli_progress_step("Finalizing")
   if(sort) SpParams<- SpParams[order(SpParams$Name),, drop = FALSE]
   row.names(SpParams) <- NULL
