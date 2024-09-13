@@ -46,7 +46,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_medfate_params</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_medfate_params</span><span class="op">(</span><span class="va">x</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -56,10 +56,14 @@
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>A data frame with species parameter data</p></dd>
 
+
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
+<dd><p>A boolean flag to prompt detailed process information.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An (invisible) boolean indicating whether the data frame is acceptable or not.</p>
+    <p>An (invisible) data frame with missing values in strict parameters.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -68,6 +72,18 @@
 <li><p>Strict parameters should not contain missing values. Strict parameters are defined as such in <code><a href="https://emf-creaf.github.io/medfate/reference/SpParams.html" class="external-link">SpParamsDefinition</a></code>.</p></li>
 </ul></div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">check_medfate_params</span><span class="op">(</span><span class="va">SpParamsES</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The data frame is acceptable as species parameter table for medfate.</span>
+<span class="r-in"><span><span class="fu">check_medfate_params</span><span class="op">(</span><span class="va">SpParamsFR</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The data frame is acceptable as species parameter table for medfate.</span>
+<span class="r-in"><span><span class="fu">check_medfate_params</span><span class="op">(</span><span class="va">SpParamsUS</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The data frame is acceptable as species parameter table for medfate.</span>
+<span class="r-in"><span><span class="fu">check_medfate_params</span><span class="op">(</span><span class="va">SpParamsAU</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The data frame is acceptable as species parameter table for medfate.</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

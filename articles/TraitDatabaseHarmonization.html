@@ -69,7 +69,7 @@
                         <h4 data-toc-skip class="author">Miquel De
 Cáceres / Nicolas Martin-StPaul</h4>
             
-            <h4 data-toc-skip class="date">2024-09-05</h4>
+            <h4 data-toc-skip class="date">2024-09-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/emf-creaf/traits4models/blob/HEAD/vignettes/TraitDatabaseHarmonization.Rmd" class="external-link"><code>vignettes/TraitDatabaseHarmonization.Rmd</code></a></small>
       <div class="d-none name"><code>TraitDatabaseHarmonization.Rmd</code></div>
@@ -244,88 +244,95 @@ definitions and their required notation and units:</p>
 <td align="left">mm</td>
 </tr>
 <tr class="odd">
+<td align="left">Crown ratio (crown length divided over total
+height)</td>
+<td align="left">CrownRatio</td>
+<td align="left">Numeric</td>
+<td align="left">NA</td>
+</tr>
+<tr class="even">
 <td align="left">Leaf area per leaf dry mass (specific leaf area, SLA),
 1/ Leaf mass per area (LMA)</td>
 <td align="left">SLA</td>
 <td align="left">Numeric</td>
 <td align="left">m2<em>kg-1 = mm2</em>mg-1</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Leaf area to sapwood area ratio (Al2As), 1 / Huber
 Value (Hv)</td>
 <td align="left">Al2As</td>
 <td align="left">Numeric</td>
 <td align="left">m2*m-2</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Proportion of sapwood corresponding to conducive
 elements (vessels or tracheids) as opposed to parenchymatic tissue.</td>
 <td align="left">conduit2sapwood</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Specific root length</td>
 <td align="left">SRL</td>
 <td align="left">Numeric</td>
 <td align="left">cm/g</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Proportion of total fine fuels that are dead</td>
 <td align="left">pDead</td>
 <td align="left">Numeric</td>
 <td align="left">[0-1]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Stem carbon (C) content per stem dry mass</td>
 <td align="left">WoodC</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Density of leaf tissue (dry weight over volume)</td>
 <td align="left">LeafDensity</td>
 <td align="left">Numeric</td>
 <td align="left">g<em>cm-3 = mg</em>mm-3</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Wood tissue density (at 0% humidity!)</td>
 <td align="left">WoodDensity</td>
 <td align="left">Numeric</td>
 <td align="left">g<em>cm-3 = mg</em>mm-3</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Density of fine root tissue (dry weight over
 volume).</td>
 <td align="left">FineRootDensity</td>
 <td align="left">Numeric</td>
 <td align="left">g<em>cm-3 = mg</em>mm-3</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Leaf width</td>
 <td align="left">LeafWidth</td>
 <td align="left">Numeric</td>
 <td align="left">cm</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Maximum stomatal conductance to water vapor</td>
 <td align="left">Gswmax</td>
 <td align="left">Numeric</td>
 <td align="left">mol H2O * s-1 * m-2</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Minimum stomatal conductance to water vapor</td>
 <td align="left">Gswmin</td>
 <td align="left">Numeric</td>
 <td align="left">mol H2O * s-1 * m-2</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Osmotic potential at full turgor of leaves</td>
 <td align="left">LeafPI0</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Modulus of elasticity (capacity of the cell wall to
 resist changes in volume in response to changes in turgor) of
 leaves</td>
@@ -333,280 +340,280 @@ leaves</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Leaf apoplastic fraction</td>
 <td align="left">LeafAF</td>
 <td align="left">Numeric</td>
 <td align="left">[0-1]</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Leaf water potential at turgor loss point</td>
 <td align="left">Ptlp</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Slope coefficient of the Medlyn stomatal conductance
 model</td>
 <td align="left">g1_Medlyn</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Parameters of the stomatal response to leaf water
 potential</td>
 <td align="left">Gs_P20</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Parameters of the stomatal response to leaf water
 potential</td>
 <td align="left">Gs_P50</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Parameters of the stomatal response to leaf water
 potential</td>
 <td align="left">Gs_P80</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Parameters of the stomatal response to leaf water
 potential</td>
 <td align="left">Gs_P90</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Parameters of the stomatal response to leaf water
 potential</td>
 <td align="left">Gs_P95</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Leaf photosynthesis carboxylation capacity (Vcmax) per
 leaf area (Farquhar model)</td>
 <td align="left">Vmax</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Leaf photosynthesis electron transport capacity (Jmax)
 per leaf area (Farquhar model)</td>
 <td align="left">Jmax</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Leaf nitrogen (N) content per leaf dry mass</td>
 <td align="left">Nleaf</td>
 <td align="left">Numeric</td>
 <td align="left">mg/g</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Wood nitrogen (N) content per wood dry mass</td>
 <td align="left">Nsapwood</td>
 <td align="left">Numeric</td>
 <td align="left">mg/g</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Fine root nitrogen (N) content per fine root dry
 mass</td>
 <td align="left">Nfineroot</td>
 <td align="left">Numeric</td>
 <td align="left">mg/g</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Maximum stem-specific hydraulic conductivity</td>
 <td align="left">Ks</td>
 <td align="left">Numeric</td>
 <td align="left">kg m-1 MPa-1 s-1</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Maximum leaf-specific hydraulic conductivity
 (Ks*Hv)</td>
 <td align="left">Kl</td>
 <td align="left">Numeric</td>
 <td align="left">10-4 kg m-1 MPa-1 s-1</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Maximum leaf hydraulic conductance</td>
 <td align="left">kleaf</td>
 <td align="left">Numeric</td>
 <td align="left">mmolm-2s-1MPa-1</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Maximum whole-plant hydraulic conductance</td>
 <td align="left">kplant</td>
 <td align="left">Numeric</td>
 <td align="left">mmolm-2s-1MPa-1</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Parameters of the stem vulnerability curve</td>
 <td align="left">VCstem_P12</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Parameters of the stem vulnerability curve</td>
 <td align="left">VCstem_P50</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Parameters of the stem vulnerability curve</td>
 <td align="left">VCstem_P88</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Parameters of the stem vulnerability curve</td>
 <td align="left">VCstem_slope</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Parameters of the leaf vulnerability curve</td>
 <td align="left">VCleaf_P12</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Parameters of the leaf vulnerability curve</td>
 <td align="left">VCleaf_P50</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Parameters of the leaf vulnerability curve</td>
 <td align="left">VCleaf_P88</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Parameters of the leaf vulnerability curve</td>
 <td align="left">VCleaf_slope</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Parameters of the root vulnerability curve</td>
 <td align="left">VCroot_P12</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Parameters of the root vulnerability curve</td>
 <td align="left">VCroot_P50</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Parameters of the root vulnerability curve</td>
 <td align="left">VCroot_P88</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Parameters of the root vulnerability curve</td>
 <td align="left">VCroot_slope</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Leaf dry mass per leaf fresh mass (leaf dry matter
 content, LDMC)</td>
 <td align="left">LDMC</td>
 <td align="left">Numeric</td>
 <td align="left">mg/g</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Leaf fuel moisture content (% of dry weight)</td>
 <td align="left">LFMC</td>
 <td align="left">Numeric</td>
 <td align="left">% of dry weight</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Ratio of foliar (photosynthetic) + small branches
 (&lt;6.35 mm) dry biomass to foliar (photosynthetic) dry biomass</td>
 <td align="left">r635</td>
 <td align="left">Numeric</td>
 <td align="left">&gt;=1</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">High fuel heat content</td>
 <td align="left">HeatContent</td>
 <td align="left">Numeric</td>
 <td align="left">kJ/kg</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Surface-area-to-volume ratio</td>
 <td align="left">SAV</td>
 <td align="left">Numeric</td>
 <td align="left">m2/m3</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Percent of lignin+cutin over dry weight in leaves</td>
 <td align="left">LigninPercent</td>
 <td align="left">Numeric</td>
 <td align="left">%</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Bark thickness</td>
 <td align="left">BarkThickness</td>
 <td align="left">Numeric</td>
 <td align="left">mm</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Seedbank average longevity</td>
 <td align="left">SeedLongevity</td>
 <td align="left">Numeric</td>
 <td align="left">yrs</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Seed dry mass</td>
 <td align="left">SeedMass</td>
 <td align="left">Numeric</td>
 <td align="left">mg</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Succulence (g of water /m2 of projected leaf)</td>
 <td align="left">LeafSucculence</td>
 <td align="left">Numeric</td>
 <td align="left">g/m2</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Leaf projected to half developed area (m2/m2)</td>
 <td align="left">LeafProjectedToHalfDevelopedArea</td>
 <td align="left">Numeric</td>
 <td align="left">m2/m2</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Minimum conductance of the leaf to water vapor on
 developed area basis (including cuticule and stomatal leakiness)</td>
 <td align="left">GminLeaf</td>
 <td align="left">Numeric</td>
 <td align="left">mmolm-2s-1</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Q10 of the initial gmin response to temperature (before
 Tp)</td>
 <td align="left">Q10gminPhase1</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Q10 of the initial gmin response to temperature (after
 Tp)</td>
 <td align="left">Q10gminPhase2</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Transition phase for gmin dependence to
 temperature</td>
 <td align="left">GminTransitionPhase</td>
@@ -786,98 +793,100 @@ files have been stored in the following path:</p>
 <span><span class="co">##  [26] "Bjorkman_et_al_2018_Z95.rds"                            </span></span>
 <span><span class="co">##  [27] "Chianucci_et_al_2018_LeafAngle.rds"                     </span></span>
 <span><span class="co">##  [28] "Choat_et_al_2012_XFT.rds"                               </span></span>
-<span><span class="co">##  [29] "Duursma_et_al_2018.rds"                                 </span></span>
-<span><span class="co">##  [30] "Falster_et_al_2021_Al2As.rds"                           </span></span>
-<span><span class="co">##  [31] "Falster_et_al_2021_Hact.rds"                            </span></span>
-<span><span class="co">##  [32] "Falster_et_al_2021_Jmax.rds"                            </span></span>
-<span><span class="co">##  [33] "Falster_et_al_2021_Ks.rds"                              </span></span>
-<span><span class="co">##  [34] "Falster_et_al_2021_LeafAngle.rds"                       </span></span>
-<span><span class="co">##  [35] "Falster_et_al_2021_LeafArea.rds"                        </span></span>
-<span><span class="co">##  [36] "Falster_et_al_2021_LeafDensity.rds"                     </span></span>
-<span><span class="co">##  [37] "Falster_et_al_2021_LeafDuration.rds"                    </span></span>
-<span><span class="co">##  [38] "Falster_et_al_2021_LeafEPS.rds"                         </span></span>
-<span><span class="co">##  [39] "Falster_et_al_2021_LeafPI0.rds"                         </span></span>
-<span><span class="co">##  [40] "Falster_et_al_2021_LeafShape.rds"                       </span></span>
-<span><span class="co">##  [41] "Falster_et_al_2021_LeafWidth.rds"                       </span></span>
-<span><span class="co">##  [42] "Falster_et_al_2021_LifeForm.rds"                        </span></span>
-<span><span class="co">##  [43] "Falster_et_al_2021_Nsapwood.rds"                        </span></span>
-<span><span class="co">##  [44] "Falster_et_al_2021_SeedMass.rds"                        </span></span>
-<span><span class="co">##  [45] "Falster_et_al_2021_SLA.rds"                             </span></span>
-<span><span class="co">##  [46] "Falster_et_al_2021_SRL.rds"                             </span></span>
-<span><span class="co">##  [47] "Falster_et_al_2021_StemEPS.rds"                         </span></span>
-<span><span class="co">##  [48] "Falster_et_al_2021_VCstem_P12.rds"                      </span></span>
-<span><span class="co">##  [49] "Falster_et_al_2021_VCstem_P50.rds"                      </span></span>
-<span><span class="co">##  [50] "Falster_et_al_2021_VCstem_P88.rds"                      </span></span>
-<span><span class="co">##  [51] "Falster_et_al_2021_Vmax.rds"                            </span></span>
-<span><span class="co">##  [52] "Falster_et_al_2021_WoodDensity.rds"                     </span></span>
-<span><span class="co">##  [53] "Guerrero_Ramirez_et_al_2021_GRooT_FineRootDensity.rds"  </span></span>
-<span><span class="co">##  [54] "Guerrero_Ramirez_et_al_2021_GRooT_Nfineroot.rds"        </span></span>
-<span><span class="co">##  [55] "Guerrero_Ramirez_et_al_2021_GRooT_RootingDepth.rds"     </span></span>
-<span><span class="co">##  [56] "Guerrero_Ramirez_et_al_2021_GRooT_SRL.rds"              </span></span>
-<span><span class="co">##  [57] "Guillemot_et_al_2022.rds"                               </span></span>
-<span><span class="co">##  [58] "Henry_et_al_2019.rds"                                   </span></span>
-<span><span class="co">##  [59] "Hoshika_et_al_2018.rds"                                 </span></span>
-<span><span class="co">##  [60] "Kattge_et_al_2020_DispersalMode.rds"                    </span></span>
-<span><span class="co">##  [61] "Kattge_et_al_2020_GrowthForm.rds"                       </span></span>
-<span><span class="co">##  [62] "Kattge_et_al_2020_Hact.rds"                             </span></span>
-<span><span class="co">##  [63] "Kattge_et_al_2020_Jmax.rds"                             </span></span>
-<span><span class="co">##  [64] "Kattge_et_al_2020_LeafAngle.rds"                        </span></span>
-<span><span class="co">##  [65] "Kattge_et_al_2020_LeafArea.rds"                         </span></span>
-<span><span class="co">##  [66] "Kattge_et_al_2020_LeafDensity.rds"                      </span></span>
-<span><span class="co">##  [67] "Kattge_et_al_2020_LeafDuration.rds"                     </span></span>
-<span><span class="co">##  [68] "Kattge_et_al_2020_LeafEPS.rds"                          </span></span>
-<span><span class="co">##  [69] "Kattge_et_al_2020_LeafPI0.rds"                          </span></span>
-<span><span class="co">##  [70] "Kattge_et_al_2020_LeafShape.rds"                        </span></span>
-<span><span class="co">##  [71] "Kattge_et_al_2020_LeafWidth.rds"                        </span></span>
-<span><span class="co">##  [72] "Kattge_et_al_2020_LifeForm.rds"                         </span></span>
-<span><span class="co">##  [73] "Kattge_et_al_2020_LigninPercent.rds"                    </span></span>
-<span><span class="co">##  [74] "Kattge_et_al_2020_Nfineroot.rds"                        </span></span>
-<span><span class="co">##  [75] "Kattge_et_al_2020_Nleaf.rds"                            </span></span>
-<span><span class="co">##  [76] "Kattge_et_al_2020_Nsapwood.rds"                         </span></span>
-<span><span class="co">##  [77] "Kattge_et_al_2020_PhenologyType.rds"                    </span></span>
-<span><span class="co">##  [78] "Kattge_et_al_2020_SeedLongevity.rds"                    </span></span>
-<span><span class="co">##  [79] "Kattge_et_al_2020_SeedMass.rds"                         </span></span>
-<span><span class="co">##  [80] "Kattge_et_al_2020_ShadeTol.rds"                         </span></span>
-<span><span class="co">##  [81] "Kattge_et_al_2020_SLA.rds"                              </span></span>
-<span><span class="co">##  [82] "Kattge_et_al_2020_SRL.rds"                              </span></span>
-<span><span class="co">##  [83] "Kattge_et_al_2020_Vmax.rds"                             </span></span>
-<span><span class="co">##  [84] "Kattge_et_al_2020_WoodC.rds"                            </span></span>
-<span><span class="co">##  [85] "Kattge_et_al_2020_WoodDensity.rds"                      </span></span>
-<span><span class="co">##  [86] "Kattge_et_al_2020_Z95.rds"                              </span></span>
-<span><span class="co">##  [87] "Klein_et_al_2014.rds"                                   </span></span>
-<span><span class="co">##  [88] "Kunert_Tomaskova_2020.rds"                              </span></span>
-<span><span class="co">##  [89] "Lens_et_al_2016.rds"                                    </span></span>
-<span><span class="co">##  [90] "Lin_et_al_2015.rds"                                     </span></span>
-<span><span class="co">##  [91] "Liu_et_al_2019.rds"                                     </span></span>
-<span><span class="co">##  [92] "MartinStPaul_et_al_2017.rds"                            </span></span>
-<span><span class="co">##  [93] "Morris_et_al_2016.rds"                                  </span></span>
-<span><span class="co">##  [94] "Ocampo_Zuleta_Pausas_Paula_2023_FLAMITS_HeatContent.rds"</span></span>
-<span><span class="co">##  [95] "Petruzzellis_et_al_2021.rds"                            </span></span>
-<span><span class="co">##  [96] "Pisek_Adamson_2020_LeafAngle.rds"                       </span></span>
-<span><span class="co">##  [97] "Ramirez_Valiente_et_al_2020.rds"                        </span></span>
-<span><span class="co">##  [98] "Sjoman_et_al_2015.rds"                                  </span></span>
-<span><span class="co">##  [99] "Sjoman_et_al_2018.rds"                                  </span></span>
-<span><span class="co">## [100] "Tavsanoglu_Pausas_2018_Hact.rds"                        </span></span>
-<span><span class="co">## [101] "Tavsanoglu_Pausas_2018_LDMC.rds"                        </span></span>
-<span><span class="co">## [102] "Tavsanoglu_Pausas_2018_LeafArea.rds"                    </span></span>
-<span><span class="co">## [103] "Tavsanoglu_Pausas_2018_LeafDuration.rds"                </span></span>
-<span><span class="co">## [104] "Tavsanoglu_Pausas_2018_LeafShape.rds"                   </span></span>
-<span><span class="co">## [105] "Tavsanoglu_Pausas_2018_LifeForm.rds"                    </span></span>
-<span><span class="co">## [106] "Tavsanoglu_Pausas_2018_pDead.rds"                       </span></span>
-<span><span class="co">## [107] "Tavsanoglu_Pausas_2018_PhenologyType.rds"               </span></span>
-<span><span class="co">## [108] "Tavsanoglu_Pausas_2018_SeedMass.rds"                    </span></span>
-<span><span class="co">## [109] "Tavsanoglu_Pausas_2018_SLA.rds"                         </span></span>
-<span><span class="co">## [110] "Tavsanoglu_Pausas_2018_WoodDensity.rds"                 </span></span>
-<span><span class="co">## [111] "Tavsanoglu_Pausas_2018_Z95.rds"                         </span></span>
-<span><span class="co">## [112] "Tumber_Davila_et_al_2022.rds"                           </span></span>
-<span><span class="co">## [113] "Vilagrosa_et_al_2014.rds"                               </span></span>
-<span><span class="co">## [114] "Wang_et_al_2022_CPTD.rds"                               </span></span>
-<span><span class="co">## [115] "Wang_et_al_2024.rds"                                    </span></span>
-<span><span class="co">## [116] "Wolfe_et_al_2023.rds"                                   </span></span>
-<span><span class="co">## [117] "Yan_et_al_2020.rds"                                     </span></span>
-<span><span class="co">## [118] "Yebra_et_al_2024_LFMC.rds"                              </span></span>
-<span><span class="co">## [119] "Zhu_et_al_2016.rds"                                     </span></span>
-<span><span class="co">## [120] "Zhu_et_al_2018.rds"</span></span></code></pre>
+<span><span class="co">##  [29] "De_Caceres_et_al_2019_CR_pDead.rds"                     </span></span>
+<span><span class="co">##  [30] "Diaz_et_al_2022.rds"                                    </span></span>
+<span><span class="co">##  [31] "Duursma_et_al_2018.rds"                                 </span></span>
+<span><span class="co">##  [32] "Falster_et_al_2021_Al2As.rds"                           </span></span>
+<span><span class="co">##  [33] "Falster_et_al_2021_Hact.rds"                            </span></span>
+<span><span class="co">##  [34] "Falster_et_al_2021_Jmax.rds"                            </span></span>
+<span><span class="co">##  [35] "Falster_et_al_2021_Ks.rds"                              </span></span>
+<span><span class="co">##  [36] "Falster_et_al_2021_LeafAngle.rds"                       </span></span>
+<span><span class="co">##  [37] "Falster_et_al_2021_LeafArea.rds"                        </span></span>
+<span><span class="co">##  [38] "Falster_et_al_2021_LeafDensity.rds"                     </span></span>
+<span><span class="co">##  [39] "Falster_et_al_2021_LeafDuration.rds"                    </span></span>
+<span><span class="co">##  [40] "Falster_et_al_2021_LeafEPS.rds"                         </span></span>
+<span><span class="co">##  [41] "Falster_et_al_2021_LeafPI0.rds"                         </span></span>
+<span><span class="co">##  [42] "Falster_et_al_2021_LeafShape.rds"                       </span></span>
+<span><span class="co">##  [43] "Falster_et_al_2021_LeafWidth.rds"                       </span></span>
+<span><span class="co">##  [44] "Falster_et_al_2021_LifeForm.rds"                        </span></span>
+<span><span class="co">##  [45] "Falster_et_al_2021_Nsapwood.rds"                        </span></span>
+<span><span class="co">##  [46] "Falster_et_al_2021_SeedMass.rds"                        </span></span>
+<span><span class="co">##  [47] "Falster_et_al_2021_SLA.rds"                             </span></span>
+<span><span class="co">##  [48] "Falster_et_al_2021_SRL.rds"                             </span></span>
+<span><span class="co">##  [49] "Falster_et_al_2021_StemEPS.rds"                         </span></span>
+<span><span class="co">##  [50] "Falster_et_al_2021_VCstem_P12.rds"                      </span></span>
+<span><span class="co">##  [51] "Falster_et_al_2021_VCstem_P50.rds"                      </span></span>
+<span><span class="co">##  [52] "Falster_et_al_2021_VCstem_P88.rds"                      </span></span>
+<span><span class="co">##  [53] "Falster_et_al_2021_Vmax.rds"                            </span></span>
+<span><span class="co">##  [54] "Falster_et_al_2021_WoodDensity.rds"                     </span></span>
+<span><span class="co">##  [55] "Guerrero_Ramirez_et_al_2021_GRooT_FineRootDensity.rds"  </span></span>
+<span><span class="co">##  [56] "Guerrero_Ramirez_et_al_2021_GRooT_Nfineroot.rds"        </span></span>
+<span><span class="co">##  [57] "Guerrero_Ramirez_et_al_2021_GRooT_RootingDepth.rds"     </span></span>
+<span><span class="co">##  [58] "Guerrero_Ramirez_et_al_2021_GRooT_SRL.rds"              </span></span>
+<span><span class="co">##  [59] "Guillemot_et_al_2022.rds"                               </span></span>
+<span><span class="co">##  [60] "Henry_et_al_2019.rds"                                   </span></span>
+<span><span class="co">##  [61] "Hoshika_et_al_2018.rds"                                 </span></span>
+<span><span class="co">##  [62] "Kattge_et_al_2020_DispersalMode.rds"                    </span></span>
+<span><span class="co">##  [63] "Kattge_et_al_2020_GrowthForm.rds"                       </span></span>
+<span><span class="co">##  [64] "Kattge_et_al_2020_Hact.rds"                             </span></span>
+<span><span class="co">##  [65] "Kattge_et_al_2020_Jmax.rds"                             </span></span>
+<span><span class="co">##  [66] "Kattge_et_al_2020_LeafAngle.rds"                        </span></span>
+<span><span class="co">##  [67] "Kattge_et_al_2020_LeafArea.rds"                         </span></span>
+<span><span class="co">##  [68] "Kattge_et_al_2020_LeafDensity.rds"                      </span></span>
+<span><span class="co">##  [69] "Kattge_et_al_2020_LeafDuration.rds"                     </span></span>
+<span><span class="co">##  [70] "Kattge_et_al_2020_LeafEPS.rds"                          </span></span>
+<span><span class="co">##  [71] "Kattge_et_al_2020_LeafPI0.rds"                          </span></span>
+<span><span class="co">##  [72] "Kattge_et_al_2020_LeafShape.rds"                        </span></span>
+<span><span class="co">##  [73] "Kattge_et_al_2020_LeafWidth.rds"                        </span></span>
+<span><span class="co">##  [74] "Kattge_et_al_2020_LifeForm.rds"                         </span></span>
+<span><span class="co">##  [75] "Kattge_et_al_2020_LigninPercent.rds"                    </span></span>
+<span><span class="co">##  [76] "Kattge_et_al_2020_Nfineroot.rds"                        </span></span>
+<span><span class="co">##  [77] "Kattge_et_al_2020_Nleaf.rds"                            </span></span>
+<span><span class="co">##  [78] "Kattge_et_al_2020_Nsapwood.rds"                         </span></span>
+<span><span class="co">##  [79] "Kattge_et_al_2020_PhenologyType.rds"                    </span></span>
+<span><span class="co">##  [80] "Kattge_et_al_2020_SeedLongevity.rds"                    </span></span>
+<span><span class="co">##  [81] "Kattge_et_al_2020_SeedMass.rds"                         </span></span>
+<span><span class="co">##  [82] "Kattge_et_al_2020_ShadeTol.rds"                         </span></span>
+<span><span class="co">##  [83] "Kattge_et_al_2020_SLA.rds"                              </span></span>
+<span><span class="co">##  [84] "Kattge_et_al_2020_SRL.rds"                              </span></span>
+<span><span class="co">##  [85] "Kattge_et_al_2020_Vmax.rds"                             </span></span>
+<span><span class="co">##  [86] "Kattge_et_al_2020_WoodC.rds"                            </span></span>
+<span><span class="co">##  [87] "Kattge_et_al_2020_WoodDensity.rds"                      </span></span>
+<span><span class="co">##  [88] "Kattge_et_al_2020_Z95.rds"                              </span></span>
+<span><span class="co">##  [89] "Klein_et_al_2014.rds"                                   </span></span>
+<span><span class="co">##  [90] "Kunert_Tomaskova_2020.rds"                              </span></span>
+<span><span class="co">##  [91] "Lens_et_al_2016.rds"                                    </span></span>
+<span><span class="co">##  [92] "Lin_et_al_2015.rds"                                     </span></span>
+<span><span class="co">##  [93] "Liu_et_al_2019.rds"                                     </span></span>
+<span><span class="co">##  [94] "MartinStPaul_et_al_2017.rds"                            </span></span>
+<span><span class="co">##  [95] "Morris_et_al_2016.rds"                                  </span></span>
+<span><span class="co">##  [96] "Ocampo_Zuleta_Pausas_Paula_2023_FLAMITS_HeatContent.rds"</span></span>
+<span><span class="co">##  [97] "Petruzzellis_et_al_2021.rds"                            </span></span>
+<span><span class="co">##  [98] "Pisek_Adamson_2020_LeafAngle.rds"                       </span></span>
+<span><span class="co">##  [99] "Ramirez_Valiente_et_al_2020.rds"                        </span></span>
+<span><span class="co">## [100] "Sjoman_et_al_2015.rds"                                  </span></span>
+<span><span class="co">## [101] "Sjoman_et_al_2018.rds"                                  </span></span>
+<span><span class="co">## [102] "Tavsanoglu_Pausas_2018_Hact.rds"                        </span></span>
+<span><span class="co">## [103] "Tavsanoglu_Pausas_2018_LDMC.rds"                        </span></span>
+<span><span class="co">## [104] "Tavsanoglu_Pausas_2018_LeafArea.rds"                    </span></span>
+<span><span class="co">## [105] "Tavsanoglu_Pausas_2018_LeafDuration.rds"                </span></span>
+<span><span class="co">## [106] "Tavsanoglu_Pausas_2018_LeafShape.rds"                   </span></span>
+<span><span class="co">## [107] "Tavsanoglu_Pausas_2018_LifeForm.rds"                    </span></span>
+<span><span class="co">## [108] "Tavsanoglu_Pausas_2018_pDead.rds"                       </span></span>
+<span><span class="co">## [109] "Tavsanoglu_Pausas_2018_PhenologyType.rds"               </span></span>
+<span><span class="co">## [110] "Tavsanoglu_Pausas_2018_SeedMass.rds"                    </span></span>
+<span><span class="co">## [111] "Tavsanoglu_Pausas_2018_SLA.rds"                         </span></span>
+<span><span class="co">## [112] "Tavsanoglu_Pausas_2018_WoodDensity.rds"                 </span></span>
+<span><span class="co">## [113] "Tavsanoglu_Pausas_2018_Z95.rds"                         </span></span>
+<span><span class="co">## [114] "Tumber_Davila_et_al_2022.rds"                           </span></span>
+<span><span class="co">## [115] "Vilagrosa_et_al_2014.rds"                               </span></span>
+<span><span class="co">## [116] "Wang_et_al_2022_CPTD.rds"                               </span></span>
+<span><span class="co">## [117] "Wang_et_al_2024.rds"                                    </span></span>
+<span><span class="co">## [118] "Wolfe_et_al_2023.rds"                                   </span></span>
+<span><span class="co">## [119] "Yan_et_al_2020.rds"                                     </span></span>
+<span><span class="co">## [120] "Yebra_et_al_2024_LFMC.rds"                              </span></span>
+<span><span class="co">## [121] "Zhu_et_al_2016.rds"                                     </span></span>
+<span><span class="co">## [122] "Zhu_et_al_2018.rds"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="querying-data-for-particular-traits-or-species">Querying data for particular traits or species<a class="anchor" aria-label="anchor" href="#querying-data-for-particular-traits-or-species"></a>
