@@ -15,13 +15,13 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.path = "README-")
 
 ## Introduction
 
-Package **traits4models** is designed to facilitate creating plant species parameter tables for process-based models of forest function and/or dynamics. Specifically utility functions are provided to harmonize plant trait data bases and defining tables from them. At present, species parameter estimation is tailored to be used for the models included in packages [**medfate**](https://emf-creaf.github.io/medfate) and [**medfateland**](https://emf-creaf.github.io/medfateland), but it other functions could be added to become useful for other process-based models. 
+Package **traits4models** is designed to facilitate creating plant species parameter tables for process-based models of forest function and/or dynamics. Specifically utility functions are provided to: (1) harmonize plant trait databases; (2) harmonize allometry databases; and (3) populating species parameter tables from them. At present, species parameter estimation is tailored to be used for the models included in packages [**medfate**](https://emf-creaf.github.io/medfate) and [**medfateland**](https://emf-creaf.github.io/medfateland), but it other functions could be added to become useful for other process-based models (see section [Contributing guide](https://emf-creaf.github.io/traits4models/CONTRIBUTING.html)). 
 
 ## Package installation
 
 Since both packages evolve together, installing **traits4models** normally requires an up-to-date version of package [**medfate**](https://emf-creaf.github.io/medfate), which is available at [CRAN](https://cran.r-project.org/package=medfate). 
 
-The latest stable versions GitHub as follows (required package `remotes`` should be installed/updated first):
+The latest stable versions GitHub as follows (required package `remotes` should be installed/updated first):
 
 ```{r installation, eval = FALSE}
 remotes::install_github("emf-creaf/traits4models")
@@ -30,7 +30,7 @@ remotes::install_github("emf-creaf/traits4models")
 
 ## Usage
 
-IMPORTANT: The package is still under active development. 
+The main functions for harmonization are `harmonize_taxonomy_WFO()`, `check_harmonized_trait()` and `check_harmonized_allometry()`. A number of functions are provided for inspecting the set of harmonized trait/allometry data. Finally, model-specific functions are provided to populate species parameter tables from them.
 
 ## Documentation
 
