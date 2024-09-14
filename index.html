@@ -74,20 +74,20 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>Package <strong>traits4models</strong> is designed to facilitate creating plant species parameter tables for process-based models of forest function and/or dynamics. Specifically utility functions are provided to harmonize plant trait data bases and defining tables from them. At present, species parameter estimation is tailored to be used for the models included in packages <a href="https://emf-creaf.github.io/medfate" class="external-link"><strong>medfate</strong></a> and <a href="https://emf-creaf.github.io/medfateland" class="external-link"><strong>medfateland</strong></a>, but it other functions could be added to become useful for other process-based models.</p>
+<p>Package <strong>traits4models</strong> is designed to facilitate creating plant species parameter tables for process-based models of forest function and/or dynamics. Specifically utility functions are provided to: (1) harmonize plant trait databases; (2) harmonize allometry databases; and (3) populating species parameter tables from them. At present, species parameter estimation is tailored to be used for the models included in packages <a href="https://emf-creaf.github.io/medfate" class="external-link"><strong>medfate</strong></a> and <a href="https://emf-creaf.github.io/medfateland" class="external-link"><strong>medfateland</strong></a>, but it other functions could be added to become useful for other process-based models (see section <a href="https://emf-creaf.github.io/traits4models/CONTRIBUTING.html">Contributing guide</a>).</p>
 </div>
 <div class="section level2">
 <h2 id="package-installation">Package installation<a class="anchor" aria-label="anchor" href="#package-installation"></a>
 </h2>
 <p>Since both packages evolve together, installing <strong>traits4models</strong> normally requires an up-to-date version of package <a href="https://emf-creaf.github.io/medfate" class="external-link"><strong>medfate</strong></a>, which is available at <a href="https://cran.r-project.org/package=medfate" class="external-link">CRAN</a>.</p>
-<p>The latest stable versions GitHub as follows (required package `remotes`` should be installed/updated first):</p>
+<p>The latest stable versions GitHub as follows (required package <code>remotes</code> should be installed/updated first):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"emf-creaf/traits4models"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
-<p>IMPORTANT: The package is still under active development.</p>
+<p>The main functions for harmonization are <code><a href="reference/harmonize_taxonomy_WFO.html">harmonize_taxonomy_WFO()</a></code>, <code><a href="reference/check_harmonized_trait.html">check_harmonized_trait()</a></code> and <code><a href="reference/check_harmonized_trait.html">check_harmonized_allometry()</a></code>. A number of functions are provided for inspecting the set of harmonized trait/allometry data. Finally, model-specific functions are provided to populate species parameter tables from them.</p>
 </div>
 <div class="section level2">
 <h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
@@ -137,6 +137,12 @@
 </ul>
 </div>
 
+<div class="community">
+<h2 data-toc-skip>Community</h2>
+<ul class="list-unstyled">
+<li><a href="CONTRIBUTING.html">Contributing guide</a></li>
+</ul>
+</div>
 
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>

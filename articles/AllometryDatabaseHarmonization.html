@@ -69,7 +69,7 @@
                         <h4 data-toc-skip class="author">Miquel De
 Cáceres / Nicolas Martin-StPaul</h4>
             
-            <h4 data-toc-skip class="date">2024-09-13</h4>
+            <h4 data-toc-skip class="date">2024-09-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/emf-creaf/traits4models/blob/HEAD/vignettes/AllometryDatabaseHarmonization.Rmd" class="external-link"><code>vignettes/AllometryDatabaseHarmonization.Rmd</code></a></small>
       <div class="d-none name"><code>AllometryDatabaseHarmonization.Rmd</code></div>
@@ -332,14 +332,16 @@ data files have been stored in the following path:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">allometry_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">harmonized_allometry_path</span>, full.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">allometry_files</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "shrub_crown_area_catalonia.csv"         </span></span>
-<span><span class="co">## [2] "shrub_fine_fuel_biomass_catalonia.csv"  </span></span>
-<span><span class="co">## [3] "shrub_total_biomass_catalonia.csv"      </span></span>
-<span><span class="co">## [4] "tree_bark_thickness_catalonia.csv"      </span></span>
-<span><span class="co">## [5] "tree_crown_ratio_europe.csv"            </span></span>
-<span><span class="co">## [6] "tree_crown_width_europe.csv"            </span></span>
-<span><span class="co">## [7] "tree_foliar_biomass_catalonia.csv"      </span></span>
-<span><span class="co">## [8] "tree_foliar_biomass_thom_et_al_2024.csv"</span></span></code></pre>
+<pre><code><span><span class="co">##  [1] "shrub_crown_area_catalonia.csv"                  </span></span>
+<span><span class="co">##  [2] "shrub_fine_fuel_biomass_catalonia.csv"           </span></span>
+<span><span class="co">##  [3] "shrub_total_biomass_catalonia.csv"               </span></span>
+<span><span class="co">##  [4] "tree_bark_thickness_catalonia.csv"               </span></span>
+<span><span class="co">##  [5] "tree_crown_ratio_europe.csv"                     </span></span>
+<span><span class="co">##  [6] "tree_crown_width_europe.csv"                     </span></span>
+<span><span class="co">##  [7] "tree_foliar_biomass_calvoalvarado_et_al_2024.csv"</span></span>
+<span><span class="co">##  [8] "tree_foliar_biomass_catalonia.csv"               </span></span>
+<span><span class="co">##  [9] "tree_foliar_biomass_eslamdoust_et_al_2017.csv"   </span></span>
+<span><span class="co">## [10] "tree_foliar_biomass_thom_et_al_2024.csv"</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="querying-allometry-data-for-particular-response-variable">Querying allometry data for particular response variable<a class="anchor" aria-label="anchor" href="#querying-allometry-data-for-particular-response-variable"></a>
@@ -352,48 +354,48 @@ Package <strong>trait4models</strong> provides function
 <code class="sourceCode R"><span><span class="va">fb_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_trait_data.html">get_allometry_data</a></span><span class="op">(</span><span class="va">harmonized_allometry_path</span>, <span class="st">"FoliarBiomass"</span>,</span>
 <span>                              progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fb_data</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##        originalName      acceptedName acceptedNameAuthorship      family</span></span>
-<span><span class="co">## 1        Abies alba        Abies alba                  Mill.    Pinaceae</span></span>
-<span><span class="co">## 2    Acer campestre    Acer campestre                     L. Sapindaceae</span></span>
-<span><span class="co">## 3   Alnus glutinosa   Alnus glutinosa           (L.) Gaertn.  Betulaceae</span></span>
-<span><span class="co">## 4    Betula pendula    Betula pendula                   Roth  Betulaceae</span></span>
-<span><span class="co">## 5   Castanea sativa   Castanea sativa                  Mill.    Fagaceae</span></span>
-<span><span class="co">## 6 Ceratonia siliqua Ceratonia siliqua                     L.    Fabaceae</span></span>
-<span><span class="co">##       genus specificEpithet taxonRank</span></span>
-<span><span class="co">## 1     Abies            alba   species</span></span>
-<span><span class="co">## 2      Acer       campestre   species</span></span>
-<span><span class="co">## 3     Alnus       glutinosa   species</span></span>
-<span><span class="co">## 4    Betula         pendula   species</span></span>
-<span><span class="co">## 5  Castanea          sativa   species</span></span>
-<span><span class="co">## 6 Ceratonia         siliqua   species</span></span>
-<span><span class="co">##                                         Equation           a        b</span></span>
-<span><span class="co">## 1 FoliarBiomass = a·DBH^b·exp(c·BAL)·DBH^(d·BAL) 0.123113793 1.452404</span></span>
-<span><span class="co">## 2 FoliarBiomass = a·DBH^b·exp(c·BAL)·DBH^(d·BAL) 0.008176993 1.719401</span></span>
-<span><span class="co">## 3 FoliarBiomass = a·DBH^b·exp(c·BAL)·DBH^(d·BAL) 0.016393734 1.468776</span></span>
-<span><span class="co">## 4 FoliarBiomass = a·DBH^b·exp(c·BAL)·DBH^(d·BAL) 0.026024811 1.308614</span></span>
-<span><span class="co">## 5 FoliarBiomass = a·DBH^b·exp(c·BAL)·DBH^(d·BAL) 0.110916829 1.281197</span></span>
-<span><span class="co">## 6 FoliarBiomass = a·DBH^b·exp(c·BAL)·DBH^(d·BAL) 0.118639640 1.625880</span></span>
-<span><span class="co">##            c d             Reference      Response ResponseDescription</span></span>
-<span><span class="co">## 1  0.0000000 0       Calculated IEFC FoliarBiomass Foliar biomass (kg)</span></span>
-<span><span class="co">## 2  0.0000000 0       Calculated IEFC FoliarBiomass Foliar biomass (kg)</span></span>
-<span><span class="co">## 3  0.0000000 0       Calculated IEFC FoliarBiomass Foliar biomass (kg)</span></span>
-<span><span class="co">## 4  0.0000000 0       Calculated IEFC FoliarBiomass Foliar biomass (kg)</span></span>
-<span><span class="co">## 5 -0.0410213 0       Calculated IEFC FoliarBiomass Foliar biomass (kg)</span></span>
-<span><span class="co">## 6  0.0000000 0 Montero et al. (2005) FoliarBiomass Foliar biomass (kg)</span></span>
-<span><span class="co">##   Predictor1          PredictorDescription1 Predictor2</span></span>
-<span><span class="co">## 1        DBH Diameter at breast height (cm)        BAL</span></span>
-<span><span class="co">## 2        DBH Diameter at breast height (cm)        BAL</span></span>
-<span><span class="co">## 3        DBH Diameter at breast height (cm)        BAL</span></span>
-<span><span class="co">## 4        DBH Diameter at breast height (cm)        BAL</span></span>
-<span><span class="co">## 5        DBH Diameter at breast height (cm)        BAL</span></span>
-<span><span class="co">## 6        DBH Diameter at breast height (cm)        BAL</span></span>
-<span><span class="co">##                PredictorDescription2 Priority</span></span>
-<span><span class="co">## 1 Basal area of larger trees (m2/ha)        1</span></span>
-<span><span class="co">## 2 Basal area of larger trees (m2/ha)        1</span></span>
-<span><span class="co">## 3 Basal area of larger trees (m2/ha)        1</span></span>
-<span><span class="co">## 4 Basal area of larger trees (m2/ha)        1</span></span>
-<span><span class="co">## 5 Basal area of larger trees (m2/ha)        1</span></span>
-<span><span class="co">## 6 Basal area of larger trees (m2/ha)        1</span></span></code></pre>
+<pre><code><span><span class="co">##              originalName           acceptedName acceptedNameAuthorship</span></span>
+<span><span class="co">## 1 Tetragastris panamensis    Protium stevensonii         (Standl.) Daly</span></span>
+<span><span class="co">## 2         Virola koschnii        Virola koschnyi                  Warb.</span></span>
+<span><span class="co">## 3       Carapa guianensis      Carapa guianensis                  Aubl.</span></span>
+<span><span class="co">## 4     Vochysia ferruginea    Vochysia ferruginea                  Mart.</span></span>
+<span><span class="co">## 5  Pentaclethra macroloba Pentaclethra macroloba        (Willd.) Kuntze</span></span>
+<span><span class="co">## 6              Abies alba             Abies alba                  Mill.</span></span>
+<span><span class="co">##          family        genus specificEpithet taxonRank</span></span>
+<span><span class="co">## 1   Burseraceae      Protium     stevensonii   species</span></span>
+<span><span class="co">## 2 Myristicaceae       Virola        koschnyi   species</span></span>
+<span><span class="co">## 3     Meliaceae       Carapa      guianensis   species</span></span>
+<span><span class="co">## 4  Vochysiaceae     Vochysia      ferruginea   species</span></span>
+<span><span class="co">## 5      Fabaceae Pentaclethra       macroloba   species</span></span>
+<span><span class="co">## 6      Pinaceae        Abies            alba   species</span></span>
+<span><span class="co">##                                         Equation         a        b</span></span>
+<span><span class="co">## 1                        FoliarBiomass = a·DBH^b 0.0400000 1.737000</span></span>
+<span><span class="co">## 2                        FoliarBiomass = a·DBH^b 0.0020000 2.468000</span></span>
+<span><span class="co">## 3                        FoliarBiomass = a·DBH^b 0.0120000 2.089000</span></span>
+<span><span class="co">## 4                        FoliarBiomass = a·DBH^b 0.6730000 1.058000</span></span>
+<span><span class="co">## 5                        FoliarBiomass = a·DBH^b 0.9580000 0.757000</span></span>
+<span><span class="co">## 6 FoliarBiomass = a·DBH^b·exp(c·BAL)·DBH^(d·BAL) 0.1231138 1.452404</span></span>
+<span><span class="co">##                                                                                                                                                                                                  Reference</span></span>
+<span><span class="co">## 1 Calvo-Alvarado et al. (2008) Allometric relationships predicting foliar biomass and leaf area:sapwood area ratio from tree height in five Costa Rican rain forest species. Tree Physiology 28: 1601-1608</span></span>
+<span><span class="co">## 2 Calvo-Alvarado et al. (2008) Allometric relationships predicting foliar biomass and leaf area:sapwood area ratio from tree height in five Costa Rican rain forest species. Tree Physiology 28: 1601-1608</span></span>
+<span><span class="co">## 3 Calvo-Alvarado et al. (2008) Allometric relationships predicting foliar biomass and leaf area:sapwood area ratio from tree height in five Costa Rican rain forest species. Tree Physiology 28: 1601-1608</span></span>
+<span><span class="co">## 4 Calvo-Alvarado et al. (2008) Allometric relationships predicting foliar biomass and leaf area:sapwood area ratio from tree height in five Costa Rican rain forest species. Tree Physiology 28: 1601-1608</span></span>
+<span><span class="co">## 5 Calvo-Alvarado et al. (2008) Allometric relationships predicting foliar biomass and leaf area:sapwood area ratio from tree height in five Costa Rican rain forest species. Tree Physiology 28: 1601-1608</span></span>
+<span><span class="co">## 6                                                                                                                                                                                          Calculated IEFC</span></span>
+<span><span class="co">##        Response ResponseDescription Predictor1          PredictorDescription1</span></span>
+<span><span class="co">## 1 FoliarBiomass Foliar biomass (kg)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 2 FoliarBiomass Foliar biomass (kg)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 3 FoliarBiomass Foliar biomass (kg)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 4 FoliarBiomass Foliar biomass (kg)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 5 FoliarBiomass Foliar biomass (kg)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">## 6 FoliarBiomass Foliar biomass (kg)        DBH Diameter at breast height (cm)</span></span>
+<span><span class="co">##   Priority  c  d Predictor2              PredictorDescription2</span></span>
+<span><span class="co">## 1        2 NA NA       &lt;NA&gt;                               &lt;NA&gt;</span></span>
+<span><span class="co">## 2        2 NA NA       &lt;NA&gt;                               &lt;NA&gt;</span></span>
+<span><span class="co">## 3        2 NA NA       &lt;NA&gt;                               &lt;NA&gt;</span></span>
+<span><span class="co">## 4        2 NA NA       &lt;NA&gt;                               &lt;NA&gt;</span></span>
+<span><span class="co">## 5        2 NA NA       &lt;NA&gt;                               &lt;NA&gt;</span></span>
+<span><span class="co">## 6        1  0  0        BAL Basal area of larger trees (m2/ha)</span></span></code></pre>
 </div>
 </div>
 <div class="section level2 unnumbered">
