@@ -51,11 +51,11 @@ check_harmonized_trait<- function(x) {
   }
   other <- cn[!(cn %in% c(fixed, "Units", "Reference", "Priority"))]
   for(t in other) {
-    if(!(t %in% HarmonizedTraitDefinition$Notation)) {
+    if(!(t %in% traits4models::HarmonizedTraitDefinition$Notation)) {
       acceptable <- FALSE
       cli::cli_alert_warning(paste0("Trait column '", t, "' does not match any harmonized trait definition."))
     } else {
-      type <- HarmonizedTraitDefinition$Type[HarmonizedTraitDefinition$Notation == t]
+      type <- traits4models::HarmonizedTraitDefinition$Type[traits4models::HarmonizedTraitDefinition$Notation == t]
       if(type=="String") {
         if(!inherits(x[[t]], "character")) {
           acceptable <- FALSE

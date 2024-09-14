@@ -77,14 +77,14 @@ spp_filt <- NFI_ES_mapping |>
 
 ### Initialization
 
-Package **traits4models** provides function `init_medfate_params()` to initialize a species parameter table for **medfate** according to a given input, which can be either a vector of plant names or a data frame with taxonomic information. Here we call the function with `NFI_ES_mapping`. Column `originalName` will be used to match the `Species` names in `forest` objects derived from the Spanish forest inventory, while column `acceptedName` will be used to ensure that matching with trait information is done using the appropriate (harmonized) taxonomic nomenclature. Other columns are used to fill in taxonomy:
+Package **traits4models** provides function `init_medfate_params()` to initialize a species parameter table for **medfate** according to the names given in a data frame with taxonomic information, here `NFI_ES_mapping`. Column `originalName` will be used to match the `Species` names in `forest` objects derived from the Spanish forest inventory, while column `acceptedName` will be used to ensure that matching with trait information is done using the appropriate (harmonized) taxonomic nomenclature. Other columns are used to fill in taxonomy:
 
 ```{r, eval = TRUE}
 SpParams <- traits4models::init_medfate_params(spp_filt,
                                                verbose = FALSE)
 ```
 
-The result is an empty data frame, except for the first columns, which correspond to taxonomic hierarchy of each entity (genus, family, group, ...), where missing taxonomic information is completed using package **taxize**. The number of rows in the output data frame can be larger than the input, because by default the function creates additional rows for species (when only sub-species of that species have been cited) or genus (when species of that genus have been cited).
+The result is an empty data frame, except for the first columns, which correspond to taxonomic hierarchy of each entity (genus, family, group, ...), where taxonomic information from lower rank (up to family) comes from the input data frame; and that of higher rank (order, group) is completed using internal package data obtained from package **taxize**. The number of rows in the output data frame can be larger than the input, because by default the function creates additional rows for species (when only sub-species of that species have been cited) or genus (when species of that genus have been cited).
 
 ```{r}
 SpParams |> tibble::as_tibble()

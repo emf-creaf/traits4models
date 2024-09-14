@@ -41,7 +41,7 @@ init_medfate_params<-function(x,
   }
   if(verbose) cli::cli_progress_step("Initializing parameter table")
   SpParams <- data.frame(Name = as.character(names))
-  for(cn in SpParamsDefinition$ParameterName) {
+  for(cn in medfate::SpParamsDefinition$ParameterName) {
     if(!(cn %in% names(SpParams))) {
       SpParams[[cn]] = NA
     }

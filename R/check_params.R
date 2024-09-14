@@ -22,7 +22,7 @@
 check_medfate_params<- function(x, verbose = TRUE) {
   if(!inherits(x, "data.frame")) cli::cli_abort("Input should be a data frame")
   cn <- names(x)
-  fixed <- SpParamsDefinition$ParameterName
+  fixed <- medfate::SpParamsDefinition$ParameterName
   if(!all(fixed %in% cn)) {
     w_mis <- fixed[!(fixed %in% cn)]
     cli::cli_abort(paste0("Parameter columns missing: ", paste0(w_mis, collapse =" ")))
@@ -31,7 +31,7 @@ check_medfate_params<- function(x, verbose = TRUE) {
   for(i in 1:length(fixed)) {
     p <- fixed[i]
     if(!all(is.na(x[[p]]))) {
-      type  <- SpParamsDefinition$Type[SpParamsDefinition$ParameterName==p]
+      type  <- medfate::SpParamsDefinition$Type[medfate::SpParamsDefinition$ParameterName==p]
       if(type=="String") {
         if(!is.character(x[[p]])) {
           if(verbose) cli::cli_alert_warning(paste0("Parameter column '", p, "' should contain strings."))
@@ -52,7 +52,7 @@ check_medfate_params<- function(x, verbose = TRUE) {
   }
 
   # Strict parameters should not contain missing values
-  strict_params <- SpParamsDefinition$ParameterName[SpParamsDefinition$Strict]
+  strict_params <- medfate::SpParamsDefinition$ParameterName[medfate::SpParamsDefinition$Strict]
   mis_strict <- data.frame(row.names = 1:nrow(x))
   for(p in strict_params) {
     mis_strict[[p]] <- is.na(x[[p]])
