@@ -1,0 +1,33 @@
+id: 'traits4models'
+title: traits4models
+emf_type: softwork
+emf_public: true
+emf_automatized: true
+emf_reproducible: false
+emf_draft: false
+emf_data_type: emf_data_product
+data_repository: ''
+model_repository: ''
+nodes:
+- "medfate_model"
+authors:
+- "mcaceres"
+- "atovar"
+- "vgranda"
+resource_link: softworks/traits4models
+tags:
+- R
+- models
+- "water balance"
+- "forest dynamics"
+links:
+  url_pdf: ''
+  url_doi: ''
+  url_docs: 'https://emf-creaf.github.io/traits4models/'
+  url_source: 'https://github.com/emf-creaf/traits4models/'
+requirements:
+- 'R (>= 3.5.0)'
+- 'medfate (>= 4.0.0)'
+description: 'Utility functions to facilitate harmonizing plant trait data bases and defining species parameter tables for process-based models
+date: '2024-09-15'
+date_lastmod: '2024-09-15'

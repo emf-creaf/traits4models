@@ -7,3 +7,4 @@
 ^README\.md$
 ^README\.Rmd$
 ^pkgdown/*$
+metadata.yml
