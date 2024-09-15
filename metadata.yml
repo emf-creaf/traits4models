@@ -28,6 +28,6 @@ links:
 requirements:
 - 'R (>= 3.5.0)'
 - 'medfate (>= 4.0.0)'
-description: 'Utility functions to facilitate harmonizing plant trait data bases and defining species parameter tables for process-based models
+description: 'Utility functions to facilitate harmonizing plant trait data bases and defining species parameter tables for process-based models'
 date: '2024-09-15'
 date_lastmod: '2024-09-15'
