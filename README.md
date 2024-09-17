@@ -9,11 +9,15 @@
 
 Package **traits4models** is designed to facilitate creating plant
 species parameter tables for process-based models of forest function
-and/or dynamics. Specifically utility functions are provided to: (1)
-harmonize plant trait databases; (2) harmonize allometry databases; and
-(3) populating species parameter tables from them. At present, species
-parameter estimation is tailored to be used for the models included in
-packages [**medfate**](https://emf-creaf.github.io/medfate) and
+and/or dynamics. Specifically utility functions are provided to:
+
+1.  Harmonize plant trait databases.
+2.  Harmonize allometry databases.
+3.  Populate species parameter tables from harmonized data.
+
+At present, species parameter estimation is tailored to be used for the
+models included in packages
+[**medfate**](https://emf-creaf.github.io/medfate) and
 [**medfateland**](https://emf-creaf.github.io/medfateland), but it other
 functions could be added to become useful for other process-based models
 (see section [Contributing
