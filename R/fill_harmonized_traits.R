@@ -28,8 +28,8 @@
 fill_medfate_traits<-function(SpParams,
                               harmonized_trait_path,
                               priorization = TRUE,
-                              erase_previous = TRUE,
-                              replace_previous = TRUE,
+                              erase_previous = FALSE,
+                              replace_previous = FALSE,
                               progress = TRUE, verbose = FALSE) {
 
   priority_column <- NULL

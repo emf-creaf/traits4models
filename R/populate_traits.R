@@ -71,10 +71,12 @@ populate_traits<-function(SpParams,
     ngen <- 0
 
     for(i in 1:nrow(SpParams)) {
+      initial_missing <- is.na(SpParams[i,param])
       assigned <- FALSE
       for(p_val in 1:length(unique(priority))) {
-        #Should we replace current value (only if is NA or we are to replace values)
-        can_replace <- ((is.na(SpParams[i,param]) || replace_previous) && (!assigned))
+        #We replace current value only if is NA or we are to replace values
+        #and we have not assigned it using higher priority data
+        can_replace <- ((initial_missing || replace_previous) && (!assigned))
         if(can_replace) {
           nm <-  SpParams$AcceptedName[i]
           species <-  SpParams$Species[i]
