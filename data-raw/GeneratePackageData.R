@@ -9,8 +9,8 @@ HarmonizedTraitDefinition$Units <- stringi::stri_enc_toascii(HarmonizedTraitDefi
 usethis::use_data(HarmonizedTraitDefinition, overwrite = T)
 
 
-MFWdir <- "~/OneDrive/mcaceres_work/model_development/medfate_development/"
-NFIparamDir <- "~/OneDrive/mcaceres_work/model_development/medfate_development/MedfateSpeciesParametrization/NFIs_parametrization/"
+MFWdir <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/"
+NFIparamDir <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/MedfateSpeciesParametrization/NFIs_parametrization/"
 
 # SpParamsES, SpParamsUS, SpParamsFR, SpParamsAU --------------------------------------
 SpParamsES <- readRDS(paste0(NFIparamDir, "Rdata/es/SpParams_final_es.rds"))
