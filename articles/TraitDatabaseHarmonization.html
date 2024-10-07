@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">traits4models</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,6 +47,7 @@
     <li><a class="dropdown-item" href="../articles/SpeciesParameterizationMEDFATE.html">Building species parameter tables for medfate</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -69,7 +70,7 @@
                         <h4 data-toc-skip class="author">Miquel De
 Cáceres / Nicolas Martin-StPaul</h4>
             
-            <h4 data-toc-skip class="date">2024-09-23</h4>
+            <h4 data-toc-skip class="date">2024-10-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/emf-creaf/traits4models/blob/HEAD/vignettes/TraitDatabaseHarmonization.Rmd" class="external-link"><code>vignettes/TraitDatabaseHarmonization.Rmd</code></a></small>
       <div class="d-none name"><code>TraitDatabaseHarmonization.Rmd</code></div>
@@ -157,18 +158,22 @@ plant traits are referred to, and if necessary, change their units.
 Package <strong>traits4models</strong> includes a data table called
 <code>HarmonizedTraitDefinition</code> that presents plant trait
 definitions and their required notation and units:</p>
-<table class="table">
+<table style="width:100%;" class="table">
 <colgroup>
-<col width="65%">
-<col width="17%">
-<col width="4%">
-<col width="11%">
+<col width="57%">
+<col width="15%">
+<col width="3%">
+<col width="10%">
+<col width="6%">
+<col width="6%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">Definition</th>
 <th align="left">Notation</th>
 <th align="left">Type</th>
 <th align="left">Units</th>
+<th align="right">MinimumValue</th>
+<th align="right">MaximumValue</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -176,449 +181,615 @@ definitions and their required notation and units:</p>
 <td align="left">LifeForm</td>
 <td align="left">String</td>
 <td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
 <tr class="even">
 <td align="left">Growth form</td>
 <td align="left">GrowthForm</td>
 <td align="left">String</td>
 <td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
 <tr class="odd">
 <td align="left">Leaf shape</td>
 <td align="left">LeafShape</td>
 <td align="left">String</td>
 <td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
 <tr class="even">
 <td align="left">Leaf area</td>
 <td align="left">LeafArea</td>
 <td align="left">Numeric</td>
 <td align="left">mm2</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
 <tr class="odd">
 <td align="left">Leaf size (category)</td>
 <td align="left">LeafSize</td>
 <td align="left">String</td>
 <td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
 <tr class="even">
 <td align="left">Leaf angle (inclination, orientation)</td>
 <td align="left">LeafAngle</td>
 <td align="left">Numeric</td>
 <td align="left">degrees</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
 <tr class="odd">
 <td align="left">Dispersal syndrome</td>
 <td align="left">DispersalMode</td>
 <td align="left">String</td>
 <td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
 <tr class="even">
 <td align="left">Leaf phenology type</td>
 <td align="left">PhenologyType</td>
 <td align="left">String</td>
 <td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
 <tr class="odd">
 <td align="left">Duration of leaves (leaf lifespan)</td>
 <td align="left">LeafDuration</td>
 <td align="left">Numeric</td>
 <td align="left">yrs</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
 <tr class="even">
 <td align="left">Maximum plant height</td>
 <td align="left">Hmax</td>
 <td align="left">Numeric</td>
 <td align="left">cm</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
 <tr class="odd">
+<td align="left">Maximum (tree) diameter</td>
+<td align="left">Dmax</td>
+<td align="left">Numeric</td>
+<td align="left">cm</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
 <td align="left">Actual plant height</td>
 <td align="left">Hact</td>
 <td align="left">Numeric</td>
 <td align="left">cm</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Rooting depth</td>
 <td align="left">Z95</td>
 <td align="left">Numeric</td>
 <td align="left">mm</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Crown ratio (crown length divided over total
 height)</td>
 <td align="left">CrownRatio</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Leaf area per leaf dry mass (specific leaf area, SLA),
 1/ Leaf mass per area (LMA)</td>
 <td align="left">SLA</td>
 <td align="left">Numeric</td>
 <td align="left">m2<em>kg-1 = mm2</em>mg-1</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Leaf area to sapwood area ratio (Al2As), 1 / Huber
 Value (Hv)</td>
 <td align="left">Al2As</td>
 <td align="left">Numeric</td>
 <td align="left">m2*m-2</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Proportion of sapwood corresponding to conducive
 elements (vessels or tracheids) as opposed to parenchymatic tissue.</td>
 <td align="left">conduit2sapwood</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Specific root length</td>
 <td align="left">SRL</td>
 <td align="left">Numeric</td>
 <td align="left">cm/g</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Proportion of total fine fuels that are dead</td>
 <td align="left">pDead</td>
 <td align="left">Numeric</td>
 <td align="left">[0-1]</td>
+<td align="right">0</td>
+<td align="right">1</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Stem carbon (C) content per stem dry mass</td>
 <td align="left">WoodC</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Density of leaf tissue (dry weight over volume)</td>
 <td align="left">LeafDensity</td>
 <td align="left">Numeric</td>
 <td align="left">g<em>cm-3 = mg</em>mm-3</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Wood tissue density (at 0% humidity!)</td>
 <td align="left">WoodDensity</td>
 <td align="left">Numeric</td>
 <td align="left">g<em>cm-3 = mg</em>mm-3</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Density of fine root tissue (dry weight over
 volume).</td>
 <td align="left">FineRootDensity</td>
 <td align="left">Numeric</td>
 <td align="left">g<em>cm-3 = mg</em>mm-3</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Leaf width</td>
 <td align="left">LeafWidth</td>
 <td align="left">Numeric</td>
 <td align="left">cm</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Maximum stomatal conductance to water vapor</td>
 <td align="left">Gswmax</td>
 <td align="left">Numeric</td>
 <td align="left">mol H2O * s-1 * m-2</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Minimum stomatal conductance to water vapor</td>
 <td align="left">Gswmin</td>
 <td align="left">Numeric</td>
 <td align="left">mol H2O * s-1 * m-2</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Osmotic potential at full turgor of leaves</td>
 <td align="left">LeafPI0</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Modulus of elasticity (capacity of the cell wall to
 resist changes in volume in response to changes in turgor) of
 leaves</td>
 <td align="left">LeafEPS</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Leaf apoplastic fraction</td>
 <td align="left">LeafAF</td>
 <td align="left">Numeric</td>
 <td align="left">[0-1]</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Leaf water potential at turgor loss point</td>
 <td align="left">Ptlp</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Slope coefficient of the Medlyn stomatal conductance
 model</td>
 <td align="left">g1_Medlyn</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Parameters of the stomatal response to leaf water
 potential</td>
 <td align="left">Gs_P20</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
+<td align="right">NA</td>
+<td align="right">0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Parameters of the stomatal response to leaf water
 potential</td>
 <td align="left">Gs_P50</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
+<td align="right">NA</td>
+<td align="right">0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Parameters of the stomatal response to leaf water
 potential</td>
 <td align="left">Gs_P80</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
+<td align="right">NA</td>
+<td align="right">0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Parameters of the stomatal response to leaf water
 potential</td>
 <td align="left">Gs_P90</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
+<td align="right">NA</td>
+<td align="right">0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Parameters of the stomatal response to leaf water
 potential</td>
 <td align="left">Gs_P95</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
+<td align="right">NA</td>
+<td align="right">0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Leaf photosynthesis carboxylation capacity (Vcmax) per
 leaf area (Farquhar model)</td>
 <td align="left">Vmax</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Leaf photosynthesis electron transport capacity (Jmax)
 per leaf area (Farquhar model)</td>
 <td align="left">Jmax</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Leaf nitrogen (N) content per leaf dry mass</td>
 <td align="left">Nleaf</td>
 <td align="left">Numeric</td>
 <td align="left">mg/g</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Wood nitrogen (N) content per wood dry mass</td>
 <td align="left">Nsapwood</td>
 <td align="left">Numeric</td>
 <td align="left">mg/g</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Fine root nitrogen (N) content per fine root dry
 mass</td>
 <td align="left">Nfineroot</td>
 <td align="left">Numeric</td>
 <td align="left">mg/g</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Maximum stem-specific hydraulic conductivity</td>
 <td align="left">Ks</td>
 <td align="left">Numeric</td>
 <td align="left">kg m-1 MPa-1 s-1</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Maximum leaf-specific hydraulic conductivity
 (Ks*Hv)</td>
 <td align="left">Kl</td>
 <td align="left">Numeric</td>
 <td align="left">10-4 kg m-1 MPa-1 s-1</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Maximum leaf hydraulic conductance</td>
 <td align="left">kleaf</td>
 <td align="left">Numeric</td>
 <td align="left">mmolm-2s-1MPa-1</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Maximum whole-plant hydraulic conductance</td>
 <td align="left">kplant</td>
 <td align="left">Numeric</td>
 <td align="left">mmolm-2s-1MPa-1</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Parameters of the stem vulnerability curve</td>
 <td align="left">VCstem_P12</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
+<td align="right">NA</td>
+<td align="right">0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Parameters of the stem vulnerability curve</td>
 <td align="left">VCstem_P50</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
+<td align="right">NA</td>
+<td align="right">0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Parameters of the stem vulnerability curve</td>
 <td align="left">VCstem_P88</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
+<td align="right">NA</td>
+<td align="right">0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Parameters of the stem vulnerability curve</td>
 <td align="left">VCstem_slope</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Parameters of the leaf vulnerability curve</td>
 <td align="left">VCleaf_P12</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
+<td align="right">NA</td>
+<td align="right">0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Parameters of the leaf vulnerability curve</td>
 <td align="left">VCleaf_P50</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
+<td align="right">NA</td>
+<td align="right">0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Parameters of the leaf vulnerability curve</td>
 <td align="left">VCleaf_P88</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
+<td align="right">NA</td>
+<td align="right">0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Parameters of the leaf vulnerability curve</td>
 <td align="left">VCleaf_slope</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Parameters of the root vulnerability curve</td>
 <td align="left">VCroot_P12</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
+<td align="right">NA</td>
+<td align="right">0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Parameters of the root vulnerability curve</td>
 <td align="left">VCroot_P50</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
+<td align="right">NA</td>
+<td align="right">0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Parameters of the root vulnerability curve</td>
 <td align="left">VCroot_P88</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
+<td align="right">NA</td>
+<td align="right">0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Parameters of the root vulnerability curve</td>
 <td align="left">VCroot_slope</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Leaf dry mass per leaf fresh mass (leaf dry matter
 content, LDMC)</td>
 <td align="left">LDMC</td>
 <td align="left">Numeric</td>
 <td align="left">mg/g</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Leaf fuel moisture content (% of dry weight)</td>
 <td align="left">LFMC</td>
 <td align="left">Numeric</td>
 <td align="left">% of dry weight</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Ratio of foliar (photosynthetic) + small branches
 (&lt;6.35 mm) dry biomass to foliar (photosynthetic) dry biomass</td>
 <td align="left">r635</td>
 <td align="left">Numeric</td>
 <td align="left">&gt;=1</td>
+<td align="right">1</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">High fuel heat content</td>
 <td align="left">HeatContent</td>
 <td align="left">Numeric</td>
 <td align="left">kJ/kg</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Surface-area-to-volume ratio</td>
 <td align="left">SAV</td>
 <td align="left">Numeric</td>
 <td align="left">m2/m3</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Percent of lignin+cutin over dry weight in leaves</td>
 <td align="left">LigninPercent</td>
 <td align="left">Numeric</td>
 <td align="left">%</td>
+<td align="right">0</td>
+<td align="right">100</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Bark thickness</td>
 <td align="left">BarkThickness</td>
 <td align="left">Numeric</td>
 <td align="left">mm</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Seedbank average longevity</td>
 <td align="left">SeedLongevity</td>
 <td align="left">Numeric</td>
 <td align="left">yrs</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Maturation height</td>
+<td align="left">Hmat</td>
+<td align="left">Numeric</td>
+<td align="left">cm</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
 <tr class="odd">
+<td align="left">Maturation diameter</td>
+<td align="left">Dmat</td>
+<td align="left">Numeric</td>
+<td align="left">cm</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
 <td align="left">Seed dry mass</td>
 <td align="left">SeedMass</td>
 <td align="left">Numeric</td>
 <td align="left">mg</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Succulence (g of water /m2 of projected leaf)</td>
 <td align="left">LeafSucculence</td>
 <td align="left">Numeric</td>
 <td align="left">g/m2</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Leaf projected to half developed area (m2/m2)</td>
 <td align="left">LeafProjectedToHalfDevelopedArea</td>
 <td align="left">Numeric</td>
 <td align="left">m2/m2</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Minimum conductance of the leaf to water vapor on
 developed area basis (including cuticule and stomatal leakiness)</td>
 <td align="left">GminLeaf</td>
 <td align="left">Numeric</td>
 <td align="left">mmolm-2s-1</td>
+<td align="right">0</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Q10 of the initial gmin response to temperature (before
 Tp)</td>
 <td align="left">Q10gminPhase1</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Q10 of the initial gmin response to temperature (after
 Tp)</td>
 <td align="left">Q10gminPhase2</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Transition phase for gmin dependence to
 temperature</td>
 <td align="left">GminTransitionPhase</td>
 <td align="left">Numeric</td>
 <td align="left">C</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
 </tr>
 </tbody>
 </table>
@@ -652,20 +823,22 @@ into <code>originalName</code>. The original name represents the taxon
 name that is used by the data set owner/provider and is key for
 taxonomic harmonization. The result of this step should contain
 <code>originalName</code>, plus one column for each harmonized trait,
-and (preferably) two columns called <code>Reference</code> and
-<code>Priority</code>. We can add those columns manually using:</p>
+and (preferably) three columns called <code>Reference</code>,
+<code>DOI</code> and <code>Priority</code>. We can add those columns
+manually using:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">db_var</span> <span class="op">&lt;-</span> <span class="va">db_var</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Reference <span class="op">=</span> <span class="st">"Bartlett et al. (2016)"</span>,</span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Reference <span class="op">=</span> <span class="st">"Bartlett et al. (2016). The correlations and sequence of plant stomatal, hydraulic, and wilting responses to drought. PNAS 113: 13098-13103"</span>,</span>
+<span>                DOI <span class="op">=</span> <span class="st">"10.1073/pnas.1604088113"</span>,</span>
 <span>                Priority <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<p>Column <code>Reference</code> indicates the bibliographic source of
-the data, whereas <code>Priority</code> allows defining an order in
-which trait data sources will be processed. Those with highest priority
-order (lowest value of <code>Priority</code>) will be given
-preference.</p>
+<p>Columns <code>Reference</code> and <code>DOI</code> indicates the
+bibliographic source of the data, whereas <code>Priority</code> allows
+defining an order in which trait data sources will be processed. Those
+with highest priority order (lowest value of <code>Priority</code>) will
+be given preference.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">db_var</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 310 × 10</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 310 × 11</span></span></span>
 <span><span class="co">##    originalName    VCleaf_P50 VCstem_P50 VCstem_P88 VCstem_P12 VCroot_P50 Gs_P50</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Acacia greggii       <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>   </span></span>
@@ -679,7 +852,7 @@ preference.</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Adansonia rubr…      <span style="color: #BB0000;">NA</span>         -<span style="color: #BB0000;">1.1</span>       -<span style="color: #BB0000;">2.82</span>     -<span style="color: #BB0000;">0.293</span>      <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>   </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> Adansonia za         <span style="color: #BB0000;">NA</span>         -<span style="color: #BB0000;">1.7</span>       -<span style="color: #BB0000;">3.49</span>     -<span style="color: #BB0000;">0.59</span>       <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>   </span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 300 more rows</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 3 more variables: Gs_P95 &lt;dbl&gt;, Reference &lt;chr&gt;, Priority &lt;dbl&gt;</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># ℹ 4 more variables: Gs_P95 &lt;dbl&gt;, Reference &lt;chr&gt;, DOI &lt;chr&gt;, Priority &lt;dbl&gt;</span></span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="taxonomic-harmonization">Taxonomic harmonization<a class="anchor" aria-label="anchor" href="#taxonomic-harmonization"></a>
@@ -709,7 +882,7 @@ the additional columns, informing about accepted names and parent
 taxonomic entities:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">db_post</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 16</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 17</span></span></span>
 <span><span class="co">##   originalName  acceptedName acceptedNameAuthorship family genus specificEpithet</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span> Acacia gregg… Senegalia g… (A.Gray) Britton &amp; Ro… Fabac… Sene… greggii        </span></span>
@@ -718,9 +891,9 @@ taxonomic entities:</p>
 <span><span class="co">## <span style="color: #BCBCBC;">4</span> Acer monspes… Acer monspe… L.                     Sapin… Acer  monspessulanum </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">5</span> Acer negundo  Acer negundo L.                     Sapin… Acer  negundo        </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">6</span> Acer pseudop… Acer pseudo… L.                     Sapin… Acer  pseudoplatanus </span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 10 more variables: taxonRank &lt;chr&gt;, VCleaf_P50 &lt;dbl&gt;, VCstem_P50 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 11 more variables: taxonRank &lt;chr&gt;, VCleaf_P50 &lt;dbl&gt;, VCstem_P50 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   VCstem_P88 &lt;dbl&gt;, VCstem_P12 &lt;dbl&gt;, VCroot_P50 &lt;dbl&gt;, Gs_P50 &lt;dbl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   Gs_P95 &lt;dbl&gt;, Reference &lt;chr&gt;, Priority &lt;dbl&gt;</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;">#   Gs_P95 &lt;dbl&gt;, Reference &lt;chr&gt;, DOI &lt;chr&gt;, Priority &lt;dbl&gt;</span></span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="checking-harmonized-trait-data">Checking harmonized trait data<a class="anchor" aria-label="anchor" href="#checking-harmonized-trait-data"></a>
@@ -990,7 +1163,7 @@ Taxonomic Backbone Data.”</span> <em>Applications in Plant Sciences</em>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>
