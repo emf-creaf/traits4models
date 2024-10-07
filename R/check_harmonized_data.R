@@ -9,8 +9,10 @@
 #'   \itemize{
 #'     \item{Has columns called \code{originalName}, \code{acceptedName}, \code{acceptedNameAuthorship}, \code{family}, \code{genus}, \code{specificEpithet}, and \code{taxonRank},
 #'     as returned by function \code{\link{harmonize_taxonomy_WFO}}.}
-#'     \item{The names of the remaining columns are "Units", "Reference", "Priority" or a valid trait name according to the notation required in \code{\link{HarmonizedTraitDefinition}}.}
+#'     \item{The names of the remaining columns are "Units", "Reference", "DOI", "Priority" or a valid trait name according to the notation required in \code{\link{HarmonizedTraitDefinition}}.}
 #'     \item{For trait columns, their values conform to the required type in \code{\link{HarmonizedTraitDefinition}}.}
+#'     \item{Trait columns contain non-missing data.}
+#'     \item{Numeric trait columns do not contain values beyond expected ranges (when defined).}
 #'   }
 #' Function \code{check_harmonized_allometry()} checks that the input data frame conforms to the following requirements:
 #'   \itemize{
@@ -46,30 +48,55 @@ check_harmonized_trait<- function(x) {
   if(!("Reference" %in% cn)) {
     cli::cli_alert_info("Column 'Reference' should preferably be defined.")
   }
+  if(!("DOI" %in% cn)) {
+    cli::cli_alert_info("Column 'DOI' should preferably be defined.")
+  }
   if(!("Priority" %in% cn)) {
     cli::cli_alert_info("Column 'Priority' should preferably be defined.")
   }
-  other <- cn[!(cn %in% c(fixed, "Units", "Reference", "Priority"))]
+  other <- cn[!(cn %in% c(fixed, "Units", "Reference", "DOI", "Priority"))]
   for(t in other) {
     if(!(t %in% traits4models::HarmonizedTraitDefinition$Notation)) {
       acceptable <- FALSE
       cli::cli_alert_warning(paste0("Trait column '", t, "' does not match any harmonized trait definition."))
     } else {
-      type <- traits4models::HarmonizedTraitDefinition$Type[traits4models::HarmonizedTraitDefinition$Notation == t]
-      if(type=="String") {
-        if(!inherits(x[[t]], "character")) {
-          acceptable <- FALSE
-          cli::cli_alert_warning(paste0("Trait column '", t, "' should contain character data."))
+      row <- which(traits4models::HarmonizedTraitDefinition$Notation==t)
+      if(sum(is.na(x[[t]])) == length(x[[t]])) {
+        acceptable <- FALSE
+        cli::cli_alert_warning(paste0("Trait column '", t, "' does not contain any data."))
+      } else {
+        type <- traits4models::HarmonizedTraitDefinition$Type[traits4models::HarmonizedTraitDefinition$Notation == t]
+        if(type=="String") {
+          if(!inherits(x[[t]], "character")) {
+            acceptable <- FALSE
+            cli::cli_alert_warning(paste0("Trait column '", t, "' should contain character data."))
+          }
+        } else if(type =="Integer") {
+          if(!inherits(x[[t]], "integer")) {
+            acceptable <- FALSE
+            cli::cli_alert_warning(paste0("Trait column '", t, "' should contain integer data."))
+          }
+        } else if(type =="Numeric") {
+          if(!inherits(x[[t]], "numeric")) {
+            acceptable <- FALSE
+            cli::cli_alert_warning(paste0("Trait column '", t, "' should contain numeric data."))
+          }
         }
-      } else if(type =="Integer") {
-        if(!inherits(x[[t]], "integer")) {
-          acceptable <- FALSE
-          cli::cli_alert_warning(paste0("Trait column '", t, "' should contain integer data."))
-        }
-      } else if(type =="Numeric") {
-        if(!inherits(x[[t]], "numeric")) {
-          acceptable <- FALSE
-          cli::cli_alert_warning(paste0("Trait column '", t, "' should contain numeric data."))
+        if(acceptable && (type %in% c("Integer", "Numeric"))) {
+          min_value <- min(x[[t]], na.rm=TRUE)
+          max_value <- max(x[[t]], na.rm=TRUE)
+          if(!is.na(traits4models::HarmonizedTraitDefinition$MinimumValue[row])) {
+            if(min_value < traits4models::HarmonizedTraitDefinition$MinimumValue[row]) {
+              acceptable <- FALSE
+              cli::cli_alert_warning(paste0("Trait column '", t, "' has values below accepted range."))
+            }
+          }
+          if(!is.na(traits4models::HarmonizedTraitDefinition$MaximumValue[row])) {
+            if(max_value > traits4models::HarmonizedTraitDefinition$MaximumValue[row]) {
+              acceptable <- FALSE
+              cli::cli_alert_warning(paste0("Trait column '", t, "' has values above accepted range."))
+            }
+          }
         }
       }
     }
@@ -96,6 +123,9 @@ check_harmonized_allometry<- function(x) {
   }
   if(!("Reference" %in% cn)) {
     cli::cli_alert_info("Column 'Reference' should preferably be defined.")
+  }
+  if(!("DOI" %in% cn)) {
+    cli::cli_alert_info("Column 'DOI' should preferably be defined.")
   }
   if(!("Priority" %in% cn)) {
     cli::cli_alert_info("Column 'Priority' should preferably be defined.")

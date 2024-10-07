@@ -23,8 +23,10 @@ Function \code{check_harmonized_trait()} checks that the input data frame confor
   \itemize{
     \item{Has columns called \code{originalName}, \code{acceptedName}, \code{acceptedNameAuthorship}, \code{family}, \code{genus}, \code{specificEpithet}, and \code{taxonRank},
     as returned by function \code{\link{harmonize_taxonomy_WFO}}.}
-    \item{The names of the remaining columns are "Units", "Reference", "Priority" or a valid trait name according to the notation required in \code{\link{HarmonizedTraitDefinition}}.}
+    \item{The names of the remaining columns are "Units", "Reference", "DOI", "Priority" or a valid trait name according to the notation required in \code{\link{HarmonizedTraitDefinition}}.}
     \item{For trait columns, their values conform to the required type in \code{\link{HarmonizedTraitDefinition}}.}
+    \item{Trait columns contain non-missing data.}
+    \item{Numeric trait columns do not contain values beyond expected ranges (when defined).}
   }
 Function \code{check_harmonized_allometry()} checks that the input data frame conforms to the following requirements:
   \itemize{

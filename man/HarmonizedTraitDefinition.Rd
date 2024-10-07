@@ -11,6 +11,8 @@ A data frame with parameters in rows and columns:
   \item{\code{Notation}: Trait notation required for harmonization.}
   \item{\code{Type}: Either 'Numeric' (for quantitative traits) or 'String' (for qualitative traits).}
   \item{\code{Units}: Required units for quantitative traits.}
+  \item{\code{MinimumValue}: Minimum value for quantitative traits.}
+  \item{\code{MaximumValue}: Maximum value for quantitative traits.}
 }
 }
 \description{
