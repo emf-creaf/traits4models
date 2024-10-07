@@ -79,6 +79,17 @@ fill_medfate_traits<-function(SpParams,
                               erase_previous = erase_previous, character_traits = TRUE,
                               replace_previous = replace_previous, verbose = verbose)
 
+  if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Dmax"))
+  trait_table <- get_trait_data(harmonized_trait_path, "Dmax", is_numeric = TRUE, progress = FALSE)
+  trait_mapping <- "Dmax"
+  names(trait_mapping) <- "Dmax"
+  SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
+                              summary_function = "median",
+                              taxon_column = "acceptedName", genus_column = "genus",
+                              priority_column = priority_column,
+                              erase_previous = erase_previous, character_traits = FALSE,
+                              replace_previous = replace_previous, verbose = verbose)
+
   if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Hmax/Hmed"))
   trait_table <- get_trait_data(harmonized_trait_path, "Hact", is_numeric = TRUE, progress = FALSE)
   trait_mapping <- "Hact"
@@ -97,7 +108,6 @@ fill_medfate_traits<-function(SpParams,
                               priority_column = priority_column,
                               erase_previous = erase_previous, character_traits = FALSE,
                               replace_previous = replace_previous, verbose = verbose)
-
 
   if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "cr"))
   trait_table <- get_trait_data(harmonized_trait_path, "CrownRatio", is_numeric = TRUE, progress = FALSE)
@@ -174,6 +184,7 @@ fill_medfate_traits<-function(SpParams,
                               erase_previous = erase_previous, character_traits = FALSE,
                               replace_previous = replace_previous, verbose = verbose)
 
+
   if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Z95"))
   trait_table <- get_trait_data(harmonized_trait_path, "Z95", is_numeric = TRUE, progress = FALSE)
   if(nrow(trait_table)>0) {
@@ -240,6 +251,19 @@ fill_medfate_traits<-function(SpParams,
                               priority_column = priority_column,
                               erase_previous = erase_previous, character_traits = FALSE,
                               replace_previous = replace_previous, verbose = verbose)
+
+  if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "SeedProductionDiameter"))
+  trait_table <- get_trait_data(harmonized_trait_path, "Dmat", is_numeric = TRUE, progress = FALSE)
+  if(nrow(trait_table)>0) {
+    trait_mapping <- "Dmat"
+    names(trait_mapping) <- "SeedProductionDiameter"
+    SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
+                                summary_function = "median",
+                                taxon_column = "acceptedName", genus_column = "genus",
+                                priority_column = priority_column,
+                                erase_previous = erase_previous, character_traits = FALSE,
+                                replace_previous = replace_previous, verbose = verbose)
+  }
   cli::cli_process_done()
 
   return(SpParams)

@@ -19,6 +19,7 @@ test_that("trait harmonization can be done", {
                   Gs_P95 = "Gs 95 (MPa)")
   db_var <- db_var[1:5,] |>
     dplyr::mutate(Reference = "Bartlett et al. (2016)",
+                  DOI ="xxx",
                   Priority = 3)
   WFO_file <- paste0(DB_path, "WFO_Backbone/classification.csv")
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file, progress = FALSE)

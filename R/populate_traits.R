@@ -73,7 +73,7 @@ populate_traits<-function(SpParams,
     for(i in 1:nrow(SpParams)) {
       initial_missing <- is.na(SpParams[i,param])
       assigned <- FALSE
-      for(p_val in 1:length(unique(priority))) {
+      for(p_val in min(priority):max(priority)) {
         #We replace current value only if is NA or we are to replace values
         #and we have not assigned it using higher priority data
         can_replace <- ((initial_missing || replace_previous) && (!assigned))

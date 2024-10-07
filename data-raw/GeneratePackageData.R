@@ -13,13 +13,13 @@ MFWdir <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/"
 NFIparamDir <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/MedfateSpeciesParametrization/NFIs_parametrization/"
 
 # SpParamsES, SpParamsUS, SpParamsFR, SpParamsAU --------------------------------------
-SpParamsES <- readRDS(paste0(NFIparamDir, "Rdata/es/SpParams_final_es.rds"))
+SpParamsES <- readRDS(paste0(NFIparamDir, "data/es/SpParams_final_es.rds"))
 # Results of meta-modelling exercise
-metamodellingParamsSpecies = readRDS(paste0(MFWdir, "Metamodelling_TR_WUE/Rdata/metamodelling_params.rds"))
+metamodellingParamsSpecies = readRDS(paste0(MFWdir, "Metamodelling_TR_WUE/data/SpParamsES/metamodelling_params.rds"))
 SpParamsES = medfate::modifySpParams(SpParamsES, metamodellingParamsSpecies, subsetSpecies = FALSE)
-# Load growth calibration results
-RGRcambiummaxTrees = readRDS(paste0(MFWdir,"GrowthCalibration/Rdata/RGRcambiummax_trees.rds"))
-SpParamsES = medfate::modifySpParams(SpParamsES, RGRcambiummaxTrees, subsetSpecies = FALSE)
+# Load growth calibration results TO BE CHANGED
+# RGRcambiummaxTrees = readRDS(paste0(MFWdir,"GrowthCalibration/Rdata/RGRcambiummax_trees.rds"))
+# SpParamsES = medfate::modifySpParams(SpParamsES, RGRcambiummaxTrees, subsetSpecies = FALSE)
 # Load ingrowth calibration results
 ## SHOULD BE RECALIBRATED: THEY REFER TO INGROWTH (~7.5 cm)
 recruitmentParamsSpecies = readRDS(paste0(MFWdir,"MortalityRegenerationCalibration/Rdata/final_recruitment_params.rds"))
@@ -39,11 +39,11 @@ names(resproutingParamsSpecies)[1] = "Species"
 SpParamsES = medfate::modifySpParams(SpParamsES, resproutingParamsSpecies, subsetSpecies = FALSE)
 usethis::use_data(SpParamsES, overwrite = T)
 
-SpParamsFR <- readRDS(paste0(NFIparamDir, "Rdata/fr/SpParams_final_fr.rds"))
+SpParamsFR <- readRDS(paste0(NFIparamDir, "data/fr/SpParams_final_fr.rds"))
 usethis::use_data(SpParamsFR, overwrite = T)
-SpParamsUS <- readRDS(paste0(NFIparamDir, "Rdata/us/SpParams_final_us.rds"))
+SpParamsUS <- readRDS(paste0(NFIparamDir, "data/us/SpParams_final_us.rds"))
 usethis::use_data(SpParamsUS, overwrite = T)
-SpParamsAU <- readRDS(paste0(NFIparamDir, "Rdata/au/SpParams_final_au.rds"))
+SpParamsAU <- readRDS(paste0(NFIparamDir, "data/au/SpParams_final_au.rds"))
 usethis::use_data(SpParamsAU, overwrite = T)
 
 # Species mapping table
