@@ -18,7 +18,7 @@
 #'   \itemize{
 #'     \item{Has columns called \code{originalName}, \code{acceptedName}, \code{acceptedNameAuthorship}, \code{family}, \code{genus}, \code{specificEpithet}, and \code{taxonRank},
 #'     as returned by function \code{\link{harmonize_taxonomy_WFO}}.}
-#'     \item{Has columns called \code{"Response"} and \code{"Equation"}. Columns \code{"Priority"} and \code{"Reference"} are recommended.}
+#'     \item{Has columns called \code{"Response"} and \code{"Equation"}. Columns \code{"Priority"}, \code{"Reference"} and \code{"DOI"} are recommended.}
 #'     \item{Column \code{"Response"} identifies the response variable.}
 #'     \item{Column \code{"ResponseDescription"} contains a longer description of the response variable.}
 #'     \item{Columns \code{"Predictor1"}, \code{"Predictor2"}, ... identify predictor variables.}

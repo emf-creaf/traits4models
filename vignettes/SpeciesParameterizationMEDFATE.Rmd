@@ -96,7 +96,7 @@ SpParams |> tibble::as_tibble()
 Some species parameters can be withdrawn from the data of the target forest inventory where simulations are to be conducted. We load a data frame (actually an `sf` object) containing data from the Third Spanish Forest Inventory:
 
 ```{r}
-sf_IFN3 <- readRDS("~/OneDrive/mcaceres_work/model_initialisation/medfate_initialisation/IFN/Products/SpParamsES/IFN3/soilmod/IFN3_spain_soilmod_WGS84.rds")
+sf_IFN3 <- readRDS("~/OneDrive/mcaceres_work/model_initialisation/medfate_initialisation/IFN2medfate/data/SpParamsES/IFN3/soilmod/IFN3_spain_soilmod_WGS84.rds")
 sf_IFN3
 ```
 Column `forest` contains the forest inventory plots that will be used to withdraw parameters. For example, the second `forest` object is:
