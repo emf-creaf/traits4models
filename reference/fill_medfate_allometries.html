@@ -50,6 +50,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fill_medfate_allometries</span><span class="op">(</span></span>
 <span>  <span class="va">SpParams</span>,</span>
 <span>  <span class="va">harmonized_allometry_path</span>,</span>
+<span>  responses <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  priorization <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  erase_previous <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  replace_previous <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -68,6 +69,10 @@
 
 <dt id="arg-harmonized-allometry-path">harmonized_allometry_path<a class="anchor" aria-label="anchor" href="#arg-harmonized-allometry-path"></a></dt>
 <dd><p>The path to harmonized trait data files (.rds or .csv format).</p></dd>
+
+
+<dt id="arg-responses">responses<a class="anchor" aria-label="anchor" href="#arg-responses"></a></dt>
+<dd><p>A string vector with responses to be filled. If NULL, then all responses are processed.</p></dd>
 
 
 <dt id="arg-priorization">priorization<a class="anchor" aria-label="anchor" href="#arg-priorization"></a></dt>

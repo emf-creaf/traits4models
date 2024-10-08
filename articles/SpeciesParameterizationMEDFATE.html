@@ -70,7 +70,7 @@
                         <h4 data-toc-skip class="author">Miquel De
 Cáceres / Nicolas Martin-StPaul</h4>
             
-            <h4 data-toc-skip class="date">2024-10-07</h4>
+            <h4 data-toc-skip class="date">2024-10-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/emf-creaf/traits4models/blob/HEAD/vignettes/SpeciesParameterizationMEDFATE.Rmd" class="external-link"><code>vignettes/SpeciesParameterizationMEDFATE.Rmd</code></a></small>
       <div class="d-none name"><code>SpeciesParameterizationMEDFATE.Rmd</code></div>
@@ -268,7 +268,7 @@ additional rows for species (when only sub-species of that species have
 been cited) or genus (when species of that genus have been cited).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">|&gt;</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 548 × 154</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 548 × 156</span></span></span>
 <span><span class="co">##    Name         SpIndex AcceptedName Species Genus Family Order Group GrowthForm</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Abies              0 Abies        <span style="color: #BB0000;">NA</span>      Abies Pinac… Pina… Gymn… <span style="color: #BB0000;">NA</span>        </span></span>
@@ -282,12 +282,12 @@ been cited) or genus (when species of that genus have been cited).</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Acer campes…       8 Acer campes… Acer c… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> Acer monspe…       9 Acer monspe… Acer m… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 538 more rows</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 145 more variables: LifeForm &lt;lgl&gt;, LeafShape &lt;lgl&gt;, LeafSize &lt;lgl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 147 more variables: LifeForm &lt;lgl&gt;, LeafShape &lt;lgl&gt;, LeafSize &lt;lgl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   PhenologyType &lt;lgl&gt;, DispersalType &lt;lgl&gt;, Hmed &lt;lgl&gt;, Hmax &lt;lgl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   Z50 &lt;lgl&gt;, Z95 &lt;lgl&gt;, fHDmin &lt;lgl&gt;, fHDmax &lt;lgl&gt;, a_ash &lt;lgl&gt;, b_ash &lt;lgl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   a_bsh &lt;lgl&gt;, b_bsh &lt;lgl&gt;, a_btsh &lt;lgl&gt;, b_btsh &lt;lgl&gt;, cr &lt;lgl&gt;, BTsh &lt;lgl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   a_fbt &lt;lgl&gt;, b_fbt &lt;lgl&gt;, c_fbt &lt;lgl&gt;, a_cr &lt;lgl&gt;, b_1cr &lt;lgl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   b_2cr &lt;lgl&gt;, b_3cr &lt;lgl&gt;, c_1cr &lt;lgl&gt;, c_2cr &lt;lgl&gt;, a_cw &lt;lgl&gt;, …</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;">#   Dmax &lt;lgl&gt;, Z50 &lt;lgl&gt;, Z95 &lt;lgl&gt;, fHDmin &lt;lgl&gt;, fHDmax &lt;lgl&gt;, a_ash &lt;lgl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   b_ash &lt;lgl&gt;, a_bsh &lt;lgl&gt;, b_bsh &lt;lgl&gt;, a_btsh &lt;lgl&gt;, b_btsh &lt;lgl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   cr &lt;lgl&gt;, BTsh &lt;lgl&gt;, a_fbt &lt;lgl&gt;, b_fbt &lt;lgl&gt;, c_fbt &lt;lgl&gt;, a_cr &lt;lgl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   b_1cr &lt;lgl&gt;, b_2cr &lt;lgl&gt;, b_3cr &lt;lgl&gt;, c_1cr &lt;lgl&gt;, c_2cr &lt;lgl&gt;, …</span></span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -412,25 +412,25 @@ data:</p>
 <span>                                                   <span class="va">harmonized_allometry_path</span>, </span>
 <span>                                                   progress <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: FoliarBiomass</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: FoliarBiomass <span style="color: #B2B2B2;">[33ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: FoliarBiomass <span style="color: #B2B2B2;">[41ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: CrownRatio</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownRatio <span style="color: #B2B2B2;">[41ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownRatio <span style="color: #B2B2B2;">[50ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: CrownWidth</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownWidth <span style="color: #B2B2B2;">[23ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownWidth <span style="color: #B2B2B2;">[28ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: BarkThickness</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: BarkThickness <span style="color: #B2B2B2;">[21ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: BarkThickness <span style="color: #B2B2B2;">[23ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: CrownArea</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownArea <span style="color: #B2B2B2;">[18ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownArea <span style="color: #B2B2B2;">[22ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: FineFuelBiomass</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: FineFuelBiomass <span style="color: #B2B2B2;">[18ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: FineFuelBiomass <span style="color: #B2B2B2;">[22ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: TotalBiomass</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: TotalBiomass <span style="color: #B2B2B2;">[18ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: TotalBiomass <span style="color: #B2B2B2;">[22ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 </div>
 <div class="section level2">

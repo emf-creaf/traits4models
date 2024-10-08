@@ -50,6 +50,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fill_medfate_traits</span><span class="op">(</span></span>
 <span>  <span class="va">SpParams</span>,</span>
 <span>  <span class="va">harmonized_trait_path</span>,</span>
+<span>  parameters <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  priorization <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  erase_previous <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  replace_previous <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -68,6 +69,10 @@
 
 <dt id="arg-harmonized-trait-path">harmonized_trait_path<a class="anchor" aria-label="anchor" href="#arg-harmonized-trait-path"></a></dt>
 <dd><p>A directory path were RDS files with harmonized trait databases are.</p></dd>
+
+
+<dt id="arg-parameters">parameters<a class="anchor" aria-label="anchor" href="#arg-parameters"></a></dt>
+<dd><p>A string vector of parameters to be populated. If <code>NULL</code> then all possible medfate parameters are parsed.</p></dd>
 
 
 <dt id="arg-priorization">priorization<a class="anchor" aria-label="anchor" href="#arg-priorization"></a></dt>
