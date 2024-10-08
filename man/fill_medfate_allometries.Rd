@@ -8,6 +8,7 @@
 fill_medfate_allometries(
   SpParams,
   harmonized_allometry_path,
+  responses = NULL,
   priorization = TRUE,
   erase_previous = TRUE,
   replace_previous = TRUE,
@@ -19,6 +20,8 @@ fill_medfate_allometries(
 \item{SpParams}{A data frame of medfate species parameters to be populated.}
 
 \item{harmonized_allometry_path}{The path to harmonized trait data files (.rds or .csv format).}
+
+\item{responses}{A string vector with responses to be filled. If NULL, then all responses are processed.}
 
 \item{priorization}{A boolean flag to perform priorization of some data sources over others (not yet implemented!).}
 

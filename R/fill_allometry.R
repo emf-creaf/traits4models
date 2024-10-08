@@ -100,6 +100,7 @@
 #'
 #' @param SpParams A data frame of medfate species parameters to be populated.
 #' @param harmonized_allometry_path The path to harmonized trait data files (.rds or .csv format).
+#' @param responses A string vector with responses to be filled. If NULL, then all responses are processed.
 #' @param priorization A boolean flag to perform priorization of some data sources over others (not yet implemented!).
 #' @param replace_previous A boolean flag to indicate that non-missing previous values should be replaced with new data
 #' @param erase_previous A boolean flag to indicate that all previous values should be set to NA before populating with new data
@@ -116,97 +117,117 @@
 #'
 fill_medfate_allometries<-function(SpParams,
                                    harmonized_allometry_path,
+                                   responses = NULL,
                                    priorization = TRUE,
                                    erase_previous = TRUE,
                                    replace_previous = TRUE,
                                    progress = TRUE, verbose = FALSE) {
 
+  responses_available <- c("FoliarBiomass", "CrownRatio", "CrownWidth", "BarkThickness", "CrownArea",
+                           "FineFuelBiomass", "TotalBiomass")
+  if(is.null(responses)) {
+    responses <- responses_available
+  } else {
+    responses <- match.arg(responses, responses_available, several.ok = TRUE)
+  }
   priority_column <- NULL
   if(priorization) priority_column <- "Priority"
-  if(progress) cli::cli_progress_step("Processing response: FoliarBiomass")
-  if(erase_previous) SpParams[,c("a_fbt", "b_fbt", "c_fbt")] <- NA
-  response_data <- get_allometry_data(harmonized_allometry_path, response = "FoliarBiomass", progress = FALSE)
-  allom_table <-response_data |>
-    dplyr::filter(.data$Equation == "FoliarBiomass = a\u0183DBH^b\u0183exp(c\u00b7BAL)\u0183DBH^(d\u00b7BAL)")
-  if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
-                                                              c("a", "b", "c"),
-                                                              c("a_fbt", "b_fbt", "c_fbt"),
-                                                              replace_previous = replace_previous)
-  allom_table <-response_data |>
-    dplyr::filter(.data$Equation == "FoliarBiomass = a\u00b7DBH^b\u00b7exp(c\u00b7BAL)")
-  if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
-                                                              c("a", "b", "c"),
-                                                              c("a_fbt", "b_fbt", "c_fbt"),
-                                                              replace_previous = replace_previous)
-  allom_table <-response_data |>
-    dplyr::filter(.data$Equation == "FoliarBiomass = a\u00b7DBH^b")
-  if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
-                                                              c("a", "b"),
-                                                              c("a_fbt", "b_fbt"),
-                                                              replace_previous = replace_previous)
 
-  if(progress) cli::cli_progress_step("Processing response: CrownRatio")
-  if(erase_previous) SpParams[,c("a_cr", "b_1cr", "b_2cr", "b_3cr", "c_1cr", "c_2cr")] <- NA
-  response_data <- get_allometry_data(harmonized_allometry_path, response = "CrownRatio", progress = FALSE)
-  allom_table <-response_data |>
-    dplyr::filter(.data$Equation == "CrownRatio = 1/(1 + exp(a + b\u00b7HD + c\u00b7(H/100) + d\u00b7DBH^2 + e\u00b7BAL + f\u00b7ln(CCF)))")
-  if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
-                                                              c("a", "b", "c", "d", "e", "f"),
-                                                              c("a_cr", "b_1cr", "b_2cr", "b_3cr", "c_1cr", "c_2cr"),
-                                                              replace_previous = replace_previous)
+  if("FoliarBiomass" %in% responses) {
+    if(progress) cli::cli_progress_step("Processing response: FoliarBiomass")
+    if(erase_previous) SpParams[,c("a_fbt", "b_fbt", "c_fbt")] <- NA
+    response_data <- get_allometry_data(harmonized_allometry_path, response = "FoliarBiomass", progress = FALSE)
+    allom_table <-response_data |>
+      dplyr::filter(.data$Equation == "FoliarBiomass = a\u0183DBH^b\u0183exp(c\u00b7BAL)\u0183DBH^(d\u00b7BAL)")
+    if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
+                                                                c("a", "b", "c"),
+                                                                c("a_fbt", "b_fbt", "c_fbt"),
+                                                                replace_previous = replace_previous)
+    allom_table <-response_data |>
+      dplyr::filter(.data$Equation == "FoliarBiomass = a\u00b7DBH^b\u00b7exp(c\u00b7BAL)")
+    if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
+                                                                c("a", "b", "c"),
+                                                                c("a_fbt", "b_fbt", "c_fbt"),
+                                                                replace_previous = replace_previous)
+    allom_table <-response_data |>
+      dplyr::filter(.data$Equation == "FoliarBiomass = a\u00b7DBH^b")
+    if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
+                                                                c("a", "b"),
+                                                                c("a_fbt", "b_fbt"),
+                                                                replace_previous = replace_previous)
+  }
 
-  if(progress) cli::cli_progress_step("Processing response: CrownWidth")
-  if(erase_previous) SpParams[,c("a_cw", "b_cw")] <- NA
-  response_data <- get_allometry_data(harmonized_allometry_path, response = "CrownWidth", progress = FALSE)
-  allom_table <-response_data |>
-    dplyr::filter(.data$Equation == "CrownWidth = a\u00b7DBH^b")
-  if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
-                                                              c("a", "b"),
-                                                              c("a_cw", "b_cw"),
-                                                              replace_previous = replace_previous)
+  if("CrownRatio" %in% responses) {
+    if(progress) cli::cli_progress_step("Processing response: CrownRatio")
+    if(erase_previous) SpParams[,c("a_cr", "b_1cr", "b_2cr", "b_3cr", "c_1cr", "c_2cr")] <- NA
+    response_data <- get_allometry_data(harmonized_allometry_path, response = "CrownRatio", progress = FALSE)
+    allom_table <-response_data |>
+      dplyr::filter(.data$Equation == "CrownRatio = 1/(1 + exp(a + b\u00b7HD + c\u00b7(H/100) + d\u00b7DBH^2 + e\u00b7BAL + f\u00b7ln(CCF)))")
+    if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
+                                                                c("a", "b", "c", "d", "e", "f"),
+                                                                c("a_cr", "b_1cr", "b_2cr", "b_3cr", "c_1cr", "c_2cr"),
+                                                                replace_previous = replace_previous)
+  }
 
-  if(progress) cli::cli_progress_step("Processing response: BarkThickness")
-  if(erase_previous) SpParams[,c("a_bt", "b_bt")] <- NA
-  response_data <- get_allometry_data(harmonized_allometry_path, response = "BarkThickness", progress = FALSE)
-  allom_table <-response_data |>
-    dplyr::filter(.data$Equation == "BarkThickness = a\u00b7DBH^b")
-  if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
-                                                              c("a", "b"),
-                                                              c("a_bt", "b_bt"),
-                                                              replace_previous = replace_previous)
+  if("CrownWidth" %in% responses) {
+    if(progress) cli::cli_progress_step("Processing response: CrownWidth")
+    if(erase_previous) SpParams[,c("a_cw", "b_cw")] <- NA
+    response_data <- get_allometry_data(harmonized_allometry_path, response = "CrownWidth", progress = FALSE)
+    allom_table <-response_data |>
+      dplyr::filter(.data$Equation == "CrownWidth = a\u00b7DBH^b")
+    if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
+                                                                c("a", "b"),
+                                                                c("a_cw", "b_cw"),
+                                                                replace_previous = replace_previous)
+  }
 
+  if("BarkThickness" %in% responses) {
+    if(progress) cli::cli_progress_step("Processing response: BarkThickness")
+    if(erase_previous) SpParams[,c("a_bt", "b_bt")] <- NA
+    response_data <- get_allometry_data(harmonized_allometry_path, response = "BarkThickness", progress = FALSE)
+    allom_table <-response_data |>
+      dplyr::filter(.data$Equation == "BarkThickness = a\u00b7DBH^b")
+    if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
+                                                                c("a", "b"),
+                                                                c("a_bt", "b_bt"),
+                                                                replace_previous = replace_previous)
+  }
 
-  if(progress) cli::cli_progress_step("Processing response: CrownArea")
-  if(erase_previous) SpParams[,c("a_ash", "b_ash")] <- NA
-  response_data <- get_allometry_data(harmonized_allometry_path, response = "CrownArea", progress = FALSE)
-  allom_table <-response_data |>
-    dplyr::filter(.data$Equation == "CrownArea = a\u00b7Ht^b")
-  if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
-                                                              c("a", "b"),
-                                                              c("a_ash", "b_ash"),
-                                                              replace_previous = replace_previous)
+  if("CrownArea" %in% responses) {
+    if(progress) cli::cli_progress_step("Processing response: CrownArea")
+    if(erase_previous) SpParams[,c("a_ash", "b_ash")] <- NA
+    response_data <- get_allometry_data(harmonized_allometry_path, response = "CrownArea", progress = FALSE)
+    allom_table <-response_data |>
+      dplyr::filter(.data$Equation == "CrownArea = a\u00b7Ht^b")
+    if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
+                                                                c("a", "b"),
+                                                                c("a_ash", "b_ash"),
+                                                                replace_previous = replace_previous)
+  }
 
+  if("FineFuelBiomass" %in% responses) {
+    if(progress) cli::cli_progress_step("Processing response: FineFuelBiomass")
+    if(erase_previous) SpParams[,c("a_bsh", "b_bsh")] <- NA
+    response_data <- get_allometry_data(harmonized_allometry_path, response = "FineFuelBiomass", progress = FALSE)
+    allom_table <-response_data |>
+      dplyr::filter(.data$Equation == "FineFuelBiomass = a\u00b7PHV^b")
+    if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
+                                                                c("a", "b"),
+                                                                c("a_bsh", "b_bsh"),
+                                                                replace_previous = replace_previous)
+  }
 
-  if(progress) cli::cli_progress_step("Processing response: FineFuelBiomass")
-  if(erase_previous) SpParams[,c("a_bsh", "b_bsh")] <- NA
-  response_data <- get_allometry_data(harmonized_allometry_path, response = "FineFuelBiomass", progress = FALSE)
-  allom_table <-response_data |>
-    dplyr::filter(.data$Equation == "FineFuelBiomass = a\u00b7PHV^b")
-  if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
-                                                              c("a", "b"),
-                                                              c("a_bsh", "b_bsh"),
-                                                              replace_previous = replace_previous)
-
-  if(progress) cli::cli_progress_step("Processing response: TotalBiomass")
-  if(erase_previous) SpParams[,c("a_btsh", "b_btsh")] <- NA
-  response_data <- get_allometry_data(harmonized_allometry_path, response = "TotalBiomass", progress = FALSE)
-  allom_table <-response_data |>
-    dplyr::filter(.data$Equation == "TotalBiomass = a\u00b7PHV^b")
-  if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
-                                                              c("a", "b"),
-                                                              c("a_btsh", "b_btsh"),
-                                                              replace_previous = replace_previous)
-
+  if("TotalBiomass" %in% responses) {
+    if(progress) cli::cli_progress_step("Processing response: TotalBiomass")
+    if(erase_previous) SpParams[,c("a_btsh", "b_btsh")] <- NA
+    response_data <- get_allometry_data(harmonized_allometry_path, response = "TotalBiomass", progress = FALSE)
+    allom_table <-response_data |>
+      dplyr::filter(.data$Equation == "TotalBiomass = a\u00b7PHV^b")
+    if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
+                                                                c("a", "b"),
+                                                                c("a_btsh", "b_btsh"),
+                                                                replace_previous = replace_previous)
+  }
   if(progress) cli::cli_progress_done()
   return(SpParams)
 }

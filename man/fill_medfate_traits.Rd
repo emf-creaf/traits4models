@@ -7,6 +7,7 @@
 fill_medfate_traits(
   SpParams,
   harmonized_trait_path,
+  parameters = NULL,
   priorization = TRUE,
   erase_previous = FALSE,
   replace_previous = FALSE,
@@ -18,6 +19,8 @@ fill_medfate_traits(
 \item{SpParams}{A species parameter data frame to be filled for package medfate.}
 
 \item{harmonized_trait_path}{A directory path were RDS files with harmonized trait databases are.}
+
+\item{parameters}{A string vector of parameters to be populated. If \code{NULL} then all possible medfate parameters are parsed.}
 
 \item{priorization}{A boolean flag to perform priorization of some data sources over others.}
 
