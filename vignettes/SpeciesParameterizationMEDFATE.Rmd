@@ -15,7 +15,7 @@ params:
 
 ### Aim
 
-This vignette describes the procedures used to create and fill species parameter data tables (such as `SpParamsES`, `SpParamsFR` and `SpParamsUS` included in package **traits4models**) for simulations with packages **medfate** and **medfateland**. Here it is assumed that a set of plant trait and allometry databases have been harmonized and will be used as source data for parameter estimation (see vignettes [Trait database haramonization](https://emf-creaf.github.io/traits4models/articles/TraitDatabaseHarmonization.html and [Allometry database haramonization](https://emf-creaf.github.io/traits4models/articles/AllometryDatabaseHarmonization.html). 
+This vignette describes the procedures used to create and fill species parameter data tables (such as `SpParamsES`, `SpParamsFR` and `SpParamsUS` included in package **traits4models**) for simulations with packages **medfate** and **medfateland**. Here it is assumed that a set of plant trait and allometry databases have been harmonized and will be used as source data for parameter estimation (see vignettes [Trait database harmonization](https://emf-creaf.github.io/traits4models/articles/TraitDatabaseHarmonization.html) and [Allometry database harmonization](https://emf-creaf.github.io/traits4models/articles/AllometryDatabaseHarmonization.html)). 
 
 >**IMPORTANT**: This vignette is not self-contained, in the sense that it cannot be reproduced without access to data sets that are not included. Nevertheless, it is intended to serve as example of species parameterization for other regions.
 
