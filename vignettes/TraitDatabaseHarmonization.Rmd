@@ -38,8 +38,8 @@ library(readr)
 As example for the harmonization process, here we will use data from a Bartlett et al. [-@Bartlett2016]. Much larger data sets can (and should) be processed, but they take much more time. Bartlett et al. provide traits that describe the leaf/stem/root hydraulic vulnerability curves of several species as well as water potential corresponding to stomatal aperture. We start by loading the dataset:
 
 ```{r, message=FALSE}
-DB_path <- "~/OneDrive/EMF_datasets/PlantTraitDatabases/"
-db <- readr::read_csv(paste0(DB_path, "Sources/Bartlett_et_al_2016/pnas.1604088113.sd01.csv"))
+DB_path <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/Traits&Models/"
+db <- readr::read_csv(paste0(DB_path, "data-raw/raw_trait_data/Bartlett_et_al_2016/pnas.1604088113.sd01.csv"))
 ```
 
 The data looks as follows:
@@ -95,7 +95,7 @@ db_var
 Package **traits4models** currently relies on [World Flora Online](https://www.worldfloraonline.org/) for taxonomic harmonization, via package **WorldFlora** [@kindt_worldflora_2020] available at [CRAN](https://cran.r-project.org/package=WorldFlora). This latter package requires a static copy of the World Flora Online Taxonomic Backbone data that can be downloaded from the [World Flora Online](https://www.worldfloraonline.org/) website. Note that you should use a different DOI reference when reporting your harmonization procedures. We are using here [v.2024.06](https://doi.org/10.5281/zenodo.7460141). We assume the user has already downloaded the backbone and stored it in a file called *classification.csv*. 
 
 ```{r}
-WFO_file <- paste0(DB_path, "WFO_Backbone/classification.csv")
+WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 ```
 
 Taxonomic harmonization is done by calling function `harmonize_taxonomy_WFO()` with a data frame (where notation and units are already harmonized) and the path to the WFO backbone (we omit the console output):
@@ -134,7 +134,7 @@ check_harmonized_trait(db_var)
 Harmonized data tables can be stored in **.csv** text format or compressed **.rds** format. Moreover, all tables should be stored in the same directory, here in the `Products/harmonized/` path.
 
 ```{r, eval = FALSE}
-file_out <- paste0(DB_path, "Products/harmonized/Bartlett_et_al_2016.rds")
+file_out <- paste0(DB_path, "data/harmonized_trait_sources/Bartlett_et_al_2016.rds")
 saveRDS(db_post, file_out)
 ```
 
@@ -145,7 +145,7 @@ saveRDS(db_post, file_out)
 As mentioned in the introduction, here it is assumed that a set of plant trait databases have been harmonized. In our case, harmonized data files have been stored in the following path:
 
 ```{r}
-harmonized_trait_path <- "~/OneDrive/EMF_datasets/PlantTraitDatabases/Products/harmonized"
+harmonized_trait_path <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/Traits&Models/data/harmonized_trait_sources"
 ```
 
 We can list the set of harmonized sources using:
@@ -160,7 +160,7 @@ Before filling any species parameter table, it may be useful to inspect the amou
 
 ```{r}
 gsmin_data <- get_trait_data(harmonized_trait_path, "Gswmin",
-                           progress = FALSE)
+                             progress = FALSE)
 head(gsmin_data)
 ```
 

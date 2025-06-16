@@ -68,6 +68,9 @@ load_harmonized_trait_tables <- function(harmonized_trait_path, progress = TRUE)
         as.data.frame()|>
         dplyr::filter(!is.na(.data$acceptedName))
     }
+    if(!("DOI" %in% names(tab))) tab$DOI <- as.character(NA)
+    if(!("OriginalReference" %in% names(tab))) tab$OriginalReference <- as.character(NA)
+    if(!("OriginalDOI" %in% names(tab))) tab$OriginalDOI <- as.character(NA)
     if(!("Priority" %in% names(tab))) tab$Priority <- 1
     trait_tables[[i]] <- tab
   }
@@ -117,7 +120,7 @@ get_trait_data <- function(harmonized_trait_path,
   if(progress) cli::cli_progress_step(paste0("Filtering for trait: ", trait_name))
   trait_tables <- vector("list", length(all_tables))
   fixed <- c("originalName", "acceptedName","acceptedNameAuthorship","family",
-             "genus", "specificEpithet","taxonRank", "Units", "Reference", "Priority")
+             "genus", "specificEpithet","taxonRank", "Units", "Reference", "DOI", "OriginalReference", "OriginalDOI", "Priority")
   n_tab <- 0
   for(i in 1:length(all_tables)) {
     tab <- all_tables[[i]]
@@ -172,7 +175,7 @@ get_taxon_data<- function(harmonized_trait_path,
   if(progress) cli::cli_progress_step(paste0("Filtering for taxon: ", accepted_name))
   taxon_table <- data.frame(Trait = character(0), Value = character(0), Units = character(0), Reference = character(0))
   fixed <- c("originalName", "acceptedName","acceptedNameAuthorship","family",
-             "genus", "specificEpithet","taxonRank", "Units", "Reference", "Priority")
+             "genus", "specificEpithet","taxonRank", "Units", "Reference", "DOI", "OriginalReference", "OriginalDOI", "Priority")
   for(i in 1:length(all_tables)) {
     tab <- all_tables[[i]] |>
       dplyr::filter(.data$acceptedName == accepted_name)
@@ -188,8 +191,11 @@ get_taxon_data<- function(harmonized_trait_path,
             unit <- HarmonizedTraitDefinition$Units[HarmonizedTraitDefinition$Notation==trait_name]
             if(length(unit)==1) df_i$Units <- rep(unit, nrow(tab))
           }
-          if("Reference" %in% names(tab)) df_i$Reference = tab$Reference
-          if("Priority" %in% names(tab)) df_i$Priority = tab$Priority
+          if("Reference" %in% names(tab)) df_i$Reference <- tab$Reference
+          if("DOI" %in% names(tab)) df_i$DOI <- tab$DOI
+          if("OriginalReference" %in% names(tab)) df_i$OriginalReference <- tab$OriginalReference
+          if("OriginalDOI" %in% names(tab)) df_i$OriginalDOI <- tab$OriginalDOI
+          if("Priority" %in% names(tab)) df_i$Priority <- tab$Priority
           df_i <- df_i[!is.na(df_i$Value), , drop = FALSE]
           taxon_table <- dplyr::bind_rows(taxon_table, df_i)
         }
