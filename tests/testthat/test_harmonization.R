@@ -2,8 +2,8 @@
 test_that("trait harmonization can be done", {
   testthat::skip_on_cran()
   testthat::skip_on_ci()
-  DB_path <- "~/OneDrive/EMF_datasets/PlantTraitDatabases/"
-  db <- readr::read_csv(paste0(DB_path, "Sources/Bartlett_et_al_2016/pnas.1604088113.sd01.csv"),
+  DB_path <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/Traits&Models/"
+  db <- readr::read_csv(paste0(DB_path, "data-raw/raw_trait_data/Bartlett_et_al_2016/pnas.1604088113.sd01.csv"),
                         progress = FALSE,
                         show_col_types = FALSE)
   db_var <- db |>
@@ -21,7 +21,7 @@ test_that("trait harmonization can be done", {
     dplyr::mutate(Reference = "Bartlett et al. (2016)",
                   DOI ="xxx",
                   Priority = 3)
-  WFO_file <- paste0(DB_path, "WFO_Backbone/classification.csv")
+  WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file, progress = FALSE)
 })
 

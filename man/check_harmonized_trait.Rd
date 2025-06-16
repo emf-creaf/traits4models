@@ -23,11 +23,12 @@ Function \code{check_harmonized_trait()} checks that the input data frame confor
   \itemize{
     \item{Has columns called \code{originalName}, \code{acceptedName}, \code{acceptedNameAuthorship}, \code{family}, \code{genus}, \code{specificEpithet}, and \code{taxonRank},
     as returned by function \code{\link{harmonize_taxonomy_WFO}}.}
-    \item{The names of the remaining columns are "Units", "Reference", "DOI", "Priority" or a valid trait name according to the notation required in \code{\link{HarmonizedTraitDefinition}}.}
+    \item{The names of the remaining columns are "Units", "Reference" (data source citation), "DOI" (data source DOI), "OriginalReference" (original data source citation),"OriginalDOI" (original data source DOI), "Priority" or a valid trait name according to the notation required in \code{\link{HarmonizedTraitDefinition}}.}
     \item{For trait columns, their values conform to the required type in \code{\link{HarmonizedTraitDefinition}}.}
     \item{Trait columns contain non-missing data.}
     \item{Numeric trait columns do not contain values beyond expected ranges (when defined).}
   }
+Columns "Reference" and "DOI" refer to the trait data source. In the case of a trait data base, the original sources can be specified in "OriginalReference" and "OriginalDOI".
 Function \code{check_harmonized_allometry()} checks that the input data frame conforms to the following requirements:
   \itemize{
     \item{Has columns called \code{originalName}, \code{acceptedName}, \code{acceptedNameAuthorship}, \code{family}, \code{genus}, \code{specificEpithet}, and \code{taxonRank},
