@@ -3,7 +3,7 @@
 #' Extracts species parameter values from forest inventory data
 #'
 #' @param SpParams A species parameter data frame to be filled.
-#' @param x A list of \code{\link{forest}} objects, or a data frame with a column called \code{forest}, whose elements are of class \code{\link{forest}}.
+#' @param x A list of \code{\link[medfate]{forest}} objects, or a data frame with a column called \code{forest}, whose elements are of class \code{\link[medfate]{forest}}.
 #' @param quantile_Hmed Quantile for Hmed
 #' @param quantile_Hmax Quantile for Hmax
 #' @param quantile_fHDmin Quantile for fHDmin

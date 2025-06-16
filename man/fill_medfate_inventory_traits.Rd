@@ -18,7 +18,7 @@ fill_medfate_inventory_traits(
 \arguments{
 \item{SpParams}{A species parameter data frame to be filled.}
 
-\item{x}{A list of \code{\link{forest}} objects, or a data frame with a column called \code{forest}, whose elements are of class \code{\link{forest}}.}
+\item{x}{A list of \code{\link[medfate]{forest}} objects, or a data frame with a column called \code{forest}, whose elements are of class \code{\link[medfate]{forest}}.}
 
 \item{quantile_Hmed}{Quantile for Hmed}
 
