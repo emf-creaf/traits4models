@@ -47,9 +47,13 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_harmonized_trait</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_harmonized_trait</span><span class="op">(</span><span class="va">x</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">check_harmonized_allometry</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">check_harmonized_trait_dir</span><span class="op">(</span><span class="va">harmonized_trait_path</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">check_harmonized_allometry</span><span class="op">(</span><span class="va">x</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">check_harmonized_allometry_dir</span><span class="op">(</span><span class="va">harmonized_allometry_path</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -58,6 +62,18 @@
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>A data frame with harmonized trait data or harmonized allometry data</p></dd>
+
+
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
+<dd><p>A logical flag indicating extra console output (information alerts and check success)</p></dd>
+
+
+<dt id="arg-harmonized-trait-path">harmonized_trait_path<a class="anchor" aria-label="anchor" href="#arg-harmonized-trait-path"></a></dt>
+<dd><p>The path to harmonized trait data files (.rds or .csv format).</p></dd>
+
+
+<dt id="arg-harmonized-allometry-path">harmonized_allometry_path<a class="anchor" aria-label="anchor" href="#arg-harmonized-allometry-path"></a></dt>
+<dd><p>The path to harmonized allometry data files (.rds or .csv format).</p></dd>
 
 </dl></div>
     <div class="section level2">
