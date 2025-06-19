@@ -30,6 +30,7 @@
 #' @import cli
 #' @importFrom assertthat assert_that
 #' @importFrom dplyr bind_rows relocate left_join rename
+#' @importFrom tidyr pivot_longer pivot_wider
 #' @importFrom memoise memoise
 #' @importFrom rlang .data
 #' @importFrom stats family quantile

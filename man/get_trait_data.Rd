@@ -25,16 +25,10 @@ get_trait_data(
   trait_name,
   output_format = "long",
   is_numeric = TRUE,
-  check = TRUE,
   progress = TRUE
 )
 
-get_allometry_data(
-  harmonized_allometry_path,
-  response,
-  check = TRUE,
-  progress = TRUE
-)
+get_allometry_data(harmonized_allometry_path, response, progress = TRUE)
 
 get_taxon_data(
   harmonized_trait_path,
@@ -73,7 +67,8 @@ Function \code{get_taxon_data()} returns a data frame with the pooled informatio
 Functions to load harmonized trait data and harmonized allometry data
 }
 \details{
-Both functions will add \code{Priority = 1} to those trait data sources where \code{Priority} column is not defined.
+Function \code{load_harmonized_trait_tables()} allows loading all kinds of trait data tables, including those that do not pass harmonization check, if \code{check = FALSE}.
+In contrast, functions \code{get_trait_data()} and \code{get_taxon_data()} only return data from data sets passing harmonization checks (see function \code{\link{check_harmonized_data}}).
 }
 \examples{
 \dontrun{
@@ -103,4 +98,7 @@ Both functions will add \code{Priority = 1} to those trait data sources where \c
  # Get allometry data for one specific response
  get_allometry_data(harmonized_allometry_path, "FoliarBiomass")
 }
+}
+\seealso{
+\code{\link{check_harmonized_data}}
 }

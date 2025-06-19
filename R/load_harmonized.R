@@ -17,8 +17,10 @@
 #' Function \code{get_taxon_data()} returns a data frame with the pooled information for a given taxon.
 #'
 #' @details
-#' Both functions will add \code{Priority = 1} to those trait data sources where \code{Priority} column is not defined.
+#' Function \code{load_harmonized_trait_tables()} allows loading all kinds of trait data tables, including those that do not pass harmonization check, if \code{check = FALSE}.
+#' In contrast, functions \code{get_trait_data()} and \code{get_taxon_data()} only return data from data sets passing harmonization checks (see function \code{\link{check_harmonized_data}}).
 #'
+#' @seealso \code{\link{check_harmonized_data}}
 #' @export
 #'
 #' @name get_trait_data
@@ -72,10 +74,6 @@ load_harmonized_trait_tables <- function(harmonized_trait_path, check = TRUE, pr
         as.data.frame()|>
         dplyr::filter(!is.na(.data$acceptedName))
     }
-    if(!("DOI" %in% names(tab))) tab$DOI <- as.character(NA)
-    if(!("OriginalReference" %in% names(tab))) tab$OriginalReference <- as.character(NA)
-    if(!("OriginalDOI" %in% names(tab))) tab$OriginalDOI <- as.character(NA)
-    if(!("Priority" %in% names(tab))) tab$Priority <- 1
     trait_tables[[i]] <- tab
   }
   names(trait_tables) <- trait_files_short
@@ -121,15 +119,18 @@ load_harmonized_allometry_tables <- function(harmonized_allometry_path, check = 
 #' @rdname get_trait_data
 get_trait_data <- function(harmonized_trait_path,
                            trait_name, output_format = "long",
-                           is_numeric = TRUE, check = TRUE, progress = TRUE) {
+                           is_numeric = TRUE, progress = TRUE) {
   output_format <- match.arg(output_format, c("wide", "long"))
   if(progress) cli::cli_progress_step("Loading harmonized source trait tables")
-  all_tables <- load_harmonized_trait_tables(harmonized_trait_path, check = check, progress = progress)
+  all_tables <- load_harmonized_trait_tables(harmonized_trait_path, check = TRUE, progress = progress)
   if(progress) cli::cli_progress_step(paste0("Filtering for trait: ", trait_name))
   trait_tables <- vector("list", length(all_tables))
   fixed <- c("originalName", "acceptedName","acceptedNameAuthorship","family",
              "genus", "specificEpithet","taxonRank", "Units", "Reference", "DOI", "OriginalReference", "OriginalDOI", "Priority")
   n_tab <- 0
+  row <- which(traits4models::HarmonizedTraitDefinition$Notation==trait_name)
+  expected_type <- traits4models::HarmonizedTraitDefinition$Type[row]
+  expected_unit <- traits4models::HarmonizedTraitDefinition$Units[row]
   for(i in 1:length(all_tables)) {
     tab <- all_tables[[i]]
     cn <- names(tab)
@@ -145,16 +146,33 @@ get_trait_data <- function(harmonized_trait_path,
     if(format=="wide") {
       if(trait_name %in% names(tab)) {
         tab <- tab[!is.na(tab[[trait_name]]), ,drop =FALSE]
+        tab <- tab[,names(tab)[names(tab) %in% c(fixed, trait_name)]]
+        if(output_format=="long") {
+          tab <- tab |>
+            tidyr::pivot_longer(trait_name, names_to = "Trait", values_to="Value") |>
+            dplyr::mutate(Units = expected_unit) |>
+            dplyr::relocate(Trait, Value, Units, .before = Reference)
+        }
+        trait_tables[[i]] <- tab
         n_tab <- n_tab + 1
-        trait_tables[[i]] <- tab[,names(tab)[names(tab) %in% c(fixed, trait_name)]]
+      }
+    } else if(format == "long") {
+      tab <- tab[tab$Trait==trait_name, ,drop =FALSE]
+      if(nrow(tab)>0) {
+        if(output_format=="wide") {
+          tab[[trait_name]] <- tab[["Value"]]
+          tab <- tab |>
+            dplyr::select(-c("Trait", "Value", "Units")) |>
+            dplyr::relocate(trait_name, .before = "Reference")
+        }
+        trait_tables[[i]] <- tab
+        n_tab <- n_tab + 1
       }
     }
-
   }
   if(n_tab>0) {
     trait_table <- dplyr::bind_rows(trait_tables) |>
       dplyr::arrange(.data$acceptedName)
-    trait_table <- trait_table[!is.na(trait_table[[trait_name]]), , drop = FALSE]
   } else {
     stop(paste0("Trait data not found for: ", trait_name))
   }
@@ -166,9 +184,9 @@ get_trait_data <- function(harmonized_trait_path,
 #' @param response String indicating a response variable for allometric equations.
 #' @rdname get_trait_data
 get_allometry_data <-function(harmonized_allometry_path,
-                              response, check = TRUE, progress = TRUE) {
+                              response, progress = TRUE) {
   if(progress) cli::cli_progress_step("Loading harmonized source allometry tables")
-  allom_tables <- load_harmonized_allometry_tables(harmonized_allometry_path, check = check, progress = progress)
+  allom_tables <- load_harmonized_allometry_tables(harmonized_allometry_path, check = TRUE, progress = progress)
   if(progress) cli::cli_progress_step(paste0("Filtering for allometry: ", response))
   response_tables <- vector("list", length(allom_tables))
   for(i in 1:length(allom_tables)) {
@@ -191,7 +209,7 @@ get_taxon_data<- function(harmonized_trait_path,
                           accepted_name, output_format = "long", progress = TRUE) {
   output_format <- match.arg(output_format, c("wide", "long"))
   if(progress) cli::cli_progress_step("Loading harmonized source trait tables")
-  all_tables <- load_harmonized_trait_tables(harmonized_trait_path, progress = progress)
+  all_tables <- load_harmonized_trait_tables(harmonized_trait_path, check = TRUE, progress = progress)
   if(progress) cli::cli_progress_step(paste0("Filtering for taxon: ", accepted_name))
   taxon_table <- data.frame(Trait = character(0), Value = character(0), Units = character(0), Reference = character(0))
   fixed <- c("originalName", "acceptedName","acceptedNameAuthorship","family",
