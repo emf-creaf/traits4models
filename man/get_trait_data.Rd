@@ -8,23 +8,45 @@
 \alias{get_taxon_data}
 \title{Load harmonized trait/allometry data}
 \usage{
-load_harmonized_trait_tables(harmonized_trait_path, progress = TRUE)
+load_harmonized_trait_tables(
+  harmonized_trait_path,
+  check = TRUE,
+  progress = TRUE
+)
 
-load_harmonized_allometry_tables(harmonized_allometry_path, progress = TRUE)
+load_harmonized_allometry_tables(
+  harmonized_allometry_path,
+  check = TRUE,
+  progress = TRUE
+)
 
 get_trait_data(
   harmonized_trait_path,
   trait_name,
+  output_format = "long",
   is_numeric = TRUE,
+  check = TRUE,
   progress = TRUE
 )
 
-get_allometry_data(harmonized_allometry_path, response, progress = TRUE)
+get_allometry_data(
+  harmonized_allometry_path,
+  response,
+  check = TRUE,
+  progress = TRUE
+)
 
-get_taxon_data(harmonized_trait_path, accepted_name, progress = TRUE)
+get_taxon_data(
+  harmonized_trait_path,
+  accepted_name,
+  output_format = "long",
+  progress = TRUE
+)
 }
 \arguments{
 \item{harmonized_trait_path}{The path to harmonized trait data files (.rds or .csv format).}
+
+\item{check}{A boolean flag to check harmonization and exclude non-acceptable data.}
 
 \item{progress}{A boolean flag to prompt progress.}
 
@@ -32,7 +54,7 @@ get_taxon_data(harmonized_trait_path, accepted_name, progress = TRUE)
 
 \item{trait_name}{A string of an accepted trait name}
 
-\item{is_numeric}{A boolean indicating whether the trait is numeric}
+\item{output_format}{}
 
 \item{response}{String indicating a response variable for allometric equations.}
 

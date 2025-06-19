@@ -147,14 +147,22 @@ check_harmonized_trait<- function(x, verbose = TRUE) {
         row <- which(traits4models::HarmonizedTraitDefinition$Notation==t)
         expected_type <- traits4models::HarmonizedTraitDefinition$Type[row]
         expected_unit <- traits4models::HarmonizedTraitDefinition$Units[row]
+        alternative_unit <- traits4models::HarmonizedTraitDefinition$`Alternative units`[row]
         sel <- x[["Trait"]]==t
         vals <- x[["Value"]][sel]
         units <- x[["Units"]][sel]
         t_acceptable <- TRUE
         if(!is.na(expected_unit)) {
           if(!all(units==expected_unit)) {
-            cli::cli_alert_warning(paste0("Units for trait '", t, "' are different than expected ('", expected_unit,"')."))
-            t_acceptable <- FALSE
+            if(!is.na(alternative_unit)) {
+              if(!all(units==alternative_unit)) {
+                cli::cli_alert_warning(paste0("Units for trait '", t, "' are different than expected ('", expected_unit, " or ", alternative_unit,"')."))
+                t_acceptable <- FALSE
+              }
+            } else {
+              cli::cli_alert_warning(paste0("Units for trait '", t, "' are different than expected ('", expected_unit,"')."))
+              t_acceptable <- FALSE
+            }
           }
         }
         if(t_acceptable) {
@@ -186,12 +194,14 @@ check_harmonized_trait<- function(x, verbose = TRUE) {
             }
           }
         }
+
+        if(!t_acceptable) acceptable = FALSE
       }
     }
   }
 
   if((!acceptable) && verbose) cli::cli_alert_warning("The data frame is not acceptable as harmonized trait data source.")
-  else if(verbose) cli::cli_alert_success("The data frame is acceptable as harmonized trait data source.")
+  else if(verbose) cli::cli_alert_success(paste0("The data frame (", format, " format) is acceptable as harmonized trait data source."))
 
   return(invisible(acceptable))
 }

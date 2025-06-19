@@ -4,6 +4,7 @@
 #'
 #' @param harmonized_trait_path The path to harmonized trait data files (.rds or .csv format).
 #' @param harmonized_allometry_path The path to harmonized allometry data files (.rds or .csv format).
+#' @param check A boolean flag to check harmonization and exclude non-acceptable data.
 #' @param progress A boolean flag to prompt progress.
 #'
 #' @return
@@ -49,14 +50,16 @@
 #'  # Get allometry data for one specific response
 #'  get_allometry_data(harmonized_allometry_path, "FoliarBiomass")
 #'}
-load_harmonized_trait_tables <- function(harmonized_trait_path, progress = TRUE) {
+load_harmonized_trait_tables <- function(harmonized_trait_path, check = TRUE, progress = TRUE) {
   trait_files_short <- list.files(path = harmonized_trait_path, full.names = FALSE)
   trait_files <- list.files(path = harmonized_trait_path, full.names = TRUE)
   filter <- endsWith(trait_files_short, ".csv") | endsWith(trait_files_short, ".rds")
+  if(check) {
+    filter <- filter & check_harmonized_trait_dir(harmonized_trait_path, verbose = FALSE)
+  }
   trait_files_short <- trait_files_short[filter]
   trait_files <- trait_files[filter]
   trait_tables <- vector("list", length(trait_files))
-
   if(progress) cli::cli_progress_bar("Tables", total = length(trait_files))
   for(i in 1:length(trait_files)) {
     if(progress) cli::cli_progress_update()
@@ -81,10 +84,13 @@ load_harmonized_trait_tables <- function(harmonized_trait_path, progress = TRUE)
 
 #' @rdname get_trait_data
 #' @export
-load_harmonized_allometry_tables <- function(harmonized_allometry_path, progress = TRUE) {
+load_harmonized_allometry_tables <- function(harmonized_allometry_path, check = TRUE, progress = TRUE) {
   allometry_files_short <- list.files(path = harmonized_allometry_path, full.names = FALSE)
   allometry_files <- list.files(path = harmonized_allometry_path, full.names = TRUE)
   filter <- endsWith(allometry_files_short, ".csv") | endsWith(allometry_files_short, ".rds")
+  if(check) {
+    filter <- filter & check_harmonized_allometry_dir(harmonized_allometry_path, verbose = FALSE)
+  }
   allometry_files_short <- allometry_files_short[filter]
   allometry_files <- allometry_files[filter]
   allometry_tables <- vector("list", length(allometry_files))
@@ -108,16 +114,17 @@ load_harmonized_allometry_tables <- function(harmonized_allometry_path, progress
 }
 
 #' @param trait_name A string of an accepted trait name
-#' @param is_numeric A boolean indicating whether the trait is numeric
+#' @param output_format
 #'
 #' @export
 #'
 #' @rdname get_trait_data
 get_trait_data <- function(harmonized_trait_path,
-                           trait_name,
-                           is_numeric = TRUE, progress = TRUE) {
+                           trait_name, output_format = "long",
+                           is_numeric = TRUE, check = TRUE, progress = TRUE) {
+  output_format <- match.arg(output_format, c("wide", "long"))
   if(progress) cli::cli_progress_step("Loading harmonized source trait tables")
-  all_tables <- load_harmonized_trait_tables(harmonized_trait_path, progress = progress)
+  all_tables <- load_harmonized_trait_tables(harmonized_trait_path, check = check, progress = progress)
   if(progress) cli::cli_progress_step(paste0("Filtering for trait: ", trait_name))
   trait_tables <- vector("list", length(all_tables))
   fixed <- c("originalName", "acceptedName","acceptedNameAuthorship","family",
@@ -125,13 +132,24 @@ get_trait_data <- function(harmonized_trait_path,
   n_tab <- 0
   for(i in 1:length(all_tables)) {
     tab <- all_tables[[i]]
-    if(trait_name %in% names(tab)) {
-      tab <- tab[!is.na(tab[[trait_name]]), ,drop =FALSE]
-      if(is_numeric) tab[[trait_name]] <- as.numeric(tab[[trait_name]])
-      else tab[[trait_name]] <- as.character(tab[[trait_name]])
-      n_tab <- n_tab + 1
-      trait_tables[[i]] <- tab[,names(tab)[names(tab) %in% c(fixed, trait_name)]]
+    cn <- names(tab)
+    format <- "undefined"
+    if(all(c("Trait", "Value", "Units") %in% cn)) {
+      format <- "long"
+    } else if(all(!(c("Trait", "Value", "Units") %in% cn))) {
+      format <- "wide"
+    } else {
+      acceptable <- FALSE
+      cli::cli_alert_warning("Trait data should be in either long or wide format (see documentation)")
     }
+    if(format=="wide") {
+      if(trait_name %in% names(tab)) {
+        tab <- tab[!is.na(tab[[trait_name]]), ,drop =FALSE]
+        n_tab <- n_tab + 1
+        trait_tables[[i]] <- tab[,names(tab)[names(tab) %in% c(fixed, trait_name)]]
+      }
+    }
+
   }
   if(n_tab>0) {
     trait_table <- dplyr::bind_rows(trait_tables) |>
@@ -148,9 +166,9 @@ get_trait_data <- function(harmonized_trait_path,
 #' @param response String indicating a response variable for allometric equations.
 #' @rdname get_trait_data
 get_allometry_data <-function(harmonized_allometry_path,
-                              response, progress = TRUE) {
+                              response, check = TRUE, progress = TRUE) {
   if(progress) cli::cli_progress_step("Loading harmonized source allometry tables")
-  allom_tables <- load_harmonized_allometry_tables(harmonized_allometry_path, progress = progress)
+  allom_tables <- load_harmonized_allometry_tables(harmonized_allometry_path, check = check, progress = progress)
   if(progress) cli::cli_progress_step(paste0("Filtering for allometry: ", response))
   response_tables <- vector("list", length(allom_tables))
   for(i in 1:length(allom_tables)) {
@@ -170,7 +188,8 @@ get_allometry_data <-function(harmonized_allometry_path,
 #' @param accepted_name String of an accepted taxon name.
 #' @rdname get_trait_data
 get_taxon_data<- function(harmonized_trait_path,
-                          accepted_name, progress = TRUE) {
+                          accepted_name, output_format = "long", progress = TRUE) {
+  output_format <- match.arg(output_format, c("wide", "long"))
   if(progress) cli::cli_progress_step("Loading harmonized source trait tables")
   all_tables <- load_harmonized_trait_tables(harmonized_trait_path, progress = progress)
   if(progress) cli::cli_progress_step(paste0("Filtering for taxon: ", accepted_name))
