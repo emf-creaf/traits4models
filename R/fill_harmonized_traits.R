@@ -51,7 +51,7 @@ fill_medfate_traits<-function(SpParams,
   for(trait_name in c("GrowthForm","LifeForm","LeafShape","PhenologyType", "DispersalType")) {
     if(trait_name %in% parameters) {
       if(progress) cli::cli_progress_step(paste0("Processing parameter: ", trait_name))
-      trait_table <- get_trait_data(harmonized_trait_path, trait_name, is_numeric = FALSE, progress = FALSE)
+      trait_table <- get_trait_data(harmonized_trait_path, trait_name, progress = FALSE)
       if(nrow(trait_table)>0) {
         trait_mapping <- trait_name
         names(trait_mapping) <- trait_name
@@ -67,7 +67,7 @@ fill_medfate_traits<-function(SpParams,
                       "Phsen", "Tbsen", "xsen", "ysen", "Ssen")) {
     if(trait_name %in% parameters) {
       if(progress) cli::cli_progress_step(paste0("Processing parameter: ", trait_name))
-      trait_table <- get_trait_data(harmonized_trait_path, trait_name, is_numeric = TRUE, progress = FALSE)
+      trait_table <- get_trait_data(harmonized_trait_path, trait_name, progress = FALSE)
       if(nrow(trait_table)>0) {
         trait_mapping <- trait_name
         names(trait_mapping) <- trait_name
@@ -83,7 +83,7 @@ fill_medfate_traits<-function(SpParams,
 
   if("LeafSize" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "LeafSize"))
-    trait_table <- get_trait_data(harmonized_trait_path, "LeafArea", is_numeric = TRUE, progress = FALSE) |>
+    trait_table <- get_trait_data(harmonized_trait_path, "LeafArea", progress = FALSE) |>
       dplyr::mutate(
         LeafSize = dplyr::case_when(
           LeafArea<225 ~"Small",
@@ -101,7 +101,7 @@ fill_medfate_traits<-function(SpParams,
 
   if("Dmax" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Dmax"))
-    trait_table <- get_trait_data(harmonized_trait_path, "Dmax", is_numeric = TRUE, progress = FALSE)
+    trait_table <- get_trait_data(harmonized_trait_path, "Dmax", progress = FALSE)
     trait_mapping <- "Dmax"
     names(trait_mapping) <- "Dmax"
     SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
@@ -113,7 +113,7 @@ fill_medfate_traits<-function(SpParams,
   }
 
   if("Hmax" %in% parameters) {
-    trait_table <- get_trait_data(harmonized_trait_path, "Hact", is_numeric = TRUE, progress = FALSE)
+    trait_table <- get_trait_data(harmonized_trait_path, "Hact", progress = FALSE)
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Hmax"))
     trait_mapping <- "Hact"
     names(trait_mapping) <- "Hmax"
@@ -125,7 +125,7 @@ fill_medfate_traits<-function(SpParams,
                                 replace_previous = replace_previous, verbose = verbose)
   }
   if("Hmed" %in% parameters) {
-    trait_table <- get_trait_data(harmonized_trait_path, "Hact", is_numeric = TRUE, progress = FALSE)
+    trait_table <- get_trait_data(harmonized_trait_path, "Hact", progress = FALSE)
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Hmed"))
     trait_mapping <- "Hact"
     names(trait_mapping) <- "Hmed"
@@ -138,7 +138,7 @@ fill_medfate_traits<-function(SpParams,
   }
   if("cr" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "cr"))
-    trait_table <- get_trait_data(harmonized_trait_path, "CrownRatio", is_numeric = TRUE, progress = FALSE)
+    trait_table <- get_trait_data(harmonized_trait_path, "CrownRatio", progress = FALSE)
     trait_mapping <- "CrownRatio"
     names(trait_mapping) <- "cr"
     SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
@@ -151,7 +151,7 @@ fill_medfate_traits<-function(SpParams,
 
   if("Gs_P50" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Gs_P50"))
-    trait_table <- get_trait_data(harmonized_trait_path, "Gs_P50", is_numeric = TRUE, progress = FALSE)
+    trait_table <- get_trait_data(harmonized_trait_path, "Gs_P50", progress = FALSE)
     trait_mapping <- "Gs_P50"
     names(trait_mapping) <- "Gs_P50"
     SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
@@ -164,7 +164,7 @@ fill_medfate_traits<-function(SpParams,
 
   if("maxFMC" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "maxFMC"))
-    trait_table <- get_trait_data(harmonized_trait_path, "LFMC", is_numeric = TRUE, progress = FALSE)
+    trait_table <- get_trait_data(harmonized_trait_path, "LFMC", progress = FALSE)
     trait_mapping <- "LFMC"
     names(trait_mapping) <- "maxFMC"
     SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
@@ -176,7 +176,7 @@ fill_medfate_traits<-function(SpParams,
   }
   if("minFMC" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "minFMC"))
-    trait_table <- get_trait_data(harmonized_trait_path, "LFMC", is_numeric = TRUE, progress = FALSE)
+    trait_table <- get_trait_data(harmonized_trait_path, "LFMC", progress = FALSE)
     trait_mapping <- "LFMC"
     names(trait_mapping) <- "minFMC"
     SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
@@ -189,7 +189,7 @@ fill_medfate_traits<-function(SpParams,
 
   if("Kmax_stemxylem" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Kmax_stemxylem"))
-    trait_table <- get_trait_data(harmonized_trait_path, "Ks", is_numeric = TRUE, progress = FALSE)
+    trait_table <- get_trait_data(harmonized_trait_path, "Ks", progress = FALSE)
     trait_mapping <- "Ks"
     names(trait_mapping) <- "Kmax_stemxylem"
     SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
@@ -202,7 +202,7 @@ fill_medfate_traits<-function(SpParams,
 
   if("Vmax298" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Vmax298"))
-    trait_table <- get_trait_data(harmonized_trait_path, "Vmax", is_numeric = TRUE, progress = FALSE)
+    trait_table <- get_trait_data(harmonized_trait_path, "Vmax", progress = FALSE)
     trait_mapping <- "Vmax"
     names(trait_mapping) <- "Vmax298"
     SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
@@ -215,7 +215,7 @@ fill_medfate_traits<-function(SpParams,
 
   if("Jmax298" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Jmax298"))
-    trait_table <- get_trait_data(harmonized_trait_path, "Jmax", is_numeric = TRUE, progress = FALSE)
+    trait_table <- get_trait_data(harmonized_trait_path, "Jmax", progress = FALSE)
     trait_mapping <- "Jmax"
     names(trait_mapping) <- "Jmax298"
     SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
@@ -228,7 +228,7 @@ fill_medfate_traits<-function(SpParams,
 
   if("Z95" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Z95"))
-    trait_table <- get_trait_data(harmonized_trait_path, "Z95", is_numeric = TRUE, progress = FALSE)
+    trait_table <- get_trait_data(harmonized_trait_path, "Z95", progress = FALSE)
     if(nrow(trait_table)>0) {
       trait_mapping <- "Z95"
       names(trait_mapping) <- "Z95"
@@ -243,7 +243,7 @@ fill_medfate_traits<-function(SpParams,
 
   if("LeafAngle" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "LeafAngle"))
-    trait_table <- get_trait_data(harmonized_trait_path, "LeafAngle", is_numeric = TRUE, progress = FALSE)
+    trait_table <- get_trait_data(harmonized_trait_path, "LeafAngle", progress = FALSE)
     if(nrow(trait_table)>0) {
       trait_mapping <- "LeafAngle"
       names(trait_mapping) <- "LeafAngle"
@@ -258,7 +258,7 @@ fill_medfate_traits<-function(SpParams,
 
   if("LeafAngleSD" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "LeafAngleSD"))
-    trait_table <- get_trait_data(harmonized_trait_path, "LeafAngle", is_numeric = TRUE, progress = FALSE)
+    trait_table <- get_trait_data(harmonized_trait_path, "LeafAngle", progress = FALSE)
     if(nrow(trait_table)>0) {
       trait_mapping <- "LeafAngle"
       names(trait_mapping) <- "LeafAngleSD"
@@ -282,7 +282,7 @@ fill_medfate_traits<-function(SpParams,
                       "WoodC", "CCleaf", "CCsapwood", "CCfineroot")) {
     if(trait_name %in% parameters) {
       if(progress)  cli::cli_progress_step(paste0("Processing parameter: ", trait_name))
-      trait_table <- get_trait_data(harmonized_trait_path, trait_name, is_numeric = TRUE, progress = FALSE)
+      trait_table <- get_trait_data(harmonized_trait_path, trait_name, progress = FALSE)
       if(nrow(trait_table)>0) {
         trait_mapping <- trait_name
         names(trait_mapping) <- trait_name
@@ -298,7 +298,7 @@ fill_medfate_traits<-function(SpParams,
 
   if("RSSG" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "RSSG"))
-    trait_table <- get_trait_data(harmonized_trait_path, "ShadeTolerance", is_numeric = TRUE, progress = FALSE)
+    trait_table <- get_trait_data(harmonized_trait_path, "ShadeTolerance", progress = FALSE)
     trait_mapping <- "ShadeTolerance"
     names(trait_mapping) <- "RSSG"
     SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
@@ -312,7 +312,7 @@ fill_medfate_traits<-function(SpParams,
 
   if("SeedProductionDiameter" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "SeedProductionDiameter"))
-    trait_table <- get_trait_data(harmonized_trait_path, "Dmat", is_numeric = TRUE, progress = FALSE)
+    trait_table <- get_trait_data(harmonized_trait_path, "Dmat", progress = FALSE)
     if(nrow(trait_table)>0) {
       trait_mapping <- "Dmat"
       names(trait_mapping) <- "SeedProductionDiameter"

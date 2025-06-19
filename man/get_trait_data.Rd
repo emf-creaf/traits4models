@@ -24,7 +24,6 @@ get_trait_data(
   harmonized_trait_path,
   trait_name,
   output_format = "long",
-  is_numeric = TRUE,
   progress = TRUE
 )
 
@@ -48,7 +47,7 @@ get_taxon_data(
 
 \item{trait_name}{A string of an accepted trait name}
 
-\item{output_format}{}
+\item{output_format}{A string, either "wide" or "long", specifying trait output format}
 
 \item{response}{String indicating a response variable for allometric equations.}
 
@@ -68,7 +67,7 @@ Functions to load harmonized trait data and harmonized allometry data
 }
 \details{
 Function \code{load_harmonized_trait_tables()} allows loading all kinds of trait data tables, including those that do not pass harmonization check, if \code{check = FALSE}.
-In contrast, functions \code{get_trait_data()} and \code{get_taxon_data()} only return data from data sets passing harmonization checks (see function \code{\link{check_harmonized_data}}).
+In contrast, functions \code{get_trait_data()} and \code{get_taxon_data()} only return data from data sets passing harmonization checks (see function \code{\link{check_harmonized_trait}}).
 }
 \examples{
 \dontrun{
@@ -100,5 +99,5 @@ In contrast, functions \code{get_trait_data()} and \code{get_taxon_data()} only 
 }
 }
 \seealso{
-\code{\link{check_harmonized_data}}
+\code{\link{check_harmonized_trait}}
 }

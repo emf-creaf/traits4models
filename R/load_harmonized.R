@@ -18,9 +18,9 @@
 #'
 #' @details
 #' Function \code{load_harmonized_trait_tables()} allows loading all kinds of trait data tables, including those that do not pass harmonization check, if \code{check = FALSE}.
-#' In contrast, functions \code{get_trait_data()} and \code{get_taxon_data()} only return data from data sets passing harmonization checks (see function \code{\link{check_harmonized_data}}).
+#' In contrast, functions \code{get_trait_data()} and \code{get_taxon_data()} only return data from data sets passing harmonization checks (see function \code{\link{check_harmonized_trait}}).
 #'
-#' @seealso \code{\link{check_harmonized_data}}
+#' @seealso \code{\link{check_harmonized_trait}}
 #' @export
 #'
 #' @name get_trait_data
@@ -112,14 +112,14 @@ load_harmonized_allometry_tables <- function(harmonized_allometry_path, check = 
 }
 
 #' @param trait_name A string of an accepted trait name
-#' @param output_format
+#' @param output_format A string, either "wide" or "long", specifying trait output format
 #'
 #' @export
 #'
 #' @rdname get_trait_data
 get_trait_data <- function(harmonized_trait_path,
                            trait_name, output_format = "long",
-                           is_numeric = TRUE, progress = TRUE) {
+                           progress = TRUE) {
   output_format <- match.arg(output_format, c("wide", "long"))
   if(progress) cli::cli_progress_step("Loading harmonized source trait tables")
   all_tables <- load_harmonized_trait_tables(harmonized_trait_path, check = TRUE, progress = progress)
@@ -151,7 +151,7 @@ get_trait_data <- function(harmonized_trait_path,
           tab <- tab |>
             tidyr::pivot_longer(trait_name, names_to = "Trait", values_to="Value") |>
             dplyr::mutate(Units = expected_unit) |>
-            dplyr::relocate(Trait, Value, Units, .before = Reference)
+            dplyr::relocate("Trait", "Value", "Units", .before = "Reference")
         }
         trait_tables[[i]] <- tab
         n_tab <- n_tab + 1

@@ -42,7 +42,7 @@
 #'     \item{Columns \code{PredictorDescription1}, \code{PredictorDescription2}, ... contain longer descriptions of predictor variables.}
 #'     \item{Allometry coefficient columns should be named \code{a}, \code{b}, \code{c}, ..., \code{f} and contain numeric values.}
 #'   }
-#' Functions \code{check_harmonized_trait_dir() and \code{check_harmonized_allometry_dir()} allow checking the appropiateness of multiple harmonized files at once.}
+#' Functions \code{check_harmonized_trait_dir()} and \code{check_harmonized_allometry_dir()} allow checking the appropriateness of multiple harmonized files at once.
 #'
 #' @returns
 #' \itemize{
@@ -147,7 +147,7 @@ check_harmonized_trait<- function(x, verbose = TRUE) {
         row <- which(traits4models::HarmonizedTraitDefinition$Notation==t)
         expected_type <- traits4models::HarmonizedTraitDefinition$Type[row]
         expected_unit <- traits4models::HarmonizedTraitDefinition$Units[row]
-        alternative_unit <- traits4models::HarmonizedTraitDefinition$`Alternative units`[row]
+        alternative_unit <- traits4models::HarmonizedTraitDefinition$AlternativeUnits[row]
         sel <- x[["Trait"]]==t
         vals <- x[["Value"]][sel]
         units <- x[["Units"]][sel]

@@ -70,7 +70,7 @@ Function \code{check_harmonized_allometry()} checks that the input data frame co
     \item{Columns \code{PredictorDescription1}, \code{PredictorDescription2}, ... contain longer descriptions of predictor variables.}
     \item{Allometry coefficient columns should be named \code{a}, \code{b}, \code{c}, ..., \code{f} and contain numeric values.}
   }
-Functions \code{check_harmonized_trait_dir() and \code{check_harmonized_allometry_dir()} allow checking the appropiateness of multiple harmonized files at once.}
+Functions \code{check_harmonized_trait_dir()} and \code{check_harmonized_allometry_dir()} allow checking the appropriateness of multiple harmonized files at once.
 }
 \seealso{
 \code{\link{harmonize_taxonomy_WFO}}, \code{\link{HarmonizedTraitDefinition}}
