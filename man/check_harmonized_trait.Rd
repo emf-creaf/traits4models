@@ -25,33 +25,52 @@ check_harmonized_allometry_dir(harmonized_allometry_path, verbose = TRUE)
 \item{harmonized_allometry_path}{The path to harmonized allometry data files (.rds or .csv format).}
 }
 \value{
-An (invisible) logical indicating whether the data frame is acceptable or not.
+\itemize{
+ \item{Functions \code{check_harmonized_trait()} and \code{check_harmonized_allometry()}} return an (invisible) logical indicating whether the data frame is acceptable or not.
+ \item{Functions \code{check_harmonized_trait_dir()} and \code{check_harmonized_allometry_dir()}} return an (invisible) logical vector indicating those files whose data is acceptable or not.
+}
 }
 \description{
-Functions to check that the input data frame (trait table or allometry table) has the appropriate format and data for model parameter filling.
+Functions to check that the data tables (trait tables or allometry tables) have the appropriate format and data for model parameter filling.
 }
 \details{
 Function \code{check_harmonized_trait()} checks that the input data frame conforms to the following requirements:
-  \itemize{
+  \enumerate{
     \item{Has columns called \code{originalName}, \code{acceptedName}, \code{acceptedNameAuthorship}, \code{family}, \code{genus}, \code{specificEpithet}, and \code{taxonRank},
     as returned by function \code{\link{harmonize_taxonomy_WFO}}.}
-    \item{The names of the remaining columns are "Units", "Reference" (data source citation), "DOI" (data source DOI), "OriginalReference" (original data source citation),"OriginalDOI" (original data source DOI), "Priority" or a valid trait name according to the notation required in \code{\link{HarmonizedTraitDefinition}}.}
-    \item{For trait columns, their values conform to the required type in \code{\link{HarmonizedTraitDefinition}}.}
-    \item{Trait columns contain non-missing data.}
+    \item{Trait data can be in wide-format or long-format. When supplied in wide format, the names of trait columns are either a valid trait names according to the notation in \code{\link{HarmonizedTraitDefinition}} and the type of column needs to match the corresponding type. In this format
+    trait units cannot be checked and the same reference applies to all traits. When supplied in long format, the following columns are required:
+       \itemize{
+         \item{\code{Trait} - A character describing the the name of the trait, with values according to the notation in \code{\link{HarmonizedTraitDefinition}}.}
+         \item{\code{Value} - A character or numeric containing the trait value. For numeric traits, values should be coercible to numbers via \code{\link{as.numeric}}.}
+         \item{\code{Units} - A character describing the units of the trait, with values according to units in \code{\link{HarmonizedTraitDefinition}}.}
+       }
+     }
+    \item{The names of the remaining columns are:
+       \itemize{
+         \item{\code{Reference} - A string describing the harmonized trait data source, i.e. normally a reference.}
+         \item{\code{DOI} - A string describing the DOI of the harmonized trait data source.}
+         \item{\code{OriginalReference} - A string describing the original source of trait data (if \code{Reference} is a compilation).}
+         \item{\code{OriginalDOI} - A string describing the DOI of the original source of trait data (if \code{Reference} is a compilation).}
+         \item{\code{Priority} - A numeric value to prioritize some data values (sources) over others (1 means highest priority).}
+       }
+       Columns \code{OriginalReference} and \code{OriginalDOI} are optional, and the remaining columns are recommended.
+     }
+    \item{Trait value columns contain non-missing data.}
     \item{Numeric trait columns do not contain values beyond expected ranges (when defined).}
   }
-Columns "Reference" and "DOI" refer to the trait data source. In the case of a trait data base, the original sources can be specified in "OriginalReference" and "OriginalDOI".
 Function \code{check_harmonized_allometry()} checks that the input data frame conforms to the following requirements:
-  \itemize{
+  \enumerate{
     \item{Has columns called \code{originalName}, \code{acceptedName}, \code{acceptedNameAuthorship}, \code{family}, \code{genus}, \code{specificEpithet}, and \code{taxonRank},
     as returned by function \code{\link{harmonize_taxonomy_WFO}}.}
-    \item{Has columns called \code{"Response"} and \code{"Equation"}. Columns \code{"Priority"}, \code{"Reference"} and \code{"DOI"} are recommended.}
-    \item{Column \code{"Response"} identifies the response variable.}
-    \item{Column \code{"ResponseDescription"} contains a longer description of the response variable.}
-    \item{Columns \code{"Predictor1"}, \code{"Predictor2"}, ... identify predictor variables.}
-    \item{Columns \code{"PredictorDescription1"}, \code{"PredictorDescription2"}, ... contain longer descriptions of predictor variables.}
-    \item{Allometry coefficient columns should be named \code{"a"}, \code{"c"}, \code{"c"}, ..., \code{"f"} and contain numeric values.}
+    \item{Has columns called \code{Response} and \code{Equation}. Columns \code{Priority}, \code{Reference} and \code{DOI} are recommended.}
+    \item{Column \code{Response} identifies the response variable.}
+    \item{Column \code{ResponseDescription} contains a longer description of the response variable.}
+    \item{Columns \code{Predictor1}, \code{Predictor2}, ... identify predictor variables.}
+    \item{Columns \code{PredictorDescription1}, \code{PredictorDescription2}, ... contain longer descriptions of predictor variables.}
+    \item{Allometry coefficient columns should be named \code{a}, \code{b}, \code{c}, ..., \code{f} and contain numeric values.}
   }
+Functions \code{check_harmonized_trait_dir() and \code{check_harmonized_allometry_dir()} allow checking the appropiateness of multiple harmonized files at once.}
 }
 \seealso{
 \code{\link{harmonize_taxonomy_WFO}}, \code{\link{HarmonizedTraitDefinition}}

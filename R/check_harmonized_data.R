@@ -1,33 +1,55 @@
 #' Check data harmonization
 #'
-#' Functions to check that the input data frame (trait table or allometry table) has the appropriate format and data for model parameter filling.
+#' Functions to check that the data tables (trait tables or allometry tables) have the appropriate format and data for model parameter filling.
 #'
 #' @param x A data frame with harmonized trait data or harmonized allometry data
 #' @param verbose A logical flag indicating extra console output (information alerts and check success)
 #'
 #' @details
 #' Function \code{check_harmonized_trait()} checks that the input data frame conforms to the following requirements:
-#'   \itemize{
+#'   \enumerate{
 #'     \item{Has columns called \code{originalName}, \code{acceptedName}, \code{acceptedNameAuthorship}, \code{family}, \code{genus}, \code{specificEpithet}, and \code{taxonRank},
 #'     as returned by function \code{\link{harmonize_taxonomy_WFO}}.}
-#'     \item{The names of the remaining columns are "Units", "Reference" (data source citation), "DOI" (data source DOI), "OriginalReference" (original data source citation),"OriginalDOI" (original data source DOI), "Priority" or a valid trait name according to the notation required in \code{\link{HarmonizedTraitDefinition}}.}
-#'     \item{For trait columns, their values conform to the required type in \code{\link{HarmonizedTraitDefinition}}.}
-#'     \item{Trait columns contain non-missing data.}
+#'     \item{Trait data can be in wide-format or long-format. When supplied in wide format, the names of trait columns are either a valid trait names according to the notation in \code{\link{HarmonizedTraitDefinition}} and the type of column needs to match the corresponding type. In this format
+#'     trait units cannot be checked and the same reference applies to all traits. When supplied in long format, the following columns are required:
+#'        \itemize{
+#'          \item{\code{Trait} - A character describing the the name of the trait, with values according to the notation in \code{\link{HarmonizedTraitDefinition}}.}
+#'          \item{\code{Value} - A character or numeric containing the trait value. For numeric traits, values should be coercible to numbers via \code{\link{as.numeric}}.}
+#'          \item{\code{Units} - A character describing the units of the trait, with values according to units in \code{\link{HarmonizedTraitDefinition}}.}
+#'        }
+#'      }
+#'     \item{The names of the remaining columns are:
+#'        \itemize{
+#'          \item{\code{Reference} - A string describing the harmonized trait data source, i.e. normally a reference.}
+#'          \item{\code{DOI} - A string describing the DOI of the harmonized trait data source.}
+#'          \item{\code{OriginalReference} - A string describing the original source of trait data (if \code{Reference} is a compilation).}
+#'          \item{\code{OriginalDOI} - A string describing the DOI of the original source of trait data (if \code{Reference} is a compilation).}
+#'          \item{\code{Priority} - A numeric value to prioritize some data values (sources) over others (1 means highest priority).}
+#'        }
+#'        Columns \code{OriginalReference} and \code{OriginalDOI} are optional, and the remaining columns are recommended.
+#'      }
+#'     \item{Trait value columns contain non-missing data.}
 #'     \item{Numeric trait columns do not contain values beyond expected ranges (when defined).}
 #'   }
-#' Columns "Reference" and "DOI" refer to the trait data source. In the case of a trait data base, the original sources can be specified in "OriginalReference" and "OriginalDOI".
 #' Function \code{check_harmonized_allometry()} checks that the input data frame conforms to the following requirements:
-#'   \itemize{
+#'   \enumerate{
 #'     \item{Has columns called \code{originalName}, \code{acceptedName}, \code{acceptedNameAuthorship}, \code{family}, \code{genus}, \code{specificEpithet}, and \code{taxonRank},
 #'     as returned by function \code{\link{harmonize_taxonomy_WFO}}.}
-#'     \item{Has columns called \code{"Response"} and \code{"Equation"}. Columns \code{"Priority"}, \code{"Reference"} and \code{"DOI"} are recommended.}
-#'     \item{Column \code{"Response"} identifies the response variable.}
-#'     \item{Column \code{"ResponseDescription"} contains a longer description of the response variable.}
-#'     \item{Columns \code{"Predictor1"}, \code{"Predictor2"}, ... identify predictor variables.}
-#'     \item{Columns \code{"PredictorDescription1"}, \code{"PredictorDescription2"}, ... contain longer descriptions of predictor variables.}
-#'     \item{Allometry coefficient columns should be named \code{"a"}, \code{"c"}, \code{"c"}, ..., \code{"f"} and contain numeric values.}
+#'     \item{Has columns called \code{Response} and \code{Equation}. Columns \code{Priority}, \code{Reference} and \code{DOI} are recommended.}
+#'     \item{Column \code{Response} identifies the response variable.}
+#'     \item{Column \code{ResponseDescription} contains a longer description of the response variable.}
+#'     \item{Columns \code{Predictor1}, \code{Predictor2}, ... identify predictor variables.}
+#'     \item{Columns \code{PredictorDescription1}, \code{PredictorDescription2}, ... contain longer descriptions of predictor variables.}
+#'     \item{Allometry coefficient columns should be named \code{a}, \code{b}, \code{c}, ..., \code{f} and contain numeric values.}
 #'   }
-#' @returns An (invisible) logical indicating whether the data frame is acceptable or not.
+#' Functions \code{check_harmonized_trait_dir() and \code{check_harmonized_allometry_dir()} allow checking the appropiateness of multiple harmonized files at once.}
+#'
+#' @returns
+#' \itemize{
+#'  \item{Functions \code{check_harmonized_trait()} and \code{check_harmonized_allometry()}} return an (invisible) logical indicating whether the data frame is acceptable or not.
+#'  \item{Functions \code{check_harmonized_trait_dir()} and \code{check_harmonized_allometry_dir()}} return an (invisible) logical vector indicating those files whose data is acceptable or not.
+#' }
+#'
 #' @seealso \code{\link{harmonize_taxonomy_WFO}}, \code{\link{HarmonizedTraitDefinition}}
 #'
 #' @name check_harmonized_trait
@@ -44,9 +66,6 @@ check_harmonized_trait<- function(x, verbose = TRUE) {
     acceptable <- FALSE
     cli::cli_alert_warning(paste0("Taxonomy columns missing: ", paste0(w_mis, collapse =" ")))
   }
-  # if(!("Units" %in% cn)) {
-  #   cli::cli_alert_info("Column 'Units' should preferably be defined.")
-  # }
   if(!("Reference" %in% cn)) {
     if(verbose) cli::cli_alert_info("Column 'Reference' should preferably be defined.")
   }
@@ -56,53 +75,121 @@ check_harmonized_trait<- function(x, verbose = TRUE) {
   if(!("Priority" %in% cn)) {
     if(verbose) cli::cli_alert_info("Column 'Priority' should preferably be defined.")
   }
-  other <- cn[!(cn %in% c(fixed, "Units", "Reference", "DOI", "OriginalReference", "OriginalDOI","Priority"))]
-  for(t in other) {
-    if(!(t %in% traits4models::HarmonizedTraitDefinition$Notation)) {
-      acceptable <- FALSE
-      cli::cli_alert_warning(paste0("Trait column '", t, "' does not match any harmonized trait definition."))
-    } else {
-      row <- which(traits4models::HarmonizedTraitDefinition$Notation==t)
-      if(sum(is.na(x[[t]])) == length(x[[t]])) {
+
+  format <- "undefined"
+  if(all(c("Trait", "Value", "Units") %in% cn)) {
+    format <- "long"
+  } else if(all(!(c("Trait", "Value", "Units") %in% cn))) {
+    format <- "wide"
+  } else {
+    acceptable <- FALSE
+    cli::cli_alert_warning("Trait data should be in either long or wide format (see documentation)")
+  }
+  if(format == "wide") {
+    other <- cn[!(cn %in% c(fixed, "Units", "Reference", "DOI", "OriginalReference", "OriginalDOI","Priority"))]
+    for(t in other) {
+      if(!(t %in% traits4models::HarmonizedTraitDefinition$Notation)) {
         acceptable <- FALSE
-        cli::cli_alert_warning(paste0("Trait column '", t, "' does not contain any data."))
+        cli::cli_alert_warning(paste0("Trait column '", t, "' does not match any harmonized trait definition."))
       } else {
-        type <- traits4models::HarmonizedTraitDefinition$Type[traits4models::HarmonizedTraitDefinition$Notation == t]
-        if(type=="String") {
-          if(!inherits(x[[t]], "character")) {
-            acceptable <- FALSE
-            cli::cli_alert_warning(paste0("Trait column '", t, "' should contain character data."))
+        row <- which(traits4models::HarmonizedTraitDefinition$Notation==t)
+        if(sum(is.na(x[[t]])) == length(x[[t]])) {
+          acceptable <- FALSE
+          cli::cli_alert_warning(paste0("Trait column '", t, "' does not contain any data."))
+        } else {
+          type <- traits4models::HarmonizedTraitDefinition$Type[traits4models::HarmonizedTraitDefinition$Notation == t]
+          if(type=="String") {
+            if(!inherits(x[[t]], "character")) {
+              acceptable <- FALSE
+              cli::cli_alert_warning(paste0("Trait column '", t, "' should contain character data."))
+            }
+          } else if(type =="Integer") {
+            if(!inherits(x[[t]], "integer")) {
+              acceptable <- FALSE
+              cli::cli_alert_warning(paste0("Trait column '", t, "' should contain integer data."))
+            }
+          } else if(type =="Numeric") {
+            if(!inherits(x[[t]], "numeric")) {
+              acceptable <- FALSE
+              cli::cli_alert_warning(paste0("Trait column '", t, "' should contain numeric data."))
+            }
           }
-        } else if(type =="Integer") {
-          if(!inherits(x[[t]], "integer")) {
-            acceptable <- FALSE
-            cli::cli_alert_warning(paste0("Trait column '", t, "' should contain integer data."))
-          }
-        } else if(type =="Numeric") {
-          if(!inherits(x[[t]], "numeric")) {
-            acceptable <- FALSE
-            cli::cli_alert_warning(paste0("Trait column '", t, "' should contain numeric data."))
+          if(acceptable && (type %in% c("Integer", "Numeric"))) {
+            min_value <- min(x[[t]], na.rm=TRUE)
+            max_value <- max(x[[t]], na.rm=TRUE)
+            if(!is.na(traits4models::HarmonizedTraitDefinition$MinimumValue[row])) {
+              if(min_value < traits4models::HarmonizedTraitDefinition$MinimumValue[row]) {
+                acceptable <- FALSE
+                cli::cli_alert_warning(paste0("Trait column '", t, "' has values below accepted range."))
+              }
+            }
+            if(!is.na(traits4models::HarmonizedTraitDefinition$MaximumValue[row])) {
+              if(max_value > traits4models::HarmonizedTraitDefinition$MaximumValue[row]) {
+                acceptable <- FALSE
+                cli::cli_alert_warning(paste0("Trait column '", t, "' has values above accepted range."))
+              }
+            }
           }
         }
-        if(acceptable && (type %in% c("Integer", "Numeric"))) {
-          min_value <- min(x[[t]], na.rm=TRUE)
-          max_value <- max(x[[t]], na.rm=TRUE)
+      }
+    }
+  } else if(format =="long") {
+    if(sum(is.na(x[["Trait"]])) == length(x[["Trait"]])) {
+      acceptable <- FALSE
+      cli::cli_alert_warning(paste0("`Trait` column does not contain any data."))
+    }
+    tt <- unique(x[["Trait"]])
+    for(t in tt) {
+      if(!(t %in% traits4models::HarmonizedTraitDefinition$Notation)) {
+        acceptable <- FALSE
+        cli::cli_alert_warning(paste0("Trait value '", t, "' does not match any harmonized trait definition."))
+      } else {
+        row <- which(traits4models::HarmonizedTraitDefinition$Notation==t)
+        expected_type <- traits4models::HarmonizedTraitDefinition$Type[row]
+        expected_unit <- traits4models::HarmonizedTraitDefinition$Units[row]
+        sel <- x[["Trait"]]==t
+        vals <- x[["Value"]][sel]
+        units <- x[["Units"]][sel]
+        t_acceptable <- TRUE
+        if(!is.na(expected_unit)) {
+          if(!all(units==expected_unit)) {
+            cli::cli_alert_warning(paste0("Units for trait '", t, "' are different than expected ('", expected_unit,"')."))
+            t_acceptable <- FALSE
+          }
+        }
+        if(t_acceptable) {
+          if(any(is.na(vals))) {
+            cli::cli_alert_warning(paste0("Values for trait '", t, "' should not be missing."))
+            t_acceptable <- FALSE
+          }
+        }
+        if(t_acceptable && (expected_type %in% c("Integer", "Numeric"))) {
+          vals_coerced <- as.numeric(vals)
+          if(any(is.na(vals))) {
+            cli::cli_alert_warning(paste0("Non-numeric values for numeric trait '", t, "' found."))
+            t_acceptable <- FALSE
+          }
+        }
+        if(t_acceptable && (expected_type %in% c("Integer", "Numeric"))) {
+          min_value <- min(vals, na.rm=TRUE)
+          max_value <- max(vals, na.rm=TRUE)
           if(!is.na(traits4models::HarmonizedTraitDefinition$MinimumValue[row])) {
             if(min_value < traits4models::HarmonizedTraitDefinition$MinimumValue[row]) {
               acceptable <- FALSE
-              cli::cli_alert_warning(paste0("Trait column '", t, "' has values below accepted range."))
+              cli::cli_alert_warning(paste0("Trait '", t, "' has values below accepted range."))
             }
           }
           if(!is.na(traits4models::HarmonizedTraitDefinition$MaximumValue[row])) {
             if(max_value > traits4models::HarmonizedTraitDefinition$MaximumValue[row]) {
               acceptable <- FALSE
-              cli::cli_alert_warning(paste0("Trait column '", t, "' has values above accepted range."))
+              cli::cli_alert_warning(paste0("Trait '", t, "' has values above accepted range."))
             }
           }
         }
       }
     }
   }
+
   if((!acceptable) && verbose) cli::cli_alert_warning("The data frame is not acceptable as harmonized trait data source.")
   else if(verbose) cli::cli_alert_success("The data frame is acceptable as harmonized trait data source.")
 

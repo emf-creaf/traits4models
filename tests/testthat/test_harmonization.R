@@ -1,4 +1,7 @@
 DB_path <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/traits_and_models/"
+harmonized_trait_path <- paste0(DB_path,"data/harmonized_trait_sources")
+harmonized_allometry_path = "~/OneDrive/EMF_datasets/AllometryDatabases/Products/harmonized"
+WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 test_that("trait harmonization can be done", {
   testthat::skip_on_cran()
@@ -21,12 +24,12 @@ test_that("trait harmonization can be done", {
     dplyr::mutate(Reference = "Bartlett et al. (2016)",
                   DOI ="xxx",
                   Priority = 3)
-  WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file, progress = FALSE)
 })
 
 test_that("harmonization checks are ok",{
   testthat::skip_on_cran()
   testthat::skip_on_ci()
-  expect_type(check_harmonized_trait_dir(paste0(DB_path, "data/harmonized_trait_sources"), verbose = FALSE), "logical")
+  expect_type(check_harmonized_trait_dir(harmonized_trait_path, verbose = FALSE), "logical")
+  expect_type(check_harmonized_allometry_dir(harmonized_allometry_path, verbose = FALSE), "logical")
 })

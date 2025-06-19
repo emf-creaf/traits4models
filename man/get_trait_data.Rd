@@ -56,7 +56,8 @@ Both functions will add \code{Priority = 1} to those trait data sources where \c
 \examples{
 \dontrun{
  # List harmonized trait files
- harmonized_trait_path = "~/OneDrive/EMF_datasets/PlantTraitDatabases/Products/harmonized"
+ DB_path <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/traits_and_models/"
+ harmonized_trait_path <- paste0(DB_path,"data/harmonized_trait_sources")
  list.files(path = harmonized_trait_path)
 
  # Load all harmonized trait data

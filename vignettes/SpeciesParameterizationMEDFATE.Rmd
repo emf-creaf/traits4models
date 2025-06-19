@@ -140,7 +140,7 @@ SpParams<- traits4models::fill_medfate_allometries(SpParams,
 As mentioned in the introduction, here it is assumed that a set of plant trait databases have been harmonized. In our case, harmonized data files have been stored as **.rds** or **.csv** files in the following path:
 
 ```{r}
-harmonized_trait_path <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/Traits&Models/data/harmonized_trait_sources"
+harmonized_trait_path <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/traits_and_models/data/harmonized_trait_sources"
 ```
 
 Function `fill_medfate_traits()` performs trait parameter filling for **medfate** using the available data:
