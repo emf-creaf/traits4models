@@ -27,15 +27,15 @@
 ## usethis namespace: start
 #' @import medfate
 #' @import data.table
+#' @import cli
 #' @importFrom assertthat assert_that
-#' @importFrom cli cli_li cli_progress_bar cli_progress_update cli_progress_done
 #' @importFrom dplyr bind_rows relocate left_join rename
 #' @importFrom memoise memoise
 #' @importFrom rlang .data
 #' @importFrom stats family quantile
 #' @importFrom readr read_delim
 #' @importFrom tibble tibble as_tibble
-#' @importFrom utils data
+#' @importFrom utils data read.csv2
 #' @importFrom WorldFlora WFO.match WFO.one
 ## usethis namespace: end
 NULL

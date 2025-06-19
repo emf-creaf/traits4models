@@ -3,6 +3,7 @@
 #' Functions to check that the input data frame (trait table or allometry table) has the appropriate format and data for model parameter filling.
 #'
 #' @param x A data frame with harmonized trait data or harmonized allometry data
+#' @param verbose A logical flag indicating extra console output (information alerts and check success)
 #'
 #' @details
 #' Function \code{check_harmonized_trait()} checks that the input data frame conforms to the following requirements:
@@ -32,7 +33,7 @@
 #' @name check_harmonized_trait
 #' @export
 #'
-check_harmonized_trait<- function(x) {
+check_harmonized_trait<- function(x, verbose = TRUE) {
   if(!inherits(x, "data.frame")) cli::cli_abort("Input should be a data frame")
   cn <- names(x)
   fixed <- c("originalName", "acceptedName","acceptedNameAuthorship","family",
@@ -47,13 +48,13 @@ check_harmonized_trait<- function(x) {
   #   cli::cli_alert_info("Column 'Units' should preferably be defined.")
   # }
   if(!("Reference" %in% cn)) {
-    cli::cli_alert_info("Column 'Reference' should preferably be defined.")
+    if(verbose) cli::cli_alert_info("Column 'Reference' should preferably be defined.")
   }
   if(!("DOI" %in% cn)) {
-    cli::cli_alert_info("Column 'DOI' should preferably be defined.")
+    if(verbose) cli::cli_alert_info("Column 'DOI' should preferably be defined.")
   }
   if(!("Priority" %in% cn)) {
-    cli::cli_alert_info("Column 'Priority' should preferably be defined.")
+    if(verbose) cli::cli_alert_info("Column 'Priority' should preferably be defined.")
   }
   other <- cn[!(cn %in% c(fixed, "Units", "Reference", "DOI", "OriginalReference", "OriginalDOI","Priority"))]
   for(t in other) {
@@ -102,16 +103,37 @@ check_harmonized_trait<- function(x) {
       }
     }
   }
-  if(!acceptable) cli::cli_alert_warning("The data frame is not acceptable as harmonized trait data source.")
-  else  cli::cli_alert_success("The data frame is acceptable as harmonized trait data source.")
+  if((!acceptable) && verbose) cli::cli_alert_warning("The data frame is not acceptable as harmonized trait data source.")
+  else if(verbose) cli::cli_alert_success("The data frame is acceptable as harmonized trait data source.")
 
   return(invisible(acceptable))
 }
 
 
 #' @export
+#' @param harmonized_trait_path The path to harmonized trait data files (.rds or .csv format).
 #' @rdname check_harmonized_trait
-check_harmonized_allometry<- function(x) {
+check_harmonized_trait_dir<- function(harmonized_trait_path, verbose = TRUE) {
+  fn_full <- list.files(harmonized_trait_path, full.names = TRUE)
+  fn <- list.files(harmonized_trait_path)
+  accepted <- rep(NA, length(fn))
+  if(verbose) cli::cli_h1(paste0("Checking ", length(fn), " harmonized trait files"))
+  for(i in 1:length(fn)) {
+    if(verbose) cli::cli_bullets(fn[i])
+    if(endsWith(fn[i], ".rds")) {
+      tab <- readRDS(fn_full[i])
+    } else if(endsWith(fn[i], ".csv")) {
+      tab <- read.csv2(fn_full[i])
+    }
+    accepted[i] <- traits4models::check_harmonized_trait(tab, verbose = verbose)
+    if(!accepted[i]) cli::cli_alert_warning(paste0("File ", fn[i], " is not acceptable."))
+  }
+  return(invisible(accepted))
+}
+
+#' @export
+#' @rdname check_harmonized_trait
+check_harmonized_allometry<- function(x, verbose = TRUE) {
   if(!inherits(x, "data.frame")) cli::cli_abort("Input should be a data frame")
   cn <- names(x)
   fixed <- c("originalName", "acceptedName","acceptedNameAuthorship","family",
@@ -123,16 +145,16 @@ check_harmonized_allometry<- function(x) {
     cli::cli_alert_warning(paste0("Required columns missing: ", paste0(w_mis, collapse =" ")))
   }
   if(!("Reference" %in% cn)) {
-    cli::cli_alert_info("Column 'Reference' should preferably be defined.")
+    if(verbose) cli::cli_alert_info("Column 'Reference' should preferably be defined.")
   }
   if(!("DOI" %in% cn)) {
-    cli::cli_alert_info("Column 'DOI' should preferably be defined.")
+    if(verbose) cli::cli_alert_info("Column 'DOI' should preferably be defined.")
   }
   if(!("Priority" %in% cn)) {
-    cli::cli_alert_info("Column 'Priority' should preferably be defined.")
+    if(verbose) cli::cli_alert_info("Column 'Priority' should preferably be defined.")
   }
   if(!("ResponseDescription" %in% cn)) {
-    cli::cli_alert_info("Column 'ResponseDescription' should preferably be defined.")
+    if(verbose) cli::cli_alert_info("Column 'ResponseDescription' should preferably be defined.")
   }
   other <- cn[!(cn %in% c(fixed, "Reference", "Priority", "ResponseDescription"))]
   for(col in other) {
@@ -157,7 +179,28 @@ check_harmonized_allometry<- function(x) {
       }
     }
   }
-  if(!acceptable) cli::cli_alert_warning("The data frame is not acceptable as harmonized allometry data source.")
-  else  cli::cli_alert_success("The data frame is acceptable as harmonized allometry data source.")
+  if((!acceptable) && verbose) cli::cli_alert_warning("The data frame is not acceptable as harmonized allometry data source.")
+  else if(verbose)  cli::cli_alert_success("The data frame is acceptable as harmonized allometry data source.")
   return(invisible(acceptable))
+}
+
+#' @export
+#' @param harmonized_allometry_path The path to harmonized allometry data files (.rds or .csv format).
+#' @rdname check_harmonized_trait
+check_harmonized_allometry_dir<- function(harmonized_allometry_path, verbose = TRUE) {
+  fn_full <- list.files(harmonized_allometry_path, full.names = TRUE)
+  fn <- list.files(harmonized_allometry_path)
+  accepted <- rep(NA, length(fn))
+  if(verbose) cli::cli_h1(paste0("Checking ", length(fn), " harmonized allometry files"))
+  for(i in 1:length(fn)) {
+    if(verbose) cli::cli_bullets(fn[i])
+    if(endsWith(fn[i], ".rds")) {
+      tab <- readRDS(fn_full[i])
+    } else if(endsWith(fn[i], ".csv")) {
+      tab <- read.csv2(fn_full[i])
+    }
+    accepted[i] <- traits4models::check_harmonized_allometry(tab, verbose = verbose)
+    if(!accepted[i]) cli::cli_alert_warning(paste0("File ", fn[i], " is not acceptable."))
+  }
+  return(invisible(accepted))
 }

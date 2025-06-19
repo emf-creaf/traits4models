@@ -1,10 +1,11 @@
 library(traits4models)
 
+DB_path <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/traits_and_models/"
+
 test_that("init_medfate_params returns a data frame",{
   testthat::skip_on_ci()
   testthat::skip_on_cran()
   sp_names_1 <- c("Rosmarinus officinalis", "Pinus contorta")
-  DB_path <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/Traits&Models/"
   WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
   df <- data.frame(originalName = sp_names_1)
   df_harm <- traits4models::harmonize_taxonomy_WFO(df, WFO_file, progress = FALSE)

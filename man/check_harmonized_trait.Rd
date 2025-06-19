@@ -2,15 +2,27 @@
 % Please edit documentation in R/check_harmonized_data.R
 \name{check_harmonized_trait}
 \alias{check_harmonized_trait}
+\alias{check_harmonized_trait_dir}
 \alias{check_harmonized_allometry}
+\alias{check_harmonized_allometry_dir}
 \title{Check data harmonization}
 \usage{
-check_harmonized_trait(x)
+check_harmonized_trait(x, verbose = TRUE)
 
-check_harmonized_allometry(x)
+check_harmonized_trait_dir(harmonized_trait_path, verbose = TRUE)
+
+check_harmonized_allometry(x, verbose = TRUE)
+
+check_harmonized_allometry_dir(harmonized_allometry_path, verbose = TRUE)
 }
 \arguments{
 \item{x}{A data frame with harmonized trait data or harmonized allometry data}
+
+\item{verbose}{A logical flag indicating extra console output (information alerts and check success)}
+
+\item{harmonized_trait_path}{The path to harmonized trait data files (.rds or .csv format).}
+
+\item{harmonized_allometry_path}{The path to harmonized allometry data files (.rds or .csv format).}
 }
 \value{
 An (invisible) logical indicating whether the data frame is acceptable or not.

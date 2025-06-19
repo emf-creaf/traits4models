@@ -1,8 +1,8 @@
+DB_path <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/traits_and_models/"
 
 test_that("trait harmonization can be done", {
   testthat::skip_on_cran()
   testthat::skip_on_ci()
-  DB_path <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/Traits&Models/"
   db <- readr::read_csv(paste0(DB_path, "data-raw/raw_trait_data/Bartlett_et_al_2016/pnas.1604088113.sd01.csv"),
                         progress = FALSE,
                         show_col_types = FALSE)
@@ -25,3 +25,8 @@ test_that("trait harmonization can be done", {
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var, WFO_file, progress = FALSE)
 })
 
+test_that("harmonization checks are ok",{
+  testthat::skip_on_cran()
+  testthat::skip_on_ci()
+  expect_type(check_harmonized_trait_dir(paste0(DB_path, "data/harmonized_trait_sources"), verbose = FALSE), "logical")
+})
