@@ -25,6 +25,7 @@
 #'          \item{\code{OriginalReference} - A string describing the original source of trait data (if \code{Reference} is a compilation).}
 #'          \item{\code{OriginalDOI} - A string describing the DOI of the original source of trait data (if \code{Reference} is a compilation).}
 #'          \item{\code{Priority} - A numeric value to prioritize some data values (sources) over others (1 means highest priority).}
+#'          \item{\code{checkVersion} - A string of the package version used for harmonization checking.}
 #'        }
 #'        Columns \code{OriginalReference} and \code{OriginalDOI} are optional, and the remaining columns are recommended.
 #'      }
@@ -75,6 +76,9 @@ check_harmonized_trait<- function(x, verbose = TRUE) {
   if(!("Priority" %in% cn)) {
     if(verbose) cli::cli_alert_info("Column 'Priority' should preferably be defined.")
   }
+  if(!("checkVersion" %in% cn)) {
+    if(verbose) cli::cli_alert_info("Column 'checkVersion' should preferably be defined.")
+  }
 
   format <- "undefined"
   if(all(c("Trait", "Value", "Units") %in% cn)) {
@@ -86,7 +90,7 @@ check_harmonized_trait<- function(x, verbose = TRUE) {
     cli::cli_alert_warning("Trait data should be in either long or wide format (see documentation)")
   }
   if(format == "wide") {
-    other <- cn[!(cn %in% c(fixed, "Units", "Reference", "DOI", "OriginalReference", "OriginalDOI","Priority"))]
+    other <- cn[!(cn %in% c(fixed, "Units", "Reference", "DOI", "OriginalReference", "OriginalDOI","Priority", "checkVersion"))]
     for(t in other) {
       if(!(t %in% traits4models::HarmonizedTraitDefinition$Notation)) {
         acceptable <- FALSE

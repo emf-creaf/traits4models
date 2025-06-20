@@ -53,6 +53,7 @@ Function \code{check_harmonized_trait()} checks that the input data frame confor
          \item{\code{OriginalReference} - A string describing the original source of trait data (if \code{Reference} is a compilation).}
          \item{\code{OriginalDOI} - A string describing the DOI of the original source of trait data (if \code{Reference} is a compilation).}
          \item{\code{Priority} - A numeric value to prioritize some data values (sources) over others (1 means highest priority).}
+         \item{\code{checkVersion} - A string of the package version used for harmonization checking.}
        }
        Columns \code{OriginalReference} and \code{OriginalDOI} are optional, and the remaining columns are recommended.
      }
