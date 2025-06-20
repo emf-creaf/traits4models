@@ -147,7 +147,7 @@ check_harmonized_trait<- function(x, verbose = TRUE) {
         row <- which(traits4models::HarmonizedTraitDefinition$Notation==t)
         expected_type <- traits4models::HarmonizedTraitDefinition$Type[row]
         expected_unit <- traits4models::HarmonizedTraitDefinition$Units[row]
-        alternative_unit <- traits4models::HarmonizedTraitDefinition$AlternativeUnits[row]
+        alternative_unit <- traits4models::HarmonizedTraitDefinition$EquivalentUnits[row]
         sel <- x[["Trait"]]==t
         vals <- x[["Value"]][sel]
         units <- x[["Units"]][sel]
