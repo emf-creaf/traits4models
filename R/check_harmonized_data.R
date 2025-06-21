@@ -101,7 +101,7 @@ check_harmonized_trait<- function(x, verbose = TRUE) {
           acceptable <- FALSE
           cli::cli_alert_warning(paste0("Trait column '", t, "' does not contain any data."))
         } else {
-          type <- traits4models::HarmonizedTraitDefinition$Type[traits4models::HarmonizedTraitDefinition$Notation == t]
+          type <- traits4models::HarmonizedTraitDefinition$Type[row]
           if(type=="String") {
             if(!inherits(x[[t]], "character")) {
               acceptable <- FALSE
@@ -134,6 +134,19 @@ check_harmonized_trait<- function(x, verbose = TRUE) {
               }
             }
           }
+          if(acceptable) {
+            accepted_values <- traits4models::HarmonizedTraitDefinition$AcceptedValues[row]
+            if(!is.na(accepted_values)) {
+              accepted_values <- strsplit(accepted_values, ",")[[1]]
+              if(type=="Integer") accepted_values <- as.integer(accepted_values)
+              else if(type=="Numeric") accepted_values <- as.numeric(accepted_values)
+              vals <- x[[t]]
+              if(!all(vals[!is.na(vals)] %in% accepted_values)) {
+                cli::cli_alert_warning(paste0("Values for trait '", t, "' include non-accepted values."))
+                acceptable <- FALSE
+              }
+            }
+          }
         }
       }
     }
@@ -152,11 +165,14 @@ check_harmonized_trait<- function(x, verbose = TRUE) {
         expected_type <- traits4models::HarmonizedTraitDefinition$Type[row]
         expected_unit <- traits4models::HarmonizedTraitDefinition$Units[row]
         alternative_unit <- traits4models::HarmonizedTraitDefinition$EquivalentUnits[row]
+        accepted_values <- traits4models::HarmonizedTraitDefinition$AcceptedValues[row]
+
         sel <- x[["Trait"]]==t
         vals <- x[["Value"]][sel]
         units <- x[["Units"]][sel]
         t_acceptable <- TRUE
         if(!is.na(expected_unit)) {
+          units[is.na(units)] <- ""
           if(!all(units==expected_unit)) {
             if(!is.na(alternative_unit)) {
               if(!all(units==alternative_unit)) {
@@ -173,6 +189,17 @@ check_harmonized_trait<- function(x, verbose = TRUE) {
           if(any(is.na(vals))) {
             cli::cli_alert_warning(paste0("Values for trait '", t, "' should not be missing."))
             t_acceptable <- FALSE
+          }
+        }
+        if(t_acceptable) {
+          if(!is.na(accepted_values)) {
+            accepted_values <- strsplit(accepted_values, ",")[[1]]
+            if(expected_type=="Integer") accepted_values <- as.integer(accepted_values)
+            else if(expected_type=="Numeric") accepted_values <- as.numeric(accepted_values)
+            if(!all(vals %in% accepted_values)) {
+              cli::cli_alert_warning(paste0("Values for trait '", t, "' include non-accepted values."))
+              t_acceptable <- FALSE
+            }
           }
         }
         if(t_acceptable && (expected_type %in% c("Integer", "Numeric"))) {

@@ -9,9 +9,10 @@ A data frame with parameters in rows and columns:
 \itemize{
   \item{\code{Definition}: Trait definition}
   \item{\code{Notation}: Trait notation required for harmonization.}
-  \item{\code{Type}: Either 'Numeric' (for quantitative traits) or 'String' (for qualitative traits).}
+  \item{\code{Type}: Either 'Numeric' (for quantitative traits), 'Integer' (for counts) or 'String' (for qualitative traits).}
   \item{\code{Units}: Required units for quantitative traits.}
   \item{\code{EquivalentUnits}: Alternative, but equivalent, unit notation for quantitative traits.}
+  \item{\code{AcceptedValues}: Set of comma-separated accepted values.}
   \item{\code{MinimumValue}: Minimum value for quantitative traits.}
   \item{\code{MaximumValue}: Maximum value for quantitative traits.}
 }

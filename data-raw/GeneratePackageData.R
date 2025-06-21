@@ -6,7 +6,7 @@ HarmonizedTraitDefinition$Definition <- stringi::stri_enc_toascii(HarmonizedTrai
 HarmonizedTraitDefinition$Notation <- stringi::stri_enc_toascii(HarmonizedTraitDefinition$Notation)
 HarmonizedTraitDefinition$Type <- stringi::stri_enc_toascii(HarmonizedTraitDefinition$Type)
 HarmonizedTraitDefinition$Units <- stringi::stri_enc_toascii(HarmonizedTraitDefinition$Units)
-usethis::use_data(HarmonizedTraitDefinition, overwrite = T)
+usethis::use_data(HarmonizedTraitDefinition, overwrite = TRUE)
 
 
 MFWdir <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/"

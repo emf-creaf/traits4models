@@ -126,7 +126,8 @@ get_trait_data <- function(harmonized_trait_path,
   if(progress) cli::cli_progress_step(paste0("Filtering for trait: ", trait_name))
   trait_tables <- vector("list", length(all_tables))
   fixed <- c("originalName", "acceptedName","acceptedNameAuthorship","family",
-             "genus", "specificEpithet","taxonRank", "Units", "Reference", "DOI", "OriginalReference", "OriginalDOI", "Priority")
+             "genus", "specificEpithet","taxonRank", "Units", "Reference", "DOI",
+             "OriginalReference", "OriginalDOI", "Priority", "checkVersion")
   n_tab <- 0
   row <- which(traits4models::HarmonizedTraitDefinition$Notation==trait_name)
   expected_type <- traits4models::HarmonizedTraitDefinition$Type[row]
@@ -153,6 +154,9 @@ get_trait_data <- function(harmonized_trait_path,
             dplyr::mutate(Units = expected_unit) |>
             dplyr::relocate("Trait", "Value", "Units", .before = "Reference")
         }
+        if("checkVersion" %in% names(tab)) {
+          tab[["checkVersion"]] <-  as.character(tab[["checkVersion"]])
+        }
         trait_tables[[i]] <- tab
         n_tab <- n_tab + 1
       }
@@ -164,6 +168,9 @@ get_trait_data <- function(harmonized_trait_path,
           tab <- tab |>
             dplyr::select(-c("Trait", "Value", "Units")) |>
             dplyr::relocate(trait_name, .before = "Reference")
+        }
+        if("checkVersion" %in% names(tab)) {
+          tab[["checkVersion"]] <-  as.character(tab[["checkVersion"]])
         }
         trait_tables[[i]] <- tab
         n_tab <- n_tab + 1
