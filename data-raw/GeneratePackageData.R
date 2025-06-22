@@ -10,7 +10,7 @@ usethis::use_data(HarmonizedTraitDefinition, overwrite = TRUE)
 
 
 MFWdir <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/"
-NFIparamDir <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/MedfateSpeciesParametrization/NFIs_parametrization/"
+NFIparamDir <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/NFIs_parametrization/"
 
 # SpParamsES, SpParamsUS, SpParamsFR, SpParamsAU --------------------------------------
 SpParamsES <- readRDS(paste0(NFIparamDir, "data/es/SpParams_final_es.rds"))
@@ -22,19 +22,19 @@ SpParamsES = medfate::modifySpParams(SpParamsES, metamodellingParamsSpecies, sub
 # SpParamsES = medfate::modifySpParams(SpParamsES, RGRcambiummaxTrees, subsetSpecies = FALSE)
 # Load ingrowth calibration results
 ## SHOULD BE RECALIBRATED: THEY REFER TO INGROWTH (~7.5 cm)
-recruitmentParamsSpecies = readRDS(paste0(MFWdir,"MortalityRegenerationCalibration/Rdata/final_recruitment_params.rds"))
+recruitmentParamsSpecies = readRDS(paste0(MFWdir,"MortalityRegenerationCalibration/data/final_recruitment_params.rds"))
 recruitmentParamsSpecies$RecrTreeHeight <- recruitmentParamsSpecies$RecrTreeHeight/10
 recruitmentParamsSpecies$IngrowthTreeDensity <- recruitmentParamsSpecies$RecrTreeDensity
 recruitmentParamsSpecies$RecrTreeDensity <- NULL
 SpParamsES = medfate::modifySpParams(SpParamsES, recruitmentParamsSpecies, subsetSpecies = FALSE)
 # Load Baseline mortality calibration results
-mortalityParamsSpecies = readRDS(paste0(MFWdir,"MortalityRegenerationCalibration/Rdata/mort_rates.rds"))
+mortalityParamsSpecies = readRDS(paste0(MFWdir,"MortalityRegenerationCalibration/data/mort_rates.rds"))
 SpParamsES = medfate::modifySpParams(SpParamsES, mortalityParamsSpecies, subsetSpecies = FALSE)
 # Load SurvivalModel calibration results
-survivalParamsSpecies = readRDS(paste0(MFWdir,"MortalityRegenerationCalibration/Rdata/survival_models.rds"))
+survivalParamsSpecies = readRDS(paste0(MFWdir,"MortalityRegenerationCalibration/data/survival_models.rds"))
 SpParamsES = medfate::modifySpParams(SpParamsES, survivalParamsSpecies, subsetSpecies = FALSE)
 # Load SurvivalModel calibration results
-resproutingParamsSpecies = readxl::read_xlsx(paste0(MFWdir,"MortalityRegenerationCalibration/Data/ResproutingMED.xlsx"))
+resproutingParamsSpecies = readxl::read_xlsx(paste0(MFWdir,"MortalityRegenerationCalibration/data-raw/ResproutingMED.xlsx"))
 names(resproutingParamsSpecies)[1] = "Species"
 SpParamsES = medfate::modifySpParams(SpParamsES, resproutingParamsSpecies, subsetSpecies = FALSE)
 usethis::use_data(SpParamsES, overwrite = T)
