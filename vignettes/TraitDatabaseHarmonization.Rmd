@@ -21,7 +21,7 @@ Species parameter values cannot be drawn from a single data source. Moreover, th
 
 The result of this harmonization needs to be stored in a harmonized format for subsequent use when creating species parameter tables. This vignette illustrates the harmonization procedures for an example data set using package **trait4models** and the usual **tidyverse** packages. Harmonization of allometric equations is explained in a companion vignette.
 
->**IMPORTANT**: This vignette is not self-contained, in the sense that it cannot be reproduced without access to data sets that are not included. Nevertheless, it is intended to serve as example of species parameterization for other regions.
+>**IMPORTANT**: This vignette is not self-contained, in the sense that it cannot be reproduced without access to data sets that are not included. Nevertheless, it is intended to serve as example of trait database harmonization.
 
 ### Required packages
 
@@ -88,7 +88,7 @@ Columns `Reference` and `DOI` indicates the bibliographic source of the data, wh
 ```{r}
 db_var
 ```
-
+Note that the kind of trait mapping conducted here, with one column per trait, allows different traits in different columns (i.e. wide format) but it does not store the trait units and therefore they cannot be checked. Another (long) format is recommended where trait names are stored in column `Trait`, trait values are stored in column `Value` and units are stored in column `Units` (see `?check_harmonized_trait`).
 
 ## Taxonomic harmonization
 
@@ -123,7 +123,15 @@ The packages includes function `check_harmonized_trait()` to check whether a giv
 check_harmonized_trait(db_post)
 ```
 
-In this case, the data set is ready to be used in parameter estimation. As an example, we can run the same checking function with the data base before taxonomic harmonization:
+The data set is acceptable, but the package recommends storing the package version used for harmonization checking, which we can do using:
+
+```{r}
+db_post <- db_post |>
+   dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+check_harmonized_trait(db_post)
+```
+
+Now the data set is ready to be used in parameter estimation. As an example of checking, we can also run the same checking function with the data base before taxonomic harmonization:
 
 ```{r}
 check_harmonized_trait(db_var)
@@ -151,7 +159,7 @@ harmonized_trait_path <- "~/OneDrive/mcaceres_work/model_development/medfate_par
 We can list the set of harmonized sources using:
 ```{r}
 trait_files <- list.files(path = harmonized_trait_path, full.names = FALSE)
-trait_files
+head(trait_files)
 ```
 
 ### Querying data for particular traits or species

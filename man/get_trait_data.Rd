@@ -20,21 +20,11 @@ load_harmonized_allometry_tables(
   progress = TRUE
 )
 
-get_trait_data(
-  harmonized_trait_path,
-  trait_name,
-  output_format = "long",
-  progress = TRUE
-)
+get_trait_data(harmonized_trait_path, trait_name, progress = TRUE)
 
 get_allometry_data(harmonized_allometry_path, response, progress = TRUE)
 
-get_taxon_data(
-  harmonized_trait_path,
-  accepted_name,
-  output_format = "long",
-  progress = TRUE
-)
+get_taxon_data(harmonized_trait_path, accepted_name, progress = TRUE)
 }
 \arguments{
 \item{harmonized_trait_path}{The path to harmonized trait data files (.rds or .csv format).}
@@ -45,9 +35,7 @@ get_taxon_data(
 
 \item{harmonized_allometry_path}{The path to harmonized allometry data files (.rds or .csv format).}
 
-\item{trait_name}{A string of an accepted trait name}
-
-\item{output_format}{A string, either "wide" or "long", specifying trait output format}
+\item{trait_name}{A string of an accepted trait name, according to \code{\link{HarmonizedTraitDefinition}}.}
 
 \item{response}{String indicating a response variable for allometric equations.}
 
@@ -58,9 +46,9 @@ Function \code{load_harmonized_trait_tables()} returns the list with all harmoni
 
 Function \code{load_harmonized_allometry_tables()} returns the list with all harmonized allometry data tables.
 
-Function \code{get_trait_data()} returns a data frame with the pooled information of a single trait.
+Function \code{get_trait_data()} returns a data frame (in long trait format) with the pooled information for a given trait.
 
-Function \code{get_taxon_data()} returns a data frame with the pooled information for a given taxon.
+Function \code{get_taxon_data()} returns a data frame (in long trait format) with the pooled information for a given taxon.
 }
 \description{
 Functions to load harmonized trait data and harmonized allometry data

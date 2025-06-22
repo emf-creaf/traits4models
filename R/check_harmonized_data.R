@@ -1,9 +1,9 @@
 #' Check data harmonization
 #'
-#' Functions to check that the data tables (trait tables or allometry tables) have the appropriate format and data for model parameter filling.
+#' Functions to check that data tables (trait tables or allometry tables) have the appropriate format and data for model parameter filling.
 #'
-#' @param x A data frame with harmonized trait data or harmonized allometry data
-#' @param verbose A logical flag indicating extra console output (information alerts and check success)
+#' @param x A data frame with harmonized trait data or harmonized allometry data.
+#' @param verbose A logical flag indicating extra console output (information alerts and check success). If \code{FALSE}, only errors are reported.
 #'
 #' @details
 #' Function \code{check_harmonized_trait()} checks that the input data frame conforms to the following requirements:
@@ -31,6 +31,7 @@
 #'      }
 #'     \item{Trait value columns contain non-missing data.}
 #'     \item{Numeric trait columns do not contain values beyond expected ranges (when defined).}
+#'     \item{Trait columns do not contain values different than accepted values (when defined, typically for categorical traits). Lower-upper cases are ignored.}
 #'   }
 #' Function \code{check_harmonized_allometry()} checks that the input data frame conforms to the following requirements:
 #'   \enumerate{
@@ -137,11 +138,9 @@ check_harmonized_trait<- function(x, verbose = TRUE) {
           if(acceptable) {
             accepted_values <- traits4models::HarmonizedTraitDefinition$AcceptedValues[row]
             if(!is.na(accepted_values)) {
-              accepted_values <- strsplit(accepted_values, ",")[[1]]
-              if(type=="Integer") accepted_values <- as.integer(accepted_values)
-              else if(type=="Numeric") accepted_values <- as.numeric(accepted_values)
+              accepted_values <- tolower(strsplit(accepted_values, ",")[[1]])
               vals <- x[[t]]
-              if(!all(vals[!is.na(vals)] %in% accepted_values)) {
+              if(!all(tolower(as.character(vals[!is.na(vals)])) %in% accepted_values)) {
                 cli::cli_alert_warning(paste0("Values for trait '", t, "' include non-accepted values."))
                 acceptable <- FALSE
               }
@@ -193,10 +192,8 @@ check_harmonized_trait<- function(x, verbose = TRUE) {
         }
         if(t_acceptable) {
           if(!is.na(accepted_values)) {
-            accepted_values <- strsplit(accepted_values, ",")[[1]]
-            if(expected_type=="Integer") accepted_values <- as.integer(accepted_values)
-            else if(expected_type=="Numeric") accepted_values <- as.numeric(accepted_values)
-            if(!all(vals %in% accepted_values)) {
+            accepted_values <- tolower(strsplit(accepted_values, ",")[[1]])
+            if(!all(tolower(as.character(vals)) %in% accepted_values)) {
               cli::cli_alert_warning(paste0("Values for trait '", t, "' include non-accepted values."))
               t_acceptable <- FALSE
             }

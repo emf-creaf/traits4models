@@ -16,9 +16,9 @@ check_harmonized_allometry(x, verbose = TRUE)
 check_harmonized_allometry_dir(harmonized_allometry_path, verbose = TRUE)
 }
 \arguments{
-\item{x}{A data frame with harmonized trait data or harmonized allometry data}
+\item{x}{A data frame with harmonized trait data or harmonized allometry data.}
 
-\item{verbose}{A logical flag indicating extra console output (information alerts and check success)}
+\item{verbose}{A logical flag indicating extra console output (information alerts and check success). If \code{FALSE}, only errors are reported.}
 
 \item{harmonized_trait_path}{The path to harmonized trait data files (.rds or .csv format).}
 
@@ -31,7 +31,7 @@ check_harmonized_allometry_dir(harmonized_allometry_path, verbose = TRUE)
 }
 }
 \description{
-Functions to check that the data tables (trait tables or allometry tables) have the appropriate format and data for model parameter filling.
+Functions to check that data tables (trait tables or allometry tables) have the appropriate format and data for model parameter filling.
 }
 \details{
 Function \code{check_harmonized_trait()} checks that the input data frame conforms to the following requirements:
@@ -59,6 +59,7 @@ Function \code{check_harmonized_trait()} checks that the input data frame confor
      }
     \item{Trait value columns contain non-missing data.}
     \item{Numeric trait columns do not contain values beyond expected ranges (when defined).}
+    \item{Trait columns do not contain values different than accepted values (when defined, typically for categorical traits). Lower-upper cases are ignored.}
   }
 Function \code{check_harmonized_allometry()} checks that the input data frame conforms to the following requirements:
   \enumerate{

@@ -12,9 +12,9 @@
 #'
 #' Function \code{load_harmonized_allometry_tables()} returns the list with all harmonized allometry data tables.
 #'
-#' Function \code{get_trait_data()} returns a data frame with the pooled information of a single trait.
+#' Function \code{get_trait_data()} returns a data frame (in long trait format) with the pooled information for a given trait.
 #'
-#' Function \code{get_taxon_data()} returns a data frame with the pooled information for a given taxon.
+#' Function \code{get_taxon_data()} returns a data frame (in long trait format) with the pooled information for a given taxon.
 #'
 #' @details
 #' Function \code{load_harmonized_trait_tables()} allows loading all kinds of trait data tables, including those that do not pass harmonization check, if \code{check = FALSE}.
@@ -56,13 +56,11 @@ load_harmonized_trait_tables <- function(harmonized_trait_path, check = TRUE, pr
   trait_files_short <- list.files(path = harmonized_trait_path, full.names = FALSE)
   trait_files <- list.files(path = harmonized_trait_path, full.names = TRUE)
   filter <- endsWith(trait_files_short, ".csv") | endsWith(trait_files_short, ".rds")
-  if(check) {
-    filter <- filter & check_harmonized_trait_dir(harmonized_trait_path, verbose = FALSE)
-  }
   trait_files_short <- trait_files_short[filter]
   trait_files <- trait_files[filter]
   trait_tables <- vector("list", length(trait_files))
-  if(progress) cli::cli_progress_bar("Tables", total = length(trait_files))
+  accepted <- rep(TRUE, length(trait_files))
+  if(progress) cli::cli_progress_bar("Loading tables", total = length(trait_files))
   for(i in 1:length(trait_files)) {
     if(progress) cli::cli_progress_update()
     if(endsWith(trait_files[i], ".rds")) {
@@ -74,9 +72,14 @@ load_harmonized_trait_tables <- function(harmonized_trait_path, check = TRUE, pr
         as.data.frame()|>
         dplyr::filter(!is.na(.data$acceptedName))
     }
-    trait_tables[[i]] <- tab
+    if(check) {
+      accepted[i] <- check_harmonized_trait(tab, verbose = FALSE)
+      if(!accepted[i]) cli::cli_alert_warning(paste0("File ", trait_files_short[i], " is not acceptable."))
+    }
+    if(accepted[i]) trait_tables[[i]] <- tab
   }
   names(trait_tables) <- trait_files_short
+  trait_tables <- trait_tables[accepted]
   return(trait_tables)
 }
 
@@ -111,28 +114,27 @@ load_harmonized_allometry_tables <- function(harmonized_allometry_path, check = 
   return(allometry_tables)
 }
 
-#' @param trait_name A string of an accepted trait name
-#' @param output_format A string, either "wide" or "long", specifying trait output format
+#' @param trait_name A string of an accepted trait name, according to \code{\link{HarmonizedTraitDefinition}}.
 #'
 #' @export
 #'
 #' @rdname get_trait_data
 get_trait_data <- function(harmonized_trait_path,
-                           trait_name, output_format = "long",
+                           trait_name,
                            progress = TRUE) {
-  output_format <- match.arg(output_format, c("wide", "long"))
-  if(progress) cli::cli_progress_step("Loading harmonized source trait tables")
+  trait_name <- match.arg(trait_name, traits4models::HarmonizedTraitDefinition$Notation)
   all_tables <- load_harmonized_trait_tables(harmonized_trait_path, check = TRUE, progress = progress)
-  if(progress) cli::cli_progress_step(paste0("Filtering for trait: ", trait_name))
+  if(progress) cli::cli_progress_bar(paste0("Filtering for trait '", trait_name,"'"), total = length(all_tables))
   trait_tables <- vector("list", length(all_tables))
   fixed <- c("originalName", "acceptedName","acceptedNameAuthorship","family",
-             "genus", "specificEpithet","taxonRank", "Units", "Reference", "DOI",
+             "genus", "specificEpithet","taxonRank", "Reference", "DOI",
              "OriginalReference", "OriginalDOI", "Priority", "checkVersion")
   n_tab <- 0
   row <- which(traits4models::HarmonizedTraitDefinition$Notation==trait_name)
   expected_type <- traits4models::HarmonizedTraitDefinition$Type[row]
   expected_unit <- traits4models::HarmonizedTraitDefinition$Units[row]
   for(i in 1:length(all_tables)) {
+    if(progress) cli::cli_progress_update()
     tab <- all_tables[[i]]
     cn <- names(tab)
     format <- "undefined"
@@ -141,19 +143,16 @@ get_trait_data <- function(harmonized_trait_path,
     } else if(all(!(c("Trait", "Value", "Units") %in% cn))) {
       format <- "wide"
     } else {
-      acceptable <- FALSE
-      cli::cli_alert_warning("Trait data should be in either long or wide format (see documentation)")
+      cli::cli_abort("Trait data should be in either long or wide format (see documentation)")
     }
     if(format=="wide") {
       if(trait_name %in% names(tab)) {
         tab <- tab[!is.na(tab[[trait_name]]), ,drop =FALSE]
         tab <- tab[,names(tab)[names(tab) %in% c(fixed, trait_name)]]
-        if(output_format=="long") {
-          tab <- tab |>
-            tidyr::pivot_longer(trait_name, names_to = "Trait", values_to="Value") |>
-            dplyr::mutate(Units = expected_unit) |>
-            dplyr::relocate("Trait", "Value", "Units", .before = "Reference")
-        }
+        tab <- tab |>
+          tidyr::pivot_longer(trait_name, names_to = "Trait", values_to="Value") |>
+          dplyr::mutate(Units = expected_unit) |>
+          dplyr::relocate("Trait", "Value", "Units", .before = "Reference")
         if("checkVersion" %in% names(tab)) {
           tab[["checkVersion"]] <-  as.character(tab[["checkVersion"]])
         }
@@ -163,12 +162,6 @@ get_trait_data <- function(harmonized_trait_path,
     } else if(format == "long") {
       tab <- tab[tab$Trait==trait_name, ,drop =FALSE]
       if(nrow(tab)>0) {
-        if(output_format=="wide") {
-          tab[[trait_name]] <- tab[["Value"]]
-          tab <- tab |>
-            dplyr::select(-c("Trait", "Value", "Units")) |>
-            dplyr::relocate(trait_name, .before = "Reference")
-        }
         if("checkVersion" %in% names(tab)) {
           tab[["checkVersion"]] <-  as.character(tab[["checkVersion"]])
         }
@@ -213,43 +206,44 @@ get_allometry_data <-function(harmonized_allometry_path,
 #' @param accepted_name String of an accepted taxon name.
 #' @rdname get_trait_data
 get_taxon_data<- function(harmonized_trait_path,
-                          accepted_name, output_format = "long", progress = TRUE) {
-  output_format <- match.arg(output_format, c("wide", "long"))
-  if(progress) cli::cli_progress_step("Loading harmonized source trait tables")
+                          accepted_name, progress = TRUE) {
   all_tables <- load_harmonized_trait_tables(harmonized_trait_path, check = TRUE, progress = progress)
-  if(progress) cli::cli_progress_step(paste0("Filtering for taxon: ", accepted_name))
-  taxon_table <- data.frame(Trait = character(0), Value = character(0), Units = character(0), Reference = character(0))
+  if(progress) cli::cli_progress_bar(paste0("Filtering for taxon '", accepted_name,"'"), total = length(all_tables))
+  taxon_table <- data.frame()
   fixed <- c("originalName", "acceptedName","acceptedNameAuthorship","family",
-             "genus", "specificEpithet","taxonRank", "Units", "Reference", "DOI", "OriginalReference", "OriginalDOI", "Priority")
+             "genus", "specificEpithet","taxonRank", "Reference", "DOI",
+             "OriginalReference", "OriginalDOI", "Priority", "checkVersion")
   for(i in 1:length(all_tables)) {
+    if(progress) cli::cli_progress_update()
     tab <- all_tables[[i]] |>
       dplyr::filter(.data$acceptedName == accepted_name)
+    if("checkVersion" %in% names(tab)) {
+      tab[["checkVersion"]] <-  as.character(tab[["checkVersion"]])
+    }
     if(nrow(tab)>0) {
-      traits <- names(tab)
-      traits <- traits[!(traits %in% fixed)]
-      for(trait_name in traits) {
-        if(trait_name %in% HarmonizedTraitDefinition$Notation) {
-          df_i <- data.frame(Trait = rep(trait_name, nrow(tab)),
-                             Value = as.character(tab[[trait_name]]))
-          if("Units" %in% names(tab)) df_i$Units = tab$Units
-          else {
-            unit <- HarmonizedTraitDefinition$Units[HarmonizedTraitDefinition$Notation==trait_name]
-            if(length(unit)==1) df_i$Units <- rep(unit, nrow(tab))
-          }
-          if("Reference" %in% names(tab)) df_i$Reference <- tab$Reference
-          if("DOI" %in% names(tab)) df_i$DOI <- tab$DOI
-          if("OriginalReference" %in% names(tab)) df_i$OriginalReference <- tab$OriginalReference
-          if("OriginalDOI" %in% names(tab)) df_i$OriginalDOI <- tab$OriginalDOI
-          if("Priority" %in% names(tab)) df_i$Priority <- tab$Priority
-          df_i <- df_i[!is.na(df_i$Value), , drop = FALSE]
-          taxon_table <- dplyr::bind_rows(taxon_table, df_i)
-        }
+      cn <- names(tab)
+      format <- "undefined"
+      if(all(c("Trait", "Value", "Units") %in% cn)) {
+        format <- "long"
+      } else if(all(!(c("Trait", "Value", "Units") %in% cn))) {
+        format <- "wide"
+      } else {
+        cli::cli_abort("Trait data should be in either long or wide format (see documentation)")
       }
+      if(format=="wide") {
+        tab <- tab |>
+          tidyr::pivot_longer(cn[!(cn %in% fixed)], names_to = "Trait", values_to="Value",
+                              values_transform = as.character) |>
+          dplyr::mutate(Units = as.character(NA)) |>
+          dplyr::relocate("Trait", "Value", "Units", .after="taxonRank")
+      } else {
+        tab$Value <- as.character(tab$Value)
+      }
+      taxon_table <- dplyr::bind_rows(taxon_table, tab)
     }
   }
-  if(progress) cli::cli_progress_step(paste0("Reordering"))
-  odf <- data.frame(Trait = HarmonizedTraitDefinition$Notation,
-                    Order = 1:nrow(HarmonizedTraitDefinition))
+  odf <- data.frame(Trait = traits4models::HarmonizedTraitDefinition$Notation,
+                    Order = 1:nrow(traits4models::HarmonizedTraitDefinition))
   taxon_table <- taxon_table |>
     dplyr::left_join(odf, by="Trait") |>
     dplyr::arrange(.data$Order) |>
