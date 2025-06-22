@@ -181,7 +181,7 @@ get_trait_data <- function(harmonized_trait_path,
   }
   if(output_format =="wide") {
     trait_table <- trait_table |>
-      dplyr::select(-Units, -Trait)
+      dplyr::select(-c("Units", "Trait"))
     names(trait_table)[names(trait_table)=="Value"] <- trait_name
   }
   if(progress) cli::cli_progress_done()
