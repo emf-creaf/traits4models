@@ -47,14 +47,22 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">load_harmonized_trait_tables</span><span class="op">(</span><span class="va">harmonized_trait_path</span>, progress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">load_harmonized_trait_tables</span><span class="op">(</span></span>
+<span>  <span class="va">harmonized_trait_path</span>,</span>
+<span>  check <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  progress <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">load_harmonized_allometry_tables</span><span class="op">(</span><span class="va">harmonized_allometry_path</span>, progress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu">load_harmonized_allometry_tables</span><span class="op">(</span></span>
+<span>  <span class="va">harmonized_allometry_path</span>,</span>
+<span>  check <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  progress <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">get_trait_data</span><span class="op">(</span></span>
 <span>  <span class="va">harmonized_trait_path</span>,</span>
 <span>  <span class="va">trait_name</span>,</span>
-<span>  is_numeric <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  output_format <span class="op">=</span> <span class="st">"long"</span>,</span>
 <span>  progress <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -71,6 +79,10 @@
 <dd><p>The path to harmonized trait data files (.rds or .csv format).</p></dd>
 
 
+<dt id="arg-check">check<a class="anchor" aria-label="anchor" href="#arg-check"></a></dt>
+<dd><p>A boolean flag to check harmonization and exclude non-acceptable data.</p></dd>
+
+
 <dt id="arg-progress">progress<a class="anchor" aria-label="anchor" href="#arg-progress"></a></dt>
 <dd><p>A boolean flag to prompt progress.</p></dd>
 
@@ -80,11 +92,11 @@
 
 
 <dt id="arg-trait-name">trait_name<a class="anchor" aria-label="anchor" href="#arg-trait-name"></a></dt>
-<dd><p>A string of an accepted trait name</p></dd>
+<dd><p>A string of an accepted trait name, according to <code><a href="HarmonizedTraitDefinition.html">HarmonizedTraitDefinition</a></code>.</p></dd>
 
 
-<dt id="arg-is-numeric">is_numeric<a class="anchor" aria-label="anchor" href="#arg-is-numeric"></a></dt>
-<dd><p>A boolean indicating whether the trait is numeric</p></dd>
+<dt id="arg-output-format">output_format<a class="anchor" aria-label="anchor" href="#arg-output-format"></a></dt>
+<dd><p>Either "long" or "wide", to indicate output format for trait columns.</p></dd>
 
 
 <dt id="arg-response">response<a class="anchor" aria-label="anchor" href="#arg-response"></a></dt>
@@ -99,19 +111,25 @@
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>Function <code>load_harmonized_trait_tables()</code> returns the list with all harmonized trait data tables.</p>
 <p>Function <code>load_harmonized_allometry_tables()</code> returns the list with all harmonized allometry data tables.</p>
-<p>Function <code>get_trait_data()</code> returns a data frame with the pooled information of a single trait.</p>
-<p>Function <code>get_taxon_data()</code> returns a data frame with the pooled information for a given taxon.</p>
+<p>Function <code>get_trait_data()</code> returns a data frame (in long trait format) with the pooled information for a given trait.</p>
+<p>Function <code>get_taxon_data()</code> returns a data frame (in long trait format) with the pooled information for a given taxon.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Both functions will add <code>Priority = 1</code> to those trait data sources where <code>Priority</code> column is not defined.</p>
+    <p>Function <code>load_harmonized_trait_tables()</code> allows loading all kinds of trait data tables, including those that do not pass harmonization check, if <code>check = FALSE</code>.
+In contrast, functions <code>get_trait_data()</code> and <code>get_taxon_data()</code> only return data from data sets passing harmonization checks (see function <code><a href="check_harmonized_trait.html">check_harmonized_trait</a></code>).</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><code><a href="check_harmonized_trait.html">check_harmonized_trait</a></code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span> <span class="co"># List harmonized trait files</span></span></span>
-<span class="r-in"><span> <span class="va">harmonized_trait_path</span> <span class="op">=</span> <span class="st">"~/OneDrive/EMF_datasets/PlantTraitDatabases/Products/harmonized"</span></span></span>
+<span class="r-in"><span> <span class="va">DB_path</span> <span class="op">&lt;-</span> <span class="st">"~/OneDrive/mcaceres_work/model_development/medfate_parameterization/traits_and_models/"</span></span></span>
+<span class="r-in"><span> <span class="va">harmonized_trait_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">DB_path</span>,<span class="st">"data/harmonized_trait_sources"</span><span class="op">)</span></span></span>
 <span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">harmonized_trait_path</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="co"># Load all harmonized trait data</span></span></span>
