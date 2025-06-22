@@ -147,7 +147,7 @@ Function `fill_medfate_traits()` performs trait parameter filling for **medfate*
 
 ```{r}
 SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path, 
-                                              progress = FALSE, verbose = FALSE)
+                                              progress = TRUE, verbose = FALSE)
 ```
 
 Parameter filling sometimes implies translating trait data into the units required for model parameters. The function identifies the row of the species parameter table to modify by matching column `AcceptedName` of `SpParams` with the column `acceptedName` of the harmonized trait data sources. When multiple values of a given species are available, the function takes the median value (for quantitative traits) or the mode (i.e. the most frequent value; for qualitative traits). In addition, data sources of higher priority are processed first. Thus, data sources of lower priority being used for those cases not covered by prioritized sources.

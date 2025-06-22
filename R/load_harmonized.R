@@ -115,13 +115,16 @@ load_harmonized_allometry_tables <- function(harmonized_allometry_path, check = 
 }
 
 #' @param trait_name A string of an accepted trait name, according to \code{\link{HarmonizedTraitDefinition}}.
+#' @param output_format Either "long" or "wide", to indicate output format for trait columns.
 #'
 #' @export
 #'
 #' @rdname get_trait_data
 get_trait_data <- function(harmonized_trait_path,
                            trait_name,
+                           output_format = "long",
                            progress = TRUE) {
+  output_format <- match.arg(output_format, c("long", "wide"))
   trait_name <- match.arg(trait_name, traits4models::HarmonizedTraitDefinition$Notation)
   all_tables <- load_harmonized_trait_tables(harmonized_trait_path, check = TRUE, progress = progress)
   if(progress) cli::cli_progress_bar(paste0("Filtering for trait '", trait_name,"'"), total = length(all_tables))
@@ -175,6 +178,11 @@ get_trait_data <- function(harmonized_trait_path,
       dplyr::arrange(.data$acceptedName)
   } else {
     stop(paste0("Trait data not found for: ", trait_name))
+  }
+  if(output_format =="wide") {
+    trait_table <- trait_table |>
+      dplyr::select(-Units, -Trait)
+    names(trait_table)[names(trait_table)=="Value"] <- trait_name
   }
   if(progress) cli::cli_progress_done()
   return(trait_table)

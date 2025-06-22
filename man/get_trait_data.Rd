@@ -20,7 +20,12 @@ load_harmonized_allometry_tables(
   progress = TRUE
 )
 
-get_trait_data(harmonized_trait_path, trait_name, progress = TRUE)
+get_trait_data(
+  harmonized_trait_path,
+  trait_name,
+  output_format = "long",
+  progress = TRUE
+)
 
 get_allometry_data(harmonized_allometry_path, response, progress = TRUE)
 
@@ -36,6 +41,8 @@ get_taxon_data(harmonized_trait_path, accepted_name, progress = TRUE)
 \item{harmonized_allometry_path}{The path to harmonized allometry data files (.rds or .csv format).}
 
 \item{trait_name}{A string of an accepted trait name, according to \code{\link{HarmonizedTraitDefinition}}.}
+
+\item{output_format}{Either "long" or "wide", to indicate output format for trait columns.}
 
 \item{response}{String indicating a response variable for allometric equations.}
 
