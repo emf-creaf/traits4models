@@ -1,7 +1,7 @@
 Package: traits4models
 Type: Package
 Title: From plant traits to model parameters
-Version: 0.2.1
+Version: 0.2.2
 Authors@R: c(
 	person('Miquel', 'De Cáceres', role=c('aut','cre', 'cph'), email='miquelcaceres@gmail.com', comment = c(ORCID = "0000-0001-7132-2080")),
 	person('Nicolas', 'Martin-StPaul', role='aut', comment = c(ORCID = "0000-0001-7574-0108")),

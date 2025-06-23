@@ -237,14 +237,15 @@ check_harmonized_trait<- function(x, verbose = TRUE) {
 
 #' @export
 #' @param harmonized_trait_path The path to harmonized trait data files (.rds or .csv format).
+#' @param update_version If \code{TRUE} and the package is acceptable, it updates the package version and stores the harmonized file.
 #' @rdname check_harmonized_trait
-check_harmonized_trait_dir<- function(harmonized_trait_path, verbose = TRUE) {
+check_harmonized_trait_dir<- function(harmonized_trait_path, update_version = FALSE, verbose = TRUE) {
   fn_full <- list.files(harmonized_trait_path, full.names = TRUE)
   fn <- list.files(harmonized_trait_path)
   accepted <- rep(NA, length(fn))
   if(verbose) cli::cli_h1(paste0("Checking ", length(fn), " harmonized trait files"))
   for(i in 1:length(fn)) {
-    if(verbose) cli::cli_bullets(fn[i])
+    if(verbose) cli::cli_li(fn[i])
     if(endsWith(fn[i], ".rds")) {
       tab <- readRDS(fn_full[i])
     } else if(endsWith(fn[i], ".csv")) {
@@ -252,6 +253,16 @@ check_harmonized_trait_dir<- function(harmonized_trait_path, verbose = TRUE) {
     }
     accepted[i] <- traits4models::check_harmonized_trait(tab, verbose = verbose)
     if(!accepted[i]) cli::cli_alert_warning(paste0("File ", fn[i], " is not acceptable."))
+    if(accepted[i] && update_version) {
+      tab <- tab |>
+        dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+      if(endsWith(fn[i], ".rds")) {
+        saveRDS(tab, file = fn_full[i])
+      } else if(endsWith(fn[i], ".csv")) {
+        write.csv2(tab, file = fn_full[i])
+      }
+      cli::cli_alert_success(paste0("Package version updated to '",as.character(packageVersion("traits4models")),"'."))
+    }
   }
   return(invisible(accepted))
 }

@@ -1,3 +1,7 @@
+# traits4models 0.2.2
+* New function 'get_taxon_trait_means()' to estimate trait mean/mode values for taxa
+* Function 'check_harmonized_trait_dir()' can now update the package version in harmonized files
+
 # traits4models 0.2.1
 * New columns 'OriginalReference' and 'OriginalDOI' now possible in harmonized trait data
 * Functions get_trait_data() and get_taxon_data() now return 'OriginalReference' and 'OriginalDOI' if available 

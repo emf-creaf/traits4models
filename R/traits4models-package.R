@@ -36,7 +36,7 @@
 #' @importFrom stats family quantile
 #' @importFrom readr read_delim
 #' @importFrom tibble tibble as_tibble
-#' @importFrom utils data read.csv2
+#' @importFrom utils data read.csv2 write.csv2 packageVersion
 #' @importFrom WorldFlora WFO.match WFO.one
 ## usethis namespace: end
 NULL

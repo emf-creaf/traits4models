@@ -9,7 +9,11 @@
 \usage{
 check_harmonized_trait(x, verbose = TRUE)
 
-check_harmonized_trait_dir(harmonized_trait_path, verbose = TRUE)
+check_harmonized_trait_dir(
+  harmonized_trait_path,
+  update_version = FALSE,
+  verbose = TRUE
+)
 
 check_harmonized_allometry(x, verbose = TRUE)
 
@@ -21,6 +25,8 @@ check_harmonized_allometry_dir(harmonized_allometry_path, verbose = TRUE)
 \item{verbose}{A logical flag indicating extra console output (information alerts and check success). If \code{FALSE}, only errors are reported.}
 
 \item{harmonized_trait_path}{The path to harmonized trait data files (.rds or .csv format).}
+
+\item{update_version}{If \code{TRUE} and the package is acceptable, it updates the package version and stores the harmonized file.}
 
 \item{harmonized_allometry_path}{The path to harmonized allometry data files (.rds or .csv format).}
 }

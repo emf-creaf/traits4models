@@ -32,7 +32,9 @@ test_that("harmonization checks are ok",{
 test_that("harmonized data can be loaded",{
   testthat::skip_on_cran()
   testthat::skip_on_ci()
-  expect_s3_class(get_trait_data(harmonized_trait_path, "Al2As"), "data.frame")
-  expect_s3_class(get_taxon_data(harmonized_trait_path, "Pinus halepensis"), "data.frame")
-  expect_s3_class(get_allometry_data(harmonized_allometry_path, "FoliarBiomass"), "data.frame")
+  expect_s3_class(get_trait_data(harmonized_trait_path, "Al2As", progress = FALSE), "data.frame")
+  expect_s3_class(get_taxon_data(harmonized_trait_path, "Pinus halepensis", progress = FALSE), "data.frame")
+  expect_s3_class(get_taxon_trait_means(harmonized_trait_path, c("SLA", "Gswmax"), taxon_level = "family", progress = FALSE), "data.frame")
+  expect_s3_class(get_taxon_trait_means(harmonized_trait_path, c("LifeForm"), taxon_level = "family", progress = FALSE), "data.frame")
+  expect_s3_class(get_allometry_data(harmonized_allometry_path, "FoliarBiomass", progress = FALSE), "data.frame")
 })
