@@ -8,9 +8,40 @@ HarmonizedTraitDefinition$Type <- stringi::stri_enc_toascii(HarmonizedTraitDefin
 HarmonizedTraitDefinition$Units <- stringi::stri_enc_toascii(HarmonizedTraitDefinition$Units)
 usethis::use_data(HarmonizedTraitDefinition, overwrite = TRUE)
 
+#
+# # Family data -------------------------------------------------------------
+# DB_path <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/traits_and_models/data-raw/"
+# WFO_file <- paste0(DB_path, "wfo_backbone/classification.csv")
+# classification  <- readr::read_delim(file = WFO_file,
+#                                      delim = "\t", escape_double = FALSE,
+#                                      trim_ws = TRUE)|> tibble::tibble()
+# families <- classification$scientificName[classification$taxonRank=="family"]
+# fam_data <- data.frame(Family = families, Order = NA, Group = NA)
+# id_df<-taxize::get_gbifid_(families, messages = TRUE)
+# for(i in 1:nrow(fam_data)) {
+#   if(nrow(id_df[[i]])>0 && "order" %in% names(id_df[[i]])) {
+#     ord <- id_df[[i]]$order[1]
+#     if(!is.na(ord)) {
+#       fam_data$Order[i] <- ord
+#       if(fam_data$Order[i] %in% c("Ginkgoales", "Pinales", "Welwitschiales", "Ephedrales")) {
+#         fam_data$Group[i] = "Gymnosperm"
+#       } else {
+#         fam_data$Group[i] = "Angiosperm"
+#       }
+#     }
+#   }
+# }
+# fam_data <- fam_data |> dplyr::distinct()
+# usethis::use_data(fam_data, internal = TRUE, overwrite = TRUE)
+
+
 
 MFWdir <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/"
 NFIparamDir <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/NFIs_parametrization/"
+
+
+# Generate SpParams -------------------------------------------------------
+targets::tar_make()
 
 # SpParamsES, SpParamsUS, SpParamsFR, SpParamsAU --------------------------------------
 SpParamsES <- readRDS(paste0(NFIparamDir, "data/es/SpParams_final_es.rds"))
@@ -45,39 +76,3 @@ SpParamsUS <- readRDS(paste0(NFIparamDir, "data/us/SpParams_final_us.rds"))
 usethis::use_data(SpParamsUS, overwrite = T)
 SpParamsAU <- readRDS(paste0(NFIparamDir, "data/au/SpParams_final_au.rds"))
 usethis::use_data(SpParamsAU, overwrite = T)
-
-# Species mapping table
-# IFN_species_mapping <- read.table("data-raw/IFN_species_mapping.csv", sep="\t", header=TRUE)
-# # IFN_species_mapping$Name[IFN_species_mapping$Name == "Arbutus unedo "] <- "Arbutus unedo"
-# usethis::use_data(IFN_species_mapping, overwrite = T)
-#
-# NFI_SP_mapping <- read.table("data-raw/NFI_SP_mapping.csv", sep=";", header=TRUE, na.strings = "") |>
-#   tibble::as_tibble()
-# NFI_SP_mapping$NFICode <- as.character(NFI_SP_mapping$NFICode)
-# usethis::use_data(NFI_SP_mapping, overwrite = T, internal = TRUE)
-
-
-# Family data
-DB_path <- "~/OneDrive/EMF_datasets/PlantTraitDatabases/"
-WFO_file <- paste0(DB_path, "WFO_Backbone/classification.csv")
-classification  <- readr::read_delim(file = WFO_file,
-                                     delim = "\t", escape_double = FALSE,
-                                     trim_ws = TRUE)|> tibble::tibble()
-families <- classification$scientificName[classification$taxonRank=="family"]
-fam_data <- data.frame(Family = families, Order = NA, Group = NA)
-id_df<-taxize::get_gbifid_(families, messages = TRUE)
-for(i in 1:nrow(fam_data)) {
-  if(nrow(id_df[[i]])>0 && "order" %in% names(id_df[[i]])) {
-    ord <- id_df[[i]]$order[1]
-    if(!is.na(ord)) {
-      fam_data$Order[i] <- ord
-      if(fam_data$Order[i] %in% c("Ginkgoales", "Pinales", "Welwitschiales", "Ephedrales")) {
-        fam_data$Group[i] = "Gymnosperm"
-      } else {
-        fam_data$Group[i] = "Angiosperm"
-      }
-    }
-  }
-}
-fam_data <- fam_data |> dplyr::distinct()
-usethis::use_data(fam_data, internal = TRUE, overwrite = TRUE)
