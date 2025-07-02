@@ -22,12 +22,13 @@ with national forest inventory data.
 \code{SpParamsES}, \code{SpParamsFR},  \code{SpParamsAU}, \code{SpParamsUS} and \code{SpParamsZM} are species parameter data frames designed to be used with National Forest Inventories
 of Spain, France, Australia and USA, respectively.
 
-Details of the procedures used to obtain the species parameter tables can be found in an article at https://emf-creaf.github.io/medfate/.
+Details of the procedures used to obtain the species parameter tables can be found in an article at https://emf-creaf.github.io/traits4models/.
 }
 \examples{
 data(SpParamsES)
 data(SpParamsFR)
 data(SpParamsUS)
 data(SpParamsAU)
+data(SpParamsZM)
 }
 \keyword{data}
