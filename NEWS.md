@@ -1,3 +1,6 @@
+# traits4models 0.2.3
+* SpParamsZM added for Zambia
+
 # traits4models 0.2.2
 * New function 'get_taxon_trait_means()' to estimate trait mean/mode values for taxa
 * Function 'check_harmonized_trait_dir()' can now update the package version in harmonized files

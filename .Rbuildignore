@@ -9,3 +9,5 @@
 ^pkgdown/*$
 metadata.yml
 featured.png
+_targets/
+_targets.R

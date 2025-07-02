@@ -11,7 +11,7 @@ library(tidyr)
 # Set target options:
 tar_option_set(
   packages = c("traits4models", "readxl", "dplyr", "cli", "readr", "sf"),
-  controller = crew::crew_controller_local(workers = 2)
+  controller = crew::crew_controller_local(workers = 3)
 )
 
 # Run the R scripts in the R/ folder with your custom functions:
@@ -44,56 +44,55 @@ list(
     name = allometry_database_list,
     command = list.files(harmonized_allometry_path, full.names = TRUE),
     format = "file"
+  ),
+  tar_target(
+    name = SpParamsES,
+    command = spp_params_es(trait_database_list,
+                            allometry_database_list,
+                            rebuild_species_list,
+                            WFO_path,
+                            harmonized_trait_path,
+                            harmonized_allometry_path),
+    format = "file"
+  ),
+  tar_target(
+    name = SpParamsFR,
+    command = spp_params_fr(trait_database_list,
+                            allometry_database_list,
+                            rebuild_species_list,
+                            WFO_path,
+                            harmonized_trait_path,
+                            harmonized_allometry_path),
+    format = "file"
+  ),
+  tar_target(
+    name = SpParamsUS,
+    command = spp_params_us(trait_database_list,
+                            allometry_database_list,
+                            rebuild_species_list,
+                            WFO_path,
+                            harmonized_trait_path,
+                            harmonized_allometry_path),
+    format = "file"
+  ),
+  tar_target(
+    name = SpParamsAU,
+    command = spp_params_au(trait_database_list,
+                            allometry_database_list,
+                            rebuild_species_list,
+                            WFO_path,
+                            harmonized_trait_path,
+                            harmonized_allometry_path),
+    format = "file"
+  ),
+  tar_target(
+    name = SpParamsZM,
+    command = spp_params_zm(trait_database_list,
+                            allometry_database_list,
+                            rebuild_species_list,
+                            WFO_path,
+                            harmonized_trait_path,
+                            harmonized_allometry_path),
+    format = "file"
   )
-
-  # tar_target(
-  #   name = SpParamsES,
-  #   command = spp_params_es(trait_database_list,
-  #                           allometry_database_list,
-  #                           rebuild_species_list,
-  #                           WFO_path,
-  #                           harmonized_trait_path,
-  #                           harmonized_allometry_path),
-  #   format = "file"
-  # ),
-  # tar_target(
-  #   name = SpParamsFR,
-  #   command = spp_params_fr(trait_database_list,
-  #                           allometry_database_list,
-  #                           rebuild_species_list,
-  #                           WFO_path,
-  #                           harmonized_trait_path,
-  #                           harmonized_allometry_path),
-  #   format = "file"
-  # ),
-  # tar_target(
-  #   name = SpParamsUS,
-  #   command = spp_params_us(trait_database_list,
-  #                           allometry_database_list,
-  #                           rebuild_species_list,
-  #                           WFO_path,
-  #                           harmonized_trait_path,
-  #                           harmonized_allometry_path),
-  #   format = "file"
-  # ),
-  # tar_target(
-  #   name = SpParamsAU,
-  #   command = spp_params_au(trait_database_list,
-  #                           allometry_database_list,
-  #                           rebuild_species_list,
-  #                           WFO_path,
-  #                           harmonized_trait_path,
-  #                           harmonized_allometry_path),
-  #   format = "file"
-  # ),
-  # tar_target(
-  #   name = SpParamsZM,
-  #   command = spp_params_zm(trait_database_list,
-  #                           allometry_database_list,
-  #                           rebuild_species_list,
-  #                           WFO_path,
-  #                           harmonized_trait_path,
-  #                           harmonized_allometry_path),
-  #   format = "file"
-  # )
 )

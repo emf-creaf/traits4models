@@ -6,16 +6,16 @@ spp_params_us<-function(trait_database_list,
                         harmonized_allometry_path) {
   country_code <- "us"
   FIA_path <- "~/OneDrive/EMF_datasets/ForestInventories/FIA_forestables/Sources/"
-  
+
   if(rebuild_species_list) {
     cli::cli_h2("Building species list")
-    # Read taxonomic reference 
+    # Read taxonomic reference
     REF_PLANT_DICTIONARY<-readr::read_csv(paste0(FIA_path,"REF_PLANT_DICTIONARY.csv"))
-    
-    # Read species codes 
+
+    # Read species codes
     fia_ref_species<-readr::read_csv(paste0(FIA_path,"REF_SPECIES.csv"))
-    
-    # Use taxonomic reference to fill data 
+
+    # Use taxonomic reference to fill data
     spp_us_df<-fia_ref_species |>
       dplyr::mutate(
         SP_NAME = paste0(
@@ -23,7 +23,7 @@ spp_params_us<-function(trait_database_list,
           ifelse(!is.na(SPECIES) & SPECIES != 0, paste0(" ",SPECIES), ""),
           ifelse(!is.na(SUBSPECIES ) & SUBSPECIES  != 0, paste0(" ssp. ", SUBSPECIES ), ""),
           ifelse(!is.na(VARIETY ) & VARIETY  != 0, paste0(" var. ", VARIETY), ""), "")
-      ) |> 
+      ) |>
       dplyr::select(SPCD, SPECIES_SYMBOL, SP_NAME) |>
       dplyr::left_join(REF_PLANT_DICTIONARY[,c("SYMBOL", "SCIENTIFIC_NAME", "GENERA_BINOMIAL_AUTHOR")], by = c("SPECIES_SYMBOL" = "SYMBOL")) |>
       dplyr::select(-SPECIES_SYMBOL) |>
@@ -31,34 +31,29 @@ spp_params_us<-function(trait_database_list,
                     NFIName = SP_NAME,
                     originalName = SCIENTIFIC_NAME,
                     originalNameAuthorship = GENERA_BINOMIAL_AUTHOR)|>
-      dplyr::arrange(NFIName) 
+      dplyr::arrange(NFIName)
     spp_us_df$originalName[is.na(spp_us_df$originalName)] <- spp_us_df$NFIName[is.na(spp_us_df$originalName)]
     spp_us_df$originalName[spp_us_df$originalName == "Tree broadleaf"] <- NA
     spp_us_df$originalName[spp_us_df$originalName == "Tree evergreen"] <- NA
     spp_us_df$originalName[spp_us_df$originalName == "Tree unknown"] <- NA
-    saveRDS(spp_us_df, file = "data/us/spp_us_df.rds")
     rm(REF_PLANT_DICTIONARY)
     gc()
-    
-    # Perform harmonization with World Flora Online 
+
+    # Perform harmonization with World Flora Online
     spp_us_df_complete <- traits4models::harmonize_taxonomy_WFO(spp_us_df, fs::path(WFO_path, "WFO_Backbone/classification.csv"))
-    saveRDS(spp_us_df_complete, file = "data/us/spp_us_df_complete.rds")
-    write.table(spp_us_df_complete, "data/us/NFI_US_mapping.csv", sep=";", na = "",
-                row.names = FALSE)
-    
+    saveRDS(spp_us_df_complete, file = "data-raw/spp_us_df_complete.rds")
   }
-  
+
   # SpParams initialization -------------------------------------------------
   cli::cli_h2("SpParamsUS initialisation")
-  spp_us_df_complete <- readRDS("data/us/spp_us_df_complete.rds")
+  spp_us_df_complete <- readRDS("data-raw/spp_us_df_complete.rds")
   spp_filt <- spp_us_df_complete |>
     dplyr::select(-originalNameAuthorship, -acceptedNameAuthorship, -NFICode, -NFIName) |>
-    dplyr::distinct() 
+    dplyr::distinct()
   SpParams <- traits4models::init_medfate_params(spp_filt,
-                                                 complete_rows = TRUE, 
+                                                 complete_rows = TRUE,
                                                  verbose = FALSE)
-  saveRDS(SpParams, file = "data/us/SpParams_init_us.rds")
-  
+
   # Filling structural parameters from inventory data -----------------------
   # files <- list.files("~/OneDrive/mcaceres_work/model_initialisation/medfate_initialisation/IFN/Products/SpParamsES/IFN3/soilmod/", full.names = TRUE)
   # sf_list <- vector("list", length(files))
@@ -67,31 +62,23 @@ spp_params_us<-function(trait_database_list,
   # }
   # sf_IFN3 <- dplyr::bind_rows(sf_list)
   # SpParams <- readRDS(file = paste0("data/", country_code,"/SpParams_init_",country_code,".rds"))
-  # SpParams<- traits4models::fill_medfate_inventory_traits(SpParams, sf_IFN3, 
+  # SpParams<- traits4models::fill_medfate_inventory_traits(SpParams, sf_IFN3,
   #                                                         progress = TRUE)
-  saveRDS(SpParams, file = paste0("data/", country_code,"/SpParams_struct_", country_code,".rds"))
-  
+
   # Fill allometries from databases -----------------------------------------
   cli::cli_h2("SpParamsUS filling parameters from harmonized allometries")
-  SpParams <- readRDS(file = paste0("data/", country_code,"/SpParams_struct_",country_code,".rds"))
   SpParams<- traits4models::fill_medfate_allometries(SpParams, harmonized_allometry_path, verbose = FALSE, replace_previous = FALSE)
-  saveRDS(SpParams, file = paste0("data/", country_code,"/SpParams_allom_", country_code,".rds"))
-  
+
   # Fill params from traits -------------------------------------------------
   cli::cli_h2("SpParamsUS filling parameters from harmonized traits")
-  SpParams <- readRDS(file = paste0("data/", country_code,"/SpParams_allom_",country_code,".rds"))
   SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path, verbose = FALSE, replace_previous = FALSE, erase_previous = FALSE)
-  saveRDS(SpParams, file = paste0("data/", country_code,"/SpParams_filled_", country_code,".rds"))
-  
+
   # Complete strict (for taxa) -------------------------------------------------------
   cli::cli_h2("SpParamsUS completing strict")
-  SpParams <- readRDS(file = paste0("data/", country_code,"/SpParams_filled_",country_code,".rds"))
   SpParams <- traits4models::complete_medfate_strict(SpParams)
-  saveRDS(SpParams, file = paste0("data/", country_code,"/SpParams_strict_", country_code,".rds"))
-  
+
   # Complete strict for non-taxa or delete them -------------------------------------------------------
   cli::cli_h2("Cleaning and checking")
-  SpParams <- readRDS(file = paste0("data/", country_code,"/SpParams_strict_",country_code,".rds"))
   SpParams <- SpParams|>
     dplyr::filter(!is.na(Name))
   mis_strict <- traits4models::check_medfate_params(SpParams)
@@ -129,11 +116,13 @@ spp_params_us<-function(trait_database_list,
   SpParams[SpParams$Name == "Salix x sepulcralis",-c(1:4)] <- SpParams[SpParams$Name == "Salix",-c(1:4)]
   SpParams[SpParams$Name == "Scaevola x cerasifolia",-c(1:4)] <- SpParams[SpParams$Name == "Scaevola",-c(1:4)]
   SpParams<- SpParams[!mis_strict$Family,]
+
   mis_strict<-traits4models::check_medfate_params(SpParams)
   out_file <- NULL
   if(sum(as.matrix(mis_strict))==0) {
-    out_file <- paste0("data/", country_code,"/SpParams_final_",country_code,".rds")
-    saveRDS(SpParams, file = out_file)
+    out_file <- paste0("data/SpParamsUS.rda")
+    SpParamsUS <- SpParams
+    usethis::use_data(SpParamsUS, overwrite = TRUE)
   } else {
     cli::cli_abort("Not acceptable!")
   }
