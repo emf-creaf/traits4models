@@ -6,10 +6,11 @@
 \alias{SpParamsFR}
 \alias{SpParamsUS}
 \alias{SpParamsAU}
+\alias{SpParamsZM}
 \title{Data tables with species parameter definition and values for different countries}
 \format{
 \itemize{
-  \item{Data frames \code{SpParamsES} (for Spain), \code{SpParamsFR} (for France), \code{SpParamsAU} (for Australia) and \code{SpParamsUS} (for US) have species or genus as rows and column names equal to parameter names
+  \item{Data frames \code{SpParamsES} (for Spain), \code{SpParamsFR} (for France), \code{SpParamsAU} (for Australia), \code{SpParamsUS} (for US) and \code{SpParamsZM} (for Zambia) have species or genus as rows and column names equal to parameter names
   in \code{SpParamsDefinition} (the latter from package \code{medfate}).}
 }
 }
@@ -18,7 +19,7 @@ A data sets of species parameter tables resulting from existing databases to be 
 with national forest inventory data.
 }
 \details{
-\code{SpParamsES}, \code{SpParamsFR},  \code{SpParamsAU} and \code{SpParamsUS} are species parameter data frames designed to be used with National Forest Inventories
+\code{SpParamsES}, \code{SpParamsFR},  \code{SpParamsAU}, \code{SpParamsUS} and \code{SpParamsZM} are species parameter data frames designed to be used with National Forest Inventories
 of Spain, France, Australia and USA, respectively.
 
 Details of the procedures used to obtain the species parameter tables can be found in an article at https://emf-creaf.github.io/medfate/.

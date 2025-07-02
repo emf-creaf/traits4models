@@ -37,3 +37,5 @@ usethis::use_data(fam_data, internal = TRUE, overwrite = TRUE)
 # SpParamsES, SpParamsUS, SpParamsFR, SpParamsAU, SpParamsZM ------------------------------------
 targets::tar_make()
 
+rm(list = ls())
+gc()
