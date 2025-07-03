@@ -17,7 +17,11 @@ check_harmonized_trait_dir(
 
 check_harmonized_allometry(x, verbose = TRUE)
 
-check_harmonized_allometry_dir(harmonized_allometry_path, verbose = TRUE)
+check_harmonized_allometry_dir(
+  harmonized_allometry_path,
+  update_version = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{x}{A data frame with harmonized trait data or harmonized allometry data.}

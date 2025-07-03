@@ -124,7 +124,7 @@ Species matching is performed between column `Species` of the tree or shrub data
 As mentioned in the introduction, here it is assumed that a set of plant allometry databases have been harmonized. In our case, harmonized data files have been stored as **.rds** or **.csv** files in the following path:
 
 ```{r}
-harmonized_allometry_path = "~/OneDrive/EMF_datasets/AllometryDatabases/Products/harmonized"
+harmonized_allometry_path <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/traits_and_models/data/harmonized_allometry_sources"
 ```
 
 Function `fill_medfate_allometries()` performs trait parameter filling for **medfate** using the available data:

@@ -259,7 +259,7 @@ check_harmonized_trait_dir<- function(harmonized_trait_path, update_version = FA
       if(endsWith(fn[i], ".rds")) {
         saveRDS(tab, file = fn_full[i])
       } else if(endsWith(fn[i], ".csv")) {
-        write.csv2(tab, file = fn_full[i])
+        write.csv2(tab, file = fn_full[i], row.names = FALSE)
       }
       cli::cli_alert_success(paste0("Package version updated to '",as.character(packageVersion("traits4models")),"'."))
     }
@@ -289,10 +289,13 @@ check_harmonized_allometry<- function(x, verbose = TRUE) {
   if(!("Priority" %in% cn)) {
     if(verbose) cli::cli_alert_info("Column 'Priority' should preferably be defined.")
   }
+  if(!("checkVersion" %in% cn)) {
+    if(verbose) cli::cli_alert_info("Column 'checkVersion' should preferably be defined.")
+  }
   if(!("ResponseDescription" %in% cn)) {
     if(verbose) cli::cli_alert_info("Column 'ResponseDescription' should preferably be defined.")
   }
-  other <- cn[!(cn %in% c(fixed, "Reference", "DOI", "Priority", "ResponseDescription"))]
+  other <- cn[!(cn %in% c(fixed, "Reference", "DOI", "Priority", "checkVersion","ResponseDescription"))]
   for(col in other) {
     if(!(col %in% c("Predictor1", "Predictor2", "Predictor3", "Predictor4", "Predictor5",
                     "PredictorDescription1", "PredictorDescription2","PredictorDescription3", "PredictorDescription4", "PredictorDescription5",
@@ -323,7 +326,7 @@ check_harmonized_allometry<- function(x, verbose = TRUE) {
 #' @export
 #' @param harmonized_allometry_path The path to harmonized allometry data files (.rds or .csv format).
 #' @rdname check_harmonized_trait
-check_harmonized_allometry_dir<- function(harmonized_allometry_path, verbose = TRUE) {
+check_harmonized_allometry_dir<- function(harmonized_allometry_path, update_version = FALSE, verbose = TRUE) {
   fn_full <- list.files(harmonized_allometry_path, full.names = TRUE)
   fn <- list.files(harmonized_allometry_path)
   accepted <- rep(NA, length(fn))
@@ -337,6 +340,16 @@ check_harmonized_allometry_dir<- function(harmonized_allometry_path, verbose = T
     }
     accepted[i] <- traits4models::check_harmonized_allometry(tab, verbose = verbose)
     if(!accepted[i]) cli::cli_alert_warning(paste0("File ", fn[i], " is not acceptable."))
+    if(accepted[i] && update_version) {
+      tab <- tab |>
+        dplyr::mutate(checkVersion = as.character(packageVersion("traits4models")))
+      if(endsWith(fn[i], ".rds")) {
+        saveRDS(tab, file = fn_full[i])
+      } else if(endsWith(fn[i], ".csv")) {
+        write.csv2(tab, file = fn_full[i], row.names = FALSE)
+      }
+      cli::cli_alert_success(paste0("Package version updated to '",as.character(packageVersion("traits4models")),"'."))
+    }
   }
   return(invisible(accepted))
 }
