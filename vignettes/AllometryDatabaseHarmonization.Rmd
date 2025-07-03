@@ -36,8 +36,8 @@ library(readr)
 As an example of allometric equations, we will use a small compilation of crown width models, from different sources, that depend on diameter at breast height:
 
 ```{r, message=FALSE}
-DB_path <- "~/OneDrive/EMF_datasets/AllometryDatabases/"
-db <- openxlsx::read.xlsx(paste0(DB_path, "Sources/TreeAllometries/TreeAllometries.xlsx"),
+DB_path <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/traits_and_models/"
+db <- openxlsx::read.xlsx(paste0(DB_path, "data-raw/raw_allometry_data/TreeAllometries/TreeAllometries.xlsx"),
                                  sheet= "Tree_CW_models")
 ```
 
@@ -93,7 +93,7 @@ db_var
 Package **traits4models** currently relies on [World Flora Online](https://www.worldfloraonline.org/) for taxonomic harmonization, via package **WorldFlora** [@kindt_worldflora_2020] available at [CRAN](https://cran.r-project.org/package=WorldFlora). This latter package requires a static copy of the World Flora Online Taxonomic Backbone data that can be downloaded from the [World Flora Online](https://www.worldfloraonline.org/) website. Note that you should use a different DOI reference when reporting your harmonization procedures. We are using here [v.2024.06](https://doi.org/10.5281/zenodo.7460141). We assume the user has already downloaded the backbone and stored it in a file called *classification.csv*. 
 
 ```{r}
-WFO_file <- paste0("~/OneDrive/mcaceres_work/model_development/medfate_parameterization/traits_and_models/", 
+WFO_file <- paste0(DB_path, 
                    "data-raw/wfo_backbone/classification.csv")
 ```
 
@@ -132,9 +132,10 @@ check_harmonized_allometry(db_var)
 Harmonized data tables can be stored in **.csv** text format or compressed **.rds** format. 
 
 ```{r, eval = FALSE}
-write.csv2(db_post, "Products/harmonized/tree_crown_width_europe.csv", row.names = FALSE)
+file_out <- paste0(DB_path, "data/harmonized_allometry_sources/tree_crown_width_europe.csv")
+write.csv2(db_post, file_out, row.names = FALSE)
 ```
-Note that all tables should be stored in the same directory, here in the `Products/harmonized/` path, for populate model parameters.
+Note that all tables should be stored in the same directory, here in the `data/harmonized_allometry_sources/` path, for populate model parameters.
 
 ## Accessing harmonized allometry data
 
@@ -143,7 +144,7 @@ Note that all tables should be stored in the same directory, here in the `Produc
 As mentioned in the introduction, here it is assumed that a set of plant allometry databases have been harmonized. In our case, harmonized data files have been stored in the following path:
 
 ```{r}
-harmonized_allometry_path = "~/OneDrive/EMF_datasets/AllometryDatabases/Products/harmonized"
+harmonized_allometry_path <- paste0(DB_path, "data/harmonized_allometry_sources")
 ```
 
 We can list the set of harmonized sources using:

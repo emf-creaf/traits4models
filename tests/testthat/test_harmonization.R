@@ -1,6 +1,6 @@
 DB_path <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/traits_and_models/"
 harmonized_trait_path <- paste0(DB_path,"data/harmonized_trait_sources")
-harmonized_allometry_path = "~/OneDrive/EMF_datasets/AllometryDatabases/Products/harmonized"
+harmonized_allometry_path <- paste0(DB_path,"data/harmonized_allometry_sources")
 WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 test_that("trait taxonomic harmonization can be done", {

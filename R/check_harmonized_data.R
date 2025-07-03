@@ -292,7 +292,7 @@ check_harmonized_allometry<- function(x, verbose = TRUE) {
   if(!("ResponseDescription" %in% cn)) {
     if(verbose) cli::cli_alert_info("Column 'ResponseDescription' should preferably be defined.")
   }
-  other <- cn[!(cn %in% c(fixed, "Reference", "Priority", "ResponseDescription"))]
+  other <- cn[!(cn %in% c(fixed, "Reference", "DOI", "Priority", "ResponseDescription"))]
   for(col in other) {
     if(!(col %in% c("Predictor1", "Predictor2", "Predictor3", "Predictor4", "Predictor5",
                     "PredictorDescription1", "PredictorDescription2","PredictorDescription3", "PredictorDescription4", "PredictorDescription5",
