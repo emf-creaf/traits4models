@@ -108,6 +108,28 @@ spp_params_es <- function(trait_database_list,
   cli::cli_h2("SpParamsES filling parameters from harmonized traits")
   SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path, verbose = FALSE, replace_previous = FALSE, erase_previous = FALSE)
 
+  # Fixing growth forms
+  shrubs <- c("Ampelodesmos", "Anthyllis", "Anagyris spp.", "Artemisia campestris", "Asparagus acutifolius",
+              "Calicotome spp.", "Cistus psilosepalus", "Erica erigena", "Genista baetica", "Globularia",
+              "Halimium atriplicifolium", "Halimium commutatum", "Helichrysum spp.", "Kleinia",
+              "Launaea", "Lithodora spp.", "Matorral en mosaico", "Medicago", "Pastizal-Matorral en mosaico",
+              "Periploca laevigata", "Rosmarinus", "Rosmarinus tomentosus", "Ruscus", "Rumex", "Ruscus hypophyllum",
+              "Sideritis spp.", "Ulex canescens", "Vaccinium spp.", "Vitis vinifera", "Withania frutescens")
+  tree <- c("Amelanchier", "Cedrus spp.", "Cupressus spp.", "Dracaena", "Fraxinus spp.",
+            "Larix x eurolepis", "Laurisilva", "Mezcla de árboles de ribera", "Mezcla de coníferas",
+            "Mezcla de frondosas de gran porte", "Mezcla de pequeñas frondosas", "Myrica rivas-martinezii",
+            "Otras coníferas", "Otros árboles ripícolas")
+  tree_shrubs <- c("Chamaerops", "Chamaerops humilis", "Crataegus monogyna", "Crataegus spp.", "Corylus avellana", "Erica spp.", "Flueggea", "Flueggea tinctoria",
+                   "Juniperus communis ssp. alpina", "Juniperus communis", "Juniperus oxycedrus", "Juniperus cedrus",
+                   "Juniperus phoenicea", "Juniperus spp.", "Lonicera xylosteum", "Maytenus canariensis", "Maytenus senegalensis",
+                   "Mirtus", "Mirtus communis", "Olea europaea",  "Pinus halepensis", "Pinus nigra", "Paliurus", "Paliurus spina-christi", "Phillyrea latifolia",
+                   "Pistacia lentiscus", "Pistacia terebinthus", "Prunus mahaleb", "Prunus spinosa", "Prunus spp.", "Quercus coccifera", "Quercus ilex", "Quercus ilex spp. ilex",
+                   "Quercus ilex spp. ballota","Quercus faginea", "Rhamnus alaternus", "Rhamnus spp.", "Sambucus nigra", "Sambucus spp.", "Sambucus racemosa",
+                   "Ziziphus", "Ziziphus lotus", "Buxus", "Buxus sempervirens", "Buxus balearica", "Salix atrocinerea")
+  SpParams$GrowthForm[SpParams$Name %in% tree] <- "Tree"
+  SpParams$GrowthForm[SpParams$Name %in% shrubs] <- "Shrub"
+  SpParams$GrowthForm[SpParams$Name %in% tree_shrubs] <- "Tree/Shrub"
+  # View(SpParams[,c("Name", "GrowthForm")])
 
   # Complete strict (for taxa) -------------------------------------------------------
   cli::cli_h2("SpParamsES completing strict")
