@@ -75,18 +75,19 @@ The relationships between the five packages are illustrated in the
 figure below, where black arrows indicate package dependencies and gray
 arrows indicate model parameter or data provision.
 
-<img src="man/figures/packages.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/packages.png" alt="" width="80%" style="display: block; margin: auto;" />
 
 ## Authorship
 
-The set of R packages are developed and maintained by the [*Ecosystem
+Package **traits4models** is developed and maintained by the [*Ecosystem
 Modelling Facility*](https://emf.creaf.cat) unit at
-[*CREAF*](https://www.creaf.cat/) (in Spain), in close collaboration
-with researchers from
+[*CREAF*](https://www.creaf.cat/) with funding from
+[*CSIC*](https://www.csic.es/), in close collaboration with researchers
+from other institutions such as
 [*URFM-INRAE*](https://www6.paca.inrae.fr/ecologie_des_forets_mediterraneennes/)
-(in France) and [*CTFC*](https://www.ctfc.cat/) (in Spain).
+and [*CTFC*](https://www.ctfc.cat/).
 
-<img src="man/figures/institution_logos.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/institution_logos.png" alt="" width="80%" style="display: block; margin: auto;" />
 
 ## Funding
 
