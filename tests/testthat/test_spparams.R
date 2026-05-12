@@ -1,6 +1,5 @@
 DB_path <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/traits_and_models/"
 harmonized_trait_path <- paste0(DB_path,"data/harmonized_trait_sources")
-harmonized_allometry_path = "~/OneDrive/EMF_datasets/AllometryDatabases/Products/harmonized"
 WFO_file <- paste0(DB_path, "data-raw/wfo_backbone/classification.csv")
 
 test_that("parameter initalisation and harmonized trait filling works",{

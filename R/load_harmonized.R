@@ -157,7 +157,7 @@ get_trait_data <- function(harmonized_trait_path,
         tab <- tab[!is.na(tab[[trait_name]]), ,drop =FALSE]
         tab <- tab[,names(tab)[names(tab) %in% c(fixed, trait_name)]]
         tab <- tab |>
-          tidyr::pivot_longer(trait_name, names_to = "Trait", values_to="Value") |>
+          tidyr::pivot_longer(dplyr::all_of(trait_name), names_to = "Trait", values_to="Value") |>
           dplyr::mutate(Units = expected_unit) |>
           dplyr::relocate("Trait", "Value", "Units", .before = "Reference")
         if("checkVersion" %in% names(tab)) {
@@ -182,7 +182,7 @@ get_trait_data <- function(harmonized_trait_path,
       dplyr::arrange(.data$acceptedName)
     if(output_format =="wide") {
       trait_table <- trait_table |>
-        dplyr::select(-c("Units", "Trait"))
+        dplyr::select(!dplyr::all_of(c("Units", "Trait")))
       names(trait_table)[names(trait_table)=="Value"] <- trait_name
     }
     if(progress) cli::cli_progress_done()
@@ -258,8 +258,8 @@ get_taxon_data<- function(harmonized_trait_path,
                     Order = 1:nrow(traits4models::HarmonizedTraitDefinition))
   taxon_table <- taxon_table |>
     dplyr::left_join(odf, by="Trait") |>
-    dplyr::arrange(.data$Order) |>
-    dplyr::select(-.data$Order) |>
+    dplyr::arrange("Order") |>
+    dplyr::select(!dplyr::all_of("Order")) |>
     unique()
 
   if(progress) cli::cli_progress_done()

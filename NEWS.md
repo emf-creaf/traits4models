@@ -1,5 +1,6 @@
 # traits4models 0.2.3
 * SpParamsZM added for Zambia
+* Compliance with medfate ver. 5.0.0
 
 # traits4models 0.2.2
 * New function 'get_taxon_trait_means()' to estimate trait mean/mode values for taxa
