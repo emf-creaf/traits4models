@@ -1,0 +1,170 @@
+# From plant traits to model parameters
+
+## Introduction
+
+Package **traits4models** is designed to facilitate creating plant
+species parameter tables for process-based models of forest function
+and/or dynamics. Specifically utility functions are provided to:
+
+1.  Harmonize plant trait databases.
+2.  Harmonize allometry databases.
+3.  Populate species parameter tables from harmonized data.
+
+At present, species parameter estimation is tailored to be used for the
+models included in packages
+[**medfate**](https://emf-creaf.github.io/medfate) and
+[**medfateland**](https://emf-creaf.github.io/medfateland), but it other
+functions could be added to become useful for other process-based models
+(see section [Contributing
+guide](https://emf-creaf.github.io/traits4models/CONTRIBUTING.html)).
+
+## Package installation
+
+Since both packages evolve together, installing **traits4models**
+normally requires an up-to-date version of package
+[**medfate**](https://emf-creaf.github.io/medfate), which is available
+at [CRAN](https://cran.r-project.org/package=medfate).
+
+The latest stable versions GitHub as follows (required package `remotes`
+should be installed/updated first):
+
+``` r
+
+remotes::install_github("emf-creaf/traits4models")
+```
+
+## Usage
+
+The main functions for harmonization are
+[`harmonize_taxonomy_WFO()`](https://emf-creaf.github.io/traits4models/reference/harmonize_taxonomy_WFO.md),
+[`check_harmonized_trait()`](https://emf-creaf.github.io/traits4models/reference/check_harmonized_trait.md)
+and
+[`check_harmonized_allometry()`](https://emf-creaf.github.io/traits4models/reference/check_harmonized_trait.md).
+A number of functions are provided for inspecting the set of harmonized
+trait/allometry data. Finally, model-specific functions are provided to
+populate species parameter tables from them.
+
+## Documentation
+
+A number of *vignettes* illustrate how to initialize inputs and run
+simulation models in **traits4models**. These can be found at the
+package [website](https://emf-creaf.github.io/traits4models/).
+
+## Companion R packages
+
+The development of **traits4models** is intended to complement packages
+[**medfate**](https://emf-creaf.github.io/medfate) and
+[**medfateland**](https://emf-creaf.github.io/medfateland).
+
+Two other packages complete the simulation framework, but can be used
+for many other purposes beyond forest modelling:
+
+- Package [**meteoland**](https://emf-creaf.github.io/meteoland) allows
+  generating daily weather input for simulation models in **medfate**
+  and **medfateland**. Package **meteoland** is a dependency for
+  **medfate** and **medfateland**, but can be used independently to
+  obtain daily weather data.
+- Package [**forestables**](https://emf-creaf.github.io/forestables)
+  allows reading and harmonizing forest inventory data to a common data
+  structure. Initialization workflows in **medfateland** can use data
+  from **forestables**, but the data structures of the package can be
+  used for many studies beyond modelling.
+
+The relationships between the five packages are illustrated in the
+figure below, where black arrows indicate package dependencies and gray
+arrows indicate model parameter or data provision.
+
+![](reference/figures/packages.png)
+
+## Authorship
+
+Package **traits4models** is developed and maintained by the [*Ecosystem
+Modelling Facility*](https://emf.creaf.cat) unit at
+[*CREAF*](https://www.creaf.cat/) with funding from
+[*CSIC*](https://www.csic.es/), in close collaboration with researchers
+from other institutions such as
+[*URFM-INRAE*](https://www6.paca.inrae.fr/ecologie_des_forets_mediterraneennes/)
+and [*CTFC*](https://www.ctfc.cat/).
+
+![](reference/figures/institution_logos.png)
+
+## Funding
+
+- **Research project**: Boosting process-based models to project forest
+  dynamics and associated ecosystem services at stand-to-regional scales
+  (BOMFORES). **Financial Entity**: Ministerio de Ciencia e Innovación
+  (PID2021-126679OB-I00). **Duration from**: 01/09/2022 **to**:
+  31/08/2024. **PI**: Miquel De Cáceres.
+- **Research project**: Improving the modelling of key forest dynamic
+  processes to forecast long-term changes in Mediterranean forests under
+  climate change (IMPROMED). **Financial Entity**: Ministerio de Ciencia
+  e Innovación (PID2023-152644NB-I00). **Duration from**: 01/09/2024
+  **to**: 31/08/2027. **PI**: Miquel De Cáceres/Josep Mª Espelta.
+
+# Package index
+
+## Trait and allometry database harmonization
+
+Harmonization of plant trait or allometry databases
+
+- [`harmonize_taxonomy_WFO()`](https://emf-creaf.github.io/traits4models/reference/harmonize_taxonomy_WFO.md)
+  : Harmonizes taxonomy
+- [`check_harmonized_trait()`](https://emf-creaf.github.io/traits4models/reference/check_harmonized_trait.md)
+  [`check_harmonized_trait_dir()`](https://emf-creaf.github.io/traits4models/reference/check_harmonized_trait.md)
+  [`check_harmonized_allometry()`](https://emf-creaf.github.io/traits4models/reference/check_harmonized_trait.md)
+  [`check_harmonized_allometry_dir()`](https://emf-creaf.github.io/traits4models/reference/check_harmonized_trait.md)
+  : Check data harmonization
+- [`HarmonizedTraitDefinition`](https://emf-creaf.github.io/traits4models/reference/HarmonizedTraitDefinition.md)
+  : Plant trait definitions
+
+## Harmonized trait and allometry data
+
+Load and subset harmonized trait and allometry data
+
+- [`load_harmonized_trait_tables()`](https://emf-creaf.github.io/traits4models/reference/get_trait_data.md)
+  [`load_harmonized_allometry_tables()`](https://emf-creaf.github.io/traits4models/reference/get_trait_data.md)
+  [`get_trait_data()`](https://emf-creaf.github.io/traits4models/reference/get_trait_data.md)
+  [`get_allometry_data()`](https://emf-creaf.github.io/traits4models/reference/get_trait_data.md)
+  [`get_taxon_data()`](https://emf-creaf.github.io/traits4models/reference/get_trait_data.md)
+  [`get_taxon_trait_means()`](https://emf-creaf.github.io/traits4models/reference/get_trait_data.md)
+  : Load harmonized trait/allometry data
+
+## Building species parameter tables
+
+Creation of species parameter tables
+
+- [`init_medfate_params()`](https://emf-creaf.github.io/traits4models/reference/init_medfate_params.md)
+  : Initializes species parameter table
+- [`fill_medfate_allometries()`](https://emf-creaf.github.io/traits4models/reference/fill_medfate_allometries.md)
+  : Allometry filling from harmonized data
+- [`fill_medfate_inventory_traits()`](https://emf-creaf.github.io/traits4models/reference/fill_medfate_inventory_traits.md)
+  : Fills parameters from inventory data
+- [`fill_medfate_traits()`](https://emf-creaf.github.io/traits4models/reference/fill_medfate_traits.md)
+  : Trait filling from harmonized data
+- [`complete_medfate_strict()`](https://emf-creaf.github.io/traits4models/reference/complete_medfate_strict.md)
+  : Complete strict parameters for medfate
+- [`check_medfate_params()`](https://emf-creaf.github.io/traits4models/reference/check_medfate_params.md)
+  : Checks species parameter tables
+
+## Species parameter datasets for medfate
+
+Species parameter datasets for different countries
+
+- [`SpParamsES`](https://emf-creaf.github.io/traits4models/reference/SpParamsES.md)
+  [`SpParamsFR`](https://emf-creaf.github.io/traits4models/reference/SpParamsES.md)
+  [`SpParamsUS`](https://emf-creaf.github.io/traits4models/reference/SpParamsES.md)
+  [`SpParamsAU`](https://emf-creaf.github.io/traits4models/reference/SpParamsES.md)
+  [`SpParamsZM`](https://emf-creaf.github.io/traits4models/reference/SpParamsES.md)
+  : Data tables with species parameter definition and values for
+  different countries
+
+# Articles
+
+### All vignettes
+
+- [Allometry database
+  harmonization](https://emf-creaf.github.io/traits4models/articles/AllometryDatabaseHarmonization.md):
+- [Building species parameter tables for
+  medfate](https://emf-creaf.github.io/traits4models/articles/SpeciesParameterizationMEDFATE.md):
+- [Trait database
+  harmonization](https://emf-creaf.github.io/traits4models/articles/TraitDatabaseHarmonization.md):
