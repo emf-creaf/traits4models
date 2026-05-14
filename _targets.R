@@ -21,7 +21,7 @@ tar_source("data-raw/3_spp_params_us.R")
 tar_source("data-raw/4_spp_params_au.R")
 tar_source("data-raw/5_spp_params_zm.R")
 
-WFO_path <- "~/OneDrive/EMF_datasets/TaxonomyDatabases/WFO/"
+WFO_path <- "~/OneDrive/EMF_datasets/Taxonomy/WFO/"
 DB_path <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/traits_and_models/"
 harmonized_trait_path <- paste0(DB_path,"data/harmonized_trait_sources")
 harmonized_allometry_path <- paste0(DB_path,"data/harmonized_allometry_sources")

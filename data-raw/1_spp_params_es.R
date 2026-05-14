@@ -5,7 +5,7 @@ spp_params_es <- function(trait_database_list,
                           harmonized_trait_path,
                           harmonized_allometry_path) {
   country_code <- "es"
-  IFN_path <- "~/OneDrive/EMF_datasets/ForestInventories/IFN/"
+  IFN_path <- "~/OneDrive/mcaceres_datasets/ForestInventories/IFN_old/"
   MFWdir <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/"
   NFIparamDir <- "~/OneDrive/mcaceres_work/model_development/medfate_parameterization/NFIs_parametrization/"
 
@@ -15,7 +15,7 @@ spp_params_es <- function(trait_database_list,
     cli::cli_h2("Building species list")
 
     # Read taxonomic reference
-    lista_patron<-readxl::read_excel(paste0(IFN_path,"Sources/lista_patron_especies_silvestres_con_sinonimos_tcm30-540560.xlsx"))
+    lista_patron<-readxl::read_excel(paste0(IFN_path,"data-raw/lista_patron_especies_silvestres_con_sinonimos_tcm30-540560.xlsx"))
     lista_patron_vascular<-lista_patron |>
       dplyr::filter(
         kingdom== "Plantae",
@@ -25,42 +25,67 @@ spp_params_es <- function(trait_database_list,
       dplyr::select(WithoutAuthorship, ScientificNameAuthorship)
 
     # Read species codes from IFN2, IFN3 and IFN4
-    SpeciesCodesIFN23 <- readr::read_delim(
-      paste0(IFN_path,"Sources/SpeciesCodesIFN23.csv"),
-      delim = ";",
-      escape_double = FALSE,
-      trim_ws = TRUE)
-
-    shrub_codes_ifn4 <- readr::read_delim(
-      paste0(IFN_path,"Sources/shrub_codes_ifn4.csv"),
-      delim = ";",
-      escape_double = FALSE,
-      trim_ws = TRUE)
-
-    tree_codes_ifn4 <- readr::read_delim(
-      paste0(IFN_path,"Sources/tree_codes_ifn4.csv"),
-      delim = ";",
-      escape_double = FALSE,
-      trim_ws = TRUE, locale = readr::locale(encoding = "ISO-8859-1")) |>
-      dplyr::select(-COMMONNAME)
-
-
+    # SpeciesCodesIFN23 <- readr::read_delim(
+    #   paste0(IFN_path,"data-raw/SpeciesCodesIFN23.csv"),
+    #   delim = ";",
+    #   escape_double = FALSE,
+    #   trim_ws = TRUE, locale = readr::locale(encoding = "ISO-8859-1"))|>
+    #   dplyr::mutate(
+    #     IFNNAME = stringr::str_replace(IFNNAME, " ssp\\.", ""),
+    #     IFNNAME = stringr::str_replace(IFNNAME, " spp\\.", ""),
+    #     IFNNAME = stringr::str_replace(IFNNAME, " subsp\\.", ""))|>
+    #   dplyr::mutate(IFNNAME = iconv(IFNNAME, from = "UTF-8", to = "UTF-8", sub = ""))|>
+    #   dplyr::arrange(IFNCODE)|>
+    #   tibble::as_tibble()
+    #
+    # shrub_codes_ifn4 <- readr::read_delim(
+    #   paste0(IFN_path,"data-raw/shrub_codes_ifn4.csv"),
+    #   delim = ";",
+    #   escape_double = FALSE,
+    #   trim_ws = TRUE, locale = readr::locale(encoding = "ISO-8859-1"))|>
+    #   dplyr::mutate(
+    #     IFNNAME = stringr::str_replace(IFNNAME, " ssp\\.", ""),
+    #     IFNNAME = stringr::str_replace(IFNNAME, " spp\\.", ""),
+    #     IFNNAME = stringr::str_replace(IFNNAME, " subsp\\.", ""))|>
+    #   dplyr::mutate(IFNNAME = iconv(IFNNAME, from = "UTF-8", to = "UTF-8", sub = ""))|>
+    #   dplyr::arrange(IFNCODE)|>
+    #   tibble::as_tibble()
+    #
+    # tree_codes_ifn4 <- readr::read_delim(
+    #   paste0(IFN_path,"data-raw/tree_codes_ifn4.csv"),
+    #   delim = ";",
+    #   escape_double = FALSE,
+    #   trim_ws = TRUE, locale = readr::locale(encoding = "ISO-8859-1")) |>
+    #   dplyr::select(-COMMONNAME) |>
+    #   dplyr::mutate(
+    #     IFNNAME = stringr::str_replace(IFNNAME, " ssp\\.", ""),
+    #     IFNNAME = stringr::str_replace(IFNNAME, " spp\\.", ""),
+    #     IFNNAME = stringr::str_replace(IFNNAME, " subsp\\.", ""),
+    #     IFNNAME = stringr::str_replace(IFNNAME, "Quercus ilex ballota", "Quercus ilex"),
+    #     IFNNAME = stringr::str_replace(IFNNAME, " \\(Q\\. humilis\\)", ""),
+    #     IFNNAME = stringr::str_replace(IFNNAME, " \\(Q\\. fruticosa\\)", ""))|>
+    #   dplyr::mutate(IFNNAME = iconv(IFNNAME, from = "UTF-8", to = "UTF-8", sub = ""))|>
+    #   dplyr::arrange(IFNCODE)|>
+    #   tibble::as_tibble()
     # Merge IFN codes into one data frame
-    spp_es_df <- SpeciesCodesIFN23 |>
-      dplyr::full_join(shrub_codes_ifn4, by =c("IFNCODE", "IFNNAME"))|>
-      dplyr::full_join(tree_codes_ifn4, by =c("IFNCODE", "IFNNAME")) |>
-      dplyr::rename(NFICode = "IFNCODE",
-                    NFIName = "IFNNAME") |>
-      dplyr::mutate(
-        originalName = NFIName,
-        originalName = stringr::str_replace(originalName, " ssp\\.", ""),
-        originalName = stringr::str_replace(originalName, " spp\\.", ""),
-        originalName = stringr::str_replace(originalName, " subsp\\.", ""),
-        originalName = stringr::str_replace(originalName, " \\(Q\\. humilis\\)", ""),
-        originalName = stringr::str_replace(originalName, " \\(Q\\. fruticosa\\)", ""))|>
-      dplyr::mutate(originalName = iconv(originalName, from = "UTF-8", to = "UTF-8", sub = ""))|>
-      dplyr::arrange(NFICode)|>
-      tibble::as_tibble()
+    # spp_es_df <- SpeciesCodesIFN23 |>
+    #   dplyr::full_join(shrub_codes_ifn4, by =c("IFNCODE", "IFNNAME"))|>
+    #   dplyr::full_join(tree_codes_ifn4, by =c("IFNCODE", "IFNNAME")) |>
+    #   dplyr::rename(NFICode = "IFNCODE",
+    #                 NFIName = "IFNNAME") |>
+    #   dplyr::mutate(originalName = NFIName)|>
+    #   dplyr::arrange(NFICode)|>
+    #   tibble::as_tibble()
+    ### GET SPECIES LIST FROM FORESTABLES
+    spp_es_df <- forestables:::species_ifn_internal|>
+      dplyr::rename(NFICode = "SP_CODE",
+                    NFIName = "SP_NAME") |>
+      dplyr::mutate(originalName = NFIName) |>
+      dplyr::mutate(originalName = stringr::str_replace(originalName, " spp\\.", ""),
+                    originalName = stringr::str_replace(originalName, " \\(Q\\. humilis\\)", ""),
+                    originalName = stringr::str_replace(originalName, " \\(Q\\. fruticosa\\)", ""))
+
+
     spp_es_df$originalName[spp_es_df$originalName == "Pinos"] <- "Pinus"
     spp_es_df$originalName[spp_es_df$originalName == "Otros pinos"] <- "Pinus"
     spp_es_df$originalName[spp_es_df$originalName == "Otros quercus"] <- "Quercus"
@@ -110,7 +135,7 @@ spp_params_es <- function(trait_database_list,
 
   # Fixing growth forms
   shrubs <- c("Ampelodesmos", "Anthyllis", "Anagyris spp.", "Artemisia campestris", "Asparagus acutifolius",
-              "Calicotome spp.", "Cistus psilosepalus", "Erica erigena", "Genista baetica", "Globularia",
+              "Calicotome spp.", "Cistus laxus", "Cistus psilosepalus", "Cytisus fontanesii subsp. fontanesii", "Erica erigena", "Genista baetica", "Globularia",
               "Halimium atriplicifolium", "Halimium commutatum", "Helichrysum spp.", "Kleinia",
               "Launaea", "Lithodora spp.", "Matorral en mosaico", "Medicago", "Pastizal-Matorral en mosaico",
               "Periploca laevigata", "Rosmarinus", "Rosmarinus tomentosus", "Ruscus", "Rumex", "Ruscus hypophyllum",
@@ -129,7 +154,7 @@ spp_params_es <- function(trait_database_list,
   SpParams$GrowthForm[SpParams$Name %in% tree] <- "Tree"
   SpParams$GrowthForm[SpParams$Name %in% shrubs] <- "Shrub"
   SpParams$GrowthForm[SpParams$Name %in% tree_shrubs] <- "Tree/Shrub"
-  # View(SpParams[,c("Name", "GrowthForm")])
+  View(SpParams[is.na(SpParams$GrowthForm),c("Name", "GrowthForm")])
 
   # Complete strict (for taxa) -------------------------------------------------------
   cli::cli_h2("SpParamsES completing strict")
@@ -145,15 +170,20 @@ spp_params_es <- function(trait_database_list,
   SpParams[SpParams$Name == "Populus x canadensis",-c(1:4)] <- SpParams[SpParams$Name == "Populus",-c(1:4)]
   SpParams[SpParams$Name == "Larix x eurolepis",-c(1:4)] <- SpParams[SpParams$Name == "Larix spp.",-c(1:4)]
   SpParams[SpParams$Name == "Otras coníferas",-c(1:4)] <- SpParams[SpParams$Name == "Cupressus spp.",-c(1:4)]
+  SpParams[SpParams$Name == "Otras coniferas",-c(1:4)] <- SpParams[SpParams$Name == "Cupressus spp.",-c(1:4)]
+  SpParams[SpParams$Name == "Mezcla de coniferas",-c(1:4)] <- SpParams[SpParams$Name == "Cupressus spp.",-c(1:4)]
   SpParams[SpParams$Name == "Mezcla de coníferas",-c(1:4)] <- SpParams[SpParams$Name == "Cupressus spp.",-c(1:4)]
   SpParams[SpParams$Name == "Otras frondosas",-c(1:4)] <- SpParams[SpParams$Name == "Prunus spp.",-c(1:4)]
   SpParams[SpParams$Name == "Mezcla de pequeñas frondosas",-c(1:4)] <- SpParams[SpParams$Name == "Prunus spp.",-c(1:4)]
+  SpParams[SpParams$Name == "Mezcla de pequenas frondosas",-c(1:4)] <- SpParams[SpParams$Name == "Prunus spp.",-c(1:4)]
   SpParams[SpParams$Name == "Mezcla de frondosas de gran porte",-c(1:4)] <- SpParams[SpParams$Name == "Fraxinus spp.",-c(1:4)]
   SpParams[SpParams$Name == "Otras laurisilvas",-c(1:4)] <- SpParams[SpParams$Name == "Ocotea phoetens",-c(1:4)]
   SpParams[SpParams$Name == "Otros árboles ripícolas",-c(1:4)] <- SpParams[SpParams$Name == "Fraxinus spp.",-c(1:4)]
+  SpParams[SpParams$Name == "Otros arboles ripicolas",-c(1:4)] <- SpParams[SpParams$Name == "Fraxinus spp.",-c(1:4)]
   SpParams[SpParams$Name == "Otras papilionoideas altas",-c(1:4)] <- SpParams[SpParams$Name == "Cytisus spp.",-c(1:4)]
   SpParams[SpParams$Name == "Otras papilionoideas bajas",-c(1:4)] <- SpParams[SpParams$Name == "Thymus spp.",-c(1:4)]
   SpParams[SpParams$Name == "Mezcla de árboles de ribera",-c(1:4)] <- SpParams[SpParams$Name == "Fraxinus spp.",-c(1:4)]
+  SpParams[SpParams$Name == "Mezcla de arboles de ribera",-c(1:4)] <- SpParams[SpParams$Name == "Fraxinus spp.",-c(1:4)]
 
 
   # Modifications from metamodelling/calibration exercises ------------------
