@@ -213,14 +213,14 @@ spp_params_es <- function(trait_database_list,
   SpParams = medfate::modifySpParams(SpParams, resproutingParamsSpecies, subsetSpecies = FALSE)
 
 
-  mis_strict<-traits4models::check_medfate_params(SpParams)
+  check<-traits4models::check_medfate_params(SpParams)
   out_file <- NULL
-  if(sum(as.matrix(mis_strict))==0) {
+  if(sum(as.matrix(check$mis_strict))==0) {
     out_file <- paste0("data/SpParamsES.rda")
     SpParamsES <- SpParams
     usethis::use_data(SpParamsES, overwrite = TRUE)
   } else {
-    cli::cli_abort("Not acceptable!")
+    cli::cli_abort("Not formally acceptable!")
   }
   return(out_file)
 }

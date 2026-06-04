@@ -4,15 +4,17 @@
 \alias{check_medfate_params}
 \title{Checks species parameter tables}
 \usage{
-check_medfate_params(x, verbose = TRUE)
+check_medfate_params(x, check_consistency = TRUE, verbose = TRUE)
 }
 \arguments{
 \item{x}{A data frame with species parameter data}
 
 \item{verbose}{A boolean flag to prompt detailed process information.}
+
+\item{check_consitency}{A boolean flag to force checking ecological and physiological consistence of parameter values.}
 }
 \value{
-An (invisible) data frame with missing values in strict parameters.
+An (invisible) list with two data frames, one with missing values in strict parameters and the other with plant names whose parameters (observed or imputed) do not conform to physiological rules.
 }
 \description{
 Checks that the input data frame has the appropriate format and data for simulations with medfate.
@@ -23,6 +25,13 @@ The function performs the following checks:
   \item{The input is a data frame.}
   \item{All parameter names defined in \code{\link[medfate]{SpParamsDefinition}} should be listed as columns.}
   \item{Strict parameters should not contain missing values. Strict parameters are defined as such in \code{\link[medfate]{SpParamsDefinition}}.}
+}
+
+When \code{check_consistency = TRUE}, the function performs the following consistency checks for all species:
+
+\enumerate{
+  \item{Stem hydraulic vulnerability is not larger than leaf hydraulic vulnerability (i.e. VCstem_P50 not less negative than VCleaf_P50).}
+  \item{Stem hydraulic vulnerability is not larger than root hydraulic vulnerability (i.e. VCstem_P50 not less negative than VCroot_P50).}
 }
 }
 \examples{

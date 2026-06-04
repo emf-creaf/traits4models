@@ -62,18 +62,18 @@ spp_params_zm<-function(trait_database_list,
   cli::cli_h2("Cleaning and checking")
   SpParams <- SpParams|>
     dplyr::filter(!is.na(Name))
-  mis_strict <- traits4models::check_medfate_params(SpParams)
-  SpParams$Name[mis_strict$Genus]
+  check <- traits4models::check_medfate_params(SpParams)
+  SpParams$Name[check$mis_strict$Genus]
   SpParams <- SpParams|>
     dplyr::filter(!(Name %in% c("Lonokadia absynika", "Unknown", "Unlisted")))
-  mis_strict<-traits4models::check_medfate_params(SpParams)
+  check<-traits4models::check_medfate_params(SpParams)
   out_file <- NULL
-  if(sum(as.matrix(mis_strict))==0) {
+  if(sum(as.matrix(check$mis_strict))==0) {
     out_file <- paste0("data/SpParamsZM.rda")
     SpParamsZM <- SpParams
     usethis::use_data(SpParamsZM, overwrite = TRUE)
   } else {
-    cli::cli_abort("Not acceptable!")
+    cli::cli_abort("Not formally acceptable!")
   }
   return(out_file)
 }
