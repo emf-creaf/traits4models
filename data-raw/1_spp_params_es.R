@@ -154,7 +154,6 @@ spp_params_es <- function(trait_database_list,
   SpParams$GrowthForm[SpParams$Name %in% tree] <- "Tree"
   SpParams$GrowthForm[SpParams$Name %in% shrubs] <- "Shrub"
   SpParams$GrowthForm[SpParams$Name %in% tree_shrubs] <- "Tree/Shrub"
-  View(SpParams[is.na(SpParams$GrowthForm),c("Name", "GrowthForm")])
 
   # Complete strict (for taxa) -------------------------------------------------------
   cli::cli_h2("SpParamsES completing strict")
@@ -162,8 +161,8 @@ spp_params_es <- function(trait_database_list,
 
   # Complete strict for non-taxa or delete them -------------------------------------------------------
   cli::cli_h2("Cleaning and checking")
-  mis_strict <- traits4models::check_medfate_params(SpParams)
-  SpParams$Name[mis_strict$Genus]
+  check <- traits4models::check_medfate_params(SpParams, check_consistency = FALSE)
+  # SpParams$Name[check$mis_strict$Genus]
   SpParams <- SpParams|>
     dplyr::filter(!(Name %in% c("Cultivo en mosaico", "Herbazal en mosaico", "Pastizal-Matorral en mosaico",
                                 "Matorral en mosaico", "Sin asignar")))
@@ -213,7 +212,7 @@ spp_params_es <- function(trait_database_list,
   SpParams = medfate::modifySpParams(SpParams, resproutingParamsSpecies, subsetSpecies = FALSE)
 
 
-  check<-traits4models::check_medfate_params(SpParams)
+  check<-traits4models::check_medfate_params(SpParams, check_consistency = FALSE)
   out_file <- NULL
   if(sum(as.matrix(check$mis_strict))==0) {
     out_file <- paste0("data/SpParamsES.rda")

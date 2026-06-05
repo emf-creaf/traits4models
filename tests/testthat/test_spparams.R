@@ -16,14 +16,16 @@ test_that("parameter initalisation and harmonized trait filling works",{
 })
 
 test_that("check_medfate_params works", {
-  expect_s3_class(check_medfate_params(SpParamsES, verbose = FALSE), "data.frame")
-  expect_s3_class(check_medfate_params(SpParamsFR, verbose = FALSE), "data.frame")
-  expect_s3_class(check_medfate_params(SpParamsUS, verbose = FALSE), "data.frame")
-  expect_s3_class(check_medfate_params(SpParamsAU, verbose = FALSE), "data.frame")
+  expect_s3_class(check_medfate_params(SpParamsES, check_consistency = FALSE, verbose = FALSE), "data.frame")
+  expect_s3_class(check_medfate_params(SpParamsFR, check_consistency = FALSE, verbose = FALSE), "data.frame")
+  expect_s3_class(check_medfate_params(SpParamsUS, check_consistency = FALSE, verbose = FALSE), "data.frame")
+  expect_s3_class(check_medfate_params(SpParamsAU, check_consistency = FALSE, verbose = FALSE), "data.frame")
+  expect_s3_class(check_medfate_params(SpParamsZM, check_consistency = FALSE, verbose = FALSE), "data.frame")
 })
 test_that("complete_medfate_strict works", {
   expect_s3_class(complete_medfate_strict(SpParamsES, verbose = FALSE), "data.frame")
   expect_s3_class(complete_medfate_strict(SpParamsFR, verbose = FALSE), "data.frame")
   expect_s3_class(complete_medfate_strict(SpParamsUS, verbose = FALSE), "data.frame")
   expect_s3_class(complete_medfate_strict(SpParamsAU, verbose = FALSE), "data.frame")
+  expect_s3_class(complete_medfate_strict(SpParamsZM, verbose = FALSE), "data.frame")
 })

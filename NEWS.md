@@ -1,3 +1,6 @@
+# traits4models 0.2.4
+* Consistency check in function 'check_medfate_params()'
+
 # traits4models 0.2.3
 * SpParamsZM added for Zambia
 * Compliance with medfate ver. 5.0.0

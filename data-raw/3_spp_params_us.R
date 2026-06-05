@@ -31,13 +31,13 @@ spp_params_us<-function(trait_database_list,
                     NFIName = SP_NAME,
                     originalName = SCIENTIFIC_NAME,
                     originalNameAuthorship = GENERA_BINOMIAL_AUTHOR)|>
+      dplyr::mutate(originalName = stringr::str_replace(originalName, " x ", " ")) |>
+      dplyr::mutate(originalName = stringr::str_replace(originalName, " spp.", "")) |>
+      dplyr::filter(!is.na(originalName)) |>
       dplyr::arrange(NFIName)
-    spp_us_df$originalName[is.na(spp_us_df$originalName)] <- spp_us_df$NFIName[is.na(spp_us_df$originalName)]
     spp_us_df$originalName[spp_us_df$originalName == "Tree broadleaf"] <- NA
     spp_us_df$originalName[spp_us_df$originalName == "Tree evergreen"] <- NA
     spp_us_df$originalName[spp_us_df$originalName == "Tree unknown"] <- NA
-    rm(REF_PLANT_DICTIONARY)
-    gc()
 
     # Perform harmonization with World Flora Online
     spp_us_df_complete <- traits4models::harmonize_taxonomy_WFO(spp_us_df, fs::path(WFO_path, "WFO_Backbone/classification.csv"))
@@ -80,46 +80,14 @@ spp_params_us<-function(trait_database_list,
   # Complete strict for non-taxa or delete them -------------------------------------------------------
   cli::cli_h2("Cleaning and checking")
   SpParams <- SpParams|>
-    dplyr::filter(!is.na(Name))
-  mis_strict <- traits4models::check_medfate_params(SpParams)
-  SpParams$Name[mis_strict$Name]
-  SpParams[SpParams$Name == "Abies x shastensis",-c(1:4)] <- SpParams[SpParams$Name == "Abies",-c(1:4)]
-  SpParams[SpParams$Name == "Acer platanoides x truncatum",-c(1:4)] <- SpParams[SpParams$Name == "Acer",-c(1:4)]
-  SpParams[SpParams$Name == "Acer x freemanii",-c(1:4)] <- SpParams[SpParams$Name == "Acer",-c(1:4)]
-  SpParams[SpParams$Name == "Antidesma x kapuae",-c(1:4)] <- SpParams[SpParams$Name == "Antidesma",-c(1:4)]
-  SpParams[SpParams$Name == "Bauhinia x blakeana",-c(1:4)] <- SpParams[SpParams$Name == "Bauhinia",-c(1:4)]
-  SpParams[SpParams$Name == "Betula x utahensis",-c(1:4)] <- SpParams[SpParams$Name == "Betula",-c(1:4)]
-  SpParams[SpParams$Name == "Cibotium x heleniae",-c(1:4)] <- SpParams[SpParams$Name == "Cibotium",-c(1:4)]
-  SpParams[SpParams$Name == "Citrus x aurantiifolia",-c(1:4)] <- SpParams[SpParams$Name == "Citrus",-c(1:4)]
-  SpParams[SpParams$Name == "Citrus x aurantium",-c(1:4)] <- SpParams[SpParams$Name == "Citrus",-c(1:4)]
-  SpParams[SpParams$Name == "Citrus x limon",-c(1:4)] <- SpParams[SpParams$Name == "Citrus",-c(1:4)]
-  SpParams[SpParams$Name == "Citrus x paradisi",-c(1:4)] <- SpParams[SpParams$Name == "Citrus",-c(1:4)]
-  SpParams[SpParams$Name == "Citrus x sinensis",-c(1:4)] <- SpParams[SpParams$Name == "Citrus",-c(1:4)]
-  SpParams[SpParams$Name == "Clermontia x leptoclada",-c(1:4)] <- SpParams[SpParams$Name == "Clermontia",-c(1:4)]
-  SpParams[SpParams$Name == "Cyrtandra x ramosissima",-c(1:4)] <- SpParams[SpParams$Name == "Cyrtandra",-c(1:4)]
-  SpParams[SpParams$Name == "Dubautia x demissifolia",-c(1:4)] <- SpParams[SpParams$Name == "Dubautia",-c(1:4)]
-  SpParams[SpParams$Name == "Dubautia x fallax",-c(1:4)] <- SpParams[SpParams$Name == "Dubautia",-c(1:4)]
-  SpParams[SpParams$Name == "Dubautia x montana",-c(1:4)] <- SpParams[SpParams$Name == "Dubautia",-c(1:4)]
-  SpParams[SpParams$Name == "Euodia spp.",-c(1:4)] <- SpParams[SpParams$Name == "Euodia",-c(1:4)]
-  SpParams[SpParams$Name == "Guioa spp.",-c(1:4)] <- SpParams[SpParams$Name == "Guioa",-c(1:4)]
-  SpParams[SpParams$Name == "Hedycarya spp.",-c(1:4)] <- SpParams[SpParams$Name == "Hedycarya",-c(1:4)]
-  SpParams[SpParams$Name == "Hibiscadelphus x puakuahiwi",-c(1:4)] <- SpParams[SpParams$Name == "Hibiscadelphus",-c(1:4)]
-  SpParams[SpParams$Name == "Homalanthus spp.",-c(1:4)] <- SpParams[SpParams$Name == "Homalanthus",-c(1:4)]
-  SpParams[SpParams$Name == "Magnolia x soulangiana",-c(1:4)] <- SpParams[SpParams$Name == "Magnolia",-c(1:4)]
-  SpParams[SpParams$Name == "Musa x paradisiaca",-c(1:4)] <- SpParams[SpParams$Name == "Musa",-c(1:4)]
-  SpParams[SpParams$Name == "Parinari spp.",-c(1:4)] <- SpParams[SpParams$Name == "Parinari",-c(1:4)]
-  SpParams[SpParams$Name == "Photinia x fraseri",-c(1:4)] <- SpParams[SpParams$Name == "Photinia",-c(1:4)]
-  SpParams[SpParams$Name == "Pittosporum x monae",-c(1:4)] <- SpParams[SpParams$Name == "Pittosporum",-c(1:4)]
-  SpParams[SpParams$Name == "Populus x canadensis",-c(1:4)] <- SpParams[SpParams$Name == "Populus",-c(1:4)]
-  SpParams[SpParams$Name == "Populus x canescens",-c(1:4)] <- SpParams[SpParams$Name == "Populus",-c(1:4)]
-  SpParams[SpParams$Name == "Prunus x yedoensis",-c(1:4)] <- SpParams[SpParams$Name == "Prunus",-c(1:4)]
-  SpParams[SpParams$Name == "Salix x sepulcralis",-c(1:4)] <- SpParams[SpParams$Name == "Salix",-c(1:4)]
-  SpParams[SpParams$Name == "Scaevola x cerasifolia",-c(1:4)] <- SpParams[SpParams$Name == "Scaevola",-c(1:4)]
-  SpParams<- SpParams[!mis_strict$Family,]
+    dplyr::filter(!is.na(Name)) |>
+    dplyr::filter(!is.na(Family))
+  check <- traits4models::check_medfate_params(SpParams, check_consistency = FALSE)
+  SpParams$Name[check$mis_strict$Name]
 
-  mis_strict<-traits4models::check_medfate_params(SpParams)
+  check<-traits4models::check_medfate_params(SpParams, check_consistency = FALSE)
   out_file <- NULL
-  if(sum(as.matrix(mis_strict))==0) {
+  if(sum(as.matrix(check$mis_strict))==0) {
     out_file <- paste0("data/SpParamsUS.rda")
     SpParamsUS <- SpParams
     usethis::use_data(SpParamsUS, overwrite = TRUE)

@@ -95,6 +95,9 @@ init_medfate_params<-function(x,
       SpParams <- dplyr::bind_rows(SpParams, sp_vec)
     }
   }
+  if(verbose) cli::cli_progress_step("Checking")
+  if(any(table(SpParams$Name)>1)) cli::cli_abort("Duplicated plant names not allowed")
+
   if(verbose) cli::cli_progress_step("Finalizing")
   if(sort) SpParams<- SpParams[order(SpParams$Name),, drop = FALSE]
   row.names(SpParams) <- NULL

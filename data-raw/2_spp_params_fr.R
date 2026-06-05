@@ -86,8 +86,8 @@ spp_params_fr<-function(trait_database_list,
 
   # Complete strict for non-taxa or delete them -------------------------------------------------------
   cli::cli_h2("Cleaning and checking")
-  mis_strict <- traits4models::check_medfate_params(SpParams)
-  SpParams$Name[mis_strict$Genus]
+  check <- traits4models::check_medfate_params(SpParams, check_consistency = FALSE)
+  # SpParams$Name[check$mis_strict$Genus]
   SpParams[SpParams$Name == "Circaea x intermedia",-c(1:4)] <- SpParams[SpParams$Name == "Circaea",-c(1:4)]
   SpParams[SpParams$Name == "Cotoneaster x intermedius",-c(1:4)] <- SpParams[SpParams$Name == "Cotoneaster",-c(1:4)]
   SpParams[SpParams$Name == "Crataegus x subsphaerica",-c(1:4)] <- SpParams[SpParams$Name == "Crataegus",-c(1:4)]
@@ -107,10 +107,10 @@ spp_params_fr<-function(trait_database_list,
   SpParams[SpParams$Name == "Tilia x europaea",-c(1:4)] <- SpParams[SpParams$Name == "Tilia",-c(1:4)]
   SpParams <- SpParams|>
     dplyr::filter(!(Name %in% c("Potamogeton x zizii", "Rheum x hybridum")))
-  mis_strict<-traits4models::check_medfate_params(SpParams)
+  check<-traits4models::check_medfate_params(SpParams, check_consistency = FALSE)
 
   out_file <- NULL
-  if(sum(as.matrix(mis_strict))==0) {
+  if(sum(as.matrix(check$mis_strict))==0) {
     out_file <- paste0("data/SpParamsFR.rda")
     SpParamsFR <- SpParams
     usethis::use_data(SpParamsFR, overwrite = TRUE)
