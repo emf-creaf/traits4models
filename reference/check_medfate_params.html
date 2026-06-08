@@ -47,7 +47,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_medfate_params</span><span class="op">(</span><span class="va">x</span>, check_consistency <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_medfate_params</span><span class="op">(</span><span class="va">x</span>, check_consistency <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -58,12 +58,12 @@
 <dd><p>A data frame with species parameter data</p></dd>
 
 
+<dt id="arg-check-consistency">check_consistency<a class="anchor" aria-label="anchor" href="#arg-check-consistency"></a></dt>
+<dd><p>A boolean flag to force checking ecological and physiological consistence of parameter values.</p></dd>
+
+
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>A boolean flag to prompt detailed process information.</p></dd>
-
-
-<dt id="arg-check-consitency">check_consitency<a class="anchor" aria-label="anchor" href="#arg-check-consitency"></a></dt>
-<dd><p>A boolean flag to force checking ecological and physiological consistence of parameter values.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -83,18 +83,13 @@
 <li><p>Rule 4. Stem hydraulic vulnerability curve is consistent (VCstem_P88 &lt; VCstem_P50 &lt; VCstem_P12).</p></li>
 <li><p>Rule 5. Leaf hydraulic vulnerability curve is consistent (VCleaf_P88 &lt; VCleaf_P50 &lt; VCleaf_P12).</p></li>
 <li><p>Rule 6. Root hydraulic vulnerability curve is consistent (VCroot_P88 &lt; VCroot_P50 &lt; VCroot_P12).</p></li>
+<li><p>Rule 7. Maximum (stomatal) conductance is larger than minimum (cuticular) stomatal conductance (Gswmax &gt; Gswmin).</p></li>
 </ol><p>Parameter consistency is conducted including imputation of missing values, according to medfate inbuilt parameter estimation.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">check_medfate_params</span><span class="op">(</span><span class="va">SpParamsES</span>, check_consistency <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The data frame is formally acceptable as species parameter table for medfate.</span>
-<span class="r-in"><span><span class="fu">check_medfate_params</span><span class="op">(</span><span class="va">SpParamsFR</span>, check_consistency <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The data frame is formally acceptable as species parameter table for medfate.</span>
-<span class="r-in"><span><span class="fu">check_medfate_params</span><span class="op">(</span><span class="va">SpParamsUS</span>, check_consistency <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The data frame is formally acceptable as species parameter table for medfate.</span>
-<span class="r-in"><span><span class="fu">check_medfate_params</span><span class="op">(</span><span class="va">SpParamsAU</span>, check_consistency <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The data frame is formally acceptable as species parameter table for medfate.</span>
 </code></pre></div>
     </div>

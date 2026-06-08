@@ -6,7 +6,7 @@ simulations with medfate.
 ## Usage
 
 ``` r
-check_medfate_params(x, check_consistency = TRUE, verbose = TRUE)
+check_medfate_params(x, check_consistency = FALSE, verbose = TRUE)
 ```
 
 ## Arguments
@@ -15,14 +15,14 @@ check_medfate_params(x, check_consistency = TRUE, verbose = TRUE)
 
   A data frame with species parameter data
 
-- verbose:
-
-  A boolean flag to prompt detailed process information.
-
-- check_consitency:
+- check_consistency:
 
   A boolean flag to force checking ecological and physiological
   consistence of parameter values.
+
+- verbose:
+
+  A boolean flag to prompt detailed process information.
 
 ## Value
 
@@ -70,6 +70,9 @@ consistency checks for the parameter values of each species:
 6.  Rule 6. Root hydraulic vulnerability curve is consistent (VCroot_P88
     \< VCroot_P50 \< VCroot_P12).
 
+7.  Rule 7. Maximum (stomatal) conductance is larger than minimum
+    (cuticular) stomatal conductance (Gswmax \> Gswmin).
+
 Parameter consistency is conducted including imputation of missing
 values, according to medfate inbuilt parameter estimation.
 
@@ -77,11 +80,5 @@ values, according to medfate inbuilt parameter estimation.
 
 ``` r
 check_medfate_params(SpParamsES, check_consistency = FALSE)
-#> ✔ The data frame is formally acceptable as species parameter table for medfate.
-check_medfate_params(SpParamsFR, check_consistency = FALSE)
-#> ✔ The data frame is formally acceptable as species parameter table for medfate.
-check_medfate_params(SpParamsUS, check_consistency = FALSE)
-#> ✔ The data frame is formally acceptable as species parameter table for medfate.
-check_medfate_params(SpParamsAU, check_consistency = FALSE)
 #> ✔ The data frame is formally acceptable as species parameter table for medfate.
 ```

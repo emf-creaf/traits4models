@@ -324,13 +324,13 @@ SpParams<- traits4models::fill_medfate_allometries(SpParams,
 
     ## ℹ Processing response: FoliarBiomass
 
-    ## ✔ Processing response: FoliarBiomass [35ms]
+    ## ✔ Processing response: FoliarBiomass [38ms]
 
     ## 
 
     ## ℹ Processing response: CrownRatio
 
-    ## ✔ Processing response: CrownRatio [24ms]
+    ## ✔ Processing response: CrownRatio [26ms]
 
     ## 
 
@@ -342,25 +342,25 @@ SpParams<- traits4models::fill_medfate_allometries(SpParams,
 
     ## ℹ Processing response: BarkThickness
 
-    ## ✔ Processing response: BarkThickness [17ms]
+    ## ✔ Processing response: BarkThickness [18ms]
 
     ## 
 
     ## ℹ Processing response: CrownArea
 
-    ## ✔ Processing response: CrownArea [17ms]
+    ## ✔ Processing response: CrownArea [18ms]
 
     ## 
 
     ## ℹ Processing response: FineFuelBiomass
 
-    ## ✔ Processing response: FineFuelBiomass [16ms]
+    ## ✔ Processing response: FineFuelBiomass [17ms]
 
     ## 
 
     ## ℹ Processing response: TotalBiomass
 
-    ## ✔ Processing response: TotalBiomass [16ms]
+    ## ✔ Processing response: TotalBiomass [18ms]
 
     ## 
 
@@ -388,79 +388,79 @@ SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path,
 
     ## ℹ Processing parameter: GrowthForm
 
-    ## ✔ Processing parameter: GrowthForm [11.7s]
+    ## ✔ Processing parameter: GrowthForm [12.3s]
 
     ## 
 
     ## ℹ Processing parameter: LifeForm
 
-    ## ✔ Processing parameter: LifeForm [344ms]
+    ## ✔ Processing parameter: LifeForm [376ms]
 
     ## 
 
     ## ℹ Processing parameter: LeafShape
 
-    ## ✔ Processing parameter: LeafShape [1.5s]
+    ## ✔ Processing parameter: LeafShape [1.6s]
 
     ## 
 
     ## ℹ Processing parameter: PhenologyType
 
-    ## ✔ Processing parameter: PhenologyType [827ms]
+    ## ✔ Processing parameter: PhenologyType [950ms]
 
     ## 
 
     ## ℹ Processing parameter: DispersalType
 
-    ## ✔ Processing parameter: DispersalType [2s]
+    ## ✔ Processing parameter: DispersalType [2.1s]
 
     ## 
 
     ## ℹ Processing parameter: t0gdd
 
-    ## ✔ Processing parameter: t0gdd [71ms]
+    ## ✔ Processing parameter: t0gdd [75ms]
 
     ## 
 
     ## ℹ Processing parameter: Tbgdd
 
-    ## ✔ Processing parameter: Tbgdd [91ms]
+    ## ✔ Processing parameter: Tbgdd [96ms]
 
     ## 
 
     ## ℹ Processing parameter: Sgdd
 
-    ## ✔ Processing parameter: Sgdd [71ms]
+    ## ✔ Processing parameter: Sgdd [75ms]
 
     ## 
 
     ## ℹ Processing parameter: Phsen
 
-    ## ✔ Processing parameter: Phsen [91ms]
+    ## ✔ Processing parameter: Phsen [95ms]
 
     ## 
 
     ## ℹ Processing parameter: Tbsen
 
-    ## ✔ Processing parameter: Tbsen [92ms]
+    ## ✔ Processing parameter: Tbsen [95ms]
 
     ## 
 
     ## ℹ Processing parameter: xsen
 
-    ## ✔ Processing parameter: xsen [72ms]
+    ## ✔ Processing parameter: xsen [74ms]
 
     ## 
 
     ## ℹ Processing parameter: ysen
 
-    ## ✔ Processing parameter: ysen [92ms]
+    ## ✔ Processing parameter: ysen [111ms]
 
     ## 
 
     ## ℹ Processing parameter: Ssen
 
-    ## ✔ Processing parameter: Ssen [71ms]
+    ## ✔ Processing parameter: Ssen [77ms]
 
     ## 
 
@@ -472,91 +472,91 @@ SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path,
 
     ## ℹ Processing parameter: Dmax
 
-    ## ✔ Processing parameter: Dmax [281ms]
+    ## ✔ Processing parameter: Dmax [299ms]
 
     ## 
 
     ## ℹ Processing parameter: Hmax
 
-    ## ✔ Processing parameter: Hmax [1.4s]
+    ## ✔ Processing parameter: Hmax [1.5s]
 
     ## 
 
     ## ℹ Processing parameter: Hmed
 
-    ## ✔ Processing parameter: Hmed [1.2s]
+    ## ✔ Processing parameter: Hmed [1.3s]
 
     ## 
 
     ## ℹ Processing parameter: cr
 
-    ## ✔ Processing parameter: cr [72ms]
+    ## ✔ Processing parameter: cr [76ms]
 
     ## 
 
     ## ℹ Processing parameter: Gs_P50
 
-    ## ✔ Processing parameter: Gs_P50 [116ms]
+    ## ✔ Processing parameter: Gs_P50 [119ms]
 
     ## 
 
     ## ℹ Processing parameter: maxFMC
 
-    ## ✔ Processing parameter: maxFMC [1.7s]
+    ## ✔ Processing parameter: maxFMC [1.9s]
 
     ## 
 
     ## ℹ Processing parameter: minFMC
 
-    ## ✔ Processing parameter: minFMC [2.1s]
+    ## ✔ Processing parameter: minFMC [2.3s]
 
     ## 
 
     ## ℹ Processing parameter: Kmax_stemxylem
 
-    ## ✔ Processing parameter: Kmax_stemxylem [187ms]
+    ## ✔ Processing parameter: Kmax_stemxylem [183ms]
 
     ## 
 
     ## ℹ Processing parameter: Vmax298
 
-    ## ✔ Processing parameter: Vmax298 [221ms]
+    ## ✔ Processing parameter: Vmax298 [241ms]
 
     ## 
 
     ## ℹ Processing parameter: Jmax298
 
-    ## ✔ Processing parameter: Jmax298 [167ms]
+    ## ✔ Processing parameter: Jmax298 [220ms]
 
     ## 
 
     ## ℹ Processing parameter: Z95
 
-    ## ✔ Processing parameter: Z95 [294ms]
+    ## ✔ Processing parameter: Z95 [303ms]
 
     ## 
 
     ## ℹ Processing parameter: LeafAngle
 
-    ## ✔ Processing parameter: LeafAngle [340ms]
+    ## ✔ Processing parameter: LeafAngle [312ms]
 
     ## 
 
     ## ℹ Processing parameter: LeafAngleSD
 
-    ## ✔ Processing parameter: LeafAngleSD [313ms]
+    ## ✔ Processing parameter: LeafAngleSD [350ms]
 
     ## 
 
     ## ℹ Processing parameter: LeafDensity
 
-    ## ✔ Processing parameter: LeafDensity [568ms]
+    ## ✔ Processing parameter: LeafDensity [553ms]
 
     ## 
 
     ## ℹ Processing parameter: WoodDensity
 
-    ## ✔ Processing parameter: WoodDensity [1.1s]
+    ## ✔ Processing parameter: WoodDensity [1s]
 
     ## 
 
@@ -568,175 +568,175 @@ SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path,
 
     ## ℹ Processing parameter: r635
 
-    ## ✔ Processing parameter: r635 [74ms]
+    ## ✔ Processing parameter: r635 [97ms]
 
     ## 
 
     ## ℹ Processing parameter: pDead
 
-    ## ✔ Processing parameter: pDead [95ms]
+    ## ✔ Processing parameter: pDead [74ms]
 
     ## 
 
     ## ℹ Processing parameter: SAV
 
-    ## ✔ Processing parameter: SAV [68ms]
+    ## ✔ Processing parameter: SAV [94ms]
 
     ## 
 
     ## ℹ Processing parameter: HeatContent
 
-    ## ✔ Processing parameter: HeatContent [100ms]
+    ## ✔ Processing parameter: HeatContent [74ms]
 
     ## 
 
     ## ℹ Processing parameter: LeafPI0
 
-    ## ✔ Processing parameter: LeafPI0 [118ms]
+    ## ✔ Processing parameter: LeafPI0 [135ms]
 
     ## 
 
     ## ℹ Processing parameter: LeafEPS
 
-    ## ✔ Processing parameter: LeafEPS [96ms]
+    ## ✔ Processing parameter: LeafEPS [93ms]
 
     ## 
 
     ## ℹ Processing parameter: LeafAF
 
-    ## ✔ Processing parameter: LeafAF [113ms]
+    ## ✔ Processing parameter: LeafAF [88ms]
 
     ## 
 
     ## ℹ Processing parameter: SLA
 
-    ## ✔ Processing parameter: SLA [1.9s]
+    ## ✔ Processing parameter: SLA [1.8s]
 
     ## 
 
     ## ℹ Processing parameter: Al2As
 
-    ## ✔ Processing parameter: Al2As [174ms]
+    ## ✔ Processing parameter: Al2As [169ms]
 
     ## 
 
     ## ℹ Processing parameter: conduit2sapwood
 
-    ## ✔ Processing parameter: conduit2sapwood [74ms]
+    ## ✔ Processing parameter: conduit2sapwood [71ms]
 
     ## 
 
     ## ℹ Processing parameter: LeafWidth
 
-    ## ✔ Processing parameter: LeafWidth [777ms]
+    ## ✔ Processing parameter: LeafWidth [757ms]
 
     ## 
 
     ## ℹ Processing parameter: LeafDuration
 
-    ## ✔ Processing parameter: LeafDuration [127ms]
+    ## ✔ Processing parameter: LeafDuration [122ms]
 
     ## 
 
     ## ℹ Processing parameter: Gswmax
 
-    ## ✔ Processing parameter: Gswmax [101ms]
+    ## ✔ Processing parameter: Gswmax [116ms]
 
     ## 
 
     ## ℹ Processing parameter: Gswmin
 
-    ## ✔ Processing parameter: Gswmin [109ms]
+    ## ✔ Processing parameter: Gswmin [82ms]
 
     ## 
 
     ## ℹ Processing parameter: VCleaf_P50
 
-    ## ✔ Processing parameter: VCleaf_P50 [130ms]
+    ## ✔ Processing parameter: VCleaf_P50 [146ms]
 
     ## 
 
     ## ℹ Processing parameter: VCleaf_P12
 
-    ## ✔ Processing parameter: VCleaf_P12 [106ms]
+    ## ✔ Processing parameter: VCleaf_P12 [81ms]
 
     ## 
 
     ## ℹ Processing parameter: VCleaf_P88
 
-    ## ✔ Processing parameter: VCleaf_P88 [84ms]
+    ## ✔ Processing parameter: VCleaf_P88 [104ms]
 
     ## 
 
     ## ℹ Processing parameter: VCleaf_slope
 
-    ## ✔ Processing parameter: VCleaf_slope [93ms]
+    ## ✔ Processing parameter: VCleaf_slope [69ms]
 
     ## 
 
     ## ℹ Processing parameter: VCstem_P50
 
-    ## ✔ Processing parameter: VCstem_P50 [203ms]
+    ## ✔ Processing parameter: VCstem_P50 [195ms]
 
     ## 
 
     ## ℹ Processing parameter: VCstem_P12
 
-    ## ✔ Processing parameter: VCstem_P12 [119ms]
+    ## ✔ Processing parameter: VCstem_P12 [113ms]
 
     ## 
 
     ## ℹ Processing parameter: VCstem_P88
 
-    ## ✔ Processing parameter: VCstem_P88 [141ms]
+    ## ✔ Processing parameter: VCstem_P88 [137ms]
 
     ## 
 
     ## ℹ Processing parameter: VCstem_slope
 
-    ## ✔ Processing parameter: VCstem_slope [103ms]
+    ## ✔ Processing parameter: VCstem_slope [120ms]
 
     ## 
 
     ## ℹ Processing parameter: VCroot_P50
 
-    ## ✔ Processing parameter: VCroot_P50 [109ms]
+    ## ✔ Processing parameter: VCroot_P50 [83ms]
 
     ## 
 
     ## ℹ Processing parameter: VCroot_P12
 
-    ## ✔ Processing parameter: VCroot_P12 [73ms]
+    ## ✔ Processing parameter: VCroot_P12 [92ms]
 
     ## 
 
     ## ℹ Processing parameter: VCroot_P88
 
-    ## ✔ Processing parameter: VCroot_P88 [73ms]
+    ## ✔ Processing parameter: VCroot_P88 [71ms]
 
     ## 
 
     ## ℹ Processing parameter: VCroot_slope
 
-    ## ✔ Processing parameter: VCroot_slope [95ms]
+    ## ✔ Processing parameter: VCroot_slope [97ms]
 
     ## 
 
     ## ℹ Processing parameter: Nleaf
 
-    ## ✔ Processing parameter: Nleaf [1.4s]
+    ## ✔ Processing parameter: Nleaf [1.3s]
 
     ## 
 
     ## ℹ Processing parameter: Nsapwood
 
-    ## ✔ Processing parameter: Nsapwood [181ms]
+    ## ✔ Processing parameter: Nsapwood [173ms]
 
     ## 
 
     ## ℹ Processing parameter: Nfineroot
 
-    ## ✔ Processing parameter: Nfineroot [153ms]
+    ## ✔ Processing parameter: Nfineroot [148ms]
 
     ## 
 
@@ -748,43 +748,43 @@ SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path,
 
     ## ℹ Processing parameter: SeedLongevity
 
-    ## ✔ Processing parameter: SeedLongevity [179ms]
+    ## ✔ Processing parameter: SeedLongevity [178ms]
 
     ## 
 
     ## ℹ Processing parameter: WoodC
 
-    ## ✔ Processing parameter: WoodC [86ms]
+    ## ✔ Processing parameter: WoodC [105ms]
 
     ## 
 
     ## ℹ Processing parameter: CCleaf
 
-    ## ✔ Processing parameter: CCleaf [96ms]
+    ## ✔ Processing parameter: CCleaf [71ms]
 
     ## 
 
     ## ℹ Processing parameter: CCsapwood
 
-    ## ✔ Processing parameter: CCsapwood [67ms]
+    ## ✔ Processing parameter: CCsapwood [88ms]
 
     ## 
 
     ## ℹ Processing parameter: CCfineroot
 
-    ## ✔ Processing parameter: CCfineroot [88ms]
+    ## ✔ Processing parameter: CCfineroot [65ms]
 
     ## 
 
     ## ℹ Processing parameter: RSSG
 
-    ## ✔ Processing parameter: RSSG [79ms]
+    ## ✔ Processing parameter: RSSG [80ms]
 
     ## 
 
     ## ℹ Processing parameter: SeedProductionDiameter
 
-    ## ✔ Processing parameter: SeedProductionDiameter [8ms]
+    ## ✔ Processing parameter: SeedProductionDiameter [7ms]
 
     ## 
 
@@ -812,7 +812,7 @@ missing values:
 
 ``` r
 
-check_medfate_params(SpParams, check_consistency = FALSE)
+check_medfate_params(SpParams)
 ```
 
     ## ! Strict parameter column 'GrowthForm' should not contain any missing value.
@@ -860,7 +860,7 @@ should pass the previous check:
 
 ``` r
 
-check_medfate_params(SpParams, check_consistency = FALSE)
+check_medfate_params(SpParams)
 ```
 
     ## ✔ The data frame is formally acceptable as species parameter table for medfate.
