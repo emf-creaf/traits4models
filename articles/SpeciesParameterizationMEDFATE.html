@@ -12,8 +12,8 @@
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Building species parameter tables for medfate">
 </head>
@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">traits4models</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,7 +69,7 @@
                         <h4 data-toc-skip class="author">Miquel De
 Cáceres / Nicolas Martin-StPaul</h4>
             
-            <h4 data-toc-skip class="date">2026-05-12</h4>
+            <h4 data-toc-skip class="date">2026-06-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/emf-creaf/traits4models/blob/HEAD/vignettes/SpeciesParameterizationMEDFATE.Rmd" class="external-link"><code>vignettes/SpeciesParameterizationMEDFATE.Rmd</code></a></small>
       <div class="d-none name"><code>SpeciesParameterizationMEDFATE.Rmd</code></div>
@@ -207,24 +207,25 @@ the SFI taxon list that is included as external data in the package:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">NFI_ES_mapping</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="va">file</span>, sep<span class="op">=</span><span class="st">";"</span>, header<span class="op">=</span><span class="cn">TRUE</span>, na.strings <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>NFICode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">NFICode</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">originalName</span>, <span class="op">-</span><span class="va">originalNameAuthorship</span>, <span class="op">-</span><span class="va">acceptedNameAuthorship</span>, <span class="op">-</span><span class="va">NFICode</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>originalName <span class="op">=</span> <span class="va">NFIName</span><span class="op">)</span><span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
 <span><span class="va">NFI_ES_mapping</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 480 × 10</span></span></span>
-<span><span class="co">##    NFICode NFIName             originalName  originalNameAuthorship acceptedName</span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> 31      Abies alba          Abies alba    Mill.                  Abies alba  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> 32      Abies pinsapo       Abies pinsapo Boiss.                 Abies pinsa…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> 307     Acacia dealbata     Acacia dealb… Link                   Acacia deal…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> 207     Acacia melanoxylon  Acacia melan… R.Br. in W.T.Aiton     Acacia mela…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> 7       Acacia spp.         Acacia        <span style="color: #BB0000;">NA</span>                     Acacia      </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> 76      Acer campestre      Acer campest… L.                     Acer campes…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> 276     Acer monspessulanum Acer monspes… L.                     Acer monspe…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> 376     Acer negundo        Acer negundo  L.                     Acer negundo</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> 476     Acer opalus         Acer opalus   Mill.                  Acer opalus </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> 676     Acer platanoides    Acer platano… L.                     Acer platan…</span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 470 more rows</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 5 more variables: acceptedNameAuthorship &lt;chr&gt;, family &lt;chr&gt;, genus &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   specificEpithet &lt;chr&gt;, taxonRank &lt;chr&gt;</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 450 × 6</span></span></span>
+<span><span class="co">##    originalName        acceptedName       family genus specificEpithet taxonRank</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Abies alba          Abies alba         Pinac… Abies alba            species  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Abies pinsapo       Abies pinsapo      Pinac… Abies pinsapo         species  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Acacia dealbata     Acacia dealbata    Fabac… Acac… dealbata        species  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Acacia melanoxylon  Acacia melanoxylon Fabac… Acac… melanoxylon     species  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Acacia spp.         Acacia             Fabac… Acac… <span style="color: #BB0000;">NA</span>              genus    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Acer campestre      Acer campestre     Sapin… Acer  campestre       species  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Acer monspessulanum Acer monspessulan… Sapin… Acer  monspessulanum  species  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Acer negundo        Acer negundo       Sapin… Acer  negundo         species  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Acer opalus         Acer opalus        Sapin… Acer  opalus          species  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Acer platanoides    Acer platanoides   Sapin… Acer  platanoides     species  </span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 440 more rows</span></span></span></code></pre>
 <p>Here <code>NFIName</code> corresponds to the name used in the Spanish
 forest inventory, while <code>originalName</code> contains the names
 that where used for taxonomy harmonization with function
@@ -267,20 +268,20 @@ additional rows for species (when only sub-species of that species have
 been cited) or genus (when species of that genus have been cited).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">SpParams</span> <span class="op">|&gt;</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 548 × 156</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 517 × 156</span></span></span>
 <span><span class="co">##    Name         SpIndex AcceptedName Species Genus Family Order Group GrowthForm</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Abies              0 Abies        <span style="color: #BB0000;">NA</span>      Abies Pinac… Pina… Gymn… <span style="color: #BB0000;">NA</span>        </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Abies alba         1 Abies alba   Abies … Abies Pinac… Pina… Gymn… <span style="color: #BB0000;">NA</span>        </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Abies pinsa…       2 Abies pinsa… Abies … Abies Pinac… Pina… Gymn… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Acacia             3 Acacia       Acacia  Acac… Fabac… Faba… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Acacia deal…       4 Acacia deal… Acacia… Acac… Fabac… Faba… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Acacia mela…       5 Acacia mela… Acacia… Acac… Fabac… Faba… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Acer               6 Acer         Acer    Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Acer               7 Acer         Acer    Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Acer campes…       8 Acer campes… Acer c… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> Acer monspe…       9 Acer monspe… Acer m… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 538 more rows</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Acacia deal…       3 Acacia deal… Acacia… Acac… Fabac… Faba… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Acacia mela…       4 Acacia mela… Acacia… Acac… Fabac… Faba… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Acacia spp.        5 Acacia       Acacia  Acac… Fabac… Faba… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Acer campes…       6 Acer campes… Acer c… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Acer monspe…       7 Acer monspe… Acer m… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Acer negundo       8 Acer negundo Acer n… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Acer opalus        9 Acer opalus  Acer o… Acer  Sapin… Sapi… Angi… <span style="color: #BB0000;">NA</span>        </span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 507 more rows</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 147 more variables: LifeForm &lt;lgl&gt;, LeafShape &lt;lgl&gt;, LeafSize &lt;lgl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   PhenologyType &lt;lgl&gt;, DispersalType &lt;lgl&gt;, Hmed &lt;lgl&gt;, Hmax &lt;lgl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   Dmax &lt;lgl&gt;, Z50 &lt;lgl&gt;, Z95 &lt;lgl&gt;, fHDmin &lt;lgl&gt;, fHDmax &lt;lgl&gt;, a_ash &lt;lgl&gt;,</span></span></span>
@@ -414,16 +415,16 @@ data:</p>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: FoliarBiomass <span style="color: #B2B2B2;">[35ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: CrownRatio</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownRatio <span style="color: #B2B2B2;">[23ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownRatio <span style="color: #B2B2B2;">[24ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: CrownWidth</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownWidth <span style="color: #B2B2B2;">[20ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownWidth <span style="color: #B2B2B2;">[21ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: BarkThickness</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: BarkThickness <span style="color: #B2B2B2;">[17ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: CrownArea</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownArea <span style="color: #B2B2B2;">[16ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: CrownArea <span style="color: #B2B2B2;">[17ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing response: FineFuelBiomass</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing response: FineFuelBiomass <span style="color: #B2B2B2;">[16ms]</span></span></span></code></pre>
@@ -447,160 +448,160 @@ filling for <strong>medfate</strong> using the available data:</p>
 <code class="sourceCode R"><span><span class="va">SpParams</span><span class="op">&lt;-</span> <span class="fu">traits4models</span><span class="fu">::</span><span class="fu"><a href="../reference/fill_medfate_traits.html">fill_medfate_traits</a></span><span class="op">(</span><span class="va">SpParams</span>, <span class="va">harmonized_trait_path</span>, </span>
 <span>                                              progress <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: GrowthForm</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: GrowthForm <span style="color: #B2B2B2;">[12.2s]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: GrowthForm <span style="color: #B2B2B2;">[11.7s]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: LifeForm</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LifeForm <span style="color: #B2B2B2;">[379ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LifeForm <span style="color: #B2B2B2;">[344ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: LeafShape</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LeafShape <span style="color: #B2B2B2;">[1.6s]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LeafShape <span style="color: #B2B2B2;">[1.5s]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: PhenologyType</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: PhenologyType <span style="color: #B2B2B2;">[882ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: PhenologyType <span style="color: #B2B2B2;">[827ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: DispersalType</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: DispersalType <span style="color: #B2B2B2;">[2.1s]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: DispersalType <span style="color: #B2B2B2;">[2s]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: t0gdd</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: t0gdd <span style="color: #B2B2B2;">[75ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: t0gdd <span style="color: #B2B2B2;">[71ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: Tbgdd</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Tbgdd <span style="color: #B2B2B2;">[92ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Tbgdd <span style="color: #B2B2B2;">[91ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: Sgdd</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Sgdd <span style="color: #B2B2B2;">[72ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Sgdd <span style="color: #B2B2B2;">[71ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: Phsen</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Phsen <span style="color: #B2B2B2;">[90ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Phsen <span style="color: #B2B2B2;">[91ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: Tbsen</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Tbsen <span style="color: #B2B2B2;">[70ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Tbsen <span style="color: #B2B2B2;">[92ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: xsen</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: xsen <span style="color: #B2B2B2;">[90ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: xsen <span style="color: #B2B2B2;">[72ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: ysen</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: ysen <span style="color: #B2B2B2;">[70ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: ysen <span style="color: #B2B2B2;">[92ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: Ssen</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Ssen <span style="color: #B2B2B2;">[90ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Ssen <span style="color: #B2B2B2;">[71ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: LeafSize</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LeafSize <span style="color: #B2B2B2;">[1.2s]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: Dmax</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Dmax <span style="color: #B2B2B2;">[321ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Dmax <span style="color: #B2B2B2;">[281ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: Hmax</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Hmax <span style="color: #B2B2B2;">[2s]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Hmax <span style="color: #B2B2B2;">[1.4s]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: Hmed</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Hmed <span style="color: #B2B2B2;">[1.8s]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Hmed <span style="color: #B2B2B2;">[1.2s]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: cr</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: cr <span style="color: #B2B2B2;">[92ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: cr <span style="color: #B2B2B2;">[72ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: Gs_P50</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Gs_P50 <span style="color: #B2B2B2;">[97ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Gs_P50 <span style="color: #B2B2B2;">[116ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: maxFMC</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: maxFMC <span style="color: #B2B2B2;">[1.9s]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: maxFMC <span style="color: #B2B2B2;">[1.7s]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: minFMC</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: minFMC <span style="color: #B2B2B2;">[2.4s]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: minFMC <span style="color: #B2B2B2;">[2.1s]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: Kmax_stemxylem</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Kmax_stemxylem <span style="color: #B2B2B2;">[204ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Kmax_stemxylem <span style="color: #B2B2B2;">[187ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: Vmax298</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Vmax298 <span style="color: #B2B2B2;">[217ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Vmax298 <span style="color: #B2B2B2;">[221ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: Jmax298</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Jmax298 <span style="color: #B2B2B2;">[204ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Jmax298 <span style="color: #B2B2B2;">[167ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: Z95</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Z95 <span style="color: #B2B2B2;">[326ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Z95 <span style="color: #B2B2B2;">[294ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: LeafAngle</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LeafAngle <span style="color: #B2B2B2;">[383ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LeafAngle <span style="color: #B2B2B2;">[340ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: LeafAngleSD</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LeafAngleSD <span style="color: #B2B2B2;">[354ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LeafAngleSD <span style="color: #B2B2B2;">[313ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: LeafDensity</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LeafDensity <span style="color: #B2B2B2;">[664ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LeafDensity <span style="color: #B2B2B2;">[568ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: WoodDensity</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: WoodDensity <span style="color: #B2B2B2;">[1.2s]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: WoodDensity <span style="color: #B2B2B2;">[1.1s]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: SRL</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: SRL <span style="color: #B2B2B2;">[171ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: SRL <span style="color: #B2B2B2;">[165ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: r635</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: r635 <span style="color: #B2B2B2;">[74ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: pDead</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: pDead <span style="color: #B2B2B2;">[96ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: pDead <span style="color: #B2B2B2;">[95ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: SAV</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: SAV <span style="color: #B2B2B2;">[69ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: SAV <span style="color: #B2B2B2;">[68ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: HeatContent</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: HeatContent <span style="color: #B2B2B2;">[97ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: HeatContent <span style="color: #B2B2B2;">[100ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: LeafPI0</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LeafPI0 <span style="color: #B2B2B2;">[121ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LeafPI0 <span style="color: #B2B2B2;">[118ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: LeafEPS</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LeafEPS <span style="color: #B2B2B2;">[120ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LeafEPS <span style="color: #B2B2B2;">[96ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: LeafAF</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LeafAF <span style="color: #B2B2B2;">[92ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LeafAF <span style="color: #B2B2B2;">[113ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: SLA</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: SLA <span style="color: #B2B2B2;">[2s]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: SLA <span style="color: #B2B2B2;">[1.9s]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: Al2As</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Al2As <span style="color: #B2B2B2;">[183ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Al2As <span style="color: #B2B2B2;">[174ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: conduit2sapwood</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: conduit2sapwood <span style="color: #B2B2B2;">[73ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: conduit2sapwood <span style="color: #B2B2B2;">[74ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: LeafWidth</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LeafWidth <span style="color: #B2B2B2;">[842ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LeafWidth <span style="color: #B2B2B2;">[777ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: LeafDuration</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LeafDuration <span style="color: #B2B2B2;">[132ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: LeafDuration <span style="color: #B2B2B2;">[127ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: Gswmax</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Gswmax <span style="color: #B2B2B2;">[99ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Gswmax <span style="color: #B2B2B2;">[101ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: Gswmin</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Gswmin <span style="color: #B2B2B2;">[84ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Gswmin <span style="color: #B2B2B2;">[109ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: VCleaf_P50</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCleaf_P50 <span style="color: #B2B2B2;">[153ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCleaf_P50 <span style="color: #B2B2B2;">[130ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: VCleaf_P12</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCleaf_P12 <span style="color: #B2B2B2;">[86ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCleaf_P12 <span style="color: #B2B2B2;">[106ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: VCleaf_P88</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCleaf_P88 <span style="color: #B2B2B2;">[112ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCleaf_P88 <span style="color: #B2B2B2;">[84ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: VCleaf_slope</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCleaf_slope <span style="color: #B2B2B2;">[74ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCleaf_slope <span style="color: #B2B2B2;">[93ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: VCstem_P50</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCstem_P50 <span style="color: #B2B2B2;">[220ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCstem_P50 <span style="color: #B2B2B2;">[203ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: VCstem_P12</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCstem_P12 <span style="color: #B2B2B2;">[126ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCstem_P12 <span style="color: #B2B2B2;">[119ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: VCstem_P88</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCstem_P88 <span style="color: #B2B2B2;">[145ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCstem_P88 <span style="color: #B2B2B2;">[141ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: VCstem_slope</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCstem_slope <span style="color: #B2B2B2;">[105ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCstem_slope <span style="color: #B2B2B2;">[103ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: VCroot_P50</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCroot_P50 <span style="color: #B2B2B2;">[109ms]</span></span></span></code></pre>
@@ -609,43 +610,43 @@ filling for <strong>medfate</strong> using the available data:</p>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCroot_P12 <span style="color: #B2B2B2;">[73ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: VCroot_P88</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCroot_P88 <span style="color: #B2B2B2;">[95ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCroot_P88 <span style="color: #B2B2B2;">[73ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: VCroot_slope</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCroot_slope <span style="color: #B2B2B2;">[73ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: VCroot_slope <span style="color: #B2B2B2;">[95ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: Nleaf</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Nleaf <span style="color: #B2B2B2;">[1.4s]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: Nsapwood</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Nsapwood <span style="color: #B2B2B2;">[187ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Nsapwood <span style="color: #B2B2B2;">[181ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: Nfineroot</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Nfineroot <span style="color: #B2B2B2;">[163ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: Nfineroot <span style="color: #B2B2B2;">[153ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: SeedMass</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: SeedMass <span style="color: #B2B2B2;">[3.6s]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: SeedMass <span style="color: #B2B2B2;">[3.3s]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: SeedLongevity</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: SeedLongevity <span style="color: #B2B2B2;">[181ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: SeedLongevity <span style="color: #B2B2B2;">[179ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: WoodC</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: WoodC <span style="color: #B2B2B2;">[106ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: WoodC <span style="color: #B2B2B2;">[86ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: CCleaf</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: CCleaf <span style="color: #B2B2B2;">[94ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: CCleaf <span style="color: #B2B2B2;">[96ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: CCsapwood</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: CCsapwood <span style="color: #B2B2B2;">[65ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: CCsapwood <span style="color: #B2B2B2;">[67ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: CCfineroot</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: CCfineroot <span style="color: #B2B2B2;">[86ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: CCfineroot <span style="color: #B2B2B2;">[88ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: RSSG</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: RSSG <span style="color: #B2B2B2;">[78ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: RSSG <span style="color: #B2B2B2;">[79ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Processing parameter: SeedProductionDiameter</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: SeedProductionDiameter <span style="color: #B2B2B2;">[7ms]</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> Processing parameter: SeedProductionDiameter <span style="color: #B2B2B2;">[8ms]</span></span></span></code></pre>
 <pre><code><span><span class="co">## </span></span></code></pre>
 <p>Parameter filling sometimes implies translating trait data into the
 units required for model parameters. The function identifies the row of
@@ -670,7 +671,7 @@ package <strong>medfate</strong>). Function
 <code><a href="../reference/check_medfate_params.html">check_medfate_params()</a></code> checks, among other things, that
 strict parameters do not contain missing values:</p>
 <div class="sourceCode" id="cb240"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_medfate_params.html">check_medfate_params</a></span><span class="op">(</span><span class="va">SpParams</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_medfate_params.html">check_medfate_params</a></span><span class="op">(</span><span class="va">SpParams</span>, check_consistency <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Strict parameter column 'GrowthForm' should not contain any missing value.</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Strict parameter column 'LifeForm' should not contain any missing value.</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> Strict parameter column 'LeafShape' should not contain any missing value.</span></span></code></pre>
@@ -700,8 +701,8 @@ sources before searching for species in the same family):</p>
 <p>After completion of strict paratemers, the species parameter table
 should pass the previous check:</p>
 <div class="sourceCode" id="cb251"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_medfate_params.html">check_medfate_params</a></span><span class="op">(</span><span class="va">SpParams</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> The data frame is acceptable as species parameter table for medfate.</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_medfate_params.html">check_medfate_params</a></span><span class="op">(</span><span class="va">SpParams</span>, check_consistency <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> The data frame is formally acceptable as species parameter table for medfate.</span></span></code></pre>
 <p>And we can store the table for its use in model simulations.</p>
 </div>
 <div class="section level2">

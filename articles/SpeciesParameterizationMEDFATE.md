@@ -96,26 +96,27 @@ file <- system.file("extdata", "NFI_ES_mapping.csv", package = "traits4models")
 
 NFI_ES_mapping <- read.table(file, sep=";", header=TRUE, na.strings = "") |>
   tibble::as_tibble() |>
-  dplyr::mutate(NFICode = as.character(NFICode))
+  dplyr::select(-originalName, -originalNameAuthorship, -acceptedNameAuthorship, -NFICode) |>
+  dplyr::rename(originalName = NFIName)|>
+  dplyr::distinct()
+
 NFI_ES_mapping
 ```
 
-    ## # A tibble: 480 × 10
-    ##    NFICode NFIName             originalName  originalNameAuthorship acceptedName
-    ##    <chr>   <chr>               <chr>         <chr>                  <chr>       
-    ##  1 31      Abies alba          Abies alba    Mill.                  Abies alba  
-    ##  2 32      Abies pinsapo       Abies pinsapo Boiss.                 Abies pinsa…
-    ##  3 307     Acacia dealbata     Acacia dealb… Link                   Acacia deal…
-    ##  4 207     Acacia melanoxylon  Acacia melan… R.Br. in W.T.Aiton     Acacia mela…
-    ##  5 7       Acacia spp.         Acacia        NA                     Acacia      
-    ##  6 76      Acer campestre      Acer campest… L.                     Acer campes…
-    ##  7 276     Acer monspessulanum Acer monspes… L.                     Acer monspe…
-    ##  8 376     Acer negundo        Acer negundo  L.                     Acer negundo
-    ##  9 476     Acer opalus         Acer opalus   Mill.                  Acer opalus 
-    ## 10 676     Acer platanoides    Acer platano… L.                     Acer platan…
-    ## # ℹ 470 more rows
-    ## # ℹ 5 more variables: acceptedNameAuthorship <chr>, family <chr>, genus <chr>,
-    ## #   specificEpithet <chr>, taxonRank <chr>
+    ## # A tibble: 450 × 6
+    ##    originalName        acceptedName       family genus specificEpithet taxonRank
+    ##    <chr>               <chr>              <chr>  <chr> <chr>           <chr>    
+    ##  1 Abies alba          Abies alba         Pinac… Abies alba            species  
+    ##  2 Abies pinsapo       Abies pinsapo      Pinac… Abies pinsapo         species  
+    ##  3 Acacia dealbata     Acacia dealbata    Fabac… Acac… dealbata        species  
+    ##  4 Acacia melanoxylon  Acacia melanoxylon Fabac… Acac… melanoxylon     species  
+    ##  5 Acacia spp.         Acacia             Fabac… Acac… NA              genus    
+    ##  6 Acer campestre      Acer campestre     Sapin… Acer  campestre       species  
+    ##  7 Acer monspessulanum Acer monspessulan… Sapin… Acer  monspessulanum  species  
+    ##  8 Acer negundo        Acer negundo       Sapin… Acer  negundo         species  
+    ##  9 Acer opalus         Acer opalus        Sapin… Acer  opalus          species  
+    ## 10 Acer platanoides    Acer platanoides   Sapin… Acer  platanoides     species  
+    ## # ℹ 440 more rows
 
 Here `NFIName` corresponds to the name used in the Spanish forest
 inventory, while `originalName` contains the names that where used for
@@ -169,20 +170,20 @@ species (when only sub-species of that species have been cited) or genus
 SpParams |> tibble::as_tibble()
 ```
 
-    ## # A tibble: 548 × 156
+    ## # A tibble: 517 × 156
     ##    Name         SpIndex AcceptedName Species Genus Family Order Group GrowthForm
     ##    <chr>          <int> <chr>        <chr>   <chr> <chr>  <chr> <chr> <lgl>     
     ##  1 Abies              0 Abies        NA      Abies Pinac… Pina… Gymn… NA        
     ##  2 Abies alba         1 Abies alba   Abies … Abies Pinac… Pina… Gymn… NA        
     ##  3 Abies pinsa…       2 Abies pinsa… Abies … Abies Pinac… Pina… Gymn… NA        
-    ##  4 Acacia             3 Acacia       Acacia  Acac… Fabac… Faba… Angi… NA        
-    ##  5 Acacia deal…       4 Acacia deal… Acacia… Acac… Fabac… Faba… Angi… NA        
-    ##  6 Acacia mela…       5 Acacia mela… Acacia… Acac… Fabac… Faba… Angi… NA        
-    ##  7 Acer               6 Acer         Acer    Acer  Sapin… Sapi… Angi… NA        
-    ##  8 Acer               7 Acer         Acer    Acer  Sapin… Sapi… Angi… NA        
-    ##  9 Acer campes…       8 Acer campes… Acer c… Acer  Sapin… Sapi… Angi… NA        
-    ## 10 Acer monspe…       9 Acer monspe… Acer m… Acer  Sapin… Sapi… Angi… NA        
-    ## # ℹ 538 more rows
+    ##  4 Acacia deal…       3 Acacia deal… Acacia… Acac… Fabac… Faba… Angi… NA        
+    ##  5 Acacia mela…       4 Acacia mela… Acacia… Acac… Fabac… Faba… Angi… NA        
+    ##  6 Acacia spp.        5 Acacia       Acacia  Acac… Fabac… Faba… Angi… NA        
+    ##  7 Acer campes…       6 Acer campes… Acer c… Acer  Sapin… Sapi… Angi… NA        
+    ##  8 Acer monspe…       7 Acer monspe… Acer m… Acer  Sapin… Sapi… Angi… NA        
+    ##  9 Acer negundo       8 Acer negundo Acer n… Acer  Sapin… Sapi… Angi… NA        
+    ## 10 Acer opalus        9 Acer opalus  Acer o… Acer  Sapin… Sapi… Angi… NA        
+    ## # ℹ 507 more rows
     ## # ℹ 147 more variables: LifeForm <lgl>, LeafShape <lgl>, LeafSize <lgl>,
     ## #   PhenologyType <lgl>, DispersalType <lgl>, Hmed <lgl>, Hmax <lgl>,
     ## #   Dmax <lgl>, Z50 <lgl>, Z95 <lgl>, fHDmin <lgl>, fHDmax <lgl>, a_ash <lgl>,
@@ -329,13 +330,13 @@ SpParams<- traits4models::fill_medfate_allometries(SpParams,
 
     ## ℹ Processing response: CrownRatio
 
-    ## ✔ Processing response: CrownRatio [23ms]
+    ## ✔ Processing response: CrownRatio [24ms]
 
     ## 
 
     ## ℹ Processing response: CrownWidth
 
-    ## ✔ Processing response: CrownWidth [20ms]
+    ## ✔ Processing response: CrownWidth [21ms]
 
     ## 
 
@@ -347,7 +348,7 @@ SpParams<- traits4models::fill_medfate_allometries(SpParams,
 
     ## ℹ Processing response: CrownArea
 
-    ## ✔ Processing response: CrownArea [16ms]
+    ## ✔ Processing response: CrownArea [17ms]
 
     ## 
 
@@ -387,79 +388,79 @@ SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path,
 
     ## ℹ Processing parameter: GrowthForm
 
-    ## ✔ Processing parameter: GrowthForm [12.2s]
+    ## ✔ Processing parameter: GrowthForm [11.7s]
 
     ## 
 
     ## ℹ Processing parameter: LifeForm
 
-    ## ✔ Processing parameter: LifeForm [379ms]
+    ## ✔ Processing parameter: LifeForm [344ms]
 
     ## 
 
     ## ℹ Processing parameter: LeafShape
 
-    ## ✔ Processing parameter: LeafShape [1.6s]
+    ## ✔ Processing parameter: LeafShape [1.5s]
 
     ## 
 
     ## ℹ Processing parameter: PhenologyType
 
-    ## ✔ Processing parameter: PhenologyType [882ms]
+    ## ✔ Processing parameter: PhenologyType [827ms]
 
     ## 
 
     ## ℹ Processing parameter: DispersalType
 
-    ## ✔ Processing parameter: DispersalType [2.1s]
+    ## ✔ Processing parameter: DispersalType [2s]
 
     ## 
 
     ## ℹ Processing parameter: t0gdd
 
-    ## ✔ Processing parameter: t0gdd [75ms]
+    ## ✔ Processing parameter: t0gdd [71ms]
 
     ## 
 
     ## ℹ Processing parameter: Tbgdd
 
-    ## ✔ Processing parameter: Tbgdd [92ms]
+    ## ✔ Processing parameter: Tbgdd [91ms]
 
     ## 
 
     ## ℹ Processing parameter: Sgdd
 
-    ## ✔ Processing parameter: Sgdd [72ms]
+    ## ✔ Processing parameter: Sgdd [71ms]
 
     ## 
 
     ## ℹ Processing parameter: Phsen
 
-    ## ✔ Processing parameter: Phsen [90ms]
+    ## ✔ Processing parameter: Phsen [91ms]
 
     ## 
 
     ## ℹ Processing parameter: Tbsen
 
-    ## ✔ Processing parameter: Tbsen [70ms]
+    ## ✔ Processing parameter: Tbsen [92ms]
 
     ## 
 
     ## ℹ Processing parameter: xsen
 
-    ## ✔ Processing parameter: xsen [90ms]
+    ## ✔ Processing parameter: xsen [72ms]
 
     ## 
 
     ## ℹ Processing parameter: ysen
 
-    ## ✔ Processing parameter: ysen [70ms]
+    ## ✔ Processing parameter: ysen [92ms]
 
     ## 
 
     ## ℹ Processing parameter: Ssen
 
-    ## ✔ Processing parameter: Ssen [90ms]
+    ## ✔ Processing parameter: Ssen [71ms]
 
     ## 
 
@@ -471,97 +472,97 @@ SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path,
 
     ## ℹ Processing parameter: Dmax
 
-    ## ✔ Processing parameter: Dmax [321ms]
+    ## ✔ Processing parameter: Dmax [281ms]
 
     ## 
 
     ## ℹ Processing parameter: Hmax
 
-    ## ✔ Processing parameter: Hmax [2s]
+    ## ✔ Processing parameter: Hmax [1.4s]
 
     ## 
 
     ## ℹ Processing parameter: Hmed
 
-    ## ✔ Processing parameter: Hmed [1.8s]
+    ## ✔ Processing parameter: Hmed [1.2s]
 
     ## 
 
     ## ℹ Processing parameter: cr
 
-    ## ✔ Processing parameter: cr [92ms]
+    ## ✔ Processing parameter: cr [72ms]
 
     ## 
 
     ## ℹ Processing parameter: Gs_P50
 
-    ## ✔ Processing parameter: Gs_P50 [97ms]
+    ## ✔ Processing parameter: Gs_P50 [116ms]
 
     ## 
 
     ## ℹ Processing parameter: maxFMC
 
-    ## ✔ Processing parameter: maxFMC [1.9s]
+    ## ✔ Processing parameter: maxFMC [1.7s]
 
     ## 
 
     ## ℹ Processing parameter: minFMC
 
-    ## ✔ Processing parameter: minFMC [2.4s]
+    ## ✔ Processing parameter: minFMC [2.1s]
 
     ## 
 
     ## ℹ Processing parameter: Kmax_stemxylem
 
-    ## ✔ Processing parameter: Kmax_stemxylem [204ms]
+    ## ✔ Processing parameter: Kmax_stemxylem [187ms]
 
     ## 
 
     ## ℹ Processing parameter: Vmax298
 
-    ## ✔ Processing parameter: Vmax298 [217ms]
+    ## ✔ Processing parameter: Vmax298 [221ms]
 
     ## 
 
     ## ℹ Processing parameter: Jmax298
 
-    ## ✔ Processing parameter: Jmax298 [204ms]
+    ## ✔ Processing parameter: Jmax298 [167ms]
 
     ## 
 
     ## ℹ Processing parameter: Z95
 
-    ## ✔ Processing parameter: Z95 [326ms]
+    ## ✔ Processing parameter: Z95 [294ms]
 
     ## 
 
     ## ℹ Processing parameter: LeafAngle
 
-    ## ✔ Processing parameter: LeafAngle [383ms]
+    ## ✔ Processing parameter: LeafAngle [340ms]
 
     ## 
 
     ## ℹ Processing parameter: LeafAngleSD
 
-    ## ✔ Processing parameter: LeafAngleSD [354ms]
+    ## ✔ Processing parameter: LeafAngleSD [313ms]
 
     ## 
 
     ## ℹ Processing parameter: LeafDensity
 
-    ## ✔ Processing parameter: LeafDensity [664ms]
+    ## ✔ Processing parameter: LeafDensity [568ms]
 
     ## 
 
     ## ℹ Processing parameter: WoodDensity
 
-    ## ✔ Processing parameter: WoodDensity [1.2s]
+    ## ✔ Processing parameter: WoodDensity [1.1s]
 
     ## 
 
     ## ℹ Processing parameter: SRL
 
-    ## ✔ Processing parameter: SRL [171ms]
+    ## ✔ Processing parameter: SRL [165ms]
 
     ## 
 
@@ -573,127 +574,127 @@ SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path,
 
     ## ℹ Processing parameter: pDead
 
-    ## ✔ Processing parameter: pDead [96ms]
+    ## ✔ Processing parameter: pDead [95ms]
 
     ## 
 
     ## ℹ Processing parameter: SAV
 
-    ## ✔ Processing parameter: SAV [69ms]
+    ## ✔ Processing parameter: SAV [68ms]
 
     ## 
 
     ## ℹ Processing parameter: HeatContent
 
-    ## ✔ Processing parameter: HeatContent [97ms]
+    ## ✔ Processing parameter: HeatContent [100ms]
 
     ## 
 
     ## ℹ Processing parameter: LeafPI0
 
-    ## ✔ Processing parameter: LeafPI0 [121ms]
+    ## ✔ Processing parameter: LeafPI0 [118ms]
 
     ## 
 
     ## ℹ Processing parameter: LeafEPS
 
-    ## ✔ Processing parameter: LeafEPS [120ms]
+    ## ✔ Processing parameter: LeafEPS [96ms]
 
     ## 
 
     ## ℹ Processing parameter: LeafAF
 
-    ## ✔ Processing parameter: LeafAF [92ms]
+    ## ✔ Processing parameter: LeafAF [113ms]
 
     ## 
 
     ## ℹ Processing parameter: SLA
 
-    ## ✔ Processing parameter: SLA [2s]
+    ## ✔ Processing parameter: SLA [1.9s]
 
     ## 
 
     ## ℹ Processing parameter: Al2As
 
-    ## ✔ Processing parameter: Al2As [183ms]
+    ## ✔ Processing parameter: Al2As [174ms]
 
     ## 
 
     ## ℹ Processing parameter: conduit2sapwood
 
-    ## ✔ Processing parameter: conduit2sapwood [73ms]
+    ## ✔ Processing parameter: conduit2sapwood [74ms]
 
     ## 
 
     ## ℹ Processing parameter: LeafWidth
 
-    ## ✔ Processing parameter: LeafWidth [842ms]
+    ## ✔ Processing parameter: LeafWidth [777ms]
 
     ## 
 
     ## ℹ Processing parameter: LeafDuration
 
-    ## ✔ Processing parameter: LeafDuration [132ms]
+    ## ✔ Processing parameter: LeafDuration [127ms]
 
     ## 
 
     ## ℹ Processing parameter: Gswmax
 
-    ## ✔ Processing parameter: Gswmax [99ms]
+    ## ✔ Processing parameter: Gswmax [101ms]
 
     ## 
 
     ## ℹ Processing parameter: Gswmin
 
-    ## ✔ Processing parameter: Gswmin [84ms]
+    ## ✔ Processing parameter: Gswmin [109ms]
 
     ## 
 
     ## ℹ Processing parameter: VCleaf_P50
 
-    ## ✔ Processing parameter: VCleaf_P50 [153ms]
+    ## ✔ Processing parameter: VCleaf_P50 [130ms]
 
     ## 
 
     ## ℹ Processing parameter: VCleaf_P12
 
-    ## ✔ Processing parameter: VCleaf_P12 [86ms]
+    ## ✔ Processing parameter: VCleaf_P12 [106ms]
 
     ## 
 
     ## ℹ Processing parameter: VCleaf_P88
 
-    ## ✔ Processing parameter: VCleaf_P88 [112ms]
+    ## ✔ Processing parameter: VCleaf_P88 [84ms]
 
     ## 
 
     ## ℹ Processing parameter: VCleaf_slope
 
-    ## ✔ Processing parameter: VCleaf_slope [74ms]
+    ## ✔ Processing parameter: VCleaf_slope [93ms]
 
     ## 
 
     ## ℹ Processing parameter: VCstem_P50
 
-    ## ✔ Processing parameter: VCstem_P50 [220ms]
+    ## ✔ Processing parameter: VCstem_P50 [203ms]
 
     ## 
 
     ## ℹ Processing parameter: VCstem_P12
 
-    ## ✔ Processing parameter: VCstem_P12 [126ms]
+    ## ✔ Processing parameter: VCstem_P12 [119ms]
 
     ## 
 
     ## ℹ Processing parameter: VCstem_P88
 
-    ## ✔ Processing parameter: VCstem_P88 [145ms]
+    ## ✔ Processing parameter: VCstem_P88 [141ms]
 
     ## 
 
     ## ℹ Processing parameter: VCstem_slope
 
-    ## ✔ Processing parameter: VCstem_slope [105ms]
+    ## ✔ Processing parameter: VCstem_slope [103ms]
 
     ## 
 
@@ -711,13 +712,13 @@ SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path,
 
     ## ℹ Processing parameter: VCroot_P88
 
-    ## ✔ Processing parameter: VCroot_P88 [95ms]
+    ## ✔ Processing parameter: VCroot_P88 [73ms]
 
     ## 
 
     ## ℹ Processing parameter: VCroot_slope
 
-    ## ✔ Processing parameter: VCroot_slope [73ms]
+    ## ✔ Processing parameter: VCroot_slope [95ms]
 
     ## 
 
@@ -729,61 +730,61 @@ SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path,
 
     ## ℹ Processing parameter: Nsapwood
 
-    ## ✔ Processing parameter: Nsapwood [187ms]
+    ## ✔ Processing parameter: Nsapwood [181ms]
 
     ## 
 
     ## ℹ Processing parameter: Nfineroot
 
-    ## ✔ Processing parameter: Nfineroot [163ms]
+    ## ✔ Processing parameter: Nfineroot [153ms]
 
     ## 
 
     ## ℹ Processing parameter: SeedMass
 
-    ## ✔ Processing parameter: SeedMass [3.6s]
+    ## ✔ Processing parameter: SeedMass [3.3s]
 
     ## 
 
     ## ℹ Processing parameter: SeedLongevity
 
-    ## ✔ Processing parameter: SeedLongevity [181ms]
+    ## ✔ Processing parameter: SeedLongevity [179ms]
 
     ## 
 
     ## ℹ Processing parameter: WoodC
 
-    ## ✔ Processing parameter: WoodC [106ms]
+    ## ✔ Processing parameter: WoodC [86ms]
 
     ## 
 
     ## ℹ Processing parameter: CCleaf
 
-    ## ✔ Processing parameter: CCleaf [94ms]
+    ## ✔ Processing parameter: CCleaf [96ms]
 
     ## 
 
     ## ℹ Processing parameter: CCsapwood
 
-    ## ✔ Processing parameter: CCsapwood [65ms]
+    ## ✔ Processing parameter: CCsapwood [67ms]
 
     ## 
 
     ## ℹ Processing parameter: CCfineroot
 
-    ## ✔ Processing parameter: CCfineroot [86ms]
+    ## ✔ Processing parameter: CCfineroot [88ms]
 
     ## 
 
     ## ℹ Processing parameter: RSSG
 
-    ## ✔ Processing parameter: RSSG [78ms]
+    ## ✔ Processing parameter: RSSG [79ms]
 
     ## 
 
     ## ℹ Processing parameter: SeedProductionDiameter
 
-    ## ✔ Processing parameter: SeedProductionDiameter [7ms]
+    ## ✔ Processing parameter: SeedProductionDiameter [8ms]
 
     ## 
 
@@ -811,7 +812,7 @@ missing values:
 
 ``` r
 
-check_medfate_params(SpParams)
+check_medfate_params(SpParams, check_consistency = FALSE)
 ```
 
     ## ! Strict parameter column 'GrowthForm' should not contain any missing value.
@@ -859,10 +860,10 @@ should pass the previous check:
 
 ``` r
 
-check_medfate_params(SpParams)
+check_medfate_params(SpParams, check_consistency = FALSE)
 ```
 
-    ## ✔ The data frame is acceptable as species parameter table for medfate.
+    ## ✔ The data frame is formally acceptable as species parameter table for medfate.
 
 And we can store the table for its use in model simulations.
 
