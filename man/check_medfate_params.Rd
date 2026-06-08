@@ -4,14 +4,14 @@
 \alias{check_medfate_params}
 \title{Checks species parameter tables}
 \usage{
-check_medfate_params(x, check_consistency = TRUE, verbose = TRUE)
+check_medfate_params(x, check_consistency = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{x}{A data frame with species parameter data}
 
-\item{verbose}{A boolean flag to prompt detailed process information.}
+\item{check_consistency}{A boolean flag to force checking ecological and physiological consistence of parameter values.}
 
-\item{check_consitency}{A boolean flag to force checking ecological and physiological consistence of parameter values.}
+\item{verbose}{A boolean flag to prompt detailed process information.}
 }
 \value{
 An (invisible) list with two data frames, one with missing values in strict parameters and the other with plant names whose parameters (observed or imputed) do not conform to physiological rules.
@@ -38,13 +38,11 @@ If \code{check_consistency = TRUE}, the function also performs the following con
   \item{Rule 4. Stem hydraulic vulnerability curve is consistent (VCstem_P88 < VCstem_P50 < VCstem_P12).}
   \item{Rule 5. Leaf hydraulic vulnerability curve is consistent (VCleaf_P88 < VCleaf_P50 < VCleaf_P12).}
   \item{Rule 6. Root hydraulic vulnerability curve is consistent (VCroot_P88 < VCroot_P50 < VCroot_P12).}
+  \item{Rule 7. Maximum (stomatal) conductance is larger than minimum (cuticular) stomatal conductance (Gswmax > Gswmin).}
 }
 
 Parameter consistency is conducted including imputation of missing values, according to medfate inbuilt parameter estimation.
 }
 \examples{
-check_medfate_params(SpParamsES)
-check_medfate_params(SpParamsFR)
-check_medfate_params(SpParamsUS)
-check_medfate_params(SpParamsAU)
+check_medfate_params(SpParamsES, check_consistency = FALSE)
 }

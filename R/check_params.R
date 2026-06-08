@@ -3,7 +3,7 @@
 #' Checks that the input data frame has the appropriate format and data for simulations with medfate.
 #'
 #' @param x A data frame with species parameter data
-#' @param check_consitency A boolean flag to force checking ecological and physiological consistence of parameter values.
+#' @param check_consistency A boolean flag to force checking ecological and physiological consistence of parameter values.
 #' @param verbose A boolean flag to prompt detailed process information.
 #'
 #' @returns An (invisible) list with two data frames, one with missing values in strict parameters and the other with plant names whose parameters (observed or imputed) do not conform to physiological rules.
@@ -28,17 +28,15 @@
 #'   \item{Rule 4. Stem hydraulic vulnerability curve is consistent (VCstem_P88 < VCstem_P50 < VCstem_P12).}
 #'   \item{Rule 5. Leaf hydraulic vulnerability curve is consistent (VCleaf_P88 < VCleaf_P50 < VCleaf_P12).}
 #'   \item{Rule 6. Root hydraulic vulnerability curve is consistent (VCroot_P88 < VCroot_P50 < VCroot_P12).}
+#'   \item{Rule 7. Maximum (stomatal) conductance is larger than minimum (cuticular) stomatal conductance (Gswmax > Gswmin).}
 #' }
 #'
 #' Parameter consistency is conducted including imputation of missing values, according to medfate inbuilt parameter estimation.
 #'
 #' @export
 #' @examples
-#' check_medfate_params(SpParamsES)
-#' check_medfate_params(SpParamsFR)
-#' check_medfate_params(SpParamsUS)
-#' check_medfate_params(SpParamsAU)
-check_medfate_params<- function(x, check_consistency = TRUE, verbose = TRUE) {
+#' check_medfate_params(SpParamsES, check_consistency = FALSE)
+check_medfate_params<- function(x, check_consistency = FALSE, verbose = TRUE) {
   if(!inherits(x, "data.frame")) cli::cli_abort("Input should be a data frame")
   cn <- names(x)
   fixed <- medfate::SpParamsDefinition$ParameterName
@@ -85,12 +83,13 @@ check_medfate_params<- function(x, check_consistency = TRUE, verbose = TRUE) {
   }
 
   failed_rules <- data.frame(row.names = x$Name) |>
-    dplyr::mutate(Rule1 = FALSE,
-                  Rule2 = FALSE,
-                  Rule3 = FALSE,
-                  Rule4 = FALSE,
-                  Rule5 = FALSE,
-                  Rule6 = FALSE)
+    dplyr::mutate(Rule1 = as.logical(NA),
+                  Rule2 = as.logical(NA),
+                  Rule3 = as.logical(NA),
+                  Rule4 = as.logical(NA),
+                  Rule5 = as.logical(NA),
+                  Rule6 = as.logical(NA),
+                  Rule7 = as.logical(NA))
   if(check_consistency) {
     for(i in 1:nrow(x)) {
       sp_name <- x$Name[i]
@@ -104,6 +103,8 @@ check_medfate_params<- function(x, check_consistency = TRUE, verbose = TRUE) {
       isNARootP50 <- is.na(medfate::species_parameter(sp_name, SpParams = x, parName = "VCroot_P50", fillMissing = FALSE))
       isNARootP88 <- is.na(medfate::species_parameter(sp_name, SpParams = x, parName = "VCroot_P88", fillMissing = FALSE))
       isNAGsP50 <- is.na(medfate::species_parameter(sp_name, SpParams = x, parName = "Gs_P50", fillMissing = FALSE))
+      isNAGswmin <- is.na(medfate::species_parameter(sp_name, SpParams = x, parName = "Gswmin", fillMissing = FALSE))
+      isNAGswmax <- is.na(medfate::species_parameter(sp_name, SpParams = x, parName = "Gswmax", fillMissing = FALSE))
       StemP50 <- medfate::species_parameter(sp_name, SpParams = x, parName = "VCstem_P50", fillWithGenus = TRUE, fillMissing = TRUE)
       StemP12 <- medfate::species_parameter(sp_name, SpParams = x, parName = "VCstem_P12", fillWithGenus = TRUE, fillMissing = TRUE)
       StemP88 <- medfate::species_parameter(sp_name, SpParams = x, parName = "VCstem_P88", fillWithGenus = TRUE, fillMissing = TRUE)
@@ -114,24 +115,29 @@ check_medfate_params<- function(x, check_consistency = TRUE, verbose = TRUE) {
       RootP50 <- medfate::species_parameter(sp_name, SpParams = x, parName = "VCroot_P50", fillWithGenus = TRUE, fillMissing = TRUE)
       RootP88 <- medfate::species_parameter(sp_name, SpParams = x, parName = "VCroot_P88", fillWithGenus = TRUE, fillMissing = TRUE)
       GsP50 <- medfate::species_parameter(sp_name, SpParams = x, parName = "Gs_P50", fillWithGenus = TRUE, fillMissing = TRUE)
+      Gswmin <- medfate::species_parameter(sp_name, SpParams = x, parName = "Gswmin", fillWithGenus = TRUE, fillMissing = TRUE)
+      Gswmax <- medfate::species_parameter(sp_name, SpParams = x, parName = "Gswmax", fillWithGenus = TRUE, fillMissing = TRUE)
       # Rule 1. Stem hydraulic vulnerability is not larger than leaf hydraulic vulnerability
-      failed_rules$Rule1[i] <- LeafP50 < StemP50
-      if(failed_rules$Rule1[i] && verbose) cli::cli_alert_warning(paste0("Rule #1 failed for '", sp_name, "' [VCstem_P50",ifelse(isNAStemP50, "*","")," = ", format(StemP50, digits = 3), "; VCleaf_P50",ifelse(isNALeafP50, "*","")," = ", format(LeafP50, digits = 3) ,"]."))
+      failed_rules$Rule1[i] <- LeafP50 >= StemP50
+      if(!failed_rules$Rule1[i] && verbose) cli::cli_alert_warning(paste0("Rule #1 failed for '", sp_name, "' [VCstem_P50",ifelse(isNAStemP50, "*","")," = ", format(StemP50, digits = 3), "; VCleaf_P50",ifelse(isNALeafP50, "*","")," = ", format(LeafP50, digits = 3) ,"]."))
       # Rule 2. Stem hydraulic vulnerability is not larger than root hydraulic vulnerability
-      failed_rules$Rule2[i] <- RootP50 < StemP50
-      if(failed_rules$Rule2[i] && verbose) cli::cli_alert_warning(paste0("Rule #2 failed for '", sp_name, "' [VCstem_P50",ifelse(isNAStemP50, "*","")," = ", format(StemP50, digits = 3), "; VCroot_P50",ifelse(isNARootP50, "*","")," = ", format(RootP50, digits = 3) ,"]."))
+      failed_rules$Rule2[i] <- RootP50 >= StemP50
+      if(!failed_rules$Rule2[i] && verbose) cli::cli_alert_warning(paste0("Rule #2 failed for '", sp_name, "' [VCstem_P50",ifelse(isNAStemP50, "*","")," = ", format(StemP50, digits = 3), "; VCroot_P50",ifelse(isNARootP50, "*","")," = ", format(RootP50, digits = 3) ,"]."))
       # Rule 3: Stem hydraulic vulnerability is not larger than the water potential at 50% stomatal conductance
-      failed_rules$Rule3[i] <- GsP50 < StemP50
-      if(failed_rules$Rule3[i] && verbose) cli::cli_alert_warning(paste0("Rule #3 failed for '", sp_name, "' [VCstem_P50",ifelse(isNAStemP50, "*","")," = ", format(StemP50, digits = 3), "; Gs_P50",ifelse(isNAGsP50, "*","")," = ", format(GsP50, digits = 3) ,"]."))
+      failed_rules$Rule3[i] <- GsP50 >= StemP50
+      if(!failed_rules$Rule3[i] && verbose) cli::cli_alert_warning(paste0("Rule #3 failed for '", sp_name, "' [VCstem_P50",ifelse(isNAStemP50, "*","")," = ", format(StemP50, digits = 3), "; Gs_P50",ifelse(isNAGsP50, "*","")," = ", format(GsP50, digits = 3) ,"]."))
       # Rule 4. Stem hydraulic vulnerability curve is consistent
-      failed_rules$Rule4[i] <- ((StemP88 >= StemP50) || (StemP50 >= StemP12))
-      if(failed_rules$Rule4[i] && verbose) cli::cli_alert_warning(paste0("Rule #4 failed for '", sp_name, "' [VCstem_P12",ifelse(isNAStemP12, "*","")," = ", format(StemP12, digits = 3), "; VCstem_P50",ifelse(isNAStemP50, "*","")," = ", format(StemP50, digits = 3) ,"; VCstem_P88",ifelse(isNAStemP88, "*","")," = ", format(StemP88, digits = 3) ,"]."))
+      failed_rules$Rule4[i] <- ((StemP88 < StemP50) && (StemP50 < StemP12))
+      if(!failed_rules$Rule4[i] && verbose) cli::cli_alert_warning(paste0("Rule #4 failed for '", sp_name, "' [VCstem_P12",ifelse(isNAStemP12, "*","")," = ", format(StemP12, digits = 3), "; VCstem_P50",ifelse(isNAStemP50, "*","")," = ", format(StemP50, digits = 3) ,"; VCstem_P88",ifelse(isNAStemP88, "*","")," = ", format(StemP88, digits = 3) ,"]."))
       # Rule 5. Leaf hydraulic vulnerability curve is consistent
-      failed_rules$Rule5[i] <- ((LeafP88 >= LeafP50) || (LeafP50 >= LeafP12))
-      if(failed_rules$Rule5[i] && verbose) cli::cli_alert_warning(paste0("Rule #5 failed for '", sp_name, "' [VCleaf_P12",ifelse(isNALeafP12, "*","")," = ", format(LeafP12, digits = 3), "; VCleaf_P50",ifelse(isNALeafP50, "*","")," = ", format(LeafP50, digits = 3) ,"; VCleaf_P88",ifelse(isNALeafP88, "*","")," = ", format(LeafP88, digits = 3) ,"]."))
+      failed_rules$Rule5[i] <- ((LeafP88 < LeafP50) && (LeafP50 < LeafP12))
+      if(!failed_rules$Rule5[i] && verbose) cli::cli_alert_warning(paste0("Rule #5 failed for '", sp_name, "' [VCleaf_P12",ifelse(isNALeafP12, "*","")," = ", format(LeafP12, digits = 3), "; VCleaf_P50",ifelse(isNALeafP50, "*","")," = ", format(LeafP50, digits = 3) ,"; VCleaf_P88",ifelse(isNALeafP88, "*","")," = ", format(LeafP88, digits = 3) ,"]."))
       # Rule 6. Root hydraulic vulnerability curve is consistent
-      failed_rules$Rule6[i] <- ((RootP88 >= RootP50) || (RootP50 >= RootP12))
-      if(failed_rules$Rule6[i] && verbose) cli::cli_alert_warning(paste0("Rule #6 failed for '", sp_name, "' [VCroot_P12",ifelse(isNARootP12, "*","")," = ", format(RootP12, digits = 3), "; VCroot_P50",ifelse(isNARootP50, "*","")," = ", format(RootP50, digits = 3) ,"; VCroot_P88",ifelse(isNARootP88, "*","")," = ", format(RootP88, digits = 3) ,"]."))
+      failed_rules$Rule6[i] <- ((RootP88 < RootP50) && (RootP50 < RootP12))
+      if(!failed_rules$Rule6[i] && verbose) cli::cli_alert_warning(paste0("Rule #6 failed for '", sp_name, "' [VCroot_P12",ifelse(isNARootP12, "*","")," = ", format(RootP12, digits = 3), "; VCroot_P50",ifelse(isNARootP50, "*","")," = ", format(RootP50, digits = 3) ,"; VCroot_P88",ifelse(isNARootP88, "*","")," = ", format(RootP88, digits = 3) ,"]."))
+      # Rule 7. Maximum (stomatal) conductance is larger than minimum (cuticular) stomatal conductance
+      failed_rules$Rule7[i] <- (Gswmax > Gswmin)
+      if(!failed_rules$Rule7[i] && verbose) cli::cli_alert_warning(paste0("Rule #7 failed for '", sp_name, "' [Gswmax",ifelse(isNAGswmax, "*","")," = ", format(Gswmax, digits = 3), "; Gswmin",ifelse(isNAGswmin, "*","")," = ", format(Gswmin, digits = 3) ,"]."))
     }
     if(sum(as.matrix(failed_rules))==0) {
       if(verbose) cli::cli_alert_success("The data frame is physiologically acceptable as species parameter table for medfate.")

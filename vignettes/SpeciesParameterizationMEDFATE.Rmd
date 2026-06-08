@@ -64,7 +64,10 @@ file <- system.file("extdata", "NFI_ES_mapping.csv", package = "traits4models")
 ```{r}
 NFI_ES_mapping <- read.table(file, sep=";", header=TRUE, na.strings = "") |>
   tibble::as_tibble() |>
-  dplyr::mutate(NFICode = as.character(NFICode))
+  dplyr::select(-originalName, -originalNameAuthorship, -acceptedNameAuthorship, -NFICode) |>
+  dplyr::rename(originalName = NFIName)|>
+  dplyr::distinct()
+
 NFI_ES_mapping
 ```
 
