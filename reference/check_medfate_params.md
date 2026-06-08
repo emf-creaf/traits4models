@@ -51,7 +51,7 @@ consistency checks for the parameter values of each species:
 
 1.  Rule 1. Stem hydraulic vulnerability is not larger than leaf
     hydraulic vulnerability (i.e. VCstem_P50 not less negative than
-    VCleaf_P50).
+    VCleaf_P50) (Bartlett et al. 2016).
 
 2.  Rule 2. Stem hydraulic vulnerability is not larger than root
     hydraulic vulnerability (i.e. VCstem_P50 not less negative than
@@ -73,8 +73,17 @@ consistency checks for the parameter values of each species:
 7.  Rule 7. Maximum (stomatal) conductance is larger than minimum
     (cuticular) stomatal conductance (Gswmax \> Gswmin).
 
+8.  Rule 8. Leaf wilting point is less than 50% of stomatal closure
+    (Ptlp(function of LeafPI0 and LeafEPS) \< Gs_P50) (Bartlett et al.
+    2016).
+
 Parameter consistency is conducted including imputation of missing
 values, according to medfate inbuilt parameter estimation.
+
+## References
+
+Bartlett et al. (2016). The correlations and sequence of plant stomatal,
+hydraulic, and wilting responses to drought. PNAS 113: 13098-13103.
 
 ## Examples
 
