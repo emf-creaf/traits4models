@@ -98,6 +98,8 @@ their required notation and units:
 | Dispersal syndrome | DispersalMode | String | NA | NA | insect,auto,ballistic,vertebrate,water,wind,vehicles | NA | NA |
 | Leaf phenology type | PhenologyType | String | NA | NA | drought-semideciduous,oneflush-evergreen,winter-deciduous,winter-semideciduous | NA | NA |
 | Shade tolerance type | ShadeToleranceType | String | NA | NA | light-demanding,shade-tolerant | NA | NA |
+| Photosynthetic pathway | PhotosyntheticPathway | String | NA | NA | C3,C4,CAM | NA | NA |
+| Wood porosity type (for woody angiosperms) | WoodPorosityType | String | NA | NA | ring-porous,semi-ring-porous,diffuse-porous | NA | NA |
 | Duration of leaves (leaf lifespan) | LeafDuration | Numeric | year | NA | NA | NA | NA |
 | Maximum plant height | Hmax | Numeric | cm | NA | NA | 0 | NA |
 | Maximum (tree) diameter | Dmax | Numeric | cm | NA | NA | 0 | NA |
@@ -135,8 +137,8 @@ their required notation and units:
 | Fine root nitrogen (N) content per fine root dry mass | Nfineroot | Numeric | mg g-1 | NA | NA | 0 | NA |
 | Maximum stem-specific hydraulic conductivity | Ks | Numeric | kg m-1 MPa-1 s-1 | NA | NA | 0 | NA |
 | Maximum leaf-specific hydraulic conductivity (Ks\*Hv) | Kl | Numeric | 10-4 kg m-1 MPa-1 s-1 | NA | NA | 0 | NA |
-| Maximum leaf hydraulic conductance | kleaf | Numeric | mmol m-2 s-1 MPa-1 | NA | NA | 0 | NA |
-| Maximum whole-plant hydraulic conductance | kplant | Numeric | mmol m-2 s-1 MPa-1 | NA | NA | 0 | NA |
+| Maximum leaf hydraulic conductance (per leaf area) | kleaf | Numeric | mmol m-2 s-1 MPa-1 | NA | NA | 0 | NA |
+| Maximum whole-plant hydraulic conductance (per leaf area) | kplant | Numeric | mmol m-2 s-1 MPa-1 | NA | NA | 0 | NA |
 | Parameters of the stem vulnerability curve | VCstem_P12 | Numeric | MPa | NA | NA | NA | 0 |
 | Parameters of the stem vulnerability curve | VCstem_P50 | Numeric | MPa | NA | NA | NA | 0 |
 | Parameters of the stem vulnerability curve | VCstem_P88 | Numeric | MPa | NA | NA | NA | 0 |

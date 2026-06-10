@@ -3,6 +3,7 @@
 ## traits4models 0.2.4
 
 - Consistency check in function ‘check_medfate_params()’
+- New trait definition ‘PhotosyntheticPathway’
 
 ## traits4models 0.2.3
 
