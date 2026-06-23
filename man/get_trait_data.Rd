@@ -36,6 +36,7 @@ get_taxon_trait_means(
   harmonized_trait_path,
   taxon_level = "species",
   traits = NULL,
+  priorization = TRUE,
   progress = TRUE
 )
 }
@@ -59,6 +60,8 @@ get_taxon_trait_means(
 \item{taxon_level}{Taxon level for grouping: either 'species' (acceptedName), 'genus' or 'family'}
 
 \item{traits}{A character vector with the set of traits to summarize. If \code{NULL}, then all available traits are summarized.}
+
+\item{priorization}{A boolean flag to perform priorization of some data sources over others.}
 }
 \value{
 Function \code{load_harmonized_trait_tables()} returns the list with all harmonized trait data tables.
@@ -79,6 +82,10 @@ Functions to load harmonized trait data and harmonized allometry data
 \details{
 Function \code{load_harmonized_trait_tables()} allows loading all kinds of trait data tables, including those that do not pass harmonization check, if \code{check = FALSE}.
 In contrast, functions \code{get_trait_data()}, \code{get_taxon_data()} and \code{get_taxon_trait_means()} only return data from data sets passing harmonization checks (see function \code{\link{check_harmonized_trait}}).
+
+For trait mean value estimation, if \code{priorization = TRUE} and column \code{priority_column} is available in data sources,
+the function will prioritize sources with higher priority first, filling parameters with them before inspecting data sources
+of lower priority.
 }
 \examples{
 \dontrun{

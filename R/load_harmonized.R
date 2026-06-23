@@ -24,6 +24,10 @@
 #' Function \code{load_harmonized_trait_tables()} allows loading all kinds of trait data tables, including those that do not pass harmonization check, if \code{check = FALSE}.
 #' In contrast, functions \code{get_trait_data()}, \code{get_taxon_data()} and \code{get_taxon_trait_means()} only return data from data sets passing harmonization checks (see function \code{\link{check_harmonized_trait}}).
 #'
+#' For trait mean value estimation, if \code{priorization = TRUE} and column \code{priority_column} is available in data sources,
+#' the function will prioritize sources with higher priority first, filling parameters with them before inspecting data sources
+#' of lower priority.
+#'
 #' @seealso \code{\link{check_harmonized_trait}}
 #' @export
 #'
@@ -270,9 +274,11 @@ get_taxon_data<- function(harmonized_trait_path,
 #' @export
 #' @param taxon_level Taxon level for grouping: either 'species' (acceptedName), 'genus' or 'family'
 #' @param traits A character vector with the set of traits to summarize. If \code{NULL}, then all available traits are summarized.
+#' @param priorization A boolean flag to perform priorization of some data sources over others.
 #' @rdname get_trait_data
 get_taxon_trait_means <- function(harmonized_trait_path, taxon_level = "species",
                                   traits = NULL,
+                                  priorization = TRUE,
                                   progress = TRUE) {
   taxon_level <- match.arg(taxon_level, c("species", "genus", "family"))
   if(is.null(traits)) {
@@ -299,14 +305,52 @@ get_taxon_trait_means <- function(harmonized_trait_path, taxon_level = "species"
     expected_type <- traits4models::HarmonizedTraitDefinition$Type[traits4models::HarmonizedTraitDefinition$Notation == t]
     trait_table  <- get_trait_data(harmonized_trait_path, trait_name = t, progress = progress)
     if(nrow(trait_table)>0) {
-      if(expected_type=="Numeric") {
-        trait_mean_table <- trait_table |>
-          dplyr::group_by(.data[[grouping_column]]) |>
-          dplyr::summarize(Value = mean(.data[["Value"]], na.rm = TRUE))
+      if(priorization) { ## Adds priority by order
+        if(expected_type=="Numeric") {
+          trait_mean_table <- trait_table |>
+            dplyr::group_by(.data[[grouping_column]]) |>
+            dplyr::filter(.data[["Priority"]]==1) |>
+            dplyr::summarize(Value = mean(.data[["Value"]], na.rm = TRUE))
+          trait_mean_table_P2 <- trait_table |>
+            dplyr::group_by(.data[[grouping_column]]) |>
+            dplyr::filter(.data[["Priority"]]==2) |>
+            dplyr::summarize(Value = mean(.data[["Value"]], na.rm = TRUE)) |>
+            dplyr::filter(!(.data[[grouping_column]] %in% trait_mean_table[[grouping_column]]))
+          trait_mean_table <- dplyr::bind_rows(trait_mean_table, trait_mean_table_P2)
+          trait_mean_table_P3 <- trait_table |>
+            dplyr::group_by(.data[[grouping_column]]) |>
+            dplyr::filter(.data[["Priority"]]==3) |>
+            dplyr::summarize(Value = mean(.data[["Value"]], na.rm = TRUE))|>
+            dplyr::filter(!(.data[[grouping_column]] %in% trait_mean_table[[grouping_column]]))
+          trait_mean_table <- dplyr::bind_rows(trait_mean_table, trait_mean_table_P3)
+        } else {
+          trait_mean_table <- trait_table |>
+            dplyr::group_by(.data[[grouping_column]]) |>
+            dplyr::filter(.data[["Priority"]]==1) |>
+            dplyr::summarize(Value = .fmode(.data[["Value"]], na.rm = TRUE))
+          trait_mean_table_P2 <- trait_table |>
+            dplyr::group_by(.data[[grouping_column]]) |>
+            dplyr::filter(.data[["Priority"]]==2) |>
+            dplyr::summarize(Value = .fmode(.data[["Value"]], na.rm = TRUE)) |>
+            dplyr::filter(!(.data[[grouping_column]] %in% trait_mean_table[[grouping_column]]))
+          trait_mean_table <- dplyr::bind_rows(trait_mean_table, trait_mean_table_P2)
+          trait_mean_table_P3 <- trait_table |>
+            dplyr::group_by(.data[[grouping_column]]) |>
+            dplyr::filter(.data[["Priority"]]==3) |>
+            dplyr::summarize(Value = .fmode(.data[["Value"]], na.rm = TRUE))|>
+            dplyr::filter(!(.data[[grouping_column]] %in% trait_mean_table[[grouping_column]]))
+          trait_mean_table <- dplyr::bind_rows(trait_mean_table, trait_mean_table_P3)
+        }
       } else {
-        trait_mean_table <- trait_table |>
-          dplyr::group_by(.data[[grouping_column]]) |>
-          dplyr::summarize(Value = .fmode(.data[["Value"]], na.rm = TRUE))
+        if(expected_type=="Numeric") {
+          trait_mean_table <- trait_table |>
+            dplyr::group_by(.data[[grouping_column]]) |>
+            dplyr::summarize(Value = mean(.data[["Value"]], na.rm = TRUE))
+        } else {
+          trait_mean_table <- trait_table |>
+            dplyr::group_by(.data[[grouping_column]]) |>
+            dplyr::summarize(Value = .fmode(.data[["Value"]], na.rm = TRUE))
+        }
       }
       names(trait_mean_table)[2] <- t
       taxon_means <- taxon_means |>

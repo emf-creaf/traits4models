@@ -1,6 +1,7 @@
 # traits4models 0.2.4
 * Consistency check in function 'check_medfate_params()'
 * New trait definition 'PhotosyntheticPathway'
+* Priorization added to function 'get_taxon_trait_means()'
 
 # traits4models 0.2.3
 * SpParamsZM added for Zambia
