@@ -32,6 +32,7 @@ get_taxon_trait_means(
   harmonized_trait_path,
   taxon_level = "species",
   traits = NULL,
+  priorization = TRUE,
   progress = TRUE
 )
 ```
@@ -81,6 +82,11 @@ get_taxon_trait_means(
   A character vector with the set of traits to summarize. If `NULL`,
   then all available traits are summarized.
 
+- priorization:
+
+  A boolean flag to perform priorization of some data sources over
+  others.
+
 ## Value
 
 Function `load_harmonized_trait_tables()` returns the list with all
@@ -111,6 +117,11 @@ if `check = FALSE`. In contrast, functions `get_trait_data()`,
 `get_taxon_data()` and `get_taxon_trait_means()` only return data from
 data sets passing harmonization checks (see function
 [`check_harmonized_trait`](https://emf-creaf.github.io/traits4models/reference/check_harmonized_trait.md)).
+
+For trait mean value estimation, if `priorization = TRUE` and column
+`priority_column` is available in data sources, the function will
+prioritize sources with higher priority first, filling parameters with
+them before inspecting data sources of lower priority.
 
 ## See also
 

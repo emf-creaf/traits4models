@@ -69,7 +69,7 @@
                         <h4 data-toc-skip class="author">Miquel De
 Cáceres / Nicolas Martin-StPaul</h4>
             
-            <h4 data-toc-skip class="date">2026-06-10</h4>
+            <h4 data-toc-skip class="date">2026-06-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/emf-creaf/traits4models/blob/HEAD/vignettes/TraitDatabaseHarmonization.Rmd" class="external-link"><code>vignettes/TraitDatabaseHarmonization.Rmd</code></a></small>
       <div class="d-none name"><code>TraitDatabaseHarmonization.Rmd</code></div>
@@ -536,7 +536,7 @@ sapwood</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">NA</td>
-<td align="right">NA</td>
+<td align="right">0</td>
 </tr>
 <tr class="even">
 <td align="left">Slope coefficient of the Medlyn stomatal conductance
@@ -1338,41 +1338,18 @@ Gswmin, the minimum stomatal conductance, using function
 <code class="sourceCode R"><span><span class="va">gsmin_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_trait_data.html">get_trait_data</a></span><span class="op">(</span><span class="va">harmonized_trait_path</span>, <span class="st">"Gswmin"</span>,</span>
 <span>                             progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">gsmin_data</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##       originalName     acceptedName acceptedNameAuthorship   family  genus</span></span>
-<span><span class="co">## 1       Abies alba       Abies alba                  Mill. Pinaceae  Abies</span></span>
-<span><span class="co">## 2 Abies lasiocarpa Abies lasiocarpa          (Hook.) Nutt. Pinaceae  Abies</span></span>
-<span><span class="co">## 3   Abies sibirica   Abies sibirica                 Ledeb. Pinaceae  Abies</span></span>
-<span><span class="co">## 4       Acacia koa       Acacia koa                 A.Gray Fabaceae Acacia</span></span>
-<span><span class="co">## 5  Acacia maidenii  Acacia maidenii               F.Muell. Fabaceae Acacia</span></span>
-<span><span class="co">## 6   Acacia mangium   Acacia mangium                 Willd. Fabaceae Acacia</span></span>
-<span><span class="co">##   specificEpithet taxonRank  Trait       Value       Units</span></span>
-<span><span class="co">## 1            alba   species Gswmin 0.001500000 mol s-1 m-2</span></span>
-<span><span class="co">## 2      lasiocarpa   species Gswmin 0.004779429 mol s-1 m-2</span></span>
-<span><span class="co">## 3        sibirica   species Gswmin 0.003044600 mol s-1 m-2</span></span>
-<span><span class="co">## 4             koa   species Gswmin 0.003800000 mol s-1 m-2</span></span>
-<span><span class="co">## 5        maidenii   species Gswmin 0.004200000 mol s-1 m-2</span></span>
-<span><span class="co">## 6         mangium   species Gswmin 0.004750000 mol s-1 m-2</span></span>
-<span><span class="co">##                                                                                                                                                                                                          Reference</span></span>
-<span><span class="co">## 1 Wang et al. (2024) Water loss after stomatal closure: quantifying leaf  minimum conductance and minimal water use in nine  temperate European tree species during a severe drought. Tree Physiology, 44, tpae027</span></span>
-<span><span class="co">## 2                                            Duursma et al. (2018) On the minimum leaf conductance: its role in models of plant water use, and ecological and environmental controls. New Phytologist 221, 693-705</span></span>
-<span><span class="co">## 3                                            Duursma et al. (2018) On the minimum leaf conductance: its role in models of plant water use, and ecological and environmental controls. New Phytologist 221, 693-705</span></span>
-<span><span class="co">## 4                                            Duursma et al. (2018) On the minimum leaf conductance: its role in models of plant water use, and ecological and environmental controls. New Phytologist 221, 693-705</span></span>
-<span><span class="co">## 5                                            Duursma et al. (2018) On the minimum leaf conductance: its role in models of plant water use, and ecological and environmental controls. New Phytologist 221, 693-705</span></span>
-<span><span class="co">## 6                                            Duursma et al. (2018) On the minimum leaf conductance: its role in models of plant water use, and ecological and environmental controls. New Phytologist 221, 693-705</span></span>
-<span><span class="co">##                        DOI                 OriginalReference Priority</span></span>
-<span><span class="co">## 1 10.1093/treephys/tpae027                              &lt;NA&gt;        1</span></span>
-<span><span class="co">## 2        10.1111/nph.15395         Boyce and Saunders (2000)        1</span></span>
-<span><span class="co">## 3        10.1111/nph.15395    Brodribb McAdam, et al. (2014)        1</span></span>
-<span><span class="co">## 4        10.1111/nph.15395 Pasquet-Kok Creese, et al. (2010)        1</span></span>
-<span><span class="co">## 5        10.1111/nph.15395      Warren Aranda, et al. (2011)        1</span></span>
-<span><span class="co">## 6        10.1111/nph.15395      Warren Aranda, et al. (2011)        1</span></span>
-<span><span class="co">##   checkVersion</span></span>
-<span><span class="co">## 1        0.2.3</span></span>
-<span><span class="co">## 2        0.2.3</span></span>
-<span><span class="co">## 3        0.2.3</span></span>
-<span><span class="co">## 4        0.2.3</span></span>
-<span><span class="co">## 5        0.2.3</span></span>
-<span><span class="co">## 6        0.2.3</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 15</span></span></span>
+<span><span class="co">##   originalName  acceptedName acceptedNameAuthorship family genus specificEpithet</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> Abies alba    Abies alba   Mill.                  Pinac… Abies alba           </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> Abies lasioc… Abies lasio… (Hook.) Nutt.          Pinac… Abies lasiocarpa     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> Abies sibiri… Abies sibir… Ledeb.                 Pinac… Abies sibirica       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> Acacia koa    Acacia koa   A.Gray                 Fabac… Acac… koa            </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span> Acacia maide… Acacia maid… F.Muell.               Fabac… Acac… maidenii       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span> Acacia mangi… Acacia mang… Willd.                 Fabac… Acac… mangium        </span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 9 more variables: taxonRank &lt;chr&gt;, Trait &lt;chr&gt;, Value &lt;dbl&gt;, Units &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   Reference &lt;chr&gt;, DOI &lt;chr&gt;, Priority &lt;dbl&gt;, checkVersion &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   OriginalReference &lt;chr&gt;</span></span></span></code></pre>
 <p>Analogously, if we are interested in querying trait information for a
 particular taxa, we can use function <code><a href="../reference/get_trait_data.html">get_taxon_data()</a></code>:</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">

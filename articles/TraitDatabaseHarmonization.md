@@ -123,7 +123,7 @@ their required notation and units:
 | Modulus of elasticity (capacity of the cell wall to resist changes in volume in response to changes in turgor) of leaves | LeafEPS | Numeric | MPa | NA | NA | NA | NA |
 | Leaf apoplastic fraction | LeafAF | Numeric | \[0-1\] | NA | NA | NA | NA |
 | Modulus of elasticity (capacity of the cell wall to resist changes in volume in response to changes in turgor) of sapwood | StemEPS | Numeric | MPa | NA | NA | NA | NA |
-| Leaf water potential at turgor loss point | Ptlp | Numeric | MPa | NA | NA | NA | NA |
+| Leaf water potential at turgor loss point | Ptlp | Numeric | MPa | NA | NA | NA | 0 |
 | Slope coefficient of the Medlyn stomatal conductance model | g1_Medlyn | Numeric | NA | NA | NA | NA | NA |
 | Parameters of the stomatal response to leaf water potential | Gs_P20 | Numeric | MPa | NA | NA | NA | 0 |
 | Parameters of the stomatal response to leaf water potential | Gs_P50 | Numeric | MPa | NA | NA | NA | 0 |
@@ -416,41 +416,18 @@ gsmin_data <- get_trait_data(harmonized_trait_path, "Gswmin",
 head(gsmin_data)
 ```
 
-    ##       originalName     acceptedName acceptedNameAuthorship   family  genus
-    ## 1       Abies alba       Abies alba                  Mill. Pinaceae  Abies
-    ## 2 Abies lasiocarpa Abies lasiocarpa          (Hook.) Nutt. Pinaceae  Abies
-    ## 3   Abies sibirica   Abies sibirica                 Ledeb. Pinaceae  Abies
-    ## 4       Acacia koa       Acacia koa                 A.Gray Fabaceae Acacia
-    ## 5  Acacia maidenii  Acacia maidenii               F.Muell. Fabaceae Acacia
-    ## 6   Acacia mangium   Acacia mangium                 Willd. Fabaceae Acacia
-    ##   specificEpithet taxonRank  Trait       Value       Units
-    ## 1            alba   species Gswmin 0.001500000 mol s-1 m-2
-    ## 2      lasiocarpa   species Gswmin 0.004779429 mol s-1 m-2
-    ## 3        sibirica   species Gswmin 0.003044600 mol s-1 m-2
-    ## 4             koa   species Gswmin 0.003800000 mol s-1 m-2
-    ## 5        maidenii   species Gswmin 0.004200000 mol s-1 m-2
-    ## 6         mangium   species Gswmin 0.004750000 mol s-1 m-2
-    ##                                                                                                                                                                                                          Reference
-    ## 1 Wang et al. (2024) Water loss after stomatal closure: quantifying leaf  minimum conductance and minimal water use in nine  temperate European tree species during a severe drought. Tree Physiology, 44, tpae027
-    ## 2                                            Duursma et al. (2018) On the minimum leaf conductance: its role in models of plant water use, and ecological and environmental controls. New Phytologist 221, 693-705
-    ## 3                                            Duursma et al. (2018) On the minimum leaf conductance: its role in models of plant water use, and ecological and environmental controls. New Phytologist 221, 693-705
-    ## 4                                            Duursma et al. (2018) On the minimum leaf conductance: its role in models of plant water use, and ecological and environmental controls. New Phytologist 221, 693-705
-    ## 5                                            Duursma et al. (2018) On the minimum leaf conductance: its role in models of plant water use, and ecological and environmental controls. New Phytologist 221, 693-705
-    ## 6                                            Duursma et al. (2018) On the minimum leaf conductance: its role in models of plant water use, and ecological and environmental controls. New Phytologist 221, 693-705
-    ##                        DOI                 OriginalReference Priority
-    ## 1 10.1093/treephys/tpae027                              <NA>        1
-    ## 2        10.1111/nph.15395         Boyce and Saunders (2000)        1
-    ## 3        10.1111/nph.15395    Brodribb McAdam, et al. (2014)        1
-    ## 4        10.1111/nph.15395 Pasquet-Kok Creese, et al. (2010)        1
-    ## 5        10.1111/nph.15395      Warren Aranda, et al. (2011)        1
-    ## 6        10.1111/nph.15395      Warren Aranda, et al. (2011)        1
-    ##   checkVersion
-    ## 1        0.2.3
-    ## 2        0.2.3
-    ## 3        0.2.3
-    ## 4        0.2.3
-    ## 5        0.2.3
-    ## 6        0.2.3
+    ## # A tibble: 6 × 15
+    ##   originalName  acceptedName acceptedNameAuthorship family genus specificEpithet
+    ##   <chr>         <chr>        <chr>                  <chr>  <chr> <chr>          
+    ## 1 Abies alba    Abies alba   Mill.                  Pinac… Abies alba           
+    ## 2 Abies lasioc… Abies lasio… (Hook.) Nutt.          Pinac… Abies lasiocarpa     
+    ## 3 Abies sibiri… Abies sibir… Ledeb.                 Pinac… Abies sibirica       
+    ## 4 Acacia koa    Acacia koa   A.Gray                 Fabac… Acac… koa            
+    ## 5 Acacia maide… Acacia maid… F.Muell.               Fabac… Acac… maidenii       
+    ## 6 Acacia mangi… Acacia mang… Willd.                 Fabac… Acac… mangium        
+    ## # ℹ 9 more variables: taxonRank <chr>, Trait <chr>, Value <dbl>, Units <chr>,
+    ## #   Reference <chr>, DOI <chr>, Priority <dbl>, checkVersion <chr>,
+    ## #   OriginalReference <chr>
 
 Analogously, if we are interested in querying trait information for a
 particular taxa, we can use function
