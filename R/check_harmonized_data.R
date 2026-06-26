@@ -10,12 +10,14 @@
 #'   \enumerate{
 #'     \item{Has columns called \code{originalName}, \code{acceptedName}, \code{acceptedNameAuthorship}, \code{family}, \code{genus}, \code{specificEpithet}, and \code{taxonRank},
 #'     as returned by function \code{\link{harmonize_taxonomy_WFO}}.}
-#'     \item{Trait data can be in wide-format or long-format. When supplied in wide format, the names of trait columns are either a valid trait names according to the notation in \code{\link{HarmonizedTraitDefinition}} and the type of column needs to match the corresponding type. In this format
-#'     trait units cannot be checked and the same reference applies to all traits. When supplied in long format, the following columns are required:
+#'     \item{Trait data can be in wide-format or long-format (the latter is preferred). When supplied in wide format, the names of trait columns are either a valid trait names according to the notation in \code{\link{HarmonizedTraitDefinition}} and the type of column needs to match the corresponding type. In this format
+#'     trait units and measurement methods cannot be checked and the same reference applies to all traits. In addition, aggregation level is assumed to be 'taxon'. When supplied in long format, the following columns need to be defined:
 #'        \itemize{
 #'          \item{\code{Trait} - A character describing the the name of the trait, with values according to the notation in \code{\link{HarmonizedTraitDefinition}}.}
 #'          \item{\code{Value} - A character or numeric containing the trait value. For numeric traits, values should be coercible to numbers via \code{\link{as.numeric}}.}
 #'          \item{\code{Units} - A character describing the units of the trait, with values according to units in \code{\link{HarmonizedTraitDefinition}}.}
+#'          \item{\code{Method} - A character describing the measurement method of the trait, for those traits where different alternative methods are described in \code{\link{HarmonizedTraitDefinition}}.}
+#'          \item{\code{Level} - A character describing the level of aggregation of data, either: 'individual' (individual measurement), 'population' (population-level average) or 'taxon' (taxon-level average).}
 #'        }
 #'      }
 #'     \item{The names of the remaining columns are:
@@ -82,9 +84,26 @@ check_harmonized_trait<- function(x, verbose = TRUE) {
   }
 
   format <- "undefined"
-  if(all(c("Trait", "Value", "Units") %in% cn)) {
+  if(all(c("Trait", "Value") %in% cn)) {
     format <- "long"
-  } else if(all(!(c("Trait", "Value", "Units") %in% cn))) {
+    if(!("Units" %in% cn)) {
+      acceptable <- FALSE
+      cli::cli_alert_warning(paste0("Column 'Units' should be defined for long-format (see documentation)"))
+    }
+    if(!("Level" %in% cn)) {
+      acceptable <- FALSE
+      cli::cli_alert_warning(paste0("Column 'Level' should be defined for long-format (see documentation)"))
+    }
+    sel_traits <- traits4models::HarmonizedTraitDefinition$Notation %in% unique(x$Trait)
+    sel_methods <- !is.na(traits4models::HarmonizedTraitDefinition$AcceptedMethods)
+    if(any(sel_traits & sel_methods)) {
+      if(!("Method" %in% cn)) {
+        acceptable <- FALSE
+        traits_methods <- traits4models::HarmonizedTraitDefinition$Notation[sel_traits & sel_methods]
+        cli::cli_alert_warning(paste0("Column 'Method' should be defined to code traits: ", paste0(traits_methods, collapse = ",")," (see documentation)"))
+      }
+    }
+  } else if(all(!(c("Trait", "Value") %in% cn))) {
     format <- "wide"
   } else {
     acceptable <- FALSE
@@ -165,10 +184,14 @@ check_harmonized_trait<- function(x, verbose = TRUE) {
         expected_unit <- traits4models::HarmonizedTraitDefinition$Units[row]
         alternative_unit <- traits4models::HarmonizedTraitDefinition$EquivalentUnits[row]
         accepted_values <- traits4models::HarmonizedTraitDefinition$AcceptedValues[row]
+        accepted_methods <- traits4models::HarmonizedTraitDefinition$AcceptedMethods[row]
+        accepted_levels <- c("individual", "population", "taxon")
 
         sel <- x[["Trait"]]==t
         vals <- x[["Value"]][sel]
         units <- x[["Units"]][sel]
+        level <- x[["Level"]][sel]
+        method <- x[["Method"]][sel]
         t_acceptable <- TRUE
         if(!is.na(expected_unit)) {
           units[is.na(units)] <- ""
@@ -182,6 +205,30 @@ check_harmonized_trait<- function(x, verbose = TRUE) {
               cli::cli_alert_warning(paste0("Units for trait '", t, "' are different than expected ('", expected_unit,"')."))
               t_acceptable <- FALSE
             }
+          }
+        }
+        if(t_acceptable) {
+          if(!is.na(accepted_methods)) {
+            accepted_methods <- tolower(strsplit(accepted_methods, ",")[[1]])
+            non_na_method <- method[!is.na(method)]
+            if(length(non_na_method)>0) {
+              if(!all(tolower(as.character(non_na_method)) %in% accepted_methods)) {
+                cli::cli_alert_warning(paste0("Methods for trait '", t, "' include non-accepted methods."))
+                t_acceptable <- FALSE
+              }
+            }
+          }
+        }
+        if(t_acceptable) {
+          if(any(is.na(level))) {
+            cli::cli_alert_warning(paste0("Aggregation levels for trait '", t, "' should not be missing."))
+            t_acceptable <- FALSE
+          }
+        }
+        if(t_acceptable) {
+          if(!all(tolower(as.character(level)) %in% accepted_levels)) {
+            cli::cli_alert_warning(paste0("Aggregation levels for trait '", t, "' include non-accepted levels."))
+            t_acceptable <- FALSE
           }
         }
         if(t_acceptable) {

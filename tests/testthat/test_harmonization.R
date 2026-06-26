@@ -20,6 +20,27 @@ test_that("trait taxonomic harmonization can be done", {
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var[1:5,], WFO_file, progress = FALSE)
   expect_s3_class(db_post, "data.frame")
   expect_true(check_harmonized_trait(db_post))
+
+  db_var_long <- db |>
+    dplyr::select(Name, "Leaf P50 (MPa)") |>
+    dplyr::rename(originalName = Name,
+                  Value = "Leaf P50 (MPa)") |>
+    dplyr::mutate(Trait = "VCleaf_P50",
+                  Units = "MPa",
+                  Reference = "Bartlett et al. (2016)",
+                  DOI ="xxx",
+                  Priority = 3) |>
+    dplyr::filter(!is.na(Value))
+  db_post <- traits4models::harmonize_taxonomy_WFO(db_var_long[1:5,], WFO_file, progress = FALSE)
+  expect_s3_class(db_post, "data.frame")
+  expect_false(check_harmonized_trait(db_post))
+  db_post2 <- db_post |>
+    dplyr::mutate(Level = "species",
+                  Method = NA)
+  expect_false(check_harmonized_trait(db_post2))
+  db_post3 <- db_post2 |>
+    dplyr::mutate(Level = "taxon")
+  expect_true(check_harmonized_trait(db_post3))
 })
 
 test_that("harmonization checks are ok",{

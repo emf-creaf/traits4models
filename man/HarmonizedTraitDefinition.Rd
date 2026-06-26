@@ -12,13 +12,16 @@ A data frame with parameters in rows and columns:
   \item{\code{Type}: Either 'Numeric' (for quantitative traits), 'Integer' (for counts) or 'String' (for qualitative traits).}
   \item{\code{Units}: Required units for quantitative traits.}
   \item{\code{EquivalentUnits}: Alternative, but equivalent, unit notation for quantitative traits.}
+  \item{\code{AcceptedMethods}: Set of comma-separated accepted methods.}
+  \item{\code{DefaultMethod}: Default method to be expected when the information is missing.}
   \item{\code{AcceptedValues}: Set of comma-separated accepted values.}
   \item{\code{MinimumValue}: Minimum value for quantitative traits.}
   \item{\code{MaximumValue}: Maximum value for quantitative traits.}
 }
 }
 \description{
-A data frame of accepted plant trait definitions.
+A data frame of accepted plant trait definitions. This information guides the format and content evaluation of
+harmonized trait datasets.
 }
 \examples{
 data(HarmonizedTraitDefinition)
