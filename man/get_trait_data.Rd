@@ -37,6 +37,7 @@ get_taxon_trait_means(
   taxon_level = "species",
   traits = NULL,
   priorization = TRUE,
+  level_weights = c(individual = 1, population = 10, taxon = 100),
   progress = TRUE
 )
 }
@@ -62,6 +63,8 @@ get_taxon_trait_means(
 \item{traits}{A character vector with the set of traits to summarize. If \code{NULL}, then all available traits are summarized.}
 
 \item{priorization}{A boolean flag to perform priorization of some data sources over others.}
+
+\item{level_weights}{A vector of weights to be applied to different levels when calculating numeric averages.}
 }
 \value{
 Function \code{load_harmonized_trait_tables()} returns the list with all harmonized trait data tables.

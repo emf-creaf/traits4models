@@ -1,5 +1,6 @@
 # traits4models 0.3.0
-* MeasurementMethod and AggregationLevel fields added
+* Method and Level fields added
+* Function 'get_taxon_trait_means()' performs weighting by level
 
 # traits4models 0.2.4
 * Consistency check in function 'check_medfate_params()'

@@ -162,7 +162,8 @@ get_trait_data <- function(harmonized_trait_path,
         tab <- tab[,names(tab)[names(tab) %in% c(fixed, trait_name)]]
         tab <- tab |>
           tidyr::pivot_longer(dplyr::all_of(trait_name), names_to = "Trait", values_to="Value") |>
-          dplyr::mutate(Units = expected_unit) |>
+          dplyr::mutate(Units = expected_unit,
+                        Level = "taxon") |>
           dplyr::relocate("Trait", "Value", "Units", .before = "Reference")
         if("checkVersion" %in% names(tab)) {
           tab[["checkVersion"]] <-  as.character(tab[["checkVersion"]])
@@ -250,7 +251,9 @@ get_taxon_data<- function(harmonized_trait_path,
         tab <- tab |>
           tidyr::pivot_longer(cn[!(cn %in% fixed)], names_to = "Trait", values_to="Value",
                               values_transform = as.character) |>
-          dplyr::mutate(Units = as.character(NA)) |>
+          dplyr::mutate(Units = as.character(NA),
+                        Level = "taxon",
+                        Method = as.character(NA)) |>
           dplyr::relocate("Trait", "Value", "Units", .after="taxonRank")
       } else {
         tab$Value <- as.character(tab$Value)
@@ -275,10 +278,12 @@ get_taxon_data<- function(harmonized_trait_path,
 #' @param taxon_level Taxon level for grouping: either 'species' (acceptedName), 'genus' or 'family'
 #' @param traits A character vector with the set of traits to summarize. If \code{NULL}, then all available traits are summarized.
 #' @param priorization A boolean flag to perform priorization of some data sources over others.
+#' @param level_weights A vector of weights to be applied to different levels when calculating numeric averages.
 #' @rdname get_trait_data
 get_taxon_trait_means <- function(harmonized_trait_path, taxon_level = "species",
                                   traits = NULL,
                                   priorization = TRUE,
+                                  level_weights = c("individual" = 1, "population" = 10, "taxon" = 100),
                                   progress = TRUE) {
   taxon_level <- match.arg(taxon_level, c("species", "genus", "family"))
   if(is.null(traits)) {
@@ -286,10 +291,19 @@ get_taxon_trait_means <- function(harmonized_trait_path, taxon_level = "species"
   } else {
     traits <- match.arg(traits, traits4models::HarmonizedTraitDefinition$Notation, several.ok = TRUE)
   }
+  df_levels <- data.frame(level = names(level_weights),
+                          weight = as.numeric(level_weights))
   .fmode <- function(x, na.rm = TRUE) {
     if(na.rm) x <- x[!is.na(x)]
     freq <- table(x)
     return(names(freq)[which.max(freq)])
+  }
+  .level_weighted_mean <- function(values, levels, na.rm = TRUE) {
+    is_na <- is.na(values) | is.na(levels)
+    df <- data.frame(x = values[!is_na],
+                     level = levels[!is_na]) |>
+      dplyr::left_join(df_levels, by = "level")
+    return(sum(df$x*df$weight)/sum(df$weight))
   }
   if(taxon_level =="species") {
     grouping_column = "acceptedName"
@@ -310,17 +324,17 @@ get_taxon_trait_means <- function(harmonized_trait_path, taxon_level = "species"
           trait_mean_table <- trait_table |>
             dplyr::group_by(.data[[grouping_column]]) |>
             dplyr::filter(.data[["Priority"]]==1) |>
-            dplyr::summarize(Value = mean(.data[["Value"]], na.rm = TRUE))
+            dplyr::summarize(Value = .level_weighted_mean(.data[["Value"]], .data[["Level"]]))
           trait_mean_table_P2 <- trait_table |>
             dplyr::group_by(.data[[grouping_column]]) |>
             dplyr::filter(.data[["Priority"]]==2) |>
-            dplyr::summarize(Value = mean(.data[["Value"]], na.rm = TRUE)) |>
+            dplyr::summarize(Value = .level_weighted_mean(.data[["Value"]], .data[["Level"]])) |>
             dplyr::filter(!(.data[[grouping_column]] %in% trait_mean_table[[grouping_column]]))
           trait_mean_table <- dplyr::bind_rows(trait_mean_table, trait_mean_table_P2)
           trait_mean_table_P3 <- trait_table |>
             dplyr::group_by(.data[[grouping_column]]) |>
             dplyr::filter(.data[["Priority"]]==3) |>
-            dplyr::summarize(Value = mean(.data[["Value"]], na.rm = TRUE))|>
+            dplyr::summarize(Value = .level_weighted_mean(.data[["Value"]], .data[["Level"]]))|>
             dplyr::filter(!(.data[[grouping_column]] %in% trait_mean_table[[grouping_column]]))
           trait_mean_table <- dplyr::bind_rows(trait_mean_table, trait_mean_table_P3)
         } else {
@@ -345,7 +359,7 @@ get_taxon_trait_means <- function(harmonized_trait_path, taxon_level = "species"
         if(expected_type=="Numeric") {
           trait_mean_table <- trait_table |>
             dplyr::group_by(.data[[grouping_column]]) |>
-            dplyr::summarize(Value = mean(.data[["Value"]], na.rm = TRUE))
+            dplyr::summarize(Value = .level_weighted_mean(.data[["Value"]], .data[["Level"]]))
         } else {
           trait_mean_table <- trait_table |>
             dplyr::group_by(.data[[grouping_column]]) |>
