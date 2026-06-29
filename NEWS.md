@@ -1,5 +1,6 @@
 # traits4models 0.3.0
 * Method and Level fields added
+* New traits definition 'StomatalDensity' and 'StomatalSize'
 * Function 'get_taxon_trait_means()' performs weighting by level
 
 # traits4models 0.2.4
