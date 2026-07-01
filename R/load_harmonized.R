@@ -145,7 +145,7 @@ get_trait_data <- function(harmonized_trait_path,
   expected_type <- traits4models::HarmonizedTraitDefinition$Type[row]
   expected_unit <- traits4models::HarmonizedTraitDefinition$Units[row]
   for(i in 1:length(all_tables)) {
-    if(progress) cli::cli_progress_update()
+    if(progress) cli::cli_progress_update(status = names(all_tables)[[i]])
     tab <- all_tables[[i]]
     cn <- names(tab)
     format <- "undefined"
@@ -172,10 +172,21 @@ get_trait_data <- function(harmonized_trait_path,
         n_tab <- n_tab + 1
       }
     } else if(format == "long") {
-      tab <- tab[tab$Trait==trait_name, ,drop =FALSE]
+      tab <- tab[tab$Trait==trait_name, ,drop =FALSE] |>
+        tibble::as_tibble()
       if(nrow(tab)>0) {
         if("checkVersion" %in% names(tab)) {
           tab[["checkVersion"]] <-  as.character(tab[["checkVersion"]])
+        }
+        if(expected_unit == "Numeric") {
+          tab <- tab |>
+            dplyr::mutate(Value = as.numeric(Value))
+        } else if(expected_unit == "Integer") {
+          tab <- tab |>
+            dplyr::mutate(Value = as.integer(Value))
+        } else if(expected_unit == "String") {
+          tab <- tab |>
+            dplyr::mutate(Value = as.character(Value))
         }
         trait_tables[[i]] <- tab
         n_tab <- n_tab + 1
