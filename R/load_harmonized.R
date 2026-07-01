@@ -70,7 +70,7 @@ load_harmonized_trait_tables <- function(harmonized_trait_path, check = TRUE, pr
   accepted <- rep(TRUE, length(trait_files))
   if(progress) cli::cli_progress_bar("Loading tables", total = length(trait_files))
   for(i in 1:length(trait_files)) {
-    if(progress) cli::cli_progress_update()
+    if(progress) cli::cli_progress_update(status=trait_files_short[i])
     if(endsWith(trait_files[i], ".rds")) {
       tab <- readRDS(trait_files[i]) |>
         as.data.frame()|>
@@ -178,13 +178,13 @@ get_trait_data <- function(harmonized_trait_path,
         if("checkVersion" %in% names(tab)) {
           tab[["checkVersion"]] <-  as.character(tab[["checkVersion"]])
         }
-        if(expected_unit == "Numeric") {
+        if(expected_type == "Numeric") {
           tab <- tab |>
             dplyr::mutate(Value = as.numeric(Value))
-        } else if(expected_unit == "Integer") {
+        } else if(expected_type == "Integer") {
           tab <- tab |>
             dplyr::mutate(Value = as.integer(Value))
-        } else if(expected_unit == "String") {
+        } else if(expected_type == "String") {
           tab <- tab |>
             dplyr::mutate(Value = as.character(Value))
         }
