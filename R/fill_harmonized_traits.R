@@ -335,8 +335,25 @@ fill_medfate_traits<-function(SpParams,
     }
   }
 
-  parameters_sel <- c("LeafAF", "LeafPI0", "LeafEPS", "Al2As", "conduit2sapwood",
-                      "Gswmax", "Gswmin", "Gs_P50")
+  parameters_sel <- c("LeafAF", "LeafPI0", "LeafEPS", "Ptlp")
+  traits_sel <- parameters_sel
+  trait_mapping <- traits_sel
+  names(trait_mapping) <- parameters_sel
+  trait_mapping <- trait_mapping[parameters_sel %in% parameters]
+  if(length(trait_mapping)>0) {
+    if(progress) cli::cli_progress_step(paste0("Processing ", paste(names(trait_mapping), collapse=", ")))
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  summary_params = list(na.rm = TRUE),
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
+  }
+
+  parameters_sel <- c("Gswmax", "Gswmin")
   traits_sel <- parameters_sel
   trait_mapping <- traits_sel
   names(trait_mapping) <- parameters_sel
@@ -367,7 +384,23 @@ fill_medfate_traits<-function(SpParams,
                                   erase_previous = erase_previous,
                                   replace_previous = replace_previous)
   }
-
+  parameters_sel <- c("Al2As", "conduit2sapwood")
+  traits_sel <- parameters_sel
+  trait_mapping <- traits_sel
+  names(trait_mapping) <- parameters_sel
+  trait_mapping <- trait_mapping[parameters_sel %in% parameters]
+  if(length(trait_mapping)>0) {
+    if(progress) cli::cli_progress_step(paste0("Processing ", paste(names(trait_mapping), collapse=", ")))
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  summary_params = list(na.rm = TRUE),
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
+  }
   parameters_sel <- c("VCleaf_P50", "VCleaf_P12", "VCleaf_P88", "VCleaf_slope",
                       "VCstem_P50", "VCstem_P12", "VCstem_P88", "VCstem_slope",
                       "VCroot_P50", "VCroot_P12", "VCroot_P88", "VCroot_slope")

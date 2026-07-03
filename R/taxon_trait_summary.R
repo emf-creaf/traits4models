@@ -245,11 +245,11 @@ taxon_trait_summary <- function(harmonized_trait_path,
         dplyr::full_join(trait_summary_table, by=grouping_column)
     } else {
       if(expected_type=="Numeric") {
-        taxon_summaries[[t]] <- as.numeric(NA)
+        taxon_summaries[[t]] <- as.numeric(rep(NA, nrow(taxon_summaries)))
       } else if(expected_type=="Integer") {
-        taxon_summaries[[t]] <- as.integer(NA)
+        taxon_summaries[[t]] <- as.integer(rep(NA, nrow(taxon_summaries)))
       } else if(expected_type=="String") {
-        taxon_summaries[[t]] <- as.character(NA)
+        taxon_summaries[[t]] <- as.character(rep(NA, nrow(taxon_summaries)))
       }
     }
   }
