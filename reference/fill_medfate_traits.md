@@ -11,6 +11,7 @@ fill_medfate_traits(
   harmonized_trait_path,
   parameters = NULL,
   priorization = TRUE,
+  aggregation_level_weights = c(individual = 1, population = 10, taxon = 100),
   erase_previous = FALSE,
   replace_previous = FALSE,
   progress = TRUE,
@@ -37,6 +38,11 @@ fill_medfate_traits(
 
   A boolean flag to perform priorization of some data sources over
   others.
+
+- aggregation_level_weights:
+
+  A vector of weights to be applied to different aggregation levels when
+  calculating numeric averages.
 
 - erase_previous:
 

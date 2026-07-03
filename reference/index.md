@@ -16,15 +16,16 @@ Harmonization of plant trait or allometry databases
 
 ## Harmonized trait and allometry data
 
-Load and subset harmonized trait and allometry data
+Load, subset and summarize harmonized trait and allometry data
 
 - [`load_harmonized_trait_tables()`](https://emf-creaf.github.io/traits4models/reference/get_trait_data.md)
   [`load_harmonized_allometry_tables()`](https://emf-creaf.github.io/traits4models/reference/get_trait_data.md)
   [`get_trait_data()`](https://emf-creaf.github.io/traits4models/reference/get_trait_data.md)
   [`get_allometry_data()`](https://emf-creaf.github.io/traits4models/reference/get_trait_data.md)
   [`get_taxon_data()`](https://emf-creaf.github.io/traits4models/reference/get_trait_data.md)
-  [`get_taxon_trait_means()`](https://emf-creaf.github.io/traits4models/reference/get_trait_data.md)
   : Load harmonized trait/allometry data
+- [`taxon_trait_summary()`](https://emf-creaf.github.io/traits4models/reference/taxon_trait_summary.md)
+  : Taxon trait summaries
 
 ## Building species parameter tables
 

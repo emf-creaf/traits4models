@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">traits4models</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,7 +69,7 @@
                         <h4 data-toc-skip class="author">Miquel De
 Cáceres / Nicolas Martin-StPaul</h4>
             
-            <h4 data-toc-skip class="date">2026-06-23</h4>
+            <h4 data-toc-skip class="date">2026-07-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/emf-creaf/traits4models/blob/HEAD/vignettes/TraitDatabaseHarmonization.Rmd" class="external-link"><code>vignettes/TraitDatabaseHarmonization.Rmd</code></a></small>
       <div class="d-none name"><code>TraitDatabaseHarmonization.Rmd</code></div>
@@ -159,14 +159,16 @@ Package <strong>traits4models</strong> includes a data table called
 definitions and their required notation and units:</p>
 <table class="table">
 <colgroup>
-<col width="39%">
-<col width="10%">
+<col width="33%">
+<col width="9%">
 <col width="2%">
-<col width="7%">
-<col width="5%">
-<col width="27%">
+<col width="6%">
 <col width="4%">
-<col width="4%">
+<col width="9%">
+<col width="3%">
+<col width="23%">
+<col width="3%">
+<col width="3%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">Definition</th>
@@ -174,6 +176,8 @@ definitions and their required notation and units:</p>
 <th align="left">Type</th>
 <th align="left">Units</th>
 <th align="left">EquivalentUnits</th>
+<th align="left">AcceptedMethods</th>
+<th align="left">DefaultMethod</th>
 <th align="left">AcceptedValues</th>
 <th align="right">MinimumValue</th>
 <th align="right">MaximumValue</th>
@@ -183,6 +187,8 @@ definitions and their required notation and units:</p>
 <td align="left">Life form</td>
 <td align="left">LifeForm</td>
 <td align="left">String</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">chamaephyte,cryptophyte,epiphyte,hemicryptophyte,phanerophyte,therophyte,hydrophyte</td>
@@ -195,6 +201,8 @@ definitions and their required notation and units:</p>
 <td align="left">String</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">tree,shrub,herb,shrub/herb,tree/herb,tree/shrub,tree/shrub/herb,fern,grass,other</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
@@ -203,6 +211,8 @@ definitions and their required notation and units:</p>
 <td align="left">Leaf shape</td>
 <td align="left">LeafShape</td>
 <td align="left">String</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">broad,linear,needle,scale,spines,succulent</td>
@@ -216,6 +226,8 @@ definitions and their required notation and units:</p>
 <td align="left">mm2</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -223,6 +235,8 @@ definitions and their required notation and units:</p>
 <td align="left">Leaf size (category)</td>
 <td align="left">LeafSize</td>
 <td align="left">String</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">lepto,macro,meso,micro,nano,noto,pico</td>
@@ -236,6 +250,8 @@ definitions and their required notation and units:</p>
 <td align="left">degree</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">90</td>
 </tr>
@@ -243,6 +259,8 @@ definitions and their required notation and units:</p>
 <td align="left">Dispersal syndrome</td>
 <td align="left">DispersalMode</td>
 <td align="left">String</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">insect,auto,ballistic,vertebrate,water,wind,vehicles</td>
@@ -255,6 +273,8 @@ definitions and their required notation and units:</p>
 <td align="left">String</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">drought-semideciduous,oneflush-evergreen,winter-deciduous,winter-semideciduous</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
@@ -263,6 +283,8 @@ definitions and their required notation and units:</p>
 <td align="left">Shade tolerance type</td>
 <td align="left">ShadeToleranceType</td>
 <td align="left">String</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">light-demanding,shade-tolerant</td>
@@ -275,6 +297,8 @@ definitions and their required notation and units:</p>
 <td align="left">String</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">C3,C4,CAM</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
@@ -283,6 +307,8 @@ definitions and their required notation and units:</p>
 <td align="left">Wood porosity type (for woody angiosperms)</td>
 <td align="left">WoodPorosityType</td>
 <td align="left">String</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">ring-porous,semi-ring-porous,diffuse-porous</td>
@@ -296,6 +322,8 @@ definitions and their required notation and units:</p>
 <td align="left">year</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 </tr>
@@ -304,6 +332,8 @@ definitions and their required notation and units:</p>
 <td align="left">Hmax</td>
 <td align="left">Numeric</td>
 <td align="left">cm</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">0</td>
@@ -316,6 +346,8 @@ definitions and their required notation and units:</p>
 <td align="left">cm</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -324,6 +356,8 @@ definitions and their required notation and units:</p>
 <td align="left">Hact</td>
 <td align="left">Numeric</td>
 <td align="left">cm</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">0</td>
@@ -336,6 +370,8 @@ definitions and their required notation and units:</p>
 <td align="left">mm</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -344,6 +380,8 @@ definitions and their required notation and units:</p>
 height)</td>
 <td align="left">CrownRatio</td>
 <td align="left">Numeric</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -358,6 +396,8 @@ height)</td>
 <td align="left">m2 kg-1</td>
 <td align="left">mm2 mg-1</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -369,6 +409,8 @@ Value (Hv)</td>
 <td align="left">m2 m-2</td>
 <td align="left">mm2 mm-2</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -377,6 +419,8 @@ Value (Hv)</td>
 elements (vessels or tracheids) as opposed to parenchymatic tissue.</td>
 <td align="left">conduit2sapwood</td>
 <td align="left">Numeric</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -390,6 +434,8 @@ elements (vessels or tracheids) as opposed to parenchymatic tissue.</td>
 <td align="left">cm g-1</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -397,6 +443,8 @@ elements (vessels or tracheids) as opposed to parenchymatic tissue.</td>
 <td align="left">Proportion of total fine fuels that are dead</td>
 <td align="left">pDead</td>
 <td align="left">Numeric</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -410,6 +458,8 @@ elements (vessels or tracheids) as opposed to parenchymatic tissue.</td>
 <td align="left">g g-1</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 </tr>
@@ -420,6 +470,8 @@ elements (vessels or tracheids) as opposed to parenchymatic tissue.</td>
 <td align="left">g cm-3</td>
 <td align="left">mg mm-3</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -429,6 +481,8 @@ elements (vessels or tracheids) as opposed to parenchymatic tissue.</td>
 <td align="left">Numeric</td>
 <td align="left">g cm-3</td>
 <td align="left">mg mm-3</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
@@ -441,6 +495,8 @@ volume).</td>
 <td align="left">g cm-3</td>
 <td align="left">mg mm-3</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -449,6 +505,33 @@ volume).</td>
 <td align="left">LeafWidth</td>
 <td align="left">Numeric</td>
 <td align="left">cm</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">Stomatal size (area)</td>
+<td align="left">StomatalSize</td>
+<td align="left">Numeric</td>
+<td align="left">um2</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">Stomatal density per leaf area (total, including
+abaxial and adaxial)</td>
+<td align="left">StomatalDensity</td>
+<td align="left">Numeric</td>
+<td align="left">mm-2</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">0</td>
@@ -461,6 +544,8 @@ volume).</td>
 <td align="left">mol s-1 m-2</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -469,6 +554,8 @@ volume).</td>
 <td align="left">Gswmin</td>
 <td align="left">Numeric</td>
 <td align="left">mol s-1 m-2</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">0</td>
@@ -481,6 +568,8 @@ volume).</td>
 <td align="left">mol s-1 m-2</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -489,6 +578,8 @@ volume).</td>
 <td align="left">LeafPI0</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
+<td align="left">NA</td>
+<td align="left">osmotic,pressure-volume</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">NA</td>
@@ -502,6 +593,8 @@ leaves</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 <td align="left">NA</td>
+<td align="left">osmotic,pressure-volume</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
@@ -511,6 +604,8 @@ leaves</td>
 <td align="left">LeafAF</td>
 <td align="left">Numeric</td>
 <td align="left">[0-1]</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">NA</td>
@@ -525,6 +620,8 @@ sapwood</td>
 <td align="left">MPa</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 </tr>
@@ -533,6 +630,8 @@ sapwood</td>
 <td align="left">Ptlp</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
+<td align="left">NA</td>
+<td align="left">osmotic,pressure-volume</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">NA</td>
@@ -543,6 +642,8 @@ sapwood</td>
 model</td>
 <td align="left">g1_Medlyn</td>
 <td align="left">Numeric</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -557,6 +658,8 @@ potential</td>
 <td align="left">MPa</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">0</td>
 </tr>
@@ -566,6 +669,8 @@ potential</td>
 <td align="left">Gs_P50</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">NA</td>
@@ -579,6 +684,8 @@ potential</td>
 <td align="left">MPa</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">0</td>
 </tr>
@@ -588,6 +695,8 @@ potential</td>
 <td align="left">Gs_P90</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">NA</td>
@@ -601,6 +710,8 @@ potential</td>
 <td align="left">MPa</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">0</td>
 </tr>
@@ -610,6 +721,8 @@ leaf area (Farquhar model)</td>
 <td align="left">Vmax</td>
 <td align="left">Numeric</td>
 <td align="left">umol m-2 s-1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">0</td>
@@ -623,6 +736,8 @@ per leaf area (Farquhar model)</td>
 <td align="left">umol m-2 s-1</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -633,6 +748,8 @@ per leaf area (Farquhar model)</td>
 <td align="left">mg g-1</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -641,6 +758,8 @@ per leaf area (Farquhar model)</td>
 <td align="left">Nsapwood</td>
 <td align="left">Numeric</td>
 <td align="left">mg g-1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">0</td>
@@ -654,6 +773,8 @@ mass</td>
 <td align="left">mg g-1</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -662,6 +783,8 @@ mass</td>
 <td align="left">Ks</td>
 <td align="left">Numeric</td>
 <td align="left">kg m-1 MPa-1 s-1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">0</td>
@@ -675,6 +798,8 @@ mass</td>
 <td align="left">10-4 kg m-1 MPa-1 s-1</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -683,6 +808,8 @@ mass</td>
 <td align="left">kleaf</td>
 <td align="left">Numeric</td>
 <td align="left">mmol m-2 s-1 MPa-1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">0</td>
@@ -696,6 +823,8 @@ area)</td>
 <td align="left">mmol m-2 s-1 MPa-1</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -705,6 +834,8 @@ area)</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 <td align="left">NA</td>
+<td align="left">DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI</td>
+<td align="left">DH</td>
 <td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">0</td>
@@ -715,6 +846,8 @@ area)</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 <td align="left">NA</td>
+<td align="left">DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI</td>
+<td align="left">DH</td>
 <td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">0</td>
@@ -725,6 +858,8 @@ area)</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 <td align="left">NA</td>
+<td align="left">DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI</td>
+<td align="left">DH</td>
 <td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">0</td>
@@ -735,6 +870,8 @@ area)</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI</td>
+<td align="left">DH</td>
 <td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
@@ -745,6 +882,8 @@ area)</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 <td align="left">NA</td>
+<td align="left">DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI</td>
+<td align="left">DH</td>
 <td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">0</td>
@@ -755,6 +894,8 @@ area)</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 <td align="left">NA</td>
+<td align="left">DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI</td>
+<td align="left">DH</td>
 <td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">0</td>
@@ -765,6 +906,8 @@ area)</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 <td align="left">NA</td>
+<td align="left">DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI</td>
+<td align="left">DH</td>
 <td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">0</td>
@@ -775,6 +918,8 @@ area)</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI</td>
+<td align="left">DH</td>
 <td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
@@ -785,6 +930,8 @@ area)</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 <td align="left">NA</td>
+<td align="left">DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI</td>
+<td align="left">DH</td>
 <td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">0</td>
@@ -795,6 +942,8 @@ area)</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 <td align="left">NA</td>
+<td align="left">DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI</td>
+<td align="left">DH</td>
 <td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">0</td>
@@ -805,6 +954,8 @@ area)</td>
 <td align="left">Numeric</td>
 <td align="left">MPa</td>
 <td align="left">NA</td>
+<td align="left">DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI</td>
+<td align="left">DH</td>
 <td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">0</td>
@@ -815,6 +966,8 @@ area)</td>
 <td align="left">Numeric</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI</td>
+<td align="left">DH</td>
 <td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
@@ -827,6 +980,8 @@ content, LDMC)</td>
 <td align="left">mg g-1</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -835,6 +990,8 @@ content, LDMC)</td>
 <td align="left">LFMC</td>
 <td align="left">Numeric</td>
 <td align="left">%</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">0</td>
@@ -848,6 +1005,8 @@ content, LDMC)</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">1</td>
 <td align="right">NA</td>
 </tr>
@@ -856,6 +1015,8 @@ content, LDMC)</td>
 <td align="left">HeatContent</td>
 <td align="left">Numeric</td>
 <td align="left">kJ kg-1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">0</td>
@@ -868,6 +1029,8 @@ content, LDMC)</td>
 <td align="left">m2 m-3</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -876,6 +1039,8 @@ content, LDMC)</td>
 <td align="left">LigninPercent</td>
 <td align="left">Numeric</td>
 <td align="left">%</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">0</td>
@@ -888,6 +1053,8 @@ content, LDMC)</td>
 <td align="left">mm</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -896,6 +1063,8 @@ content, LDMC)</td>
 <td align="left">SeedLongevity</td>
 <td align="left">Numeric</td>
 <td align="left">year</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">0</td>
@@ -908,6 +1077,8 @@ content, LDMC)</td>
 <td align="left">cm</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -916,6 +1087,8 @@ content, LDMC)</td>
 <td align="left">Dmat</td>
 <td align="left">Numeric</td>
 <td align="left">cm</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">0</td>
@@ -928,6 +1101,8 @@ content, LDMC)</td>
 <td align="left">mg</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -938,6 +1113,8 @@ content, LDMC)</td>
 <td align="left">g m-2</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -946,6 +1123,8 @@ content, LDMC)</td>
 <td align="left">LeafProjectedToHalfDevelopedArea</td>
 <td align="left">Numeric</td>
 <td align="left">m2 m-2</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">0</td>
@@ -959,6 +1138,8 @@ developed area basis (including cuticule and stomatal leakiness)</td>
 <td align="left">mmol m-2 s-1</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -967,6 +1148,8 @@ developed area basis (including cuticule and stomatal leakiness)</td>
 Tp)</td>
 <td align="left">Q10gminPhase1</td>
 <td align="left">Numeric</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -981,6 +1164,8 @@ Tp)</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 </tr>
@@ -992,6 +1177,8 @@ temperature</td>
 <td align="left">Celsius</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 </tr>
@@ -1000,6 +1187,8 @@ temperature</td>
 <td align="left">RERleaf</td>
 <td align="left">Numeric</td>
 <td align="left">g g-1 day-1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">0</td>
@@ -1013,6 +1202,8 @@ sapwood</td>
 <td align="left">g g-1 day-1</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -1021,6 +1212,8 @@ sapwood</td>
 <td align="left">RERfineroot</td>
 <td align="left">Numeric</td>
 <td align="left">g g-1 day-1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">0</td>
@@ -1033,6 +1226,8 @@ sapwood</td>
 <td align="left">g g-1</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -1041,6 +1236,8 @@ sapwood</td>
 <td align="left">CCsapwood</td>
 <td align="left">Numeric</td>
 <td align="left">g g-1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">0</td>
@@ -1053,6 +1250,8 @@ sapwood</td>
 <td align="left">g g-1</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">0</td>
 <td align="right">NA</td>
 </tr>
@@ -1063,6 +1262,8 @@ sapwood</td>
 <td align="left">day</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 </tr>
@@ -1071,6 +1272,8 @@ sapwood</td>
 <td align="left">Sgdd</td>
 <td align="left">Numeric</td>
 <td align="left">Celsius</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">NA</td>
@@ -1084,6 +1287,8 @@ leaf budburst</td>
 <td align="left">Celsius</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 </tr>
@@ -1092,6 +1297,8 @@ leaf budburst</td>
 <td align="left">Ssen</td>
 <td align="left">Numeric</td>
 <td align="left">Celsius</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="right">NA</td>
@@ -1105,6 +1312,8 @@ senescence</td>
 <td align="left">hour</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 </tr>
@@ -1116,6 +1325,8 @@ senescence</td>
 <td align="left">Celsius</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 </tr>
@@ -1125,6 +1336,8 @@ absent/proportional/more than proportional effects of temperature on
 senescence</td>
 <td align="left">xsen</td>
 <td align="left">Integer</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">0,1,2</td>
@@ -1139,6 +1352,8 @@ senescence</td>
 <td align="left">Integer</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">0,1,2</td>
 <td align="right">0</td>
 <td align="right">2</td>
@@ -1148,6 +1363,8 @@ senescence</td>
 Niinemets</td>
 <td align="left">ShadeTolerance</td>
 <td align="left">Numeric</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
@@ -1338,18 +1555,18 @@ Gswmin, the minimum stomatal conductance, using function
 <code class="sourceCode R"><span><span class="va">gsmin_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_trait_data.html">get_trait_data</a></span><span class="op">(</span><span class="va">harmonized_trait_path</span>, <span class="st">"Gswmin"</span>,</span>
 <span>                             progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">gsmin_data</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 15</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 17</span></span></span>
 <span><span class="co">##   originalName  acceptedName acceptedNameAuthorship family genus specificEpithet</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span> Abies alba    Abies alba   Mill.                  Pinac… Abies alba           </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> Abies lasioc… Abies lasio… (Hook.) Nutt.          Pinac… Abies lasiocarpa     </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span> Abies sibiri… Abies sibir… Ledeb.                 Pinac… Abies sibirica       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span> Acacia koa    Acacia koa   A.Gray                 Fabac… Acac… koa            </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">5</span> Acacia maide… Acacia maid… F.Muell.               Fabac… Acac… maidenii       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">6</span> Acacia mangi… Acacia mang… Willd.                 Fabac… Acac… mangium        </span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 9 more variables: taxonRank &lt;chr&gt;, Trait &lt;chr&gt;, Value &lt;dbl&gt;, Units &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> Abies cephal… Abies cepha… Loudon                 Pinac… Abies cephalonica    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> Abies concol… Abies conco… (Gordon) Lindl. ex Hi… Pinac… Abies concolor       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> Abies lasioc… Abies lasio… (Hook.) Nutt.          Pinac… Abies lasiocarpa     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span> Abies nordma… Abies nordm… (Steven) Spach         Pinac… Abies nordmanniana   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span> Abies nordma… Abies nordm… (Steven) Spach         Pinac… Abies nordmanniana   </span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 11 more variables: taxonRank &lt;chr&gt;, Trait &lt;chr&gt;, Value &lt;dbl&gt;, Units &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   Reference &lt;chr&gt;, DOI &lt;chr&gt;, Priority &lt;dbl&gt;, checkVersion &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   OriginalReference &lt;chr&gt;</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;">#   Level &lt;chr&gt;, Method &lt;chr&gt;, OriginalReference &lt;chr&gt;</span></span></span></code></pre>
 <p>Analogously, if we are interested in querying trait information for a
 particular taxa, we can use function <code><a href="../reference/get_trait_data.html">get_taxon_data()</a></code>:</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
@@ -1363,13 +1580,13 @@ particular taxa, we can use function <code><a href="../reference/get_trait_data.
 <span><span class="co">## 4 Pinus halepensis Pinus halepensis                  Mill. Pinaceae Pinus</span></span>
 <span><span class="co">## 5 Pinus halepensis Pinus halepensis                  Mill. Pinaceae Pinus</span></span>
 <span><span class="co">## 6 Pinus halepensis Pinus halepensis                  Mill. Pinaceae Pinus</span></span>
-<span><span class="co">##   specificEpithet taxonRank       Trait            Value   Units</span></span>
-<span><span class="co">## 1      halepensis   species        r635 1.96422645197988    &lt;NA&gt;</span></span>
-<span><span class="co">## 2      halepensis   species HeatContent            22150 kJ kg-1</span></span>
-<span><span class="co">## 3      halepensis   species         SAV             6050  m2 m-3</span></span>
-<span><span class="co">## 4      halepensis   species      Gs_P50            -1.75    &lt;NA&gt;</span></span>
-<span><span class="co">## 5      halepensis   species      Gs_P95            -2.37    &lt;NA&gt;</span></span>
-<span><span class="co">## 6      halepensis   species  VCroot_P50            -0.88    &lt;NA&gt;</span></span>
+<span><span class="co">##   specificEpithet taxonRank       Trait            Value</span></span>
+<span><span class="co">## 1      halepensis   species        r635 1.96422645197988</span></span>
+<span><span class="co">## 2      halepensis   species HeatContent            22150</span></span>
+<span><span class="co">## 3      halepensis   species         SAV             6050</span></span>
+<span><span class="co">## 4      halepensis   species      Gs_P50            -1.75</span></span>
+<span><span class="co">## 5      halepensis   species      Gs_P95            -2.37</span></span>
+<span><span class="co">## 6      halepensis   species  VCroot_P50            -0.88</span></span>
 <span><span class="co">##                                                                                                                                                                                                                                                                                                                                 Reference</span></span>
 <span><span class="co">## 1                                                                                                                                                                                                                                                                                                                                   Field</span></span>
 <span><span class="co">## 2 Cohen, M., Cuiñas, P., Diez, C., Fernandes, P., Guijarro, M., Moro, C., 2001. FIRE STAR: a decision support system for fuel management and fire hazard reduction in Mediterranean wildland - urban interfaces Deliverable D4-02 Fire Star Impacts Model of Wildland Fire Compilation of People Tenability and Material Properties Data.</span></span>
@@ -1377,13 +1594,20 @@ particular taxa, we can use function <code><a href="../reference/get_trait_data.
 <span><span class="co">## 4                                                                                                                                                                                               Bartlett et al. (2016) The correlations and sequence of plant stomatal, hydraulic, and wilting responses to drought. PNAS 113 13098-13103</span></span>
 <span><span class="co">## 5                                                                                                                                                                                               Bartlett et al. (2016) The correlations and sequence of plant stomatal, hydraulic, and wilting responses to drought. PNAS 113 13098-13103</span></span>
 <span><span class="co">## 6                                                                                                                                                                                               Bartlett et al. (2016) The correlations and sequence of plant stomatal, hydraulic, and wilting responses to drought. PNAS 113 13098-13103</span></span>
-<span><span class="co">##                       DOI Priority checkVersion    OriginalReference</span></span>
-<span><span class="co">## 1                    &lt;NA&gt;        1        0.2.3                 &lt;NA&gt;</span></span>
-<span><span class="co">## 2                    &lt;NA&gt;        1        0.2.3                 &lt;NA&gt;</span></span>
-<span><span class="co">## 3                    &lt;NA&gt;        1        0.2.3                 &lt;NA&gt;</span></span>
-<span><span class="co">## 4 10.1073/pnas.1604088113        3        0.2.3    Klein et al. 2011</span></span>
-<span><span class="co">## 5 10.1073/pnas.1604088113        3        0.2.3    Klein et al. 2011</span></span>
-<span><span class="co">## 6 10.1073/pnas.1604088113        3        0.2.3 Oliveras et al. 2003</span></span></code></pre>
+<span><span class="co">##     Units      Level                     DOI Priority checkVersion</span></span>
+<span><span class="co">## 1    &lt;NA&gt; population                    &lt;NA&gt;        1        0.3.0</span></span>
+<span><span class="co">## 2 kJ kg-1      taxon                    &lt;NA&gt;        1        0.3.0</span></span>
+<span><span class="co">## 3  m2 m-3      taxon                    &lt;NA&gt;        1        0.3.0</span></span>
+<span><span class="co">## 4    &lt;NA&gt;      taxon 10.1073/pnas.1604088113        3        0.3.0</span></span>
+<span><span class="co">## 5    &lt;NA&gt;      taxon 10.1073/pnas.1604088113        3        0.3.0</span></span>
+<span><span class="co">## 6    &lt;NA&gt;      taxon 10.1073/pnas.1604088113        3        0.3.0</span></span>
+<span><span class="co">##      OriginalReference Method originalReference</span></span>
+<span><span class="co">## 1                 &lt;NA&gt;   &lt;NA&gt;              &lt;NA&gt;</span></span>
+<span><span class="co">## 2                 &lt;NA&gt;   &lt;NA&gt;              &lt;NA&gt;</span></span>
+<span><span class="co">## 3                 &lt;NA&gt;   &lt;NA&gt;              &lt;NA&gt;</span></span>
+<span><span class="co">## 4    Klein et al. 2011   &lt;NA&gt;              &lt;NA&gt;</span></span>
+<span><span class="co">## 5    Klein et al. 2011   &lt;NA&gt;              &lt;NA&gt;</span></span>
+<span><span class="co">## 6 Oliveras et al. 2003   &lt;NA&gt;              &lt;NA&gt;</span></span></code></pre>
 </div>
 </div>
 <div class="section level2 unnumbered">

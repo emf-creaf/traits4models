@@ -324,43 +324,43 @@ SpParams<- traits4models::fill_medfate_allometries(SpParams,
 
     ## ℹ Processing response: FoliarBiomass
 
-    ## ✔ Processing response: FoliarBiomass [39ms]
+    ## ✔ Processing response: FoliarBiomass [46ms]
 
     ## 
 
     ## ℹ Processing response: CrownRatio
 
-    ## ✔ Processing response: CrownRatio [25ms]
+    ## ✔ Processing response: CrownRatio [30ms]
 
     ## 
 
     ## ℹ Processing response: CrownWidth
 
-    ## ✔ Processing response: CrownWidth [22ms]
+    ## ✔ Processing response: CrownWidth [26ms]
 
     ## 
 
     ## ℹ Processing response: BarkThickness
 
-    ## ✔ Processing response: BarkThickness [18ms]
+    ## ✔ Processing response: BarkThickness [24ms]
 
     ## 
 
     ## ℹ Processing response: CrownArea
 
-    ## ✔ Processing response: CrownArea [17ms]
+    ## ✔ Processing response: CrownArea [21ms]
 
     ## 
 
     ## ℹ Processing response: FineFuelBiomass
 
-    ## ✔ Processing response: FineFuelBiomass [17ms]
+    ## ✔ Processing response: FineFuelBiomass [21ms]
 
     ## 
 
     ## ℹ Processing response: TotalBiomass
 
-    ## ✔ Processing response: TotalBiomass [18ms]
+    ## ✔ Processing response: TotalBiomass [21ms]
 
     ## 
 
@@ -386,405 +386,141 @@ SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path,
                                               progress = TRUE, verbose = FALSE)
 ```
 
-    ## ℹ Processing parameter: GrowthForm
+    ## ℹ Processing GrowthForm, LifeForm, LeafShape, PhenologyType, DispersalType
 
-    ## ✔ Processing parameter: GrowthForm [12.3s]
+    ## ✔ Processing GrowthForm, LifeForm, LeafShape, PhenologyType, DispersalType [21.…
 
     ## 
 
-    ## ℹ Processing parameter: LifeForm
+    ## ℹ Processing t0gdd, Tbgdd, Sgdd, Phsen, Tbsen, Ssen
 
-    ## ✔ Processing parameter: LifeForm [358ms]
+    ## ✔ Processing t0gdd, Tbgdd, Sgdd, Phsen, Tbsen, Ssen [3s]
 
     ## 
 
-    ## ℹ Processing parameter: LeafShape
+    ## ℹ Processing xsen, ysen
 
-    ## ✔ Processing parameter: LeafShape [1.7s]
+    ## ✔ Processing xsen, ysen [1s]
 
     ## 
 
-    ## ℹ Processing parameter: PhenologyType
+    ## ℹ Processing LeafSize
 
-    ## ✔ Processing parameter: PhenologyType [905ms]
+    ## ✔ Processing LeafSize [1.5s]
 
     ## 
 
-    ## ℹ Processing parameter: DispersalType
+    ## ℹ Processing Hmax
 
-    ## ✔ Processing parameter: DispersalType [2.6s]
+    ## ✔ Processing Hmax [2.1s]
 
     ## 
 
-    ## ℹ Processing parameter: t0gdd
+    ## ℹ Processing Hmed
 
-    ## ✔ Processing parameter: t0gdd [101ms]
+    ## ✔ Processing Hmed [1.7s]
 
     ## 
 
-    ## ℹ Processing parameter: Tbgdd
+    ## ℹ Processing cr
 
-    ## ✔ Processing parameter: Tbgdd [84ms]
+    ## ✔ Processing cr [395ms]
 
     ## 
 
-    ## ℹ Processing parameter: Sgdd
+    ## ℹ Processing Z95
 
-    ## ✔ Processing parameter: Sgdd [104ms]
+    ## ✔ Processing Z95 [885ms]
 
     ## 
 
-    ## ℹ Processing parameter: Phsen
+    ## ℹ Processing Dmax, WoodDensity, SRL, r635, pDead, SAV, HeatContent
 
-    ## ✔ Processing parameter: Phsen [81ms]
+    ## ✔ Processing Dmax, WoodDensity, SRL, r635, pDead, SAV, HeatContent [3.9s]
 
     ## 
 
-    ## ℹ Processing parameter: Tbsen
+    ## ℹ Processing LeafDensity, SLA, LeafWidth, LeafDuration, LeafAngle
 
-    ## ✔ Processing parameter: Tbsen [102ms]
+    ## ✔ Processing LeafDensity, SLA, LeafWidth, LeafDuration, LeafAngle [3.8s]
 
     ## 
 
-    ## ℹ Processing parameter: xsen
+    ## ℹ Processing LeafAngleSD
 
-    ## ✔ Processing parameter: xsen [81ms]
+    ## ✔ Processing LeafAngleSD [548ms]
 
     ## 
 
-    ## ℹ Processing parameter: ysen
+    ## ℹ Processing LeafAF, LeafPI0, LeafEPS, Al2As, conduit2sapwood, Gswmax, Gswmin, …
 
-    ## ✔ Processing parameter: ysen [79ms]
+    ## ✔ Processing LeafAF, LeafPI0, LeafEPS, Al2As, conduit2sapwood, Gswmax, Gswmin, …
 
     ## 
 
-    ## ℹ Processing parameter: Ssen
+    ## ℹ Processing Kmax_stemxylem
 
-    ## ✔ Processing parameter: Ssen [103ms]
+    ## ✔ Processing Kmax_stemxylem [719ms]
 
     ## 
 
-    ## ℹ Processing parameter: LeafSize
+    ## ℹ Processing VCleaf_P50, VCleaf_P12, VCleaf_P88, VCleaf_slope, VCstem_P50, VCst…
 
-    ## ✔ Processing parameter: LeafSize [1.2s]
+    ## ✔ Processing VCleaf_P50, VCleaf_P12, VCleaf_P88, VCleaf_slope, VCstem_P50, VCst…
 
     ## 
 
-    ## ℹ Processing parameter: Dmax
+    ## ℹ Processing Vmax298
 
-    ## ✔ Processing parameter: Dmax [308ms]
+    ## ✔ Processing Vmax298 [522ms]
 
     ## 
 
-    ## ℹ Processing parameter: Hmax
+    ## ℹ Processing Jmax298
 
-    ## ✔ Processing parameter: Hmax [1.5s]
+    ## ✔ Processing Jmax298 [497ms]
 
     ## 
 
-    ## ℹ Processing parameter: Hmed
+    ## ℹ Processing Nleaf, Nsapwood, Nfineroot
 
-    ## ✔ Processing parameter: Hmed [1.3s]
+    ## ✔ Processing Nleaf, Nsapwood, Nfineroot [2.1s]
 
     ## 
 
-    ## ℹ Processing parameter: cr
+    ## ℹ Processing SeedMass, SeedLongevity
 
-    ## ✔ Processing parameter: cr [106ms]
+    ## ✔ Processing SeedMass, SeedLongevity [1.8s]
 
     ## 
 
-    ## ℹ Processing parameter: Gs_P50
+    ## ℹ Processing WoodC, CCleaf, CCsapwood, CCfineroot
 
-    ## ✔ Processing parameter: Gs_P50 [111ms]
+    ## ✔ Processing WoodC, CCleaf, CCsapwood, CCfineroot [1.6s]
 
     ## 
 
-    ## ℹ Processing parameter: maxFMC
+    ## ℹ Processing maxFMC
 
-    ## ✔ Processing parameter: maxFMC [2.1s]
+    ## ✔ Processing maxFMC [660ms]
 
     ## 
 
-    ## ℹ Processing parameter: minFMC
+    ## ℹ Processing minFMC
 
-    ## ✔ Processing parameter: minFMC [2.1s]
+    ## ✔ Processing minFMC [676ms]
 
     ## 
 
-    ## ℹ Processing parameter: Kmax_stemxylem
+    ## ℹ Processing RSSG
 
-    ## ✔ Processing parameter: Kmax_stemxylem [224ms]
+    ## ✔ Processing RSSG [557ms]
 
     ## 
 
-    ## ℹ Processing parameter: Vmax298
+    ## ℹ Processing SeedProductionDiameter
 
-    ## ✔ Processing parameter: Vmax298 [235ms]
-
-    ## 
-
-    ## ℹ Processing parameter: Jmax298
-
-    ## ✔ Processing parameter: Jmax298 [197ms]
-
-    ## 
-
-    ## ℹ Processing parameter: Z95
-
-    ## ✔ Processing parameter: Z95 [340ms]
-
-    ## 
-
-    ## ℹ Processing parameter: LeafAngle
-
-    ## ✔ Processing parameter: LeafAngle [424ms]
-
-    ## 
-
-    ## ℹ Processing parameter: LeafAngleSD
-
-    ## ✔ Processing parameter: LeafAngleSD [445ms]
-
-    ## 
-
-    ## ℹ Processing parameter: LeafDensity
-
-    ## ✔ Processing parameter: LeafDensity [726ms]
-
-    ## 
-
-    ## ℹ Processing parameter: WoodDensity
-
-    ## ✔ Processing parameter: WoodDensity [1.2s]
-
-    ## 
-
-    ## ℹ Processing parameter: SRL
-
-    ## ✔ Processing parameter: SRL [186ms]
-
-    ## 
-
-    ## ℹ Processing parameter: r635
-
-    ## ✔ Processing parameter: r635 [82ms]
-
-    ## 
-
-    ## ℹ Processing parameter: pDead
-
-    ## ✔ Processing parameter: pDead [106ms]
-
-    ## 
-
-    ## ℹ Processing parameter: SAV
-
-    ## ✔ Processing parameter: SAV [81ms]
-
-    ## 
-
-    ## ℹ Processing parameter: HeatContent
-
-    ## ✔ Processing parameter: HeatContent [118ms]
-
-    ## 
-
-    ## ℹ Processing parameter: LeafPI0
-
-    ## ✔ Processing parameter: LeafPI0 [150ms]
-
-    ## 
-
-    ## ℹ Processing parameter: LeafEPS
-
-    ## ✔ Processing parameter: LeafEPS [154ms]
-
-    ## 
-
-    ## ℹ Processing parameter: LeafAF
-
-    ## ✔ Processing parameter: LeafAF [111ms]
-
-    ## 
-
-    ## ℹ Processing parameter: SLA
-
-    ## ✔ Processing parameter: SLA [2.1s]
-
-    ## 
-
-    ## ℹ Processing parameter: Al2As
-
-    ## ✔ Processing parameter: Al2As [221ms]
-
-    ## 
-
-    ## ℹ Processing parameter: conduit2sapwood
-
-    ## ✔ Processing parameter: conduit2sapwood [93ms]
-
-    ## 
-
-    ## ℹ Processing parameter: LeafWidth
-
-    ## ✔ Processing parameter: LeafWidth [866ms]
-
-    ## 
-
-    ## ℹ Processing parameter: LeafDuration
-
-    ## ✔ Processing parameter: LeafDuration [136ms]
-
-    ## 
-
-    ## ℹ Processing parameter: Gswmax
-
-    ## ✔ Processing parameter: Gswmax [126ms]
-
-    ## 
-
-    ## ℹ Processing parameter: Gswmin
-
-    ## ✔ Processing parameter: Gswmin [123ms]
-
-    ## 
-
-    ## ℹ Processing parameter: VCleaf_P50
-
-    ## ✔ Processing parameter: VCleaf_P50 [177ms]
-
-    ## 
-
-    ## ℹ Processing parameter: VCleaf_P12
-
-    ## ✔ Processing parameter: VCleaf_P12 [115ms]
-
-    ## 
-
-    ## ℹ Processing parameter: VCleaf_P88
-
-    ## ✔ Processing parameter: VCleaf_P88 [88ms]
-
-    ## 
-
-    ## ℹ Processing parameter: VCleaf_slope
-
-    ## ✔ Processing parameter: VCleaf_slope [120ms]
-
-    ## 
-
-    ## ℹ Processing parameter: VCstem_P50
-
-    ## ✔ Processing parameter: VCstem_P50 [218ms]
-
-    ## 
-
-    ## ℹ Processing parameter: VCstem_P12
-
-    ## ✔ Processing parameter: VCstem_P12 [154ms]
-
-    ## 
-
-    ## ℹ Processing parameter: VCstem_P88
-
-    ## ✔ Processing parameter: VCstem_P88 [154ms]
-
-    ## 
-
-    ## ℹ Processing parameter: VCstem_slope
-
-    ## ✔ Processing parameter: VCstem_slope [137ms]
-
-    ## 
-
-    ## ℹ Processing parameter: VCroot_P50
-
-    ## ✔ Processing parameter: VCroot_P50 [118ms]
-
-    ## 
-
-    ## ℹ Processing parameter: VCroot_P12
-
-    ## ✔ Processing parameter: VCroot_P12 [79ms]
-
-    ## 
-
-    ## ℹ Processing parameter: VCroot_P88
-
-    ## ✔ Processing parameter: VCroot_P88 [107ms]
-
-    ## 
-
-    ## ℹ Processing parameter: VCroot_slope
-
-    ## ✔ Processing parameter: VCroot_slope [81ms]
-
-    ## 
-
-    ## ℹ Processing parameter: Nleaf
-
-    ## ✔ Processing parameter: Nleaf [1.6s]
-
-    ## 
-
-    ## ℹ Processing parameter: Nsapwood
-
-    ## ✔ Processing parameter: Nsapwood [190ms]
-
-    ## 
-
-    ## ℹ Processing parameter: Nfineroot
-
-    ## ✔ Processing parameter: Nfineroot [161ms]
-
-    ## 
-
-    ## ℹ Processing parameter: SeedMass
-
-    ## ✔ Processing parameter: SeedMass [4.2s]
-
-    ## 
-
-    ## ℹ Processing parameter: SeedLongevity
-
-    ## ✔ Processing parameter: SeedLongevity [188ms]
-
-    ## 
-
-    ## ℹ Processing parameter: WoodC
-
-    ## ✔ Processing parameter: WoodC [92ms]
-
-    ## 
-
-    ## ℹ Processing parameter: CCleaf
-
-    ## ✔ Processing parameter: CCleaf [99ms]
-
-    ## 
-
-    ## ℹ Processing parameter: CCsapwood
-
-    ## ✔ Processing parameter: CCsapwood [70ms]
-
-    ## 
-
-    ## ℹ Processing parameter: CCfineroot
-
-    ## ✔ Processing parameter: CCfineroot [70ms]
-
-    ## 
-
-    ## ℹ Processing parameter: RSSG
-
-    ## ✔ Processing parameter: RSSG [103ms]
-
-    ## 
-
-    ## ℹ Processing parameter: SeedProductionDiameter
-
-    ## ✔ Processing parameter: SeedProductionDiameter [7ms]
+    ## ✔ Processing SeedProductionDiameter [7ms]
 
     ## 
 

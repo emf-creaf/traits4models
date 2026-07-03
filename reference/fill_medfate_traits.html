@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">traits4models</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,6 +52,7 @@
 <span>  <span class="va">harmonized_trait_path</span>,</span>
 <span>  parameters <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  priorization <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  aggregation_level_weights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>individual <span class="op">=</span> <span class="fl">1</span>, population <span class="op">=</span> <span class="fl">10</span>, taxon <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>,</span>
 <span>  erase_previous <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  replace_previous <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  progress <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -77,6 +78,10 @@
 
 <dt id="arg-priorization">priorization<a class="anchor" aria-label="anchor" href="#arg-priorization"></a></dt>
 <dd><p>A boolean flag to perform priorization of some data sources over others.</p></dd>
+
+
+<dt id="arg-aggregation-level-weights">aggregation_level_weights<a class="anchor" aria-label="anchor" href="#arg-aggregation-level-weights"></a></dt>
+<dd><p>A vector of weights to be applied to different aggregation levels when calculating numeric averages.</p></dd>
 
 
 <dt id="arg-erase-previous">erase_previous<a class="anchor" aria-label="anchor" href="#arg-erase-previous"></a></dt>

@@ -1,6 +1,7 @@
 # Plant trait definitions
 
-A data frame of accepted plant trait definitions.
+A data frame of accepted plant trait definitions. This information
+guides the format and content evaluation of harmonized trait datasets.
 
 ## Format
 
@@ -17,6 +18,11 @@ A data frame with parameters in rows and columns:
 
 - `EquivalentUnits`: Alternative, but equivalent, unit notation for
   quantitative traits.
+
+- `AcceptedMethods`: Set of comma-separated accepted methods.
+
+- `DefaultMethod`: Default method to be expected when the information is
+  missing.
 
 - `AcceptedValues`: Set of comma-separated accepted values.
 

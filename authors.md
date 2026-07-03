@@ -18,13 +18,13 @@ Source:
 [`DESCRIPTION`](https://github.com/emf-creaf/traits4models/blob/HEAD/DESCRIPTION)
 
 De Cáceres M, Martin-StPaul N, Tovar A, Granda V (2026). *traits4models:
-From plant traits to model parameters*. R package version 0.2.4,
+From plant traits to model parameters*. R package version 0.3.0,
 <https://emf-creaf.github.io/traits4models/>.
 
     @Manual{,
       title = {traits4models: From plant traits to model parameters},
       author = {Miquel {De Cáceres} and Nicolas Martin-StPaul and Adriana Tovar and Víctor Granda},
       year = {2026},
-      note = {R package version 0.2.4},
+      note = {R package version 0.3.0},
       url = {https://emf-creaf.github.io/traits4models/},
     }

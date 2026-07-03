@@ -87,102 +87,104 @@ Package **traits4models** includes a data table called
 `HarmonizedTraitDefinition` that presents plant trait definitions and
 their required notation and units:
 
-| Definition | Notation | Type | Units | EquivalentUnits | AcceptedValues | MinimumValue | MaximumValue |
-|:---|:---|:---|:---|:---|:---|---:|---:|
-| Life form | LifeForm | String | NA | NA | chamaephyte,cryptophyte,epiphyte,hemicryptophyte,phanerophyte,therophyte,hydrophyte | NA | NA |
-| Growth form | GrowthForm | String | NA | NA | tree,shrub,herb,shrub/herb,tree/herb,tree/shrub,tree/shrub/herb,fern,grass,other | NA | NA |
-| Leaf shape | LeafShape | String | NA | NA | broad,linear,needle,scale,spines,succulent | NA | NA |
-| Leaf area | LeafArea | Numeric | mm2 | NA | NA | 0 | NA |
-| Leaf size (category) | LeafSize | String | NA | NA | lepto,macro,meso,micro,nano,noto,pico | NA | NA |
-| Leaf angle (inclination, orientation) | LeafAngle | Numeric | degree | NA | NA | 0 | 90 |
-| Dispersal syndrome | DispersalMode | String | NA | NA | insect,auto,ballistic,vertebrate,water,wind,vehicles | NA | NA |
-| Leaf phenology type | PhenologyType | String | NA | NA | drought-semideciduous,oneflush-evergreen,winter-deciduous,winter-semideciduous | NA | NA |
-| Shade tolerance type | ShadeToleranceType | String | NA | NA | light-demanding,shade-tolerant | NA | NA |
-| Photosynthetic pathway | PhotosyntheticPathway | String | NA | NA | C3,C4,CAM | NA | NA |
-| Wood porosity type (for woody angiosperms) | WoodPorosityType | String | NA | NA | ring-porous,semi-ring-porous,diffuse-porous | NA | NA |
-| Duration of leaves (leaf lifespan) | LeafDuration | Numeric | year | NA | NA | NA | NA |
-| Maximum plant height | Hmax | Numeric | cm | NA | NA | 0 | NA |
-| Maximum (tree) diameter | Dmax | Numeric | cm | NA | NA | 0 | NA |
-| Actual plant height | Hact | Numeric | cm | NA | NA | 0 | NA |
-| Rooting depth | Z95 | Numeric | mm | NA | NA | 0 | NA |
-| Crown ratio (crown length divided over total height) | CrownRatio | Numeric | NA | NA | NA | NA | NA |
-| Leaf area per leaf dry mass (specific leaf area, SLA), 1/ Leaf mass per area (LMA) | SLA | Numeric | m2 kg-1 | mm2 mg-1 | NA | 0 | NA |
-| Leaf area to sapwood area ratio (Al2As), 1 / Huber Value (Hv) | Al2As | Numeric | m2 m-2 | mm2 mm-2 | NA | 0 | NA |
-| Proportion of sapwood corresponding to conducive elements (vessels or tracheids) as opposed to parenchymatic tissue. | conduit2sapwood | Numeric | NA | NA | NA | NA | NA |
-| Specific root length | SRL | Numeric | cm g-1 | NA | NA | 0 | NA |
-| Proportion of total fine fuels that are dead | pDead | Numeric | NA | NA | NA | 0 | 1 |
-| Stem carbon (C) content per stem dry mass | WoodC | Numeric | g g-1 | NA | NA | NA | NA |
-| Density of leaf tissue (dry weight over volume) | LeafDensity | Numeric | g cm-3 | mg mm-3 | NA | 0 | NA |
-| Wood tissue density (at 0% humidity!) | WoodDensity | Numeric | g cm-3 | mg mm-3 | NA | 0 | NA |
-| Density of fine root tissue (dry weight over volume). | FineRootDensity | Numeric | g cm-3 | mg mm-3 | NA | 0 | NA |
-| Leaf width | LeafWidth | Numeric | cm | NA | NA | 0 | NA |
-| Maximum stomatal conductance to water vapor | Gswmax | Numeric | mol s-1 m-2 | NA | NA | 0 | NA |
-| Minimum stomatal conductance to water vapor | Gswmin | Numeric | mol s-1 m-2 | NA | NA | 0 | NA |
-| Stem conductance to water vapor | Gbark | Numeric | mol s-1 m-2 | NA | NA | 0 | NA |
-| Osmotic potential at full turgor of leaves | LeafPI0 | Numeric | MPa | NA | NA | NA | NA |
-| Modulus of elasticity (capacity of the cell wall to resist changes in volume in response to changes in turgor) of leaves | LeafEPS | Numeric | MPa | NA | NA | NA | NA |
-| Leaf apoplastic fraction | LeafAF | Numeric | \[0-1\] | NA | NA | NA | NA |
-| Modulus of elasticity (capacity of the cell wall to resist changes in volume in response to changes in turgor) of sapwood | StemEPS | Numeric | MPa | NA | NA | NA | NA |
-| Leaf water potential at turgor loss point | Ptlp | Numeric | MPa | NA | NA | NA | 0 |
-| Slope coefficient of the Medlyn stomatal conductance model | g1_Medlyn | Numeric | NA | NA | NA | NA | NA |
-| Parameters of the stomatal response to leaf water potential | Gs_P20 | Numeric | MPa | NA | NA | NA | 0 |
-| Parameters of the stomatal response to leaf water potential | Gs_P50 | Numeric | MPa | NA | NA | NA | 0 |
-| Parameters of the stomatal response to leaf water potential | Gs_P80 | Numeric | MPa | NA | NA | NA | 0 |
-| Parameters of the stomatal response to leaf water potential | Gs_P90 | Numeric | MPa | NA | NA | NA | 0 |
-| Parameters of the stomatal response to leaf water potential | Gs_P95 | Numeric | MPa | NA | NA | NA | 0 |
-| Leaf photosynthesis carboxylation capacity (Vcmax) per leaf area (Farquhar model) | Vmax | Numeric | umol m-2 s-1 | NA | NA | 0 | NA |
-| Leaf photosynthesis electron transport capacity (Jmax) per leaf area (Farquhar model) | Jmax | Numeric | umol m-2 s-1 | NA | NA | 0 | NA |
-| Leaf nitrogen (N) content per leaf dry mass | Nleaf | Numeric | mg g-1 | NA | NA | 0 | NA |
-| Wood nitrogen (N) content per wood dry mass | Nsapwood | Numeric | mg g-1 | NA | NA | 0 | NA |
-| Fine root nitrogen (N) content per fine root dry mass | Nfineroot | Numeric | mg g-1 | NA | NA | 0 | NA |
-| Maximum stem-specific hydraulic conductivity | Ks | Numeric | kg m-1 MPa-1 s-1 | NA | NA | 0 | NA |
-| Maximum leaf-specific hydraulic conductivity (Ks\*Hv) | Kl | Numeric | 10-4 kg m-1 MPa-1 s-1 | NA | NA | 0 | NA |
-| Maximum leaf hydraulic conductance (per leaf area) | kleaf | Numeric | mmol m-2 s-1 MPa-1 | NA | NA | 0 | NA |
-| Maximum whole-plant hydraulic conductance (per leaf area) | kplant | Numeric | mmol m-2 s-1 MPa-1 | NA | NA | 0 | NA |
-| Parameters of the stem vulnerability curve | VCstem_P12 | Numeric | MPa | NA | NA | NA | 0 |
-| Parameters of the stem vulnerability curve | VCstem_P50 | Numeric | MPa | NA | NA | NA | 0 |
-| Parameters of the stem vulnerability curve | VCstem_P88 | Numeric | MPa | NA | NA | NA | 0 |
-| Parameters of the stem vulnerability curve | VCstem_slope | Numeric | NA | NA | NA | 0 | NA |
-| Parameters of the leaf vulnerability curve | VCleaf_P12 | Numeric | MPa | NA | NA | NA | 0 |
-| Parameters of the leaf vulnerability curve | VCleaf_P50 | Numeric | MPa | NA | NA | NA | 0 |
-| Parameters of the leaf vulnerability curve | VCleaf_P88 | Numeric | MPa | NA | NA | NA | 0 |
-| Parameters of the leaf vulnerability curve | VCleaf_slope | Numeric | NA | NA | NA | 0 | NA |
-| Parameters of the root vulnerability curve | VCroot_P12 | Numeric | MPa | NA | NA | NA | 0 |
-| Parameters of the root vulnerability curve | VCroot_P50 | Numeric | MPa | NA | NA | NA | 0 |
-| Parameters of the root vulnerability curve | VCroot_P88 | Numeric | MPa | NA | NA | NA | 0 |
-| Parameters of the root vulnerability curve | VCroot_slope | Numeric | NA | NA | NA | 0 | NA |
-| Leaf dry mass per leaf fresh mass (leaf dry matter content, LDMC) | LDMC | Numeric | mg g-1 | NA | NA | 0 | NA |
-| Leaf fuel moisture content (% of dry weight) | LFMC | Numeric | % | NA | NA | 0 | NA |
-| Ratio of foliar (photosynthetic) + small branches (\<6.35 mm) dry biomass to foliar (photosynthetic) dry biomass | r635 | Numeric | NA | NA | NA | 1 | NA |
-| High fuel heat content | HeatContent | Numeric | kJ kg-1 | NA | NA | 0 | NA |
-| Surface-area-to-volume ratio | SAV | Numeric | m2 m-3 | NA | NA | 0 | NA |
-| Percent of lignin+cutin over dry weight in leaves | LigninPercent | Numeric | % | NA | NA | 0 | 100 |
-| Bark thickness | BarkThickness | Numeric | mm | NA | NA | 0 | NA |
-| Seedbank average longevity | SeedLongevity | Numeric | year | NA | NA | 0 | NA |
-| Maturation height | Hmat | Numeric | cm | NA | NA | 0 | NA |
-| Maturation diameter | Dmat | Numeric | cm | NA | NA | 0 | NA |
-| Seed dry mass | SeedMass | Numeric | mg | NA | NA | 0 | NA |
-| Succulence (g of water /m2 of projected leaf) | LeafSucculence | Numeric | g m-2 | NA | NA | 0 | NA |
-| Leaf projected to half developed area (m2/m2) | LeafProjectedToHalfDevelopedArea | Numeric | m2 m-2 | NA | NA | 0 | NA |
-| Minimum conductance of the leaf to water vapor on developed area basis (including cuticule and stomatal leakiness) | GminLeaf | Numeric | mmol m-2 s-1 | NA | NA | 0 | NA |
-| Q10 of the initial gmin response to temperature (before Tp) | Q10gminPhase1 | Numeric | NA | NA | NA | NA | NA |
-| Q10 of the initial gmin response to temperature (after Tp) | Q10gminPhase2 | Numeric | NA | NA | NA | NA | NA |
-| Transition phase for gmin dependence to temperature | GminTransitionPhase | Numeric | Celsius | NA | NA | NA | NA |
-| Maintenance respiration rates for leaves | RERleaf | Numeric | g g-1 day-1 | NA | NA | 0 | NA |
-| Maintenance respiration rates for living cells of sapwood | RERsapwood | Numeric | g g-1 day-1 | NA | NA | 0 | NA |
-| Maintenance respiration rates for fine roots | RERfineroot | Numeric | g g-1 day-1 | NA | NA | 0 | NA |
-| Leaf construction costs | CCleaf | Numeric | g g-1 | NA | NA | 0 | NA |
-| Sapwood construction costs | CCsapwood | Numeric | g g-1 | NA | NA | 0 | NA |
-| Fine root construction costs | CCfineroot | Numeric | g g-1 | NA | NA | 0 | NA |
-| Date to start the accumulation of degree days | t0gdd | Numeric | day | NA | NA | NA | NA |
-| Degree days for leaf budburst | Sgdd | Numeric | Celsius | NA | NA | NA | NA |
-| Base temperature for the calculation of degree days to leaf budburst | Tbgdd | Numeric | Celsius | NA | NA | NA | NA |
-| Degree days corresponding to senescence | Ssen | Numeric | Celsius | NA | NA | NA | NA |
-| Photoperiod corresponding to start counting senescence | Phsen | Numeric | hour | NA | NA | NA | NA |
-| Base temperature for the calculation of degree days to senescence | Tbsen | Numeric | Celsius | NA | NA | NA | NA |
-| Discrete values, to allow for any absent/proportional/more than proportional effects of temperature on senescence | xsen | Integer | NA | NA | 0,1,2 | 0 | 2 |
-| Discrete values, to allow for any absent/proportional/more than proportional effects of photoperiod on senescence | ysen | Integer | NA | NA | 0,1,2 | 0 | 2 |
-| Shade tolerance index according to Valladares and Niinemets | ShadeTolerance | Numeric | NA | NA | NA | 0 | 5 |
+| Definition | Notation | Type | Units | EquivalentUnits | AcceptedMethods | DefaultMethod | AcceptedValues | MinimumValue | MaximumValue |
+|:---|:---|:---|:---|:---|:---|:---|:---|---:|---:|
+| Life form | LifeForm | String | NA | NA | NA | NA | chamaephyte,cryptophyte,epiphyte,hemicryptophyte,phanerophyte,therophyte,hydrophyte | NA | NA |
+| Growth form | GrowthForm | String | NA | NA | NA | NA | tree,shrub,herb,shrub/herb,tree/herb,tree/shrub,tree/shrub/herb,fern,grass,other | NA | NA |
+| Leaf shape | LeafShape | String | NA | NA | NA | NA | broad,linear,needle,scale,spines,succulent | NA | NA |
+| Leaf area | LeafArea | Numeric | mm2 | NA | NA | NA | NA | 0 | NA |
+| Leaf size (category) | LeafSize | String | NA | NA | NA | NA | lepto,macro,meso,micro,nano,noto,pico | NA | NA |
+| Leaf angle (inclination, orientation) | LeafAngle | Numeric | degree | NA | NA | NA | NA | 0 | 90 |
+| Dispersal syndrome | DispersalMode | String | NA | NA | NA | NA | insect,auto,ballistic,vertebrate,water,wind,vehicles | NA | NA |
+| Leaf phenology type | PhenologyType | String | NA | NA | NA | NA | drought-semideciduous,oneflush-evergreen,winter-deciduous,winter-semideciduous | NA | NA |
+| Shade tolerance type | ShadeToleranceType | String | NA | NA | NA | NA | light-demanding,shade-tolerant | NA | NA |
+| Photosynthetic pathway | PhotosyntheticPathway | String | NA | NA | NA | NA | C3,C4,CAM | NA | NA |
+| Wood porosity type (for woody angiosperms) | WoodPorosityType | String | NA | NA | NA | NA | ring-porous,semi-ring-porous,diffuse-porous | NA | NA |
+| Duration of leaves (leaf lifespan) | LeafDuration | Numeric | year | NA | NA | NA | NA | NA | NA |
+| Maximum plant height | Hmax | Numeric | cm | NA | NA | NA | NA | 0 | NA |
+| Maximum (tree) diameter | Dmax | Numeric | cm | NA | NA | NA | NA | 0 | NA |
+| Actual plant height | Hact | Numeric | cm | NA | NA | NA | NA | 0 | NA |
+| Rooting depth | Z95 | Numeric | mm | NA | NA | NA | NA | 0 | NA |
+| Crown ratio (crown length divided over total height) | CrownRatio | Numeric | NA | NA | NA | NA | NA | NA | NA |
+| Leaf area per leaf dry mass (specific leaf area, SLA), 1/ Leaf mass per area (LMA) | SLA | Numeric | m2 kg-1 | mm2 mg-1 | NA | NA | NA | 0 | NA |
+| Leaf area to sapwood area ratio (Al2As), 1 / Huber Value (Hv) | Al2As | Numeric | m2 m-2 | mm2 mm-2 | NA | NA | NA | 0 | NA |
+| Proportion of sapwood corresponding to conducive elements (vessels or tracheids) as opposed to parenchymatic tissue. | conduit2sapwood | Numeric | NA | NA | NA | NA | NA | NA | NA |
+| Specific root length | SRL | Numeric | cm g-1 | NA | NA | NA | NA | 0 | NA |
+| Proportion of total fine fuels that are dead | pDead | Numeric | NA | NA | NA | NA | NA | 0 | 1 |
+| Stem carbon (C) content per stem dry mass | WoodC | Numeric | g g-1 | NA | NA | NA | NA | NA | NA |
+| Density of leaf tissue (dry weight over volume) | LeafDensity | Numeric | g cm-3 | mg mm-3 | NA | NA | NA | 0 | NA |
+| Wood tissue density (at 0% humidity!) | WoodDensity | Numeric | g cm-3 | mg mm-3 | NA | NA | NA | 0 | NA |
+| Density of fine root tissue (dry weight over volume). | FineRootDensity | Numeric | g cm-3 | mg mm-3 | NA | NA | NA | 0 | NA |
+| Leaf width | LeafWidth | Numeric | cm | NA | NA | NA | NA | 0 | NA |
+| Stomatal size (area) | StomatalSize | Numeric | um2 | NA | NA | NA | NA | 0 | NA |
+| Stomatal density per leaf area (total, including abaxial and adaxial) | StomatalDensity | Numeric | mm-2 | NA | NA | NA | NA | 0 | NA |
+| Maximum stomatal conductance to water vapor | Gswmax | Numeric | mol s-1 m-2 | NA | NA | NA | NA | 0 | NA |
+| Minimum stomatal conductance to water vapor | Gswmin | Numeric | mol s-1 m-2 | NA | NA | NA | NA | 0 | NA |
+| Stem conductance to water vapor | Gbark | Numeric | mol s-1 m-2 | NA | NA | NA | NA | 0 | NA |
+| Osmotic potential at full turgor of leaves | LeafPI0 | Numeric | MPa | NA | osmotic,pressure-volume | NA | NA | NA | NA |
+| Modulus of elasticity (capacity of the cell wall to resist changes in volume in response to changes in turgor) of leaves | LeafEPS | Numeric | MPa | NA | osmotic,pressure-volume | NA | NA | NA | NA |
+| Leaf apoplastic fraction | LeafAF | Numeric | \[0-1\] | NA | NA | NA | NA | NA | NA |
+| Modulus of elasticity (capacity of the cell wall to resist changes in volume in response to changes in turgor) of sapwood | StemEPS | Numeric | MPa | NA | NA | NA | NA | NA | NA |
+| Leaf water potential at turgor loss point | Ptlp | Numeric | MPa | NA | osmotic,pressure-volume | NA | NA | NA | 0 |
+| Slope coefficient of the Medlyn stomatal conductance model | g1_Medlyn | Numeric | NA | NA | NA | NA | NA | NA | NA |
+| Parameters of the stomatal response to leaf water potential | Gs_P20 | Numeric | MPa | NA | NA | NA | NA | NA | 0 |
+| Parameters of the stomatal response to leaf water potential | Gs_P50 | Numeric | MPa | NA | NA | NA | NA | NA | 0 |
+| Parameters of the stomatal response to leaf water potential | Gs_P80 | Numeric | MPa | NA | NA | NA | NA | NA | 0 |
+| Parameters of the stomatal response to leaf water potential | Gs_P90 | Numeric | MPa | NA | NA | NA | NA | NA | 0 |
+| Parameters of the stomatal response to leaf water potential | Gs_P95 | Numeric | MPa | NA | NA | NA | NA | NA | 0 |
+| Leaf photosynthesis carboxylation capacity (Vcmax) per leaf area (Farquhar model) | Vmax | Numeric | umol m-2 s-1 | NA | NA | NA | NA | 0 | NA |
+| Leaf photosynthesis electron transport capacity (Jmax) per leaf area (Farquhar model) | Jmax | Numeric | umol m-2 s-1 | NA | NA | NA | NA | 0 | NA |
+| Leaf nitrogen (N) content per leaf dry mass | Nleaf | Numeric | mg g-1 | NA | NA | NA | NA | 0 | NA |
+| Wood nitrogen (N) content per wood dry mass | Nsapwood | Numeric | mg g-1 | NA | NA | NA | NA | 0 | NA |
+| Fine root nitrogen (N) content per fine root dry mass | Nfineroot | Numeric | mg g-1 | NA | NA | NA | NA | 0 | NA |
+| Maximum stem-specific hydraulic conductivity | Ks | Numeric | kg m-1 MPa-1 s-1 | NA | NA | NA | NA | 0 | NA |
+| Maximum leaf-specific hydraulic conductivity (Ks\*Hv) | Kl | Numeric | 10-4 kg m-1 MPa-1 s-1 | NA | NA | NA | NA | 0 | NA |
+| Maximum leaf hydraulic conductance (per leaf area) | kleaf | Numeric | mmol m-2 s-1 MPa-1 | NA | NA | NA | NA | 0 | NA |
+| Maximum whole-plant hydraulic conductance (per leaf area) | kplant | Numeric | mmol m-2 s-1 MPa-1 | NA | NA | NA | NA | 0 | NA |
+| Parameters of the stem vulnerability curve | VCstem_P12 | Numeric | MPa | NA | DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI | DH | NA | NA | 0 |
+| Parameters of the stem vulnerability curve | VCstem_P50 | Numeric | MPa | NA | DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI | DH | NA | NA | 0 |
+| Parameters of the stem vulnerability curve | VCstem_P88 | Numeric | MPa | NA | DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI | DH | NA | NA | 0 |
+| Parameters of the stem vulnerability curve | VCstem_slope | Numeric | NA | NA | DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI | DH | NA | 0 | NA |
+| Parameters of the leaf vulnerability curve | VCleaf_P12 | Numeric | MPa | NA | DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI | DH | NA | NA | 0 |
+| Parameters of the leaf vulnerability curve | VCleaf_P50 | Numeric | MPa | NA | DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI | DH | NA | NA | 0 |
+| Parameters of the leaf vulnerability curve | VCleaf_P88 | Numeric | MPa | NA | DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI | DH | NA | NA | 0 |
+| Parameters of the leaf vulnerability curve | VCleaf_slope | Numeric | NA | NA | DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI | DH | NA | 0 | NA |
+| Parameters of the root vulnerability curve | VCroot_P12 | Numeric | MPa | NA | DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI | DH | NA | NA | 0 |
+| Parameters of the root vulnerability curve | VCroot_P50 | Numeric | MPa | NA | DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI | DH | NA | NA | 0 |
+| Parameters of the root vulnerability curve | VCroot_P88 | Numeric | MPa | NA | DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI | DH | NA | NA | 0 |
+| Parameters of the root vulnerability curve | VCroot_slope | Numeric | NA | NA | DH,CE,CA,AD,AS,AE,OV,MicroCT,Pn,MRI | DH | NA | 0 | NA |
+| Leaf dry mass per leaf fresh mass (leaf dry matter content, LDMC) | LDMC | Numeric | mg g-1 | NA | NA | NA | NA | 0 | NA |
+| Leaf fuel moisture content (% of dry weight) | LFMC | Numeric | % | NA | NA | NA | NA | 0 | NA |
+| Ratio of foliar (photosynthetic) + small branches (\<6.35 mm) dry biomass to foliar (photosynthetic) dry biomass | r635 | Numeric | NA | NA | NA | NA | NA | 1 | NA |
+| High fuel heat content | HeatContent | Numeric | kJ kg-1 | NA | NA | NA | NA | 0 | NA |
+| Surface-area-to-volume ratio | SAV | Numeric | m2 m-3 | NA | NA | NA | NA | 0 | NA |
+| Percent of lignin+cutin over dry weight in leaves | LigninPercent | Numeric | % | NA | NA | NA | NA | 0 | 100 |
+| Bark thickness | BarkThickness | Numeric | mm | NA | NA | NA | NA | 0 | NA |
+| Seedbank average longevity | SeedLongevity | Numeric | year | NA | NA | NA | NA | 0 | NA |
+| Maturation height | Hmat | Numeric | cm | NA | NA | NA | NA | 0 | NA |
+| Maturation diameter | Dmat | Numeric | cm | NA | NA | NA | NA | 0 | NA |
+| Seed dry mass | SeedMass | Numeric | mg | NA | NA | NA | NA | 0 | NA |
+| Succulence (g of water /m2 of projected leaf) | LeafSucculence | Numeric | g m-2 | NA | NA | NA | NA | 0 | NA |
+| Leaf projected to half developed area (m2/m2) | LeafProjectedToHalfDevelopedArea | Numeric | m2 m-2 | NA | NA | NA | NA | 0 | NA |
+| Minimum conductance of the leaf to water vapor on developed area basis (including cuticule and stomatal leakiness) | GminLeaf | Numeric | mmol m-2 s-1 | NA | NA | NA | NA | 0 | NA |
+| Q10 of the initial gmin response to temperature (before Tp) | Q10gminPhase1 | Numeric | NA | NA | NA | NA | NA | NA | NA |
+| Q10 of the initial gmin response to temperature (after Tp) | Q10gminPhase2 | Numeric | NA | NA | NA | NA | NA | NA | NA |
+| Transition phase for gmin dependence to temperature | GminTransitionPhase | Numeric | Celsius | NA | NA | NA | NA | NA | NA |
+| Maintenance respiration rates for leaves | RERleaf | Numeric | g g-1 day-1 | NA | NA | NA | NA | 0 | NA |
+| Maintenance respiration rates for living cells of sapwood | RERsapwood | Numeric | g g-1 day-1 | NA | NA | NA | NA | 0 | NA |
+| Maintenance respiration rates for fine roots | RERfineroot | Numeric | g g-1 day-1 | NA | NA | NA | NA | 0 | NA |
+| Leaf construction costs | CCleaf | Numeric | g g-1 | NA | NA | NA | NA | 0 | NA |
+| Sapwood construction costs | CCsapwood | Numeric | g g-1 | NA | NA | NA | NA | 0 | NA |
+| Fine root construction costs | CCfineroot | Numeric | g g-1 | NA | NA | NA | NA | 0 | NA |
+| Date to start the accumulation of degree days | t0gdd | Numeric | day | NA | NA | NA | NA | NA | NA |
+| Degree days for leaf budburst | Sgdd | Numeric | Celsius | NA | NA | NA | NA | NA | NA |
+| Base temperature for the calculation of degree days to leaf budburst | Tbgdd | Numeric | Celsius | NA | NA | NA | NA | NA | NA |
+| Degree days corresponding to senescence | Ssen | Numeric | Celsius | NA | NA | NA | NA | NA | NA |
+| Photoperiod corresponding to start counting senescence | Phsen | Numeric | hour | NA | NA | NA | NA | NA | NA |
+| Base temperature for the calculation of degree days to senescence | Tbsen | Numeric | Celsius | NA | NA | NA | NA | NA | NA |
+| Discrete values, to allow for any absent/proportional/more than proportional effects of temperature on senescence | xsen | Integer | NA | NA | NA | NA | 0,1,2 | 0 | 2 |
+| Discrete values, to allow for any absent/proportional/more than proportional effects of photoperiod on senescence | ysen | Integer | NA | NA | NA | NA | 0,1,2 | 0 | 2 |
+| Shade tolerance index according to Valladares and Niinemets | ShadeTolerance | Numeric | NA | NA | NA | NA | NA | 0 | 5 |
 
 In the case of Bartlett’s dataset we are interested in points of the
 vulnerability curve and stomatal behavior. We can check their
@@ -416,18 +418,18 @@ gsmin_data <- get_trait_data(harmonized_trait_path, "Gswmin",
 head(gsmin_data)
 ```
 
-    ## # A tibble: 6 × 15
+    ## # A tibble: 6 × 17
     ##   originalName  acceptedName acceptedNameAuthorship family genus specificEpithet
     ##   <chr>         <chr>        <chr>                  <chr>  <chr> <chr>          
     ## 1 Abies alba    Abies alba   Mill.                  Pinac… Abies alba           
-    ## 2 Abies lasioc… Abies lasio… (Hook.) Nutt.          Pinac… Abies lasiocarpa     
-    ## 3 Abies sibiri… Abies sibir… Ledeb.                 Pinac… Abies sibirica       
-    ## 4 Acacia koa    Acacia koa   A.Gray                 Fabac… Acac… koa            
-    ## 5 Acacia maide… Acacia maid… F.Muell.               Fabac… Acac… maidenii       
-    ## 6 Acacia mangi… Acacia mang… Willd.                 Fabac… Acac… mangium        
-    ## # ℹ 9 more variables: taxonRank <chr>, Trait <chr>, Value <dbl>, Units <chr>,
+    ## 2 Abies cephal… Abies cepha… Loudon                 Pinac… Abies cephalonica    
+    ## 3 Abies concol… Abies conco… (Gordon) Lindl. ex Hi… Pinac… Abies concolor       
+    ## 4 Abies lasioc… Abies lasio… (Hook.) Nutt.          Pinac… Abies lasiocarpa     
+    ## 5 Abies nordma… Abies nordm… (Steven) Spach         Pinac… Abies nordmanniana   
+    ## 6 Abies nordma… Abies nordm… (Steven) Spach         Pinac… Abies nordmanniana   
+    ## # ℹ 11 more variables: taxonRank <chr>, Trait <chr>, Value <dbl>, Units <chr>,
     ## #   Reference <chr>, DOI <chr>, Priority <dbl>, checkVersion <chr>,
-    ## #   OriginalReference <chr>
+    ## #   Level <chr>, Method <chr>, OriginalReference <chr>
 
 Analogously, if we are interested in querying trait information for a
 particular taxa, we can use function
@@ -447,13 +449,13 @@ head(ph_data)
     ## 4 Pinus halepensis Pinus halepensis                  Mill. Pinaceae Pinus
     ## 5 Pinus halepensis Pinus halepensis                  Mill. Pinaceae Pinus
     ## 6 Pinus halepensis Pinus halepensis                  Mill. Pinaceae Pinus
-    ##   specificEpithet taxonRank       Trait            Value   Units
-    ## 1      halepensis   species        r635 1.96422645197988    <NA>
-    ## 2      halepensis   species HeatContent            22150 kJ kg-1
-    ## 3      halepensis   species         SAV             6050  m2 m-3
-    ## 4      halepensis   species      Gs_P50            -1.75    <NA>
-    ## 5      halepensis   species      Gs_P95            -2.37    <NA>
-    ## 6      halepensis   species  VCroot_P50            -0.88    <NA>
+    ##   specificEpithet taxonRank       Trait            Value
+    ## 1      halepensis   species        r635 1.96422645197988
+    ## 2      halepensis   species HeatContent            22150
+    ## 3      halepensis   species         SAV             6050
+    ## 4      halepensis   species      Gs_P50            -1.75
+    ## 5      halepensis   species      Gs_P95            -2.37
+    ## 6      halepensis   species  VCroot_P50            -0.88
     ##                                                                                                                                                                                                                                                                                                                                 Reference
     ## 1                                                                                                                                                                                                                                                                                                                                   Field
     ## 2 Cohen, M., Cuiñas, P., Diez, C., Fernandes, P., Guijarro, M., Moro, C., 2001. FIRE STAR: a decision support system for fuel management and fire hazard reduction in Mediterranean wildland - urban interfaces Deliverable D4-02 Fire Star Impacts Model of Wildland Fire Compilation of People Tenability and Material Properties Data.
@@ -461,13 +463,20 @@ head(ph_data)
     ## 4                                                                                                                                                                                               Bartlett et al. (2016) The correlations and sequence of plant stomatal, hydraulic, and wilting responses to drought. PNAS 113 13098-13103
     ## 5                                                                                                                                                                                               Bartlett et al. (2016) The correlations and sequence of plant stomatal, hydraulic, and wilting responses to drought. PNAS 113 13098-13103
     ## 6                                                                                                                                                                                               Bartlett et al. (2016) The correlations and sequence of plant stomatal, hydraulic, and wilting responses to drought. PNAS 113 13098-13103
-    ##                       DOI Priority checkVersion    OriginalReference
-    ## 1                    <NA>        1        0.2.3                 <NA>
-    ## 2                    <NA>        1        0.2.3                 <NA>
-    ## 3                    <NA>        1        0.2.3                 <NA>
-    ## 4 10.1073/pnas.1604088113        3        0.2.3    Klein et al. 2011
-    ## 5 10.1073/pnas.1604088113        3        0.2.3    Klein et al. 2011
-    ## 6 10.1073/pnas.1604088113        3        0.2.3 Oliveras et al. 2003
+    ##     Units      Level                     DOI Priority checkVersion
+    ## 1    <NA> population                    <NA>        1        0.3.0
+    ## 2 kJ kg-1      taxon                    <NA>        1        0.3.0
+    ## 3  m2 m-3      taxon                    <NA>        1        0.3.0
+    ## 4    <NA>      taxon 10.1073/pnas.1604088113        3        0.3.0
+    ## 5    <NA>      taxon 10.1073/pnas.1604088113        3        0.3.0
+    ## 6    <NA>      taxon 10.1073/pnas.1604088113        3        0.3.0
+    ##      OriginalReference Method originalReference
+    ## 1                 <NA>   <NA>              <NA>
+    ## 2                 <NA>   <NA>              <NA>
+    ## 3                 <NA>   <NA>              <NA>
+    ## 4    Klein et al. 2011   <NA>              <NA>
+    ## 5    Klein et al. 2011   <NA>              <NA>
+    ## 6 Oliveras et al. 2003   <NA>              <NA>
 
 ## References
 

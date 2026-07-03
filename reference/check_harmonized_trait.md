@@ -67,14 +67,15 @@ conforms to the following requirements:
     `taxonRank`, as returned by function
     [`harmonize_taxonomy_WFO`](https://emf-creaf.github.io/traits4models/reference/harmonize_taxonomy_WFO.md).
 
-2.  Trait data can be in wide-format or long-format. When supplied in
-    wide format, the names of trait columns are either a valid trait
-    names according to the notation in
+2.  Trait data can be in wide-format or long-format (the latter is
+    preferred). When supplied in wide format, the names of trait columns
+    are either a valid trait names according to the notation in
     [`HarmonizedTraitDefinition`](https://emf-creaf.github.io/traits4models/reference/HarmonizedTraitDefinition.md)
     and the type of column needs to match the corresponding type. In
-    this format trait units cannot be checked and the same reference
-    applies to all traits. When supplied in long format, the following
-    columns are required:
+    this format trait units and measurement methods cannot be checked
+    and the same reference applies to all traits. In addition,
+    aggregation level is assumed to be 'taxon'. When supplied in long
+    format, the following columns need to be defined:
 
     - `Trait` - A character describing the the name of the trait, with
       values according to the notation in
@@ -87,6 +88,15 @@ conforms to the following requirements:
     - `Units` - A character describing the units of the trait, with
       values according to units in
       [`HarmonizedTraitDefinition`](https://emf-creaf.github.io/traits4models/reference/HarmonizedTraitDefinition.md).
+
+    - `Method` - A character describing the measurement method of the
+      trait, for those traits where different alternative methods are
+      described in
+      [`HarmonizedTraitDefinition`](https://emf-creaf.github.io/traits4models/reference/HarmonizedTraitDefinition.md).
+
+    - `Level` - A character describing the level of aggregation of data,
+      either: 'individual' (individual measurement), 'population'
+      (population-level average) or 'taxon' (taxon-level average).
 
 3.  The names of the remaining columns are:
 
