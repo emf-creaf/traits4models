@@ -58,6 +58,8 @@
                                            progress = FALSE,
                                            verbose = FALSE) |>
     dplyr::rename("acceptedName" = "genus")
+  # print(head(trait_table_species))
+  # print(head(trait_table_genus))
   trait_table <- dplyr::bind_rows(trait_table_species, trait_table_genus)
   return(trait_table)
 }
@@ -150,7 +152,7 @@ fill_medfate_traits<-function(SpParams,
   names(trait_mapping) <- parameters_sel
   trait_mapping <- trait_mapping[parameters_sel %in% parameters]
   if(length(trait_mapping)>0) {
-    if(progress) cli::cli_progress_step(paste0("Processing parameters ", paste(names(trait_mapping), collapse=", ")))
+    if(progress) cli::cli_progress_step(paste0("Processing ", paste(names(trait_mapping), collapse=", ")))
     SpParams <- .fill_trait_block(SpParams,
                                   harmonized_trait_path = harmonized_trait_path,
                                   trait_mapping = trait_mapping,
@@ -164,13 +166,13 @@ fill_medfate_traits<-function(SpParams,
 
 
   parameters_sel <- c("t0gdd", "Tbgdd", "Sgdd",
-                      "Phsen", "Tbsen", "xsen", "ysen", "Ssen")
+                      "Phsen", "Tbsen", "Ssen")
   traits_sel <- parameters_sel
   trait_mapping <- traits_sel
   names(trait_mapping) <- parameters_sel
   trait_mapping <- trait_mapping[parameters_sel %in% parameters]
   if(length(trait_mapping)>0) {
-    if(progress) cli::cli_progress_step(paste0("Processing parameters ", paste(names(trait_mapping), collapse=", ")))
+    if(progress) cli::cli_progress_step(paste0("Processing ", paste(names(trait_mapping), collapse=", ")))
     SpParams <- .fill_trait_block(SpParams,
                                   harmonized_trait_path = harmonized_trait_path,
                                   trait_mapping = trait_mapping,
@@ -181,9 +183,26 @@ fill_medfate_traits<-function(SpParams,
                                   erase_previous = erase_previous,
                                   replace_previous = replace_previous)
   }
+  parameters_sel <- c("xsen", "ysen")
+  traits_sel <- parameters_sel
+  trait_mapping <- traits_sel
+  names(trait_mapping) <- parameters_sel
+  trait_mapping <- trait_mapping[parameters_sel %in% parameters]
+  if(length(trait_mapping)>0) {
+    if(progress) cli::cli_progress_step(paste0("Processing ", paste(names(trait_mapping), collapse=", ")))
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmode",
+                                  summary_params = list(na.rm = TRUE),
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
+  }
 
   if("LeafSize" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "LeafSize"))
+    if(progress) cli::cli_progress_step(paste0("Processing ", "LeafSize"))
     trait_table <- .get_trait_table(SpParams,
                                     harmonized_trait_path = harmonized_trait_path,
                                     traits = "LeafArea",
@@ -205,34 +224,8 @@ fill_medfate_traits<-function(SpParams,
                                  replace_previous,
                                  erase_previous)
   }
-  parameters_sel <- c("Dmax", "LeafDensity", "WoodDensity", "SRL" , "r635",
-                     "LigninPercent","pDead", "SAV", "HeatContent",
-                     "LeafPI0", "LeafEPS", "LeafAF", "SLA", "Al2As", "conduit2sapwood",
-                     "LeafWidth", "LeafDuration", "LeafAngle", "Gswmax", "Gswmin", "Gs_P50",
-                     "VCleaf_P50", "VCleaf_P12", "VCleaf_P88", "VCleaf_slope",
-                     "VCstem_P50", "VCstem_P12", "VCstem_P88", "VCstem_slope",
-                     "VCroot_P50", "VCroot_P12", "VCroot_P88", "VCroot_slope",
-                     "Nleaf","Nsapwood", "Nfineroot","SeedMass", "SeedLongevity",
-                     "WoodC", "CCleaf", "CCsapwood", "CCfineroot")
-  traits_sel <- parameters_sel
-  trait_mapping <- traits_sel
-  names(trait_mapping) <- parameters_sel
-  trait_mapping <- trait_mapping[parameters_sel %in% parameters]
-  if(length(trait_mapping)>0) {
-    if(progress) cli::cli_progress_step(paste0("Processing parameters ", paste(names(trait_mapping), collapse=", ")))
-    SpParams <- .fill_trait_block(SpParams,
-                                  harmonized_trait_path = harmonized_trait_path,
-                                  trait_mapping = trait_mapping,
-                                  priorization = priorization,
-                                  summary_function = "weightedmedian",
-                                  summary_params = list(na.rm = TRUE),
-                                  aggregation_level_weights = aggregation_level_weights,
-                                  erase_previous = erase_previous,
-                                  replace_previous = replace_previous)
-  }
-
   if("Hmax" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Hmax"))
+    if(progress) cli::cli_progress_step(paste0("Processing ", "Hmax"))
     trait_mapping <- "Hact"
     names(trait_mapping) <- "Hmax"
     SpParams <- .fill_trait_block(SpParams,
@@ -246,7 +239,7 @@ fill_medfate_traits<-function(SpParams,
                                   replace_previous = replace_previous)
   }
   if("Hmed" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Hmed"))
+    if(progress) cli::cli_progress_step(paste0("Processing ", "Hmed"))
     trait_mapping <- "Hact"
     names(trait_mapping) <- "Hmed"
     SpParams <- .fill_trait_block(SpParams,
@@ -260,7 +253,7 @@ fill_medfate_traits<-function(SpParams,
   }
 
   if("cr" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "cr"))
+    if(progress) cli::cli_progress_step(paste0("Processing ", "cr"))
     trait_mapping <- "CrownRatio"
     names(trait_mapping) <- "cr"
     SpParams <- .fill_trait_block(SpParams,
@@ -273,8 +266,149 @@ fill_medfate_traits<-function(SpParams,
                                   replace_previous = replace_previous)
   }
 
+  parameters_sel <- c("Dmax", "WoodDensity", "SRL" , "r635",
+                      "LigninPercent","pDead", "SAV", "HeatContent")
+  traits_sel <- parameters_sel
+  trait_mapping <- traits_sel
+  names(trait_mapping) <- parameters_sel
+  trait_mapping <- trait_mapping[parameters_sel %in% parameters]
+  if(length(trait_mapping)>0) {
+    if(progress) cli::cli_progress_step(paste0("Processing ", paste(names(trait_mapping), collapse=", ")))
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  summary_params = list(na.rm = TRUE),
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
+  }
+  parameters_sel <- c("LeafDensity", "SLA", "LeafWidth", "LeafDuration", "LeafAngle")
+  traits_sel <- parameters_sel
+  trait_mapping <- traits_sel
+  names(trait_mapping) <- parameters_sel
+  trait_mapping <- trait_mapping[parameters_sel %in% parameters]
+  if(length(trait_mapping)>0) {
+    if(progress) cli::cli_progress_step(paste0("Processing ", paste(names(trait_mapping), collapse=", ")))
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  summary_params = list(na.rm = TRUE),
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
+  }
+
+  if("LeafAngleSD" %in% parameters) {
+    if(progress) cli::cli_progress_step(paste0("Processing ", "LeafAngleSD"))
+    trait_mapping <- "LeafAngle"
+    names(trait_mapping) <- "LeafAngleSD"
+    if(nrow(trait_table)>0) {
+      SpParams <- .fill_trait_block(SpParams,
+                                    harmonized_trait_path = harmonized_trait_path,
+                                    trait_mapping = trait_mapping,
+                                    priorization = priorization,
+                                    summary_function = "weightedsd",
+                                    aggregation_level_weights = aggregation_level_weights,
+                                    erase_previous = erase_previous,
+                                    replace_previous = replace_previous)
+    }
+  }
+
+  parameters_sel <- c("LeafAF", "LeafPI0", "LeafEPS", "Al2As", "conduit2sapwood",
+                      "Gswmax", "Gswmin", "Gs_P50")
+  traits_sel <- parameters_sel
+  trait_mapping <- traits_sel
+  names(trait_mapping) <- parameters_sel
+  trait_mapping <- trait_mapping[parameters_sel %in% parameters]
+  if(length(trait_mapping)>0) {
+    if(progress) cli::cli_progress_step(paste0("Processing ", paste(names(trait_mapping), collapse=", ")))
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  summary_params = list(na.rm = TRUE),
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
+  }
+  parameters_sel <- c("VCleaf_P50", "VCleaf_P12", "VCleaf_P88", "VCleaf_slope",
+                      "VCstem_P50", "VCstem_P12", "VCstem_P88", "VCstem_slope",
+                      "VCroot_P50", "VCroot_P12", "VCroot_P88", "VCroot_slope")
+  traits_sel <- parameters_sel
+  trait_mapping <- traits_sel
+  names(trait_mapping) <- parameters_sel
+  trait_mapping <- trait_mapping[parameters_sel %in% parameters]
+  if(length(trait_mapping)>0) {
+    if(progress) cli::cli_progress_step(paste0("Processing ", paste(names(trait_mapping), collapse=", ")))
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  summary_params = list(na.rm = TRUE),
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
+  }
+  parameters_sel <- c("Nleaf","Nsapwood", "Nfineroot")
+  traits_sel <- parameters_sel
+  trait_mapping <- traits_sel
+  names(trait_mapping) <- parameters_sel
+  trait_mapping <- trait_mapping[parameters_sel %in% parameters]
+  if(length(trait_mapping)>0) {
+    if(progress) cli::cli_progress_step(paste0("Processing ", paste(names(trait_mapping), collapse=", ")))
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  summary_params = list(na.rm = TRUE),
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
+  }
+  parameters_sel <- c("SeedMass", "SeedLongevity")
+  traits_sel <- parameters_sel
+  trait_mapping <- traits_sel
+  names(trait_mapping) <- parameters_sel
+  trait_mapping <- trait_mapping[parameters_sel %in% parameters]
+  if(length(trait_mapping)>0) {
+    if(progress) cli::cli_progress_step(paste0("Processing ", paste(names(trait_mapping), collapse=", ")))
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  summary_params = list(na.rm = TRUE),
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
+  }
+  parameters_sel <- c("WoodC", "CCleaf", "CCsapwood", "CCfineroot")
+  traits_sel <- parameters_sel
+  trait_mapping <- traits_sel
+  names(trait_mapping) <- parameters_sel
+  trait_mapping <- trait_mapping[parameters_sel %in% parameters]
+  if(length(trait_mapping)>0) {
+    if(progress) cli::cli_progress_step(paste0("Processing ", paste(names(trait_mapping), collapse=", ")))
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  summary_params = list(na.rm = TRUE),
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
+  }
+
   if("maxFMC" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "maxFMC"))
+    if(progress) cli::cli_progress_step(paste0("Processing ", "maxFMC"))
     trait_mapping <- "LFMC"
     names(trait_mapping) <- "maxFMC"
     SpParams <- .fill_trait_block(SpParams,
@@ -288,7 +422,7 @@ fill_medfate_traits<-function(SpParams,
                                   replace_previous = replace_previous)
   }
   if("minFMC" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "minFMC"))
+    if(progress) cli::cli_progress_step(paste0("Processing ", "minFMC"))
     trait_mapping <- "LFMC"
     names(trait_mapping) <- "minFMC"
     SpParams <- .fill_trait_block(SpParams,
@@ -303,7 +437,7 @@ fill_medfate_traits<-function(SpParams,
   }
 
   if("Kmax_stemxylem" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Kmax_stemxylem"))
+    if(progress) cli::cli_progress_step(paste0("Processing ", "Kmax_stemxylem"))
     trait_mapping <- "Ks"
     names(trait_mapping) <- "Kmax_stemxylem"
     SpParams <- .fill_trait_block(SpParams,
@@ -317,7 +451,7 @@ fill_medfate_traits<-function(SpParams,
   }
 
   if("Vmax298" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Vmax298"))
+    if(progress) cli::cli_progress_step(paste0("Processing ", "Vmax298"))
     trait_mapping <- "Vmax"
     names(trait_mapping) <- "Vmax298"
     SpParams <- .fill_trait_block(SpParams,
@@ -330,7 +464,7 @@ fill_medfate_traits<-function(SpParams,
                                   replace_previous = replace_previous)
   }
   if("Jmax298" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Jmax298"))
+    if(progress) cli::cli_progress_step(paste0("Processing ", "Jmax298"))
     trait_mapping <- "Jmax"
     names(trait_mapping) <- "Jmax298"
     SpParams <- .fill_trait_block(SpParams,
@@ -344,7 +478,7 @@ fill_medfate_traits<-function(SpParams,
   }
 
   if("Z95" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Z95"))
+    if(progress) cli::cli_progress_step(paste0("Processing ", "Z95"))
     if(nrow(trait_table)>0) {
       trait_mapping <- "Z95"
       names(trait_mapping) <- "Z95"
@@ -361,24 +495,8 @@ fill_medfate_traits<-function(SpParams,
   }
 
 
-  if("LeafAngleSD" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "LeafAngleSD"))
-    trait_mapping <- "LeafAngle"
-    names(trait_mapping) <- "LeafAngleSD"
-    if(nrow(trait_table)>0) {
-      SpParams <- .fill_trait_block(SpParams,
-                                    harmonized_trait_path = harmonized_trait_path,
-                                    trait_mapping = trait_mapping,
-                                    priorization = priorization,
-                                    summary_function = "weightedsd",
-                                    aggregation_level_weights = aggregation_level_weights,
-                                    erase_previous = erase_previous,
-                                    replace_previous = replace_previous)
-    }
-  }
-
   if("RSSG" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "RSSG"))
+    if(progress) cli::cli_progress_step(paste0("Processing ", "RSSG"))
     trait_mapping <- "ShadeTolerance"
     names(trait_mapping) <- "RSSG"
     SpParams <- .fill_trait_block(SpParams,
@@ -394,7 +512,7 @@ fill_medfate_traits<-function(SpParams,
 
 
   if("SeedProductionDiameter" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "SeedProductionDiameter"))
+    if(progress) cli::cli_progress_step(paste0("Processing ", "SeedProductionDiameter"))
     trait_mapping <- "Dmat"
     names(trait_mapping) <- "SeedProductionDiameter"
     SpParams <- .fill_trait_block(SpParams,

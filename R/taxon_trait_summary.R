@@ -76,14 +76,28 @@
         return(as.numeric(NA))
       }
     }
-  } else {
+  } else if(expected_type=="Integer") {
     if(length(values)>0) {
       if(summary_function == "weightedmode") {
         l = c(list("values"=values, "levels" = levels, "df_levels" = df_levels), summary_params)
-        return(do.call(".level_weighted_mode", l))
+        return(as.integer(as.numeric(do.call(".level_weighted_mode", l))))
       } else if(summary_function == "mode") {
         l = c(list("x"=values), summary_params)
-        return(do.call(".mode", l))
+        return(as.integer(as.numeric(do.call(".mode", l))))
+      } else {
+        cli::cli_abort("Wrong summary function")
+      }
+    } else {
+      return(as.integer(NA))
+    }
+  } else if(expected_type=="String") {
+    if(length(values)>0) {
+      if(summary_function == "weightedmode") {
+        l = c(list("values"=values, "levels" = levels, "df_levels" = df_levels), summary_params)
+        return(as.character(do.call(".level_weighted_mode", l)))
+      } else if(summary_function == "mode") {
+        l = c(list("x"=values), summary_params)
+        return(as.character(do.call(".mode", l)))
       } else {
         cli::cli_abort("Wrong summary function")
       }
@@ -229,9 +243,18 @@ taxon_trait_summary <- function(harmonized_trait_path,
       names(trait_summary_table)[2] <- t
       taxon_summaries <- taxon_summaries |>
         dplyr::full_join(trait_summary_table, by=grouping_column)
+    } else {
+      if(expected_type=="Numeric") {
+        taxon_summaries[[t]] <- as.numeric(NA)
+      } else if(expected_type=="Integer") {
+        taxon_summaries[[t]] <- as.integer(NA)
+      } else if(expected_type=="String") {
+        taxon_summaries[[t]] <- as.character(NA)
+      }
     }
   }
   taxon_summaries <- taxon_summaries |>
     dplyr::arrange(.data[[grouping_column]])
+  # print(head(taxon_summaries))
   return(taxon_summaries)
 }
