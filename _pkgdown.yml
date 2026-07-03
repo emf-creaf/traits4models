@@ -36,9 +36,10 @@ reference:
   - HarmonizedTraitDefinition
 
 - title: Harmonized trait and allometry data
-  desc:  Load and subset harmonized trait and allometry data
+  desc:  Load, subset and summarize harmonized trait and allometry data
   contents:
   - starts_with("get_trait")
+  - starts_with("taxon_trait")
 
 - title: Building species parameter tables
   desc:  Creation of species parameter tables

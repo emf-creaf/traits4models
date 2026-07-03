@@ -19,6 +19,7 @@ Imports:
     dplyr,
     tidyr,
     data.table,
+    Hmisc,
     memoise,
     readr,
     rlang,

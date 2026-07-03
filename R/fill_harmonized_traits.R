@@ -1,3 +1,94 @@
+.populate_traits <- function(SpParams,
+                             trait_table,
+                             trait_mapping,
+                             replace_previous,
+                             erase_previous) {
+
+  trait_params <- names(trait_mapping)
+  if(erase_previous) SpParams[,trait_params] = NA
+
+  for(j in 1:length(trait_mapping)) {
+    trait <- trait_mapping[[j]]
+    param <- trait_params[j]
+    for(i in 1:nrow(SpParams)) {
+      initial_missing <- is.na(SpParams[i,param])
+      if(initial_missing || replace_previous) {
+        row <- which(trait_table$acceptedName == SpParams$AcceptedName[i])
+        if(length(row)>0) {
+          SpParams[i,param] <- trait_table[row[1],trait]
+        }
+      }
+    }
+  }
+  return(SpParams)
+}
+.get_trait_table <- function(SpParams,
+                             harmonized_trait_path,
+                             traits,
+                             priorization,
+                             summary_function = "weightedmean",
+                             summary_params = list(na.rm=TRUE),
+                             scalar_functions = NULL,
+                             aggregation_level_weights = c("individual" = 1, "population" = 10, "taxon" = 100)) {
+
+  # print(traits)
+  AcceptedNameGenus <- SpParams$AcceptedName[is.na(SpParams$Species)]
+  AcceptedNameSpecies <- SpParams$AcceptedName[!is.na(SpParams$Species)]
+
+  trait_table_species <- taxon_trait_summary(harmonized_trait_path,
+                                             taxonomic_level = "species",
+                                             priorization = priorization,
+                                             aggregation_level_weights = aggregation_level_weights,
+                                             summary_function = summary_function,
+                                             summary_params = summary_params,
+                                             scalar_functions = scalar_functions,
+                                             traits = traits,
+                                             taxon_selection = AcceptedNameSpecies,
+                                             progress = FALSE,
+                                             verbose = FALSE)
+  trait_table_genus <- taxon_trait_summary(harmonized_trait_path,
+                                           taxonomic_level = "genus",
+                                           priorization = priorization,
+                                           aggregation_level_weights = aggregation_level_weights,
+                                           taxon_selection = AcceptedNameGenus,
+                                           summary_function = summary_function,
+                                           summary_params = summary_params,
+                                           scalar_functions = scalar_functions,
+                                           traits = traits,
+                                           progress = FALSE,
+                                           verbose = FALSE) |>
+    dplyr::rename("acceptedName" = "genus")
+  trait_table <- dplyr::bind_rows(trait_table_species, trait_table_genus)
+  return(trait_table)
+}
+
+
+.fill_trait_block <- function(SpParams,
+                              harmonized_trait_path,
+                              trait_mapping,
+                              priorization,
+                              summary_function = "weightedmean",
+                              summary_params = list(na.rm=TRUE),
+                              scalar_functions = NULL,
+                              erase_previous = FALSE,
+                              replace_previous = FALSE,
+                              aggregation_level_weights = c("individual" = 1, "population" = 10, "taxon" = 100)) {
+
+  trait_table <- .get_trait_table(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  traits = as.character(trait_mapping),
+                                  priorization = priorization,
+                                  summary_function = summary_function,
+                                  summary_params = summary_params,
+                                  scalar_functions = scalar_functions,
+                                  aggregation_level_weights = aggregation_level_weights)
+  return(.populate_traits(SpParams,
+                          trait_table,
+                          trait_mapping,
+                          replace_previous,
+                          erase_previous))
+}
+
 #' Trait filling from harmonized data
 #'
 #' Fills species parameter table for medfate with trait data from harmonized data sources
@@ -6,6 +97,7 @@
 #' @param harmonized_trait_path A directory path were RDS files with harmonized trait databases are.
 #' @param parameters A string vector of parameters to be populated. If \code{NULL} then all possible medfate parameters are parsed.
 #' @param priorization A boolean flag to perform priorization of some data sources over others.
+#' @param aggregation_level_weights A vector of weights to be applied to different aggregation levels when calculating numeric averages.
 #' @param replace_previous A boolean flag to indicate that non-missing previous values should be replaced with new data
 #' @param erase_previous A boolean flag to indicate that all previous values should be set to NA before populating with new data
 #' @param progress A boolean flag to prompt progress.
@@ -30,6 +122,7 @@ fill_medfate_traits<-function(SpParams,
                               harmonized_trait_path,
                               parameters = NULL,
                               priorization = TRUE,
+                              aggregation_level_weights = c("individual" = 1, "population" = 10, "taxon" = 100),
                               erase_previous = FALSE,
                               replace_previous = FALSE,
                               progress = TRUE, verbose = FALSE) {
@@ -47,48 +140,57 @@ fill_medfate_traits<-function(SpParams,
 
   priority_column <- NULL
   if(priorization) priority_column <- "Priority"
+  level_column <- "Level"
 
-  for(trait_name in c("GrowthForm","LifeForm","LeafShape","PhenologyType", "DispersalType")) {
-    if(trait_name %in% parameters) {
-      if(progress) cli::cli_progress_step(paste0("Processing parameter: ", trait_name))
-      if(trait_name=="DispersalType")  {
-        trait_table <- get_trait_data(harmonized_trait_path, "DispersalMode", output_format = "wide", progress = FALSE)
-      } else {
-        trait_table <- get_trait_data(harmonized_trait_path, trait_name, output_format = "wide", progress = FALSE)
-      }
-      if(nrow(trait_table)>0) {
-        trait_mapping <- trait_name
-        if(trait_name=="DispersalType") trait_mapping <- "DispersalMode"
-        names(trait_mapping) <- trait_name
-        SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
-                                    taxon_column = "acceptedName", genus_column = "genus",
-                                    priority_column = priority_column,
-                                    erase_previous = erase_previous, character_traits = TRUE,
-                                    replace_previous = replace_previous, verbose = verbose)
-      }
-    }
+
+  # GrowthForm, LifeForm, LeafShape, PhenologyType, DispersalType
+  parameters_sel <- c("GrowthForm", "LifeForm", "LeafShape", "PhenologyType", "DispersalType")
+  traits_sel <- c("GrowthForm", "LifeForm", "LeafShape", "PhenologyType", "DispersalMode")
+  trait_mapping <- traits_sel
+  names(trait_mapping) <- parameters_sel
+  trait_mapping <- trait_mapping[parameters_sel %in% parameters]
+  if(length(trait_mapping)>0) {
+    if(progress) cli::cli_progress_step(paste0("Processing parameters ", paste(names(trait_mapping), collapse=", ")))
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmode",
+                                  summary_params = list(na.rm = TRUE),
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
   }
-  for(trait_name in c("t0gdd", "Tbgdd", "Sgdd",
-                      "Phsen", "Tbsen", "xsen", "ysen", "Ssen")) {
-    if(trait_name %in% parameters) {
-      if(progress) cli::cli_progress_step(paste0("Processing parameter: ", trait_name))
-      trait_table <- get_trait_data(harmonized_trait_path, trait_name, output_format = "wide", progress = FALSE)
-      if(nrow(trait_table)>0) {
-        trait_mapping <- trait_name
-        names(trait_mapping) <- trait_name
-        SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
-                                    summary_function = "median",
-                                    taxon_column = "acceptedName", genus_column = "genus",
-                                    priority_column = priority_column,
-                                    erase_previous = erase_previous, character_traits = FALSE,
-                                    replace_previous = replace_previous, verbose = verbose)
-      }
-    }
+
+
+  parameters_sel <- c("t0gdd", "Tbgdd", "Sgdd",
+                      "Phsen", "Tbsen", "xsen", "ysen", "Ssen")
+  traits_sel <- parameters_sel
+  trait_mapping <- traits_sel
+  names(trait_mapping) <- parameters_sel
+  trait_mapping <- trait_mapping[parameters_sel %in% parameters]
+  if(length(trait_mapping)>0) {
+    if(progress) cli::cli_progress_step(paste0("Processing parameters ", paste(names(trait_mapping), collapse=", ")))
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  summary_params = list(na.rm = TRUE),
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
   }
 
   if("LeafSize" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "LeafSize"))
-    trait_table <- get_trait_data(harmonized_trait_path, "LeafArea", output_format = "wide", progress = FALSE) |>
+    trait_table <- .get_trait_table(SpParams,
+                                    harmonized_trait_path = harmonized_trait_path,
+                                    traits = "LeafArea",
+                                    priorization = priorization,
+                                    summary_function = "weightedmedian",
+                                    summary_params = list(na.rm = TRUE),
+                                    aggregation_level_weights = aggregation_level_weights)|>
       dplyr::mutate(
         LeafSize = dplyr::case_when(
           LeafArea<225 ~"Small",
@@ -97,237 +199,212 @@ fill_medfate_traits<-function(SpParams,
         ))
     trait_mapping <- "LeafSize"
     names(trait_mapping) <- "LeafSize"
-    SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
-                                taxon_column = "acceptedName", genus_column = "genus",
-                                priority_column = priority_column,
-                                erase_previous = erase_previous, character_traits = TRUE,
-                                replace_previous = replace_previous, verbose = verbose)
+    SpParams <- .populate_traits(SpParams,
+                                 trait_table,
+                                 trait_mapping,
+                                 replace_previous,
+                                 erase_previous)
   }
-
-  if("Dmax" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Dmax"))
-    trait_table <- get_trait_data(harmonized_trait_path, "Dmax", output_format = "wide", progress = FALSE)
-    trait_mapping <- "Dmax"
-    names(trait_mapping) <- "Dmax"
-    SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
-                                summary_function = "median",
-                                taxon_column = "acceptedName", genus_column = "genus",
-                                priority_column = priority_column,
-                                erase_previous = erase_previous, character_traits = FALSE,
-                                replace_previous = replace_previous, verbose = verbose)
+  parameters_sel <- c("Dmax", "LeafDensity", "WoodDensity", "SRL" , "r635",
+                     "LigninPercent","pDead", "SAV", "HeatContent",
+                     "LeafPI0", "LeafEPS", "LeafAF", "SLA", "Al2As", "conduit2sapwood",
+                     "LeafWidth", "LeafDuration", "LeafAngle", "Gswmax", "Gswmin", "Gs_P50",
+                     "VCleaf_P50", "VCleaf_P12", "VCleaf_P88", "VCleaf_slope",
+                     "VCstem_P50", "VCstem_P12", "VCstem_P88", "VCstem_slope",
+                     "VCroot_P50", "VCroot_P12", "VCroot_P88", "VCroot_slope",
+                     "Nleaf","Nsapwood", "Nfineroot","SeedMass", "SeedLongevity",
+                     "WoodC", "CCleaf", "CCsapwood", "CCfineroot")
+  traits_sel <- parameters_sel
+  trait_mapping <- traits_sel
+  names(trait_mapping) <- parameters_sel
+  trait_mapping <- trait_mapping[parameters_sel %in% parameters]
+  if(length(trait_mapping)>0) {
+    if(progress) cli::cli_progress_step(paste0("Processing parameters ", paste(names(trait_mapping), collapse=", ")))
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  summary_params = list(na.rm = TRUE),
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
   }
 
   if("Hmax" %in% parameters) {
-    trait_table <- get_trait_data(harmonized_trait_path, "Hact", output_format = "wide", progress = FALSE)
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Hmax"))
     trait_mapping <- "Hact"
     names(trait_mapping) <- "Hmax"
-    SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
-                                summary_function = "max",
-                                taxon_column = "acceptedName", genus_column = "genus",
-                                priority_column = priority_column,
-                                erase_previous = erase_previous, character_traits = FALSE,
-                                replace_previous = replace_previous, verbose = verbose)
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedquantile",
+                                  summary_params = list(probs = 0.99),
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
   }
   if("Hmed" %in% parameters) {
-    trait_table <- get_trait_data(harmonized_trait_path, "Hact", output_format = "wide", progress = FALSE)
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Hmed"))
     trait_mapping <- "Hact"
     names(trait_mapping) <- "Hmed"
-    SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
-                                summary_function = "median",
-                                taxon_column = "acceptedName", genus_column = "genus",
-                                priority_column = priority_column,
-                                erase_previous = erase_previous, character_traits = FALSE,
-                                replace_previous = replace_previous, verbose = verbose)
-  }
-  if("cr" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "cr"))
-    trait_table <- get_trait_data(harmonized_trait_path, "CrownRatio", output_format = "wide", progress = FALSE)
-    trait_mapping <- "CrownRatio"
-    names(trait_mapping) <- "cr"
-    SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
-                                summary_function = "median",
-                                taxon_column = "acceptedName", genus_column = "genus",
-                                priority_column = priority_column,
-                                erase_previous = erase_previous, character_traits = FALSE,
-                                replace_previous = replace_previous, verbose = verbose)
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
   }
 
-  if("Gs_P50" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Gs_P50"))
-    trait_table <- get_trait_data(harmonized_trait_path, "Gs_P50", output_format = "wide", progress = FALSE)
-    trait_mapping <- "Gs_P50"
-    names(trait_mapping) <- "Gs_P50"
-    SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
-                                summary_function = "median",
-                                taxon_column = "acceptedName", genus_column = "genus",
-                                priority_column = priority_column,
-                                erase_previous = erase_previous, character_traits = FALSE,
-                                replace_previous = replace_previous, verbose = verbose)
+  if("cr" %in% parameters) {
+    if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "cr"))
+    trait_mapping <- "CrownRatio"
+    names(trait_mapping) <- "cr"
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
   }
 
   if("maxFMC" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "maxFMC"))
-    trait_table <- get_trait_data(harmonized_trait_path, "LFMC", output_format = "wide", progress = FALSE)
     trait_mapping <- "LFMC"
     names(trait_mapping) <- "maxFMC"
-    SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
-                                summary_function = "quantile", summary_params = list("prob" = 0.95),
-                                taxon_column = "acceptedName", genus_column = "genus",
-                                priority_column = priority_column,
-                                erase_previous = erase_previous, character_traits = FALSE,
-                                replace_previous = replace_previous, verbose = verbose)
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedquantile",
+                                  summary_params = list("prob" = 0.95),
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
   }
   if("minFMC" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "minFMC"))
-    trait_table <- get_trait_data(harmonized_trait_path, "LFMC", output_format = "wide", progress = FALSE)
     trait_mapping <- "LFMC"
     names(trait_mapping) <- "minFMC"
-    SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
-                                summary_function = "quantile", summary_params = list("prob" = 0.05),
-                                taxon_column = "acceptedName", genus_column = "genus",
-                                priority_column = priority_column,
-                                erase_previous = erase_previous, character_traits = FALSE,
-                                replace_previous = replace_previous, verbose = verbose)
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedquantile",
+                                  summary_params = list("prob" = 0.05),
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
   }
 
   if("Kmax_stemxylem" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Kmax_stemxylem"))
-    trait_table <- get_trait_data(harmonized_trait_path, "Ks", output_format = "wide", progress = FALSE)
     trait_mapping <- "Ks"
     names(trait_mapping) <- "Kmax_stemxylem"
-    SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
-                                summary_function = "median",
-                                taxon_column = "acceptedName", genus_column = "genus",
-                                priority_column = priority_column,
-                                erase_previous = erase_previous, character_traits = FALSE,
-                                replace_previous = replace_previous, verbose = verbose)
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
   }
 
   if("Vmax298" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Vmax298"))
-    trait_table <- get_trait_data(harmonized_trait_path, "Vmax", output_format = "wide", progress = FALSE)
     trait_mapping <- "Vmax"
     names(trait_mapping) <- "Vmax298"
-    SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
-                                summary_function = "median",
-                                taxon_column = "acceptedName", genus_column = "genus",
-                                priority_column = priority_column,
-                                erase_previous = erase_previous, character_traits = FALSE,
-                                replace_previous = replace_previous, verbose = verbose)
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
   }
-
   if("Jmax298" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Jmax298"))
-    trait_table <- get_trait_data(harmonized_trait_path, "Jmax", output_format = "wide", progress = FALSE)
     trait_mapping <- "Jmax"
     names(trait_mapping) <- "Jmax298"
-    SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
-                                summary_function = "median",
-                                taxon_column = "acceptedName", genus_column = "genus",
-                                priority_column = priority_column,
-                                erase_previous = erase_previous, character_traits = FALSE,
-                                replace_previous = replace_previous, verbose = verbose)
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
   }
 
   if("Z95" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "Z95"))
-    trait_table <- get_trait_data(harmonized_trait_path, "Z95", output_format = "wide", progress = FALSE)
     if(nrow(trait_table)>0) {
       trait_mapping <- "Z95"
       names(trait_mapping) <- "Z95"
-      SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
-                                  summary_function = "quantile", summary_params = list("prob" = 0.95),
-                                  taxon_column = "acceptedName", genus_column = "genus",
-                                  priority_column = priority_column,
-                                  erase_previous = erase_previous, character_traits = FALSE,
-                                  replace_previous = replace_previous, verbose = verbose)
+      SpParams <- .fill_trait_block(SpParams,
+                                    harmonized_trait_path = harmonized_trait_path,
+                                    trait_mapping = trait_mapping,
+                                    priorization = priorization,
+                                    summary_function = "weightedquantile",
+                                    summary_params = list("prob" = 0.95),
+                                    aggregation_level_weights = aggregation_level_weights,
+                                    erase_previous = erase_previous,
+                                    replace_previous = replace_previous)
     }
   }
 
-  if("LeafAngle" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "LeafAngle"))
-    trait_table <- get_trait_data(harmonized_trait_path, "LeafAngle", output_format = "wide", progress = FALSE)
-    if(nrow(trait_table)>0) {
-      trait_mapping <- "LeafAngle"
-      names(trait_mapping) <- "LeafAngle"
-      SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
-                                  summary_function = "median",
-                                  taxon_column = "acceptedName", genus_column = "genus",
-                                  priority_column = priority_column,
-                                  erase_previous = erase_previous, character_traits = FALSE,
-                                  replace_previous = replace_previous, verbose = verbose)
-    }
-  }
 
   if("LeafAngleSD" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "LeafAngleSD"))
-    trait_table <- get_trait_data(harmonized_trait_path, "LeafAngle", output_format = "wide", progress = FALSE)
+    trait_mapping <- "LeafAngle"
+    names(trait_mapping) <- "LeafAngleSD"
     if(nrow(trait_table)>0) {
-      trait_mapping <- "LeafAngle"
-      names(trait_mapping) <- "LeafAngleSD"
-      SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
-                                  summary_function = "sd",
-                                  taxon_column = "acceptedName", genus_column = "genus",
-                                  priority_column = priority_column,
-                                  erase_previous = erase_previous, character_traits = FALSE,
-                                  replace_previous = replace_previous, verbose = verbose)
-    }
-  }
-
-  for(trait_name in c("LeafDensity", "WoodDensity", "SRL" , "r635",
-                      "LigninPercent","pDead", "SAV", "HeatContent",
-                      "LeafPI0", "LeafEPS", "LeafAF", "SLA", "Al2As", "conduit2sapwood",
-                      "LeafWidth", "LeafDuration", "Gswmax", "Gswmin",
-                      "VCleaf_P50", "VCleaf_P12", "VCleaf_P88", "VCleaf_slope",
-                      "VCstem_P50", "VCstem_P12", "VCstem_P88", "VCstem_slope",
-                      "VCroot_P50", "VCroot_P12", "VCroot_P88", "VCroot_slope",
-                      "Nleaf","Nsapwood", "Nfineroot","SeedMass", "SeedLongevity",
-                      "WoodC", "CCleaf", "CCsapwood", "CCfineroot")) {
-    if(trait_name %in% parameters) {
-      if(progress)  cli::cli_progress_step(paste0("Processing parameter: ", trait_name))
-      trait_table <- get_trait_data(harmonized_trait_path, trait_name, output_format = "wide", progress = FALSE)
-      if(nrow(trait_table)>0) {
-        trait_mapping <- trait_name
-        names(trait_mapping) <- trait_name
-        SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
-                                    summary_function = "median",
-                                    taxon_column = "acceptedName", genus_column = "genus",
-                                    priority_column = priority_column,
-                                    erase_previous = erase_previous, character_traits = FALSE,
-                                    replace_previous = replace_previous, verbose = verbose)
-      }
+      SpParams <- .fill_trait_block(SpParams,
+                                    harmonized_trait_path = harmonized_trait_path,
+                                    trait_mapping = trait_mapping,
+                                    priorization = priorization,
+                                    summary_function = "weightedsd",
+                                    aggregation_level_weights = aggregation_level_weights,
+                                    erase_previous = erase_previous,
+                                    replace_previous = replace_previous)
     }
   }
 
   if("RSSG" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "RSSG"))
-    trait_table <- get_trait_data(harmonized_trait_path, "ShadeTolerance", output_format = "wide", progress = FALSE)
     trait_mapping <- "ShadeTolerance"
     names(trait_mapping) <- "RSSG"
-    SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
-                                summary_function = "median",
-                                scalar_functions = c("RSSG" = function(x){min(0.95,0.25+0.70*((x-1)/2))}),
-                                taxon_column = "acceptedName", genus_column = "genus",
-                                priority_column = priority_column,
-                                erase_previous = erase_previous, character_traits = FALSE,
-                                replace_previous = replace_previous, verbose = verbose)
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  scalar_functions = c("RSSG" = function(x){min(0.95,0.25+0.70*((x-1)/2))}),
+                                  summary_function = "weightedmedian",
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
   }
+
 
   if("SeedProductionDiameter" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing parameter: ", "SeedProductionDiameter"))
-    trait_table <- get_trait_data(harmonized_trait_path, "Dmat", output_format = "wide", progress = FALSE)
-    if(nrow(trait_table)>0) {
-      trait_mapping <- "Dmat"
-      names(trait_mapping) <- "SeedProductionDiameter"
-      SpParams <- populate_traits(SpParams, trait_table, trait_mapping,
-                                  summary_function = "median",
-                                  taxon_column = "acceptedName", genus_column = "genus",
-                                  priority_column = priority_column,
-                                  erase_previous = erase_previous, character_traits = FALSE,
-                                  replace_previous = replace_previous, verbose = verbose)
-    }
+    trait_mapping <- "Dmat"
+    names(trait_mapping) <- "SeedProductionDiameter"
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
   }
   cli::cli_process_done()
 

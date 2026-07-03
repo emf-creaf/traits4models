@@ -15,11 +15,12 @@ test_that("trait taxonomic harmonization can be done", {
                   VCleaf_P50 = "Leaf P50 (MPa)") |>
     dplyr::mutate(Reference = "Bartlett et al. (2016)",
                   DOI ="xxx",
-                  Priority = 3) |>
+                  Priority = 3,
+                  checkVersion = as.character(packageVersion("traits4models"))) |>
     dplyr::filter(!is.na(VCleaf_P50))
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var[1:5,], WFO_file, progress = FALSE)
   expect_s3_class(db_post, "data.frame")
-  expect_true(check_harmonized_trait(db_post))
+  expect_true(traits4models::check_harmonized_trait(db_post, verbose = FALSE))
 
   db_var_long <- db |>
     dplyr::select(Name, "Leaf P50 (MPa)") |>
@@ -27,35 +28,43 @@ test_that("trait taxonomic harmonization can be done", {
                   Value = "Leaf P50 (MPa)") |>
     dplyr::mutate(Trait = "VCleaf_P50",
                   Units = "MPa",
+                  Method = "AE",
                   Reference = "Bartlett et al. (2016)",
                   DOI ="xxx",
-                  Priority = 3) |>
+                  Priority = 3,
+                  checkVersion = as.character(packageVersion("traits4models"))) |>
     dplyr::filter(!is.na(Value))
   db_post <- traits4models::harmonize_taxonomy_WFO(db_var_long[1:5,], WFO_file, progress = FALSE)
   expect_s3_class(db_post, "data.frame")
-  expect_false(check_harmonized_trait(db_post))
+  expect_false(traits4models::check_harmonized_trait(db_post, verbose = FALSE))
   db_post2 <- db_post |>
     dplyr::mutate(Level = "species",
                   Method = NA)
-  expect_false(check_harmonized_trait(db_post2))
+  expect_false(traits4models::check_harmonized_trait(db_post2, verbose = FALSE))
   db_post3 <- db_post2 |>
     dplyr::mutate(Level = "taxon")
-  expect_true(check_harmonized_trait(db_post3))
+  expect_true(traits4models::check_harmonized_trait(db_post3, verbose = FALSE))
 })
 
 test_that("harmonization checks are ok",{
   testthat::skip_on_cran()
   testthat::skip_on_ci()
-  expect_type(check_harmonized_trait_dir(harmonized_trait_path, verbose = FALSE), "logical")
-  expect_type(check_harmonized_allometry_dir(harmonized_allometry_path, verbose = FALSE), "logical")
+  expect_type(traits4models::check_harmonized_trait_dir(harmonized_trait_path, verbose = FALSE), "logical")
+  expect_type(traits4models::check_harmonized_allometry_dir(harmonized_allometry_path, verbose = FALSE), "logical")
 })
 
 test_that("harmonized data can be loaded",{
   testthat::skip_on_cran()
   testthat::skip_on_ci()
-  expect_s3_class(get_trait_data(harmonized_trait_path, "Al2As", progress = FALSE), "data.frame")
-  expect_s3_class(get_taxon_data(harmonized_trait_path, "Pinus halepensis", progress = FALSE), "data.frame")
-  expect_s3_class(get_taxon_trait_means(harmonized_trait_path, c("SLA", "Gswmax"), taxon_level = "family", progress = FALSE), "data.frame")
-  expect_s3_class(get_taxon_trait_means(harmonized_trait_path, c("LifeForm"), taxon_level = "family", progress = FALSE), "data.frame")
+  expect_s3_class(traits4models::get_trait_data(harmonized_trait_path, "Al2As", progress = FALSE), "data.frame")
+  expect_s3_class(traits4models::get_taxon_data(harmonized_trait_path, "Pinus halepensis", progress = FALSE), "data.frame")
   expect_s3_class(get_allometry_data(harmonized_allometry_path, "FoliarBiomass", progress = FALSE), "data.frame")
+})
+
+test_that("harmonized data can be summarized",{
+  expect_s3_class(traits4models::taxon_trait_summary(harmonized_trait_path, c("SLA", "Gswmax"), taxonomic_level = "family", progress = FALSE), "data.frame")
+  expect_s3_class(traits4models::taxon_trait_summary(harmonized_trait_path, c("SLA", "Gswmax"),
+                                                     summary_function = "var",
+                                                     taxonomic_level = "family", progress = FALSE), "data.frame")
+  expect_s3_class(traits4models::taxon_trait_summary(harmonized_trait_path, c("LifeForm"), taxonomic_level = "family", progress = FALSE), "data.frame")
 })

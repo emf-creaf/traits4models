@@ -16,17 +16,11 @@
 #'
 #' Function \code{get_taxon_data()} returns a data frame (in long trait format) with the pooled information for a given taxon, or an empty data frame if not found.
 #'
-#' Function \code{get_taxon_trait_means()} returns a data frame with taxon averages (or most frequent values) for the set of indicated traits.
-#'
 #' Function \code{get_allometry_data()} returns a data frame with allometric equations.
 #'
 #' @details
 #' Function \code{load_harmonized_trait_tables()} allows loading all kinds of trait data tables, including those that do not pass harmonization check, if \code{check = FALSE}.
 #' In contrast, functions \code{get_trait_data()}, \code{get_taxon_data()} and \code{get_taxon_trait_means()} only return data from data sets passing harmonization checks (see function \code{\link{check_harmonized_trait}}).
-#'
-#' For trait mean value estimation, if \code{priorization = TRUE} and column \code{priority_column} is available in data sources,
-#' the function will prioritize sources with higher priority first, filling parameters with them before inspecting data sources
-#' of lower priority.
 #'
 #' @seealso \code{\link{check_harmonized_trait}}
 #' @export
@@ -124,14 +118,20 @@ load_harmonized_allometry_tables <- function(harmonized_allometry_path, check = 
 
 #' @param trait_name A string of an accepted trait name, according to \code{\link{HarmonizedTraitDefinition}}.
 #' @param output_format Either "long" or "wide", to indicate output format for trait columns.
+#' @param taxon_selection_column String indicating the column (e.g. "originalName", "acceptedName", "genus" or "family") that will be used for taxon selection. By default, all taxa are returned.
+#' @param taxon_selection String vector with taxon names to perform selection. By default, all taxa are returned.
+#' @param verbose A boolean flag to prompt detailed process information.
 #'
 #' @export
 #'
 #' @rdname get_trait_data
 get_trait_data <- function(harmonized_trait_path,
                            trait_name,
+                           taxon_selection_column = NULL,
+                           taxon_selection = NULL,
                            output_format = "long",
-                           progress = TRUE) {
+                           progress = TRUE,
+                           verbose = TRUE) {
   output_format <- match.arg(output_format, c("long", "wide"))
   trait_name <- match.arg(trait_name, traits4models::HarmonizedTraitDefinition$Notation)
   all_tables <- load_harmonized_trait_tables(harmonized_trait_path, check = TRUE, progress = progress)
@@ -160,33 +160,44 @@ get_trait_data <- function(harmonized_trait_path,
       if(trait_name %in% names(tab)) {
         tab <- tab[!is.na(tab[[trait_name]]), ,drop =FALSE]
         tab <- tab[,names(tab)[names(tab) %in% c(fixed, trait_name)]]
-        tab <- tab |>
-          tidyr::pivot_longer(dplyr::all_of(trait_name), names_to = "Trait", values_to="Value") |>
-          dplyr::mutate(Units = expected_unit,
-                        Level = "taxon") |>
-          dplyr::relocate("Trait", "Value", "Units", .before = "Reference")
-        if("checkVersion" %in% names(tab)) {
-          tab[["checkVersion"]] <-  as.character(tab[["checkVersion"]])
+        if(!is.null(taxon_selection_column) && !is.null(taxon_selection)) {
+          tab <- tab |>
+            dplyr::filter(.data[[taxon_selection_column]] %in% taxon_selection)
         }
-        trait_tables[[i]] <- tab
-        n_tab <- n_tab + 1
+        if(nrow(tab)>0) {
+          tab <- tab |>
+            tidyr::pivot_longer(dplyr::all_of(trait_name), names_to = "Trait", values_to="Value") |>
+            dplyr::mutate(Units = expected_unit,
+                          Level = "taxon",
+                          Method = as.character(NA)) |>
+            dplyr::relocate("Trait", "Value", "Units", .before = "Reference")
+          if("checkVersion" %in% names(tab)) {
+            tab[["checkVersion"]] <-  as.character(tab[["checkVersion"]])
+          }
+          trait_tables[[i]] <- tab
+          n_tab <- n_tab + 1
+        }
       }
     } else if(format == "long") {
       tab <- tab[tab$Trait==trait_name, ,drop =FALSE] |>
         tibble::as_tibble()
+      if(!is.null(taxon_selection_column) && !is.null(taxon_selection)) {
+        tab <- tab |>
+          dplyr::filter(.data[[taxon_selection_column]] %in% taxon_selection)
+      }
       if(nrow(tab)>0) {
         if("checkVersion" %in% names(tab)) {
           tab[["checkVersion"]] <-  as.character(tab[["checkVersion"]])
         }
         if(expected_type == "Numeric") {
           tab <- tab |>
-            dplyr::mutate(Value = as.numeric(Value))
+            dplyr::mutate(Value = as.numeric(.data[["Value"]]))
         } else if(expected_type == "Integer") {
           tab <- tab |>
-            dplyr::mutate(Value = as.integer(Value))
+            dplyr::mutate(Value = as.integer(.data[["Value"]]))
         } else if(expected_type == "String") {
           tab <- tab |>
-            dplyr::mutate(Value = as.character(Value))
+            dplyr::mutate(Value = as.character(.data[["Value"]]))
         }
         trait_tables[[i]] <- tab
         n_tab <- n_tab + 1
@@ -204,7 +215,7 @@ get_trait_data <- function(harmonized_trait_path,
     if(progress) cli::cli_progress_done()
     return(trait_table)
   }
-  cli::cli_alert_warning(paste0("Trait data not found for '", trait_name,"'. "))
+  if(verbose) cli::cli_alert_warning(paste0("Trait data not found for '", trait_name,"'. "))
   return(data.frame())
 }
 
@@ -212,7 +223,8 @@ get_trait_data <- function(harmonized_trait_path,
 #' @param response String indicating a response variable for allometric equations.
 #' @rdname get_trait_data
 get_allometry_data <-function(harmonized_allometry_path,
-                              response, progress = TRUE) {
+                              response, progress = TRUE,
+                              verbose = TRUE) {
   if(progress) cli::cli_progress_step("Loading harmonized source allometry tables")
   allom_tables <- load_harmonized_allometry_tables(harmonized_allometry_path, check = TRUE, progress = progress)
   if(progress) cli::cli_progress_step(paste0("Filtering for allometry: ", response))
@@ -225,7 +237,7 @@ get_allometry_data <-function(harmonized_allometry_path,
   if(progress) cli::cli_progress_done()
   allometry_response_table <- dplyr::bind_rows(response_tables)
   if(nrow(allometry_response_table)==0) {
-    cli::cli_inform(paste0("Allometry data not found for: ", response))
+    if(verbose) cli::cli_inform(paste0("Allometry data not found for: ", response))
   }
   return(allometry_response_table)
 }
@@ -284,105 +296,3 @@ get_taxon_data<- function(harmonized_trait_path,
   return(taxon_table)
 }
 
-
-#' @export
-#' @param taxon_level Taxon level for grouping: either 'species' (acceptedName), 'genus' or 'family'
-#' @param traits A character vector with the set of traits to summarize. If \code{NULL}, then all available traits are summarized.
-#' @param priorization A boolean flag to perform priorization of some data sources over others.
-#' @param level_weights A vector of weights to be applied to different levels when calculating numeric averages.
-#' @rdname get_trait_data
-get_taxon_trait_means <- function(harmonized_trait_path, taxon_level = "species",
-                                  traits = NULL,
-                                  priorization = TRUE,
-                                  level_weights = c("individual" = 1, "population" = 10, "taxon" = 100),
-                                  progress = TRUE) {
-  taxon_level <- match.arg(taxon_level, c("species", "genus", "family"))
-  if(is.null(traits)) {
-    traits <- traits4models::HarmonizedTraitDefinition$Notation
-  } else {
-    traits <- match.arg(traits, traits4models::HarmonizedTraitDefinition$Notation, several.ok = TRUE)
-  }
-  df_levels <- data.frame(level = names(level_weights),
-                          weight = as.numeric(level_weights))
-  .fmode <- function(x, na.rm = TRUE) {
-    if(na.rm) x <- x[!is.na(x)]
-    freq <- table(x)
-    return(names(freq)[which.max(freq)])
-  }
-  .level_weighted_mean <- function(values, levels, na.rm = TRUE) {
-    is_na <- is.na(values) | is.na(levels)
-    df <- data.frame(x = values[!is_na],
-                     level = levels[!is_na]) |>
-      dplyr::left_join(df_levels, by = "level")
-    return(sum(df$x*df$weight)/sum(df$weight))
-  }
-  if(taxon_level =="species") {
-    grouping_column = "acceptedName"
-  } else if(taxon_level =="genus") {
-    grouping_column = "genus"
-  } else if(taxon_level =="family") {
-    grouping_column = "family"
-  }
-  taxon_means <- data.frame()
-  taxon_means[[grouping_column]] <- character(0)
-  for(t in traits) {
-    if(progress) cli::cli_progress_step(paste0("Averaging trait '", t,"'."))
-    expected_type <- traits4models::HarmonizedTraitDefinition$Type[traits4models::HarmonizedTraitDefinition$Notation == t]
-    trait_table  <- get_trait_data(harmonized_trait_path, trait_name = t, progress = progress)
-    if(nrow(trait_table)>0) {
-      if(priorization) { ## Adds priority by order
-        if(expected_type=="Numeric") {
-          trait_mean_table <- trait_table |>
-            dplyr::group_by(.data[[grouping_column]]) |>
-            dplyr::filter(.data[["Priority"]]==1) |>
-            dplyr::summarize(Value = .level_weighted_mean(.data[["Value"]], .data[["Level"]]))
-          trait_mean_table_P2 <- trait_table |>
-            dplyr::group_by(.data[[grouping_column]]) |>
-            dplyr::filter(.data[["Priority"]]==2) |>
-            dplyr::summarize(Value = .level_weighted_mean(.data[["Value"]], .data[["Level"]])) |>
-            dplyr::filter(!(.data[[grouping_column]] %in% trait_mean_table[[grouping_column]]))
-          trait_mean_table <- dplyr::bind_rows(trait_mean_table, trait_mean_table_P2)
-          trait_mean_table_P3 <- trait_table |>
-            dplyr::group_by(.data[[grouping_column]]) |>
-            dplyr::filter(.data[["Priority"]]==3) |>
-            dplyr::summarize(Value = .level_weighted_mean(.data[["Value"]], .data[["Level"]]))|>
-            dplyr::filter(!(.data[[grouping_column]] %in% trait_mean_table[[grouping_column]]))
-          trait_mean_table <- dplyr::bind_rows(trait_mean_table, trait_mean_table_P3)
-        } else {
-          trait_mean_table <- trait_table |>
-            dplyr::group_by(.data[[grouping_column]]) |>
-            dplyr::filter(.data[["Priority"]]==1) |>
-            dplyr::summarize(Value = .fmode(.data[["Value"]], na.rm = TRUE))
-          trait_mean_table_P2 <- trait_table |>
-            dplyr::group_by(.data[[grouping_column]]) |>
-            dplyr::filter(.data[["Priority"]]==2) |>
-            dplyr::summarize(Value = .fmode(.data[["Value"]], na.rm = TRUE)) |>
-            dplyr::filter(!(.data[[grouping_column]] %in% trait_mean_table[[grouping_column]]))
-          trait_mean_table <- dplyr::bind_rows(trait_mean_table, trait_mean_table_P2)
-          trait_mean_table_P3 <- trait_table |>
-            dplyr::group_by(.data[[grouping_column]]) |>
-            dplyr::filter(.data[["Priority"]]==3) |>
-            dplyr::summarize(Value = .fmode(.data[["Value"]], na.rm = TRUE))|>
-            dplyr::filter(!(.data[[grouping_column]] %in% trait_mean_table[[grouping_column]]))
-          trait_mean_table <- dplyr::bind_rows(trait_mean_table, trait_mean_table_P3)
-        }
-      } else {
-        if(expected_type=="Numeric") {
-          trait_mean_table <- trait_table |>
-            dplyr::group_by(.data[[grouping_column]]) |>
-            dplyr::summarize(Value = .level_weighted_mean(.data[["Value"]], .data[["Level"]]))
-        } else {
-          trait_mean_table <- trait_table |>
-            dplyr::group_by(.data[[grouping_column]]) |>
-            dplyr::summarize(Value = .fmode(.data[["Value"]], na.rm = TRUE))
-        }
-      }
-      names(trait_mean_table)[2] <- t
-      taxon_means <- taxon_means |>
-        dplyr::full_join(trait_mean_table, by=grouping_column)
-    }
-  }
-  taxon_means <- taxon_means |>
-    dplyr::arrange(.data[[grouping_column]])
-  return(taxon_means)
-}
