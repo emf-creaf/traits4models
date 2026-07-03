@@ -266,6 +266,23 @@ fill_medfate_traits<-function(SpParams,
                                   replace_previous = replace_previous)
   }
 
+  if("Z95" %in% parameters) {
+    if(progress) cli::cli_progress_step(paste0("Processing ", "Z95"))
+    if(nrow(trait_table)>0) {
+      trait_mapping <- "Z95"
+      names(trait_mapping) <- "Z95"
+      SpParams <- .fill_trait_block(SpParams,
+                                    harmonized_trait_path = harmonized_trait_path,
+                                    trait_mapping = trait_mapping,
+                                    priorization = priorization,
+                                    summary_function = "weightedquantile",
+                                    summary_params = list("prob" = 0.95),
+                                    aggregation_level_weights = aggregation_level_weights,
+                                    erase_previous = erase_previous,
+                                    replace_previous = replace_previous)
+    }
+  }
+
   parameters_sel <- c("Dmax", "WoodDensity", "SRL" , "r635",
                       "LigninPercent","pDead", "SAV", "HeatContent")
   traits_sel <- parameters_sel
@@ -336,6 +353,21 @@ fill_medfate_traits<-function(SpParams,
                                   erase_previous = erase_previous,
                                   replace_previous = replace_previous)
   }
+
+  if("Kmax_stemxylem" %in% parameters) {
+    if(progress) cli::cli_progress_step(paste0("Processing ", "Kmax_stemxylem"))
+    trait_mapping <- "Ks"
+    names(trait_mapping) <- "Kmax_stemxylem"
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
+  }
+
   parameters_sel <- c("VCleaf_P50", "VCleaf_P12", "VCleaf_P88", "VCleaf_slope",
                       "VCstem_P50", "VCstem_P12", "VCstem_P88", "VCstem_slope",
                       "VCroot_P50", "VCroot_P12", "VCroot_P88", "VCroot_slope")
@@ -355,6 +387,34 @@ fill_medfate_traits<-function(SpParams,
                                   erase_previous = erase_previous,
                                   replace_previous = replace_previous)
   }
+
+  if("Vmax298" %in% parameters) {
+    if(progress) cli::cli_progress_step(paste0("Processing ", "Vmax298"))
+    trait_mapping <- "Vmax"
+    names(trait_mapping) <- "Vmax298"
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
+  }
+  if("Jmax298" %in% parameters) {
+    if(progress) cli::cli_progress_step(paste0("Processing ", "Jmax298"))
+    trait_mapping <- "Jmax"
+    names(trait_mapping) <- "Jmax298"
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
+  }
+
   parameters_sel <- c("Nleaf","Nsapwood", "Nfineroot")
   traits_sel <- parameters_sel
   trait_mapping <- traits_sel
@@ -434,64 +494,6 @@ fill_medfate_traits<-function(SpParams,
                                   aggregation_level_weights = aggregation_level_weights,
                                   erase_previous = erase_previous,
                                   replace_previous = replace_previous)
-  }
-
-  if("Kmax_stemxylem" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing ", "Kmax_stemxylem"))
-    trait_mapping <- "Ks"
-    names(trait_mapping) <- "Kmax_stemxylem"
-    SpParams <- .fill_trait_block(SpParams,
-                                  harmonized_trait_path = harmonized_trait_path,
-                                  trait_mapping = trait_mapping,
-                                  priorization = priorization,
-                                  summary_function = "weightedmedian",
-                                  aggregation_level_weights = aggregation_level_weights,
-                                  erase_previous = erase_previous,
-                                  replace_previous = replace_previous)
-  }
-
-  if("Vmax298" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing ", "Vmax298"))
-    trait_mapping <- "Vmax"
-    names(trait_mapping) <- "Vmax298"
-    SpParams <- .fill_trait_block(SpParams,
-                                  harmonized_trait_path = harmonized_trait_path,
-                                  trait_mapping = trait_mapping,
-                                  priorization = priorization,
-                                  summary_function = "weightedmedian",
-                                  aggregation_level_weights = aggregation_level_weights,
-                                  erase_previous = erase_previous,
-                                  replace_previous = replace_previous)
-  }
-  if("Jmax298" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing ", "Jmax298"))
-    trait_mapping <- "Jmax"
-    names(trait_mapping) <- "Jmax298"
-    SpParams <- .fill_trait_block(SpParams,
-                                  harmonized_trait_path = harmonized_trait_path,
-                                  trait_mapping = trait_mapping,
-                                  priorization = priorization,
-                                  summary_function = "weightedmedian",
-                                  aggregation_level_weights = aggregation_level_weights,
-                                  erase_previous = erase_previous,
-                                  replace_previous = replace_previous)
-  }
-
-  if("Z95" %in% parameters) {
-    if(progress) cli::cli_progress_step(paste0("Processing ", "Z95"))
-    if(nrow(trait_table)>0) {
-      trait_mapping <- "Z95"
-      names(trait_mapping) <- "Z95"
-      SpParams <- .fill_trait_block(SpParams,
-                                    harmonized_trait_path = harmonized_trait_path,
-                                    trait_mapping = trait_mapping,
-                                    priorization = priorization,
-                                    summary_function = "weightedquantile",
-                                    summary_params = list("prob" = 0.95),
-                                    aggregation_level_weights = aggregation_level_weights,
-                                    erase_previous = erase_previous,
-                                    replace_previous = replace_previous)
-    }
   }
 
 
