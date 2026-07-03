@@ -66,5 +66,7 @@ test_that("harmonized data can be summarized",{
   expect_s3_class(traits4models::taxon_trait_summary(harmonized_trait_path, c("SLA", "Gswmax"),
                                                      summary_function = "var",
                                                      taxonomic_level = "family", progress = FALSE), "data.frame")
-  expect_s3_class(traits4models::taxon_trait_summary(harmonized_trait_path, c("LifeForm"), taxonomic_level = "family", progress = FALSE), "data.frame")
+  expect_s3_class(traits4models::taxon_trait_summary(harmonized_trait_path, c("LifeForm"),
+                                                     summary_function = "weightedmode",
+                                                     taxonomic_level = "family", progress = FALSE), "data.frame")
 })
