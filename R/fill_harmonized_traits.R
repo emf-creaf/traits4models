@@ -421,15 +421,15 @@ fill_medfate_traits<-function(SpParams,
                                   replace_previous = replace_previous)
     # Check physiological inconsistency
     SpParams <- SpParams |>
-      dplyr::mutate(VCstem_P12 = ifelse(VCstem_P12 < VCstem_P50, NA, VCstem_P12),
-                    VCstem_P88 = ifelse(VCstem_P88 > VCstem_P50, NA, VCstem_P88),
-                    VCstem_slope = ifelse(!is.na(VCstem_P88) & !is.na(VCstem_P12), (88 - 12)/(abs(VCstem_P88) - abs(VCstem_P12)), VCstem_slope))|>
-      dplyr::mutate(VCleaf_P12 = ifelse(VCleaf_P12 < VCleaf_P50, NA, VCleaf_P12),
-                    VCleaf_P88 = ifelse(VCleaf_P88 > VCleaf_P50, NA, VCleaf_P88),
-                    VCleaf_slope = ifelse(!is.na(VCleaf_P88) & !is.na(VCleaf_P12), (88 - 12)/(abs(VCleaf_P88) - abs(VCleaf_P12)), VCleaf_slope))|>
-      dplyr::mutate(VCroot_P12 = ifelse(VCroot_P12 < VCroot_P50, NA, VCroot_P12),
-                    VCroot_P88 = ifelse(VCroot_P88 > VCroot_P50, NA, VCroot_P88),
-                    VCroot_slope = ifelse(!is.na(VCroot_P88) & !is.na(VCroot_P12), (88 - 12)/(abs(VCroot_P88) - abs(VCroot_P12)), VCroot_slope))
+      dplyr::mutate(VCstem_P12 = ifelse(.data[["VCstem_P12"]] < .data[["VCstem_P50"]], NA, .data[["VCstem_P12"]]),
+                    VCstem_P88 = ifelse(.data[["VCstem_P88"]] > .data[["VCstem_P50"]], NA, .data[["VCstem_P88"]]),
+                    VCstem_slope = ifelse(!is.na(.data[["VCstem_P88"]]) & !is.na(.data[["VCstem_P12"]]), (88 - 12)/(abs(.data[["VCstem_P88"]]) - abs(.data[["VCstem_P12"]])), .data[["VCstem_slope"]]))|>
+      dplyr::mutate(VCleaf_P12 = ifelse(.data[["VCleaf_P12"]] < .data[["VCleaf_P50"]], NA, .data[["VCleaf_P12"]]),
+                    VCleaf_P88 = ifelse(.data[["VCleaf_P88"]] > .data[["VCleaf_P50"]], NA, .data[["VCleaf_P88"]]),
+                    VCleaf_slope = ifelse(!is.na(.data[["VCleaf_P88"]]) & !is.na(.data[["VCleaf_P12"]]), (88 - 12)/(abs(.data[["VCleaf_P88"]]) - abs(.data[["VCleaf_P12"]])), .data[["VCleaf_slope"]]))|>
+      dplyr::mutate(VCroot_P12 = ifelse(.data[["VCroot_P12"]] < .data[["VCroot_P50"]], NA, .data[["VCroot_P12"]]),
+                    VCroot_P88 = ifelse(.data[["VCroot_P88"]] > .data[["VCroot_P50"]], NA, .data[["VCroot_P88"]]),
+                    VCroot_slope = ifelse(!is.na(.data[["VCroot_P88"]]) & !is.na(.data[["VCroot_P12"]]), (88 - 12)/(abs(.data[["VCroot_P88"]]) - abs(.data[["VCroot_P12"]])), .data[["VCroot_slope"]]))
   }
 
   if("Vmax298" %in% parameters) {

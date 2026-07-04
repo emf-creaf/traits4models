@@ -20,7 +20,28 @@ An (invisible) list with two data frames, one with missing values in strict para
 Checks that the input data frame has the appropriate format and data for simulations with medfate.
 }
 \details{
+The function can perform two kinds of parameter check.
 
+A formal check is always performed with the following rules:
+\itemize{
+  \item{The input is a data frame.}
+  \item{All parameter names defined in \code{\link[medfate]{SpParamsDefinition}} should be listed as columns.}
+  \item{Strict parameters should not contain missing values. Strict parameters are defined as such in \code{\link[medfate]{SpParamsDefinition}}.}
+}
+
+If \code{check_consistency = TRUE}, the function also performs the following consistency checks for the parameter values of each species:
+
+\enumerate{
+  \item{Rule 1. Stem hydraulic vulnerability is not larger than leaf hydraulic vulnerability (VCstem_P50 < VCleaf_P50) (Bartlett et al. 2016).}
+  \item{Rule 2. Stem hydraulic vulnerability is not larger than root hydraulic vulnerability (VCstem_P50 < VCroot_P50).}
+  \item{Rule 3. Stem hydraulic vulnerability curve is consistent (VCstem_P88 < VCstem_P50 < VCstem_P12).}
+  \item{Rule 4. Leaf hydraulic vulnerability curve is consistent (VCleaf_P88 < VCleaf_P50 < VCleaf_P12).}
+  \item{Rule 5. Root hydraulic vulnerability curve is consistent (VCroot_P88 < VCroot_P50 < VCroot_P12).}
+  \item{Rule 6. Maximum (stomatal) conductance is larger than minimum (cuticular) stomatal conductance (Gswmax > Gswmin).}
+  \item{Rule 7. 12\% PLC does not occur at before stomatal closure, represented by water potential at turgor loss point (VCstem_P12 < Ptlp) (Bartlett et al. 2016).}
+}
+
+Parameter consistency is conducted including imputation of missing values, according to medfate inbuilt parameter estimation.
 }
 \examples{
 check_medfate_params(SpParamsES, check_consistency = FALSE)
