@@ -170,7 +170,7 @@ species (when only sub-species of that species have been cited) or genus
 SpParams |> tibble::as_tibble()
 ```
 
-    ## # A tibble: 517 × 157
+    ## # A tibble: 517 × 158
     ##    Name         SpIndex AcceptedName Species Genus Family Order Group GrowthForm
     ##    <chr>          <int> <chr>        <chr>   <chr> <chr>  <chr> <chr> <lgl>     
     ##  1 Abies              0 Abies        NA      Abies Pinac… Pina… Gymn… NA        
@@ -184,7 +184,7 @@ SpParams |> tibble::as_tibble()
     ##  9 Acer negundo       8 Acer negundo Acer n… Acer  Sapin… Sapi… Angi… NA        
     ## 10 Acer opalus        9 Acer opalus  Acer o… Acer  Sapin… Sapi… Angi… NA        
     ## # ℹ 507 more rows
-    ## # ℹ 148 more variables: LifeForm <lgl>, LeafShape <lgl>, LeafSize <lgl>,
+    ## # ℹ 149 more variables: LifeForm <lgl>, LeafShape <lgl>, LeafSize <lgl>,
     ## #   PhenologyType <lgl>, DispersalType <lgl>, Hmed <lgl>, Hmax <lgl>,
     ## #   Dmax <lgl>, Z50 <lgl>, Z95 <lgl>, fHDmin <lgl>, fHDmax <lgl>, a_ash <lgl>,
     ## #   b_ash <lgl>, a_bsh <lgl>, b_bsh <lgl>, a_btsh <lgl>, b_btsh <lgl>,
@@ -324,43 +324,43 @@ SpParams<- traits4models::fill_medfate_allometries(SpParams,
 
     ## ℹ Processing response: FoliarBiomass
 
-    ## ✔ Processing response: FoliarBiomass [46ms]
+    ## ✔ Processing response: FoliarBiomass [34ms]
 
     ## 
 
     ## ℹ Processing response: CrownRatio
 
-    ## ✔ Processing response: CrownRatio [30ms]
+    ## ✔ Processing response: CrownRatio [23ms]
 
     ## 
 
     ## ℹ Processing response: CrownWidth
 
-    ## ✔ Processing response: CrownWidth [26ms]
+    ## ✔ Processing response: CrownWidth [19ms]
 
     ## 
 
     ## ℹ Processing response: BarkThickness
 
-    ## ✔ Processing response: BarkThickness [24ms]
+    ## ✔ Processing response: BarkThickness [16ms]
 
     ## 
 
     ## ℹ Processing response: CrownArea
 
-    ## ✔ Processing response: CrownArea [21ms]
+    ## ✔ Processing response: CrownArea [15ms]
 
     ## 
 
     ## ℹ Processing response: FineFuelBiomass
 
-    ## ✔ Processing response: FineFuelBiomass [21ms]
+    ## ✔ Processing response: FineFuelBiomass [16ms]
 
     ## 
 
     ## ℹ Processing response: TotalBiomass
 
-    ## ✔ Processing response: TotalBiomass [21ms]
+    ## ✔ Processing response: TotalBiomass [15ms]
 
     ## 
 
@@ -388,79 +388,91 @@ SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path,
 
     ## ℹ Processing GrowthForm, LifeForm, LeafShape, PhenologyType, DispersalType
 
-    ## ✔ Processing GrowthForm, LifeForm, LeafShape, PhenologyType, DispersalType [21.…
+    ## ✔ Processing GrowthForm, LifeForm, LeafShape, PhenologyType, DispersalType [16s]
 
     ## 
 
     ## ℹ Processing t0gdd, Tbgdd, Sgdd, Phsen, Tbsen, Ssen
 
-    ## ✔ Processing t0gdd, Tbgdd, Sgdd, Phsen, Tbsen, Ssen [3s]
+    ## ✔ Processing t0gdd, Tbgdd, Sgdd, Phsen, Tbsen, Ssen [2.1s]
 
     ## 
 
     ## ℹ Processing xsen, ysen
 
-    ## ✔ Processing xsen, ysen [1s]
+    ## ✔ Processing xsen, ysen [711ms]
 
     ## 
 
     ## ℹ Processing LeafSize
 
-    ## ✔ Processing LeafSize [1.5s]
+    ## ✔ Processing LeafSize [1s]
 
     ## 
 
     ## ℹ Processing Hmax
 
-    ## ✔ Processing Hmax [2.1s]
+    ## ✔ Processing Hmax [1.5s]
 
     ## 
 
     ## ℹ Processing Hmed
 
-    ## ✔ Processing Hmed [1.7s]
+    ## ✔ Processing Hmed [1.5s]
 
     ## 
 
     ## ℹ Processing cr
 
-    ## ✔ Processing cr [395ms]
+    ## ✔ Processing cr [373ms]
 
     ## 
 
     ## ℹ Processing Z95
 
-    ## ✔ Processing Z95 [885ms]
+    ## ✔ Processing Z95 [827ms]
 
     ## 
 
     ## ℹ Processing Dmax, WoodDensity, SRL, r635, pDead, SAV, HeatContent
 
-    ## ✔ Processing Dmax, WoodDensity, SRL, r635, pDead, SAV, HeatContent [3.9s]
+    ## ✔ Processing Dmax, WoodDensity, SRL, r635, pDead, SAV, HeatContent [3.6s]
 
     ## 
 
     ## ℹ Processing LeafDensity, SLA, LeafWidth, LeafDuration, LeafAngle
 
-    ## ✔ Processing LeafDensity, SLA, LeafWidth, LeafDuration, LeafAngle [3.8s]
+    ## ✔ Processing LeafDensity, SLA, LeafWidth, LeafDuration, LeafAngle [3.6s]
 
     ## 
 
     ## ℹ Processing LeafAngleSD
 
-    ## ✔ Processing LeafAngleSD [548ms]
+    ## ✔ Processing LeafAngleSD [519ms]
 
     ## 
 
-    ## ℹ Processing LeafAF, LeafPI0, LeafEPS, Al2As, conduit2sapwood, Gswmax, Gswmin, …
+    ## ℹ Processing LeafAF, LeafPI0, LeafEPS, Ptlp
 
-    ## ✔ Processing LeafAF, LeafPI0, LeafEPS, Al2As, conduit2sapwood, Gswmax, Gswmin, …
+    ## ✔ Processing LeafAF, LeafPI0, LeafEPS, Ptlp [2.1s]
+
+    ## 
+
+    ## ℹ Processing Gswmax, Gswmin
+
+    ## ✔ Processing Gswmax, Gswmin [1.1s]
 
     ## 
 
     ## ℹ Processing Kmax_stemxylem
 
-    ## ✔ Processing Kmax_stemxylem [719ms]
+    ## ✔ Processing Kmax_stemxylem [690ms]
+
+    ## 
+
+    ## ℹ Processing Al2As, conduit2sapwood
+
+    ## ✔ Processing Al2As, conduit2sapwood [931ms]
 
     ## 
 
@@ -472,49 +484,49 @@ SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path,
 
     ## ℹ Processing Vmax298
 
-    ## ✔ Processing Vmax298 [522ms]
+    ## ✔ Processing Vmax298 [495ms]
 
     ## 
 
     ## ℹ Processing Jmax298
 
-    ## ✔ Processing Jmax298 [497ms]
+    ## ✔ Processing Jmax298 [469ms]
 
     ## 
 
     ## ℹ Processing Nleaf, Nsapwood, Nfineroot
 
-    ## ✔ Processing Nleaf, Nsapwood, Nfineroot [2.1s]
+    ## ✔ Processing Nleaf, Nsapwood, Nfineroot [2s]
 
     ## 
 
     ## ℹ Processing SeedMass, SeedLongevity
 
-    ## ✔ Processing SeedMass, SeedLongevity [1.8s]
+    ## ✔ Processing SeedMass, SeedLongevity [1.7s]
 
     ## 
 
     ## ℹ Processing WoodC, CCleaf, CCsapwood, CCfineroot
 
-    ## ✔ Processing WoodC, CCleaf, CCsapwood, CCfineroot [1.6s]
+    ## ✔ Processing WoodC, CCleaf, CCsapwood, CCfineroot [1.5s]
 
     ## 
 
     ## ℹ Processing maxFMC
 
-    ## ✔ Processing maxFMC [660ms]
+    ## ✔ Processing maxFMC [630ms]
 
     ## 
 
     ## ℹ Processing minFMC
 
-    ## ✔ Processing minFMC [676ms]
+    ## ✔ Processing minFMC [636ms]
 
     ## 
 
     ## ℹ Processing RSSG
 
-    ## ✔ Processing RSSG [557ms]
+    ## ✔ Processing RSSG [527ms]
 
     ## 
 
