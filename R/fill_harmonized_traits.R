@@ -419,6 +419,17 @@ fill_medfate_traits<-function(SpParams,
                                   aggregation_level_weights = aggregation_level_weights,
                                   erase_previous = erase_previous,
                                   replace_previous = replace_previous)
+    # Check physiological inconsistency
+    SpParams <- SpParams |>
+      dplyr::mutate(VCstem_P12 = ifelse(VCstem_P12 < VCstem_P50, NA, VCstem_P12),
+                    VCstem_P88 = ifelse(VCstem_P88 > VCstem_P50, NA, VCstem_P88),
+                    VCstem_slope = ifelse(!is.na(VCstem_P88) & !is.na(VCstem_P12), (88 - 12)/(abs(VCstem_P88) - abs(VCstem_P12)), VCstem_slope))|>
+      dplyr::mutate(VCleaf_P12 = ifelse(VCleaf_P12 < VCleaf_P50, NA, VCleaf_P12),
+                    VCleaf_P88 = ifelse(VCleaf_P88 > VCleaf_P50, NA, VCleaf_P88),
+                    VCleaf_slope = ifelse(!is.na(VCleaf_P88) & !is.na(VCleaf_P12), (88 - 12)/(abs(VCleaf_P88) - abs(VCleaf_P12)), VCleaf_slope))|>
+      dplyr::mutate(VCroot_P12 = ifelse(VCroot_P12 < VCroot_P50, NA, VCroot_P12),
+                    VCroot_P88 = ifelse(VCroot_P88 > VCroot_P50, NA, VCroot_P88),
+                    VCroot_slope = ifelse(!is.na(VCroot_P88) & !is.na(VCroot_P12), (88 - 12)/(abs(VCroot_P88) - abs(VCroot_P12)), VCroot_slope))
   }
 
   if("Vmax298" %in% parameters) {

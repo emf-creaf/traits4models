@@ -3,7 +3,8 @@ spp_params_au<-function(trait_database_list,
                         rebuild_species_list,
                         WFO_path,
                         harmonized_trait_path,
-                        harmonized_allometry_path) {
+                        harmonized_allometry_path,
+                        medfateVersion) {
   NFI_path <- "~/OneDrive/EMF_datasets/ForestInventories/AustraliaNFI/"
   country_code <- "au"
 

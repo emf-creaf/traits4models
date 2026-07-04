@@ -36,6 +36,10 @@ values <- tibble(
 # Replace the target list below with your own:
 list(
   tar_target(
+    name = medfateVersion,
+    command = as.character(packageVersion("medfate"))
+  ),
+  tar_target(
     name = trait_database_list,
     command = list.files(harmonized_trait_path, full.names = TRUE),
     format = "file"
@@ -52,7 +56,8 @@ list(
                             rebuild_species_list,
                             WFO_path,
                             harmonized_trait_path,
-                            harmonized_allometry_path)
+                            harmonized_allometry_path,
+                            medfateVersion)
   ),
   tar_target(
     name = SpParamsFR,
@@ -61,7 +66,8 @@ list(
                             rebuild_species_list,
                             WFO_path,
                             harmonized_trait_path,
-                            harmonized_allometry_path)
+                            harmonized_allometry_path,
+                            medfateVersion)
   ),
   tar_target(
     name = SpParamsUS,
@@ -70,7 +76,8 @@ list(
                             rebuild_species_list,
                             WFO_path,
                             harmonized_trait_path,
-                            harmonized_allometry_path)
+                            harmonized_allometry_path,
+                            medfateVersion)
   ),
   tar_target(
     name = SpParamsAU,
@@ -79,7 +86,8 @@ list(
                             rebuild_species_list,
                             WFO_path,
                             harmonized_trait_path,
-                            harmonized_allometry_path)
+                            harmonized_allometry_path,
+                            medfateVersion)
   ),
   tar_target(
     name = SpParamsZM,
@@ -88,6 +96,7 @@ list(
                             rebuild_species_list,
                             WFO_path,
                             harmonized_trait_path,
-                            harmonized_allometry_path)
+                            harmonized_allometry_path,
+                            medfateVersion)
   )
 )

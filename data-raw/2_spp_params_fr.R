@@ -3,7 +3,8 @@ spp_params_fr<-function(trait_database_list,
                         rebuild_species_list,
                         WFO_path,
                         harmonized_trait_path,
-                        harmonized_allometry_path) {
+                        harmonized_allometry_path,
+                        medfateVersion) {
   country_code <- "fr"
   FFI_path <- "~/OneDrive/EMF_datasets/ForestInventories/FFI_forestables/Sources/"
 

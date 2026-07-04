@@ -3,7 +3,8 @@ spp_params_zm<-function(trait_database_list,
                         rebuild_species_list,
                         WFO_path,
                         harmonized_trait_path,
-                        harmonized_allometry_path) {
+                        harmonized_allometry_path,
+                        medfateVersion) {
   country_code <- "zm"
 
   cli::cli_h1("SpParamsZM")
