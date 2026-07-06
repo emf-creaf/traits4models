@@ -38,7 +38,7 @@ If \code{check_consistency = TRUE}, the function also performs the following con
   \item{Rule 4. Leaf hydraulic vulnerability curve is consistent (VCleaf_P88 < VCleaf_P50 < VCleaf_P12).}
   \item{Rule 5. Root hydraulic vulnerability curve is consistent (VCroot_P88 < VCroot_P50 < VCroot_P12).}
   \item{Rule 6. Maximum (stomatal) conductance is larger than minimum (cuticular) stomatal conductance (Gswmax > Gswmin).}
-  \item{Rule 7. 12\% PLC does not occur at before stomatal closure, represented by water potential at turgor loss point (VCstem_P12 < Ptlp) (Bartlett et al. 2016).}
+  \item{Rule 7. Leaf PLC does not occur before stomatal closure (VCleaf_P50 < Gsw_P50_Baldocchi) (Bartlett et al. 2016).}
   \item{Rule 8. Leaf angle is not lower than 20 degrees.}
 }
 

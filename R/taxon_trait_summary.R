@@ -52,6 +52,7 @@
 
 .summary_evaluation <- function(summary_function, summary_params,
                                 expected_type, values, levels, df_levels) {
+  if(summary_function == "n") return(length(values[!is.na(values)]))
   if(expected_type=="Numeric") {
     if(summary_function == "weightedmean") {
       l = c(list("values"=values, "levels" = levels, "df_levels" = df_levels), summary_params)
@@ -68,13 +69,15 @@
     } else if(summary_function == "weightedquantile") {
       l = c(list("values"=values, "levels" = levels, "df_levels" = df_levels), summary_params)
       return(do.call(".level_weighted_quantile", l))
-    } else {
+    } else if(summary_function %in% c("mean", "median", "quantile", "var", "sd")) {
       if(length(values)>0) {
         l = c(list("x"=values), summary_params)
         return(do.call(summary_function, l))
       } else {
         return(as.numeric(NA))
       }
+    } else {
+      cli::cli_abort(paste0("Wrong summary function for numerical data: ", summary_function))
     }
   } else if(expected_type=="Integer") {
     if(length(values)>0) {
@@ -85,7 +88,7 @@
         l = c(list("x"=values), summary_params)
         return(as.integer(as.numeric(do.call(".mode", l))))
       } else {
-        cli::cli_abort("Wrong summary function")
+        cli::cli_abort(paste0("Wrong summary function for integer/categorical data: ", summary_function))
       }
     } else {
       return(as.integer(NA))
@@ -99,7 +102,7 @@
         l = c(list("x"=values), summary_params)
         return(as.character(do.call(".mode", l)))
       } else {
-        cli::cli_abort("Wrong summary function")
+        cli::cli_abort(paste0("Wrong summary function for integer/categorical data: ", summary_function))
       }
     } else {
       return(as.character(NA))
@@ -130,14 +133,16 @@
 #'
 #' For categorical traits the following options are possible using \code{summary_function} and \code{summary_params}:
 #' \itemize{
+#'   \item{n - Number of non-missing observations.}
 #'   \item{weightedmode - Weighted mode using aggregation level weights.}
 #'   \item{mode - The usual statistic functions. }
 #' }
 #'
 #' For numerical traits the following options are possible using \code{summary_function} and \code{summary_params}:
 #' \itemize{
+#'   \item{n - Number of non-missing observations.}
 #'   \item{weightedmean, weightedmedian, weightedquantile, weightedvar, weightedsd - Weighted statistics using aggregation level weights.}
-#'   \item{mean, median, quantile, var, sd, ... - The usual statistic functions. }
+#'   \item{mean, median, quantile, var, sd - The usual statistic functions. }
 #' }
 #'
 #' @returns
@@ -168,6 +173,8 @@ taxon_trait_summary <- function(harmonized_trait_path,
                                 progress = TRUE,
                                 verbose = TRUE) {
   taxonomic_level <- match.arg(taxonomic_level, c("species", "genus", "family"))
+  summary_function <- match.arg(summary_function, c("n", "mean", "median", "var", "sd", "quantile", "mode",
+                                                    "weightedmean", "weightedmedian", "weightedvar", "weightedsd", "weightedquantile", "weightedmode"))
   if(is.null(traits)) {
     traits <- traits4models::HarmonizedTraitDefinition$Notation
   } else {
@@ -192,6 +199,13 @@ taxon_trait_summary <- function(harmonized_trait_path,
     trait_table  <- get_trait_data(harmonized_trait_path, trait_name = t, taxon_selection_column = grouping_column, taxon_selection = taxon_selection,
                                    output_format = "long", progress = progress, verbose = verbose)
 
+    if(expected_type %in% c("Integer", "String")) {
+      if(!(summary_function %in% c("n", "mode", "weightedmode")))  cli::cli_abort(paste0("Cannot evaluate summary function '", summary_function, "' on an integer/categorical trait '", t,"'."))
+    }
+    else if(expected_type %in% c("Numeric")) {
+      if(!(summary_function %in% c("n", "median", "mean", "sd", "var", "quantile",
+                                   "weightedmean", "weightedmedian", "weightedsd", "weightedvar", "weightedquantile")))  cli::cli_abort(paste0("Cannot evaluate summary function '", summary_function, "' on an integer/categorical trait '", t,"'."))
+    }
     if(t %in% names(scalar_functions)) {
       trait_table <- trait_table |>
         dplyr::mutate(Value = do.call(scalar_functions[[t]], list(.data[["Value"]])))

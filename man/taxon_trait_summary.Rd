@@ -54,14 +54,16 @@ of lower priority.
 
 For categorical traits the following options are possible using \code{summary_function} and \code{summary_params}:
 \itemize{
+  \item{n - Number of non-missing observations.}
   \item{weightedmode - Weighted mode using aggregation level weights.}
   \item{mode - The usual statistic functions. }
 }
 
 For numerical traits the following options are possible using \code{summary_function} and \code{summary_params}:
 \itemize{
+  \item{n - Number of non-missing observations.}
   \item{weightedmean, weightedmedian, weightedquantile, weightedvar, weightedsd - Weighted statistics using aggregation level weights.}
-  \item{mean, median, quantile, var, sd, ... - The usual statistic functions. }
+  \item{mean, median, quantile, var, sd - The usual statistic functions. }
 }
 }
 \examples{

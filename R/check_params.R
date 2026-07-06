@@ -28,7 +28,7 @@
 #'   \item{Rule 4. Leaf hydraulic vulnerability curve is consistent (VCleaf_P88 < VCleaf_P50 < VCleaf_P12).}
 #'   \item{Rule 5. Root hydraulic vulnerability curve is consistent (VCroot_P88 < VCroot_P50 < VCroot_P12).}
 #'   \item{Rule 6. Maximum (stomatal) conductance is larger than minimum (cuticular) stomatal conductance (Gswmax > Gswmin).}
-#'   \item{Rule 7. 12\% PLC does not occur at before stomatal closure, represented by water potential at turgor loss point (VCstem_P12 < Ptlp) (Bartlett et al. 2016).}
+#'   \item{Rule 7. Leaf PLC does not occur before stomatal closure (VCleaf_P50 < Gsw_P50_Baldocchi) (Bartlett et al. 2016).}
 #'   \item{Rule 8. Leaf angle is not lower than 20 degrees.}
 #' }
 #'
@@ -107,7 +107,7 @@ check_medfate_params<- function(x, check_consistency = FALSE, verbose = TRUE) {
       isNARootP12 <- is.na(medfate::species_parameter(sp_name, SpParams = x, parName = "VCroot_P12", fillMissing = FALSE))
       isNARootP50 <- is.na(medfate::species_parameter(sp_name, SpParams = x, parName = "VCroot_P50", fillMissing = FALSE))
       isNARootP88 <- is.na(medfate::species_parameter(sp_name, SpParams = x, parName = "VCroot_P88", fillMissing = FALSE))
-      isNAPtlp <- is.na(medfate::species_parameter(sp_name, SpParams = x, parName = "Ptlp", fillMissing = FALSE))
+      isNAGsw_P50_Baldocchi <- is.na(medfate::species_parameter(sp_name, SpParams = x, parName = "Gsw_P50_Baldocchi", fillMissing = FALSE))
       isNAGswmin <- is.na(medfate::species_parameter(sp_name, SpParams = x, parName = "Gswmin", fillMissing = FALSE))
       isNAGswmax <- is.na(medfate::species_parameter(sp_name, SpParams = x, parName = "Gswmax", fillMissing = FALSE))
       isNALeafAngle <- is.na(medfate::species_parameter(sp_name, SpParams = x, parName = "LeafAngle", fillMissing = FALSE))
@@ -124,7 +124,7 @@ check_medfate_params<- function(x, check_consistency = FALSE, verbose = TRUE) {
       Gswmax <- medfate::species_parameter(sp_name, SpParams = x, parName = "Gswmax", fillWithGenus = TRUE, fillMissing = TRUE)
       LeafPI0 <- medfate::species_parameter(sp_name, SpParams = x, parName = "LeafPI0", fillWithGenus = TRUE, fillMissing = TRUE)
       LeafEPS <- medfate::species_parameter(sp_name, SpParams = x, parName = "LeafEPS", fillWithGenus = TRUE, fillMissing = TRUE)
-      Ptlp <- medfate::species_parameter(sp_name, SpParams = x, parName = "Ptlp", fillWithGenus = TRUE, fillMissing = TRUE)
+      Gsw_P50_Baldocchi <- medfate::species_parameter(sp_name, SpParams = x, parName = "Gsw_P50_Baldocchi", fillWithGenus = TRUE, fillMissing = TRUE)
       LeafAngle <- medfate::species_parameter(sp_name, SpParams = x, parName = "LeafAngle", fillWithGenus = TRUE, fillMissing = TRUE)
 
       # Rule 1. Stem hydraulic vulnerability is not larger than leaf hydraulic vulnerability
@@ -145,9 +145,9 @@ check_medfate_params<- function(x, check_consistency = FALSE, verbose = TRUE) {
       # Rule 6. Maximum (stomatal) conductance is larger than minimum (cuticular) stomatal conductance
       failed_rules$Rule6[i] <- (Gswmax > Gswmin)
       if(!failed_rules$Rule6[i] && verbose) cli::cli_alert_warning(paste0("Rule #6 failed for '", sp_name, "' [Gswmax",ifelse(isNAGswmax, "*","")," = ", format(Gswmax, digits = 3), "; Gswmin",ifelse(isNAGswmin, "*","")," = ", format(Gswmin, digits = 3) ,"]."))
-      # Rule 7: 12% PLC does not occur at before stomatal closure (represented by water potential at turgor loss point)
-      failed_rules$Rule7[i] <- Ptlp >= StemP12
-      if(!failed_rules$Rule7[i] && verbose) cli::cli_alert_warning(paste0("Rule #7 failed for '", sp_name, "' [VCstem_P12",ifelse(isNAStemP12, "*","")," = ", format(StemP12, digits = 3), "; Ptlp",ifelse(isNAPtlp, "*","")," = ", format(Ptlp, digits = 3) ,"]."))
+      # Rule 7: Leaf PLC does not occur at before stomatal closure
+      failed_rules$Rule7[i] <- Gsw_P50_Baldocchi >= LeafP50
+      if(!failed_rules$Rule7[i] && verbose) cli::cli_alert_warning(paste0("Rule #7 failed for '", sp_name, "' [VCleaf_P50",ifelse(isNALeafP50, "*","")," = ", format(LeafP50, digits = 3), "; Gsw_P50_Baldocchi",ifelse(isNAGsw_P50_Baldocchi, "*","")," = ", format(Gsw_P50_Baldocchi, digits = 3) ,"]."))
       # Rule 8: Leaf angle is not lower than 20 degrees
       failed_rules$Rule8[i] <- LeafAngle >= 20
       if(!failed_rules$Rule8[i] && verbose) cli::cli_alert_warning(paste0("Rule #8 failed for '", sp_name, "' [LeafAngle",ifelse(isNALeafAngle, "*","")," = ", format(LeafAngle, digits = 3),"]."))
