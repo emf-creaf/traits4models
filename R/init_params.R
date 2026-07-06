@@ -33,7 +33,7 @@ init_medfate_params<-function(x,
     names <- x$originalName
     accepted_names <- x$acceptedName
     species <- paste(x$genus, x$specificEpithet)
-    species[is.na(x$specificEpithet)] <- x$genus[is.na(x$specificEpithet)]
+    species[is.na(x$specificEpithet)] <- NA
     genus <- x$genus
     family <- x$family
   } else {

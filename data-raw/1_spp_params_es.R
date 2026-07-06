@@ -119,6 +119,27 @@ spp_params_es <- function(trait_database_list,
   SpParams <- traits4models::init_medfate_params(spp_filt,
                                                  complete_rows = TRUE,
                                                  verbose = FALSE)
+  # SpParams$Name[check$mis_strict$Genus]
+  SpParams <- SpParams|>
+    dplyr::filter(!(Name %in% c("Cultivo en mosaico", "Herbazal en mosaico", "Pastizal-Matorral en mosaico",
+                                "Matorral en mosaico", "Sin asignar")))
+  SpParams[SpParams$Name == "Populus x canadensis",-c(1:4)] <- SpParams[SpParams$Name == "Populus",-c(1:4)]
+  SpParams[SpParams$Name == "Larix x eurolepis",-c(1:4)] <- SpParams[SpParams$Name == "Larix spp.",-c(1:4)]
+  SpParams[SpParams$Name == "Otras coníferas",-c(1:4)] <- SpParams[SpParams$Name == "Cupressus spp.",-c(1:4)]
+  SpParams[SpParams$Name == "Otras coniferas",-c(1:4)] <- SpParams[SpParams$Name == "Cupressus spp.",-c(1:4)]
+  SpParams[SpParams$Name == "Mezcla de coniferas",-c(1:4)] <- SpParams[SpParams$Name == "Cupressus spp.",-c(1:4)]
+  SpParams[SpParams$Name == "Mezcla de coníferas",-c(1:4)] <- SpParams[SpParams$Name == "Cupressus spp.",-c(1:4)]
+  SpParams[SpParams$Name == "Otras frondosas",-c(1:4)] <- SpParams[SpParams$Name == "Prunus spp.",-c(1:4)]
+  SpParams[SpParams$Name == "Mezcla de pequeñas frondosas",-c(1:4)] <- SpParams[SpParams$Name == "Prunus spp.",-c(1:4)]
+  SpParams[SpParams$Name == "Mezcla de pequenas frondosas",-c(1:4)] <- SpParams[SpParams$Name == "Prunus spp.",-c(1:4)]
+  SpParams[SpParams$Name == "Mezcla de frondosas de gran porte",-c(1:4)] <- SpParams[SpParams$Name == "Fraxinus spp.",-c(1:4)]
+  SpParams[SpParams$Name == "Otras laurisilvas",-c(1:4)] <- SpParams[SpParams$Name == "Ocotea phoetens",-c(1:4)]
+  SpParams[SpParams$Name == "Otros árboles ripícolas",-c(1:4)] <- SpParams[SpParams$Name == "Fraxinus spp.",-c(1:4)]
+  SpParams[SpParams$Name == "Otros arboles ripicolas",-c(1:4)] <- SpParams[SpParams$Name == "Fraxinus spp.",-c(1:4)]
+  SpParams[SpParams$Name == "Otras papilionoideas altas",-c(1:4)] <- SpParams[SpParams$Name == "Cytisus spp.",-c(1:4)]
+  SpParams[SpParams$Name == "Otras papilionoideas bajas",-c(1:4)] <- SpParams[SpParams$Name == "Thymus spp.",-c(1:4)]
+  SpParams[SpParams$Name == "Mezcla de árboles de ribera",-c(1:4)] <- SpParams[SpParams$Name == "Fraxinus spp.",-c(1:4)]
+  SpParams[SpParams$Name == "Mezcla de arboles de ribera",-c(1:4)] <- SpParams[SpParams$Name == "Fraxinus spp.",-c(1:4)]
 
   # Filling structural parameters from inventory data -----------------------
   cli::cli_h2("SpParamsES filling parameters from IFN")
@@ -163,27 +184,6 @@ spp_params_es <- function(trait_database_list,
   # Complete strict for non-taxa or delete them -------------------------------------------------------
   cli::cli_h2("Cleaning and checking")
   check <- traits4models::check_medfate_params(SpParams, check_consistency = FALSE)
-  # SpParams$Name[check$mis_strict$Genus]
-  SpParams <- SpParams|>
-    dplyr::filter(!(Name %in% c("Cultivo en mosaico", "Herbazal en mosaico", "Pastizal-Matorral en mosaico",
-                                "Matorral en mosaico", "Sin asignar")))
-  SpParams[SpParams$Name == "Populus x canadensis",-c(1:4)] <- SpParams[SpParams$Name == "Populus",-c(1:4)]
-  SpParams[SpParams$Name == "Larix x eurolepis",-c(1:4)] <- SpParams[SpParams$Name == "Larix spp.",-c(1:4)]
-  SpParams[SpParams$Name == "Otras coníferas",-c(1:4)] <- SpParams[SpParams$Name == "Cupressus spp.",-c(1:4)]
-  SpParams[SpParams$Name == "Otras coniferas",-c(1:4)] <- SpParams[SpParams$Name == "Cupressus spp.",-c(1:4)]
-  SpParams[SpParams$Name == "Mezcla de coniferas",-c(1:4)] <- SpParams[SpParams$Name == "Cupressus spp.",-c(1:4)]
-  SpParams[SpParams$Name == "Mezcla de coníferas",-c(1:4)] <- SpParams[SpParams$Name == "Cupressus spp.",-c(1:4)]
-  SpParams[SpParams$Name == "Otras frondosas",-c(1:4)] <- SpParams[SpParams$Name == "Prunus spp.",-c(1:4)]
-  SpParams[SpParams$Name == "Mezcla de pequeñas frondosas",-c(1:4)] <- SpParams[SpParams$Name == "Prunus spp.",-c(1:4)]
-  SpParams[SpParams$Name == "Mezcla de pequenas frondosas",-c(1:4)] <- SpParams[SpParams$Name == "Prunus spp.",-c(1:4)]
-  SpParams[SpParams$Name == "Mezcla de frondosas de gran porte",-c(1:4)] <- SpParams[SpParams$Name == "Fraxinus spp.",-c(1:4)]
-  SpParams[SpParams$Name == "Otras laurisilvas",-c(1:4)] <- SpParams[SpParams$Name == "Ocotea phoetens",-c(1:4)]
-  SpParams[SpParams$Name == "Otros árboles ripícolas",-c(1:4)] <- SpParams[SpParams$Name == "Fraxinus spp.",-c(1:4)]
-  SpParams[SpParams$Name == "Otros arboles ripicolas",-c(1:4)] <- SpParams[SpParams$Name == "Fraxinus spp.",-c(1:4)]
-  SpParams[SpParams$Name == "Otras papilionoideas altas",-c(1:4)] <- SpParams[SpParams$Name == "Cytisus spp.",-c(1:4)]
-  SpParams[SpParams$Name == "Otras papilionoideas bajas",-c(1:4)] <- SpParams[SpParams$Name == "Thymus spp.",-c(1:4)]
-  SpParams[SpParams$Name == "Mezcla de árboles de ribera",-c(1:4)] <- SpParams[SpParams$Name == "Fraxinus spp.",-c(1:4)]
-  SpParams[SpParams$Name == "Mezcla de arboles de ribera",-c(1:4)] <- SpParams[SpParams$Name == "Fraxinus spp.",-c(1:4)]
 
 
   # Modifications from metamodelling/calibration exercises ------------------

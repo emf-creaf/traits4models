@@ -32,7 +32,7 @@
                              aggregation_level_weights = c("individual" = 1, "population" = 10, "taxon" = 100)) {
 
   # print(traits)
-  AcceptedNameGenus <- SpParams$AcceptedName[is.na(SpParams$Species)]
+  AcceptedNameGenus <- SpParams$Genus[is.na(SpParams$Species)]
   AcceptedNameSpecies <- SpParams$AcceptedName[!is.na(SpParams$Species)]
 
   trait_table_species <- taxon_trait_summary(harmonized_trait_path,
@@ -142,7 +142,6 @@ fill_medfate_traits<-function(SpParams,
 
   priority_column <- NULL
   if(priorization) priority_column <- "Priority"
-  level_column <- "Level"
 
 
   # GrowthForm, LifeForm, LeafShape, PhenologyType, DispersalType
@@ -268,19 +267,17 @@ fill_medfate_traits<-function(SpParams,
 
   if("Z95" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing ", "Z95"))
-    if(nrow(trait_table)>0) {
-      trait_mapping <- "Z95"
-      names(trait_mapping) <- "Z95"
-      SpParams <- .fill_trait_block(SpParams,
-                                    harmonized_trait_path = harmonized_trait_path,
-                                    trait_mapping = trait_mapping,
-                                    priorization = priorization,
-                                    summary_function = "weightedquantile",
-                                    summary_params = list("prob" = 0.95),
-                                    aggregation_level_weights = aggregation_level_weights,
-                                    erase_previous = erase_previous,
-                                    replace_previous = replace_previous)
-    }
+    trait_mapping <- "Z95"
+    names(trait_mapping) <- "Z95"
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedquantile",
+                                  summary_params = list("prob" = 0.95),
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
   }
 
   parameters_sel <- c("Dmax", "WoodDensity", "SRL" , "r635",
@@ -301,7 +298,7 @@ fill_medfate_traits<-function(SpParams,
                                   erase_previous = erase_previous,
                                   replace_previous = replace_previous)
   }
-  parameters_sel <- c("LeafDensity", "SLA", "LeafWidth", "LeafDuration", "LeafAngle")
+  parameters_sel <- c("LeafDensity", "SLA", "LeafWidth", "LeafDuration")
   traits_sel <- parameters_sel
   trait_mapping <- traits_sel
   names(trait_mapping) <- parameters_sel
@@ -318,21 +315,36 @@ fill_medfate_traits<-function(SpParams,
                                   erase_previous = erase_previous,
                                   replace_previous = replace_previous)
   }
+  if("LeafAngle" %in% parameters) {
+    if(progress) cli::cli_progress_step(paste0("Processing ", "LeafAngle"))
+    trait_mapping <- "LeafAngle"
+    names(trait_mapping) <- "LeafAngle"
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmean",
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
+    SpParams <- SpParams |> # Check consistency (avoid average angles that are too low)
+      dplyr::mutate(LeafAngle = ifelse(.data[["LeafAngle"]] < 20, 20, .data[["LeafAngle"]]))
+  }
 
   if("LeafAngleSD" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing ", "LeafAngleSD"))
     trait_mapping <- "LeafAngle"
     names(trait_mapping) <- "LeafAngleSD"
-    if(nrow(trait_table)>0) {
-      SpParams <- .fill_trait_block(SpParams,
-                                    harmonized_trait_path = harmonized_trait_path,
-                                    trait_mapping = trait_mapping,
-                                    priorization = priorization,
-                                    summary_function = "weightedsd",
-                                    aggregation_level_weights = aggregation_level_weights,
-                                    erase_previous = erase_previous,
-                                    replace_previous = replace_previous)
-    }
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedsd",
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
+    SpParams <- SpParams |> # Check consistency (avoid sd angles that are too low)
+      dplyr::mutate(LeafAngleSD = ifelse(.data[["LeafAngleSD"]] < 10, 10, .data[["LeafAngleSD"]]))
   }
 
   parameters_sel <- c("LeafAF", "LeafPI0", "LeafEPS", "Ptlp")
