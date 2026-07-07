@@ -413,6 +413,19 @@ fill_medfate_traits<-function(SpParams,
                                   erase_previous = erase_previous,
                                   replace_previous = replace_previous)
   }
+  if("VCleaf_kmax" %in% parameters) {
+    if(progress) cli::cli_progress_step(paste0("Processing ", "VCleaf_kmax"))
+    trait_mapping <- "kleaf"
+    names(trait_mapping) <- "VCleaf_kmax"
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
+  }
   parameters_sel <- c("VCleaf_P50", "VCleaf_P12", "VCleaf_P88", "VCleaf_slope",
                       "VCstem_P50", "VCstem_P12", "VCstem_P88", "VCstem_slope",
                       "VCroot_P50", "VCroot_P12", "VCroot_P88", "VCroot_slope")
