@@ -77,14 +77,14 @@
 <li><p>All parameter names defined in <code><a href="https://emf-creaf.github.io/medfate/reference/SpParams.html" class="external-link">SpParamsDefinition</a></code> should be listed as columns.</p></li>
 <li><p>Strict parameters should not contain missing values. Strict parameters are defined as such in <code><a href="https://emf-creaf.github.io/medfate/reference/SpParams.html" class="external-link">SpParamsDefinition</a></code>.</p></li>
 </ul><p>If <code>check_consistency = TRUE</code>, the function also performs the following consistency checks for the parameter values of each species:</p>
-<ol><li><p>Rule 1. Stem hydraulic vulnerability is not larger than leaf hydraulic vulnerability (i.e. VCstem_P50 not less negative than VCleaf_P50) (Bartlett et al. 2016).</p></li>
-<li><p>Rule 2. Stem hydraulic vulnerability is not larger than root hydraulic vulnerability (i.e. VCstem_P50 not less negative than VCroot_P50).</p></li>
-<li><p>Rule 3. Stem hydraulic vulnerability is not larger than the water potential at 50% stomatal conductance (i.e. VCstem_P50 not less negative than Gs_P50).</p></li>
-<li><p>Rule 4. Stem hydraulic vulnerability curve is consistent (VCstem_P88 &lt; VCstem_P50 &lt; VCstem_P12).</p></li>
-<li><p>Rule 5. Leaf hydraulic vulnerability curve is consistent (VCleaf_P88 &lt; VCleaf_P50 &lt; VCleaf_P12).</p></li>
-<li><p>Rule 6. Root hydraulic vulnerability curve is consistent (VCroot_P88 &lt; VCroot_P50 &lt; VCroot_P12).</p></li>
-<li><p>Rule 7. Maximum (stomatal) conductance is larger than minimum (cuticular) stomatal conductance (Gswmax &gt; Gswmin).</p></li>
-<li><p>Rule 8. Leaf wilting point is less than 50% of stomatal closure (Ptlp(function of LeafPI0 and LeafEPS) &lt; Gs_P50) (Bartlett et al. 2016).</p></li>
+<ol><li><p>Rule 1. Stem hydraulic vulnerability is not larger than leaf hydraulic vulnerability (VCstem_P50 &lt; VCleaf_P50) (Bartlett et al. 2016).</p></li>
+<li><p>Rule 2. Stem hydraulic vulnerability is not larger than root hydraulic vulnerability (VCstem_P50 &lt; VCroot_P50).</p></li>
+<li><p>Rule 3. Stem hydraulic vulnerability curve is consistent (VCstem_P88 &lt; VCstem_P50 &lt; VCstem_P12).</p></li>
+<li><p>Rule 4. Leaf hydraulic vulnerability curve is consistent (VCleaf_P88 &lt; VCleaf_P50 &lt; VCleaf_P12).</p></li>
+<li><p>Rule 5. Root hydraulic vulnerability curve is consistent (VCroot_P88 &lt; VCroot_P50 &lt; VCroot_P12).</p></li>
+<li><p>Rule 6. Maximum (stomatal) conductance is larger than minimum (cuticular) stomatal conductance (Gswmax &gt; Gswmin).</p></li>
+<li><p>Rule 7. Leaf PLC does not occur before stomatal closure (VCleaf_P50 &lt; Gsw_P50_Baldocchi) (Bartlett et al. 2016).</p></li>
+<li><p>Rule 8. Leaf angle is not lower than 20 degrees.</p></li>
 </ol><p>Parameter consistency is conducted including imputation of missing values, according to medfate inbuilt parameter estimation.</p>
     </div>
     <div class="section level2">
@@ -107,7 +107,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

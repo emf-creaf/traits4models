@@ -50,32 +50,28 @@ If `check_consistency = TRUE`, the function also performs the following
 consistency checks for the parameter values of each species:
 
 1.  Rule 1. Stem hydraulic vulnerability is not larger than leaf
-    hydraulic vulnerability (i.e. VCstem_P50 not less negative than
-    VCleaf_P50) (Bartlett et al. 2016).
+    hydraulic vulnerability (VCstem_P50 \< VCleaf_P50) (Bartlett et al.
+    2016).
 
 2.  Rule 2. Stem hydraulic vulnerability is not larger than root
-    hydraulic vulnerability (i.e. VCstem_P50 not less negative than
-    VCroot_P50).
+    hydraulic vulnerability (VCstem_P50 \< VCroot_P50).
 
-3.  Rule 3. Stem hydraulic vulnerability is not larger than the water
-    potential at 50% stomatal conductance (i.e. VCstem_P50 not less
-    negative than Gs_P50).
-
-4.  Rule 4. Stem hydraulic vulnerability curve is consistent (VCstem_P88
+3.  Rule 3. Stem hydraulic vulnerability curve is consistent (VCstem_P88
     \< VCstem_P50 \< VCstem_P12).
 
-5.  Rule 5. Leaf hydraulic vulnerability curve is consistent (VCleaf_P88
+4.  Rule 4. Leaf hydraulic vulnerability curve is consistent (VCleaf_P88
     \< VCleaf_P50 \< VCleaf_P12).
 
-6.  Rule 6. Root hydraulic vulnerability curve is consistent (VCroot_P88
+5.  Rule 5. Root hydraulic vulnerability curve is consistent (VCroot_P88
     \< VCroot_P50 \< VCroot_P12).
 
-7.  Rule 7. Maximum (stomatal) conductance is larger than minimum
+6.  Rule 6. Maximum (stomatal) conductance is larger than minimum
     (cuticular) stomatal conductance (Gswmax \> Gswmin).
 
-8.  Rule 8. Leaf wilting point is less than 50% of stomatal closure
-    (Ptlp(function of LeafPI0 and LeafEPS) \< Gs_P50) (Bartlett et al.
-    2016).
+7.  Rule 7. Leaf PLC does not occur before stomatal closure (VCleaf_P50
+    \< Gsw_P50_Baldocchi) (Bartlett et al. 2016).
+
+8.  Rule 8. Leaf angle is not lower than 20 degrees.
 
 Parameter consistency is conducted including imputation of missing
 values, according to medfate inbuilt parameter estimation.

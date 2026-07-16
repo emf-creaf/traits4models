@@ -36,7 +36,7 @@ fill_medfate_allometries(
 - priorization:
 
   A boolean flag to perform priorization of some data sources over
-  others (not yet implemented!).
+  others).
 
 - erase_previous:
 

@@ -118,6 +118,7 @@ their required notation and units:
 | Leaf width | LeafWidth | Numeric | cm | NA | NA | NA | NA | 0 | NA |
 | Stomatal size (area) | StomatalSize | Numeric | um2 | NA | NA | NA | NA | 0 | NA |
 | Stomatal density per leaf area (total, including abaxial and adaxial) | StomatalDensity | Numeric | mm-2 | NA | NA | NA | NA | 0 | NA |
+| Stomatal conductance to water vapor | Gsw | Numeric | mol s-1 m-2 | NA | NA | NA | NA | 0 | NA |
 | Maximum stomatal conductance to water vapor | Gswmax | Numeric | mol s-1 m-2 | NA | NA | NA | NA | 0 | NA |
 | Minimum stomatal conductance to water vapor | Gswmin | Numeric | mol s-1 m-2 | NA | NA | NA | NA | 0 | NA |
 | Stem conductance to water vapor | Gbark | Numeric | mol s-1 m-2 | NA | NA | NA | NA | 0 | NA |

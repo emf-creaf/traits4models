@@ -89,6 +89,8 @@ lower priority.
 For categorical traits the following options are possible using
 `summary_function` and `summary_params`:
 
+- n - Number of non-missing observations.
+
 - weightedmode - Weighted mode using aggregation level weights.
 
 - mode - The usual statistic functions.
@@ -96,10 +98,12 @@ For categorical traits the following options are possible using
 For numerical traits the following options are possible using
 `summary_function` and `summary_params`:
 
+- n - Number of non-missing observations.
+
 - weightedmean, weightedmedian, weightedquantile, weightedvar,
   weightedsd - Weighted statistics using aggregation level weights.
 
-- mean, median, quantile, var, sd, ... - The usual statistic functions.
+- mean, median, quantile, var, sd - The usual statistic functions.
 
 ## Examples
 

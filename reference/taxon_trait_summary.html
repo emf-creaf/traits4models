@@ -119,10 +119,12 @@
     <p>If <code>priorization = TRUE</code> and column <code>priority_column</code> is available in data sources,
 the function will prioritize sources with higher priority first, filling parameters with them before inspecting data sources
 of lower priority.</p>
-<p>For categorical traits the following options are possible using <code>summary_function</code> and <code>summary_params</code>:</p><ul><li><p>weightedmode - Weighted mode using aggregation level weights.</p></li>
+<p>For categorical traits the following options are possible using <code>summary_function</code> and <code>summary_params</code>:</p><ul><li><p>n - Number of non-missing observations.</p></li>
+<li><p>weightedmode - Weighted mode using aggregation level weights.</p></li>
 <li><p>mode - The usual statistic functions.</p></li>
-</ul><p>For numerical traits the following options are possible using <code>summary_function</code> and <code>summary_params</code>:</p><ul><li><p>weightedmean, weightedmedian, weightedquantile, weightedvar, weightedsd - Weighted statistics using aggregation level weights.</p></li>
-<li><p>mean, median, quantile, var, sd, ... - The usual statistic functions.</p></li>
+</ul><p>For numerical traits the following options are possible using <code>summary_function</code> and <code>summary_params</code>:</p><ul><li><p>n - Number of non-missing observations.</p></li>
+<li><p>weightedmean, weightedmedian, weightedquantile, weightedvar, weightedsd - Weighted statistics using aggregation level weights.</p></li>
+<li><p>mean, median, quantile, var, sd - The usual statistic functions.</p></li>
 </ul></div>
 
     <div class="section level2">
@@ -148,7 +150,7 @@ of lower priority.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>
