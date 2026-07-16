@@ -72,22 +72,38 @@
                                 allom_table,
                                 allom_vars,
                                 target_params,
+                                priorization,
                                 replace_previous = TRUE) {
   for(i in 1:nrow(SpParams)) {
     nm = SpParams$AcceptedName[i]
     ## Find species
-    allom_row <- NA
-    found <- FALSE
-    if(nm %in% allom_table$acceptedName) { # Species level
-      allom_row <- which(allom_table$acceptedName==nm)
-      found <- TRUE
-    }
-    if(found) {
-      vals <- allom_table[allom_row[1], allom_vars]
-      if(replace_previous) SpParams[i, target_params] <- vals
-      else {
-        is_na_param <- is.na(SpParams[i, target_params])
-        SpParams[i, target_params[is_na_param]] <- vals[is_na_param]
+    if(nm %in% allom_table$acceptedName) {
+      found <- FALSE
+      priority <- 1
+      if(priorization) {
+        while(!found) {
+          allom_row <- which(allom_table$acceptedName==nm & allom_table$Priority == priority)
+          if(length(allom_row)>0) {
+            found <- TRUE
+            vals <- allom_table[allom_row[1], allom_vars]
+            if(replace_previous) SpParams[i, target_params] <- vals
+            else {
+              is_na_param <- is.na(SpParams[i, target_params])
+              SpParams[i, target_params[is_na_param]] <- vals[is_na_param]
+            }
+          }
+          priority <- priority + 1
+        }
+      } else {
+        allom_row <- which(allom_table$acceptedName==nm)
+        if(length(allom_row)>0) {
+          vals <- allom_table[allom_row[1], allom_vars]
+          if(replace_previous) SpParams[i, target_params] <- vals
+          else {
+            is_na_param <- is.na(SpParams[i, target_params])
+            SpParams[i, target_params[is_na_param]] <- vals[is_na_param]
+          }
+        }
       }
     }
   }
@@ -101,7 +117,7 @@
 #' @param SpParams A data frame of medfate species parameters to be populated.
 #' @param harmonized_allometry_path The path to harmonized trait data files (.rds or .csv format).
 #' @param responses A string vector with responses to be filled. If NULL, then all responses are processed.
-#' @param priorization A boolean flag to perform priorization of some data sources over others (not yet implemented!).
+#' @param priorization A boolean flag to perform priorization of some data sources over others).
 #' @param replace_previous A boolean flag to indicate that non-missing previous values should be replaced with new data
 #' @param erase_previous A boolean flag to indicate that all previous values should be set to NA before populating with new data
 #' @param progress A boolean flag to prompt progress.
@@ -138,22 +154,25 @@ fill_medfate_allometries<-function(SpParams,
     if(erase_previous) SpParams[,c("a_fbt", "b_fbt", "c_fbt")] <- NA
     response_data <- get_allometry_data(harmonized_allometry_path, response = "FoliarBiomass", progress = FALSE)
     allom_table <-response_data |>
-      dplyr::filter(.data$Equation == "FoliarBiomass = a\u0183DBH^b\u0183exp(c\u00b7BAL)\u0183DBH^(d\u00b7BAL)")
+      dplyr::filter(.data$Equation == "FoliarBiomass = a\u00b7DBH^b\u00b7exp(c\u00b7BAL)\u00b7DBH^(d\u00b7BAL)")
     if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
                                                                 c("a", "b", "c"),
                                                                 c("a_fbt", "b_fbt", "c_fbt"),
+                                                                priorization = priorization,
                                                                 replace_previous = replace_previous)
     allom_table <-response_data |>
       dplyr::filter(.data$Equation == "FoliarBiomass = a\u00b7DBH^b\u00b7exp(c\u00b7BAL)")
     if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
                                                                 c("a", "b", "c"),
                                                                 c("a_fbt", "b_fbt", "c_fbt"),
+                                                                priorization = priorization,
                                                                 replace_previous = replace_previous)
     allom_table <-response_data |>
       dplyr::filter(.data$Equation == "FoliarBiomass = a\u00b7DBH^b")
     if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
                                                                 c("a", "b"),
                                                                 c("a_fbt", "b_fbt"),
+                                                                priorization = priorization,
                                                                 replace_previous = replace_previous)
   }
 
@@ -166,6 +185,7 @@ fill_medfate_allometries<-function(SpParams,
     if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
                                                                 c("a", "b", "c", "d", "e", "f"),
                                                                 c("a_cr", "b_1cr", "b_2cr", "b_3cr", "c_1cr", "c_2cr"),
+                                                                priorization = priorization,
                                                                 replace_previous = replace_previous)
   }
 
@@ -178,6 +198,7 @@ fill_medfate_allometries<-function(SpParams,
     if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
                                                                 c("a", "b"),
                                                                 c("a_cw", "b_cw"),
+                                                                priorization = priorization,
                                                                 replace_previous = replace_previous)
   }
 
@@ -190,6 +211,7 @@ fill_medfate_allometries<-function(SpParams,
     if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
                                                                 c("a", "b"),
                                                                 c("a_bt", "b_bt"),
+                                                                priorization = priorization,
                                                                 replace_previous = replace_previous)
   }
 
@@ -202,6 +224,7 @@ fill_medfate_allometries<-function(SpParams,
     if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
                                                                 c("a", "b"),
                                                                 c("a_ash", "b_ash"),
+                                                                priorization = priorization,
                                                                 replace_previous = replace_previous)
   }
 
@@ -214,6 +237,7 @@ fill_medfate_allometries<-function(SpParams,
     if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
                                                                 c("a", "b"),
                                                                 c("a_bsh", "b_bsh"),
+                                                                priorization = priorization,
                                                                 replace_previous = replace_previous)
   }
 
@@ -226,6 +250,7 @@ fill_medfate_allometries<-function(SpParams,
     if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
                                                                 c("a", "b"),
                                                                 c("a_btsh", "b_btsh"),
+                                                                priorization = priorization,
                                                                 replace_previous = replace_previous)
   }
   if(progress) cli::cli_progress_done()

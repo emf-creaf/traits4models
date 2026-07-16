@@ -23,7 +23,7 @@ fill_medfate_allometries(
 
 \item{responses}{A string vector with responses to be filled. If NULL, then all responses are processed.}
 
-\item{priorization}{A boolean flag to perform priorization of some data sources over others (not yet implemented!).}
+\item{priorization}{A boolean flag to perform priorization of some data sources over others).}
 
 \item{erase_previous}{A boolean flag to indicate that all previous values should be set to NA before populating with new data}
 
