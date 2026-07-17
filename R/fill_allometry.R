@@ -135,8 +135,8 @@ fill_medfate_allometries<-function(SpParams,
                                    harmonized_allometry_path,
                                    responses = NULL,
                                    priorization = TRUE,
-                                   erase_previous = TRUE,
-                                   replace_previous = TRUE,
+                                   erase_previous = FALSE,
+                                   replace_previous = FALSE,
                                    progress = TRUE, verbose = FALSE) {
 
   responses_available <- c("FoliarBiomass", "CrownRatio", "CrownWidth", "BarkThickness", "CrownArea",
@@ -155,23 +155,19 @@ fill_medfate_allometries<-function(SpParams,
     response_data <- get_allometry_data(harmonized_allometry_path, response = "FoliarBiomass", progress = FALSE)
     allom_table <-response_data |>
       dplyr::filter(.data$Equation == "FoliarBiomass = a\u00b7DBH^b\u00b7exp(c\u00b7BAL)\u00b7DBH^(d\u00b7BAL)")
+    allom_table <-response_data |>
+      dplyr::filter(.data$Equation == "FoliarBiomass = a\u00b7DBH^b\u00b7exp(c\u00b7BAL)") |>
+      dplyr::filter(!(acceptedName %in% allom_table$acceptedName)) |>
+      dplyr::bind_rows(allom_table)
+    allom_table <-response_data |>
+      dplyr::filter(.data$Equation == "FoliarBiomass = a\u00b7DBH^b") |>
+      dplyr::mutate(c = NA)|>
+      dplyr::filter(!(acceptedName %in% allom_table$acceptedName)) |>
+      dplyr::bind_rows(allom_table)
+
     if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
                                                                 c("a", "b", "c"),
                                                                 c("a_fbt", "b_fbt", "c_fbt"),
-                                                                priorization = priorization,
-                                                                replace_previous = replace_previous)
-    allom_table <-response_data |>
-      dplyr::filter(.data$Equation == "FoliarBiomass = a\u00b7DBH^b\u00b7exp(c\u00b7BAL)")
-    if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
-                                                                c("a", "b", "c"),
-                                                                c("a_fbt", "b_fbt", "c_fbt"),
-                                                                priorization = priorization,
-                                                                replace_previous = replace_previous)
-    allom_table <-response_data |>
-      dplyr::filter(.data$Equation == "FoliarBiomass = a\u00b7DBH^b")
-    if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
-                                                                c("a", "b"),
-                                                                c("a_fbt", "b_fbt"),
                                                                 priorization = priorization,
                                                                 replace_previous = replace_previous)
   }
