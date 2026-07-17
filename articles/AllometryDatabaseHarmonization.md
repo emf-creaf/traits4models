@@ -354,28 +354,28 @@ head(fb_data)
     ## 3       Carapa guianensis      Carapa guianensis                  Aubl.
     ## 4     Vochysia ferruginea    Vochysia ferruginea                  Mart.
     ## 5  Pentaclethra macroloba Pentaclethra macroloba        (Willd.) Kuntze
-    ## 6              Abies alba             Abies alba                  Mill.
-    ##          family        genus specificEpithet taxonRank
-    ## 1   Burseraceae      Protium     stevensonii   species
-    ## 2 Myristicaceae       Virola        koschnyi   species
-    ## 3     Meliaceae       Carapa      guianensis   species
-    ## 4  Vochysiaceae     Vochysia      ferruginea   species
-    ## 5      Fabaceae Pentaclethra       macroloba   species
-    ## 6      Pinaceae        Abies            alba   species
-    ##                                         Equation         a        b
-    ## 1                        FoliarBiomass = a·DBH^b 0.0400000 1.737000
-    ## 2                        FoliarBiomass = a·DBH^b 0.0020000 2.468000
-    ## 3                        FoliarBiomass = a·DBH^b 0.0120000 2.089000
-    ## 4                        FoliarBiomass = a·DBH^b 0.6730000 1.058000
-    ## 5                        FoliarBiomass = a·DBH^b 0.9580000 0.757000
-    ## 6 FoliarBiomass = a·DBH^b·exp(c·BAL)·DBH^(d·BAL) 0.1231138 1.452404
+    ## 6       Ceratonia siliqua      Ceratonia siliqua                     L.
+    ##          family        genus specificEpithet taxonRank                Equation
+    ## 1   Burseraceae      Protium     stevensonii   species FoliarBiomass = a·DBH^b
+    ## 2 Myristicaceae       Virola        koschnyi   species FoliarBiomass = a·DBH^b
+    ## 3     Meliaceae       Carapa      guianensis   species FoliarBiomass = a·DBH^b
+    ## 4  Vochysiaceae     Vochysia      ferruginea   species FoliarBiomass = a·DBH^b
+    ## 5      Fabaceae Pentaclethra       macroloba   species FoliarBiomass = a·DBH^b
+    ## 6      Fabaceae    Ceratonia         siliqua   species FoliarBiomass = a·DBH^b
+    ##           a       b
+    ## 1 0.0400000 1.73700
+    ## 2 0.0020000 2.46800
+    ## 3 0.0120000 2.08900
+    ## 4 0.6730000 1.05800
+    ## 5 0.9580000 0.75700
+    ## 6 0.1186396 1.62588
     ##                                                                                                                                                                                                  Reference
     ## 1 Calvo-Alvarado et al. (2008) Allometric relationships predicting foliar biomass and leaf area:sapwood area ratio from tree height in five Costa Rican rain forest species. Tree Physiology 28: 1601-1608
     ## 2 Calvo-Alvarado et al. (2008) Allometric relationships predicting foliar biomass and leaf area:sapwood area ratio from tree height in five Costa Rican rain forest species. Tree Physiology 28: 1601-1608
     ## 3 Calvo-Alvarado et al. (2008) Allometric relationships predicting foliar biomass and leaf area:sapwood area ratio from tree height in five Costa Rican rain forest species. Tree Physiology 28: 1601-1608
     ## 4 Calvo-Alvarado et al. (2008) Allometric relationships predicting foliar biomass and leaf area:sapwood area ratio from tree height in five Costa Rican rain forest species. Tree Physiology 28: 1601-1608
     ## 5 Calvo-Alvarado et al. (2008) Allometric relationships predicting foliar biomass and leaf area:sapwood area ratio from tree height in five Costa Rican rain forest species. Tree Physiology 28: 1601-1608
-    ## 6                                                                                                                                                                                          Calculated IEFC
+    ## 6                                                                                                                                                                                    Montero et al. (2005)
     ##        Response ResponseDescription Predictor1          PredictorDescription1
     ## 1 FoliarBiomass Foliar biomass (kg)        DBH Diameter at breast height (cm)
     ## 2 FoliarBiomass Foliar biomass (kg)        DBH Diameter at breast height (cm)
@@ -383,13 +383,13 @@ head(fb_data)
     ## 4 FoliarBiomass Foliar biomass (kg)        DBH Diameter at breast height (cm)
     ## 5 FoliarBiomass Foliar biomass (kg)        DBH Diameter at breast height (cm)
     ## 6 FoliarBiomass Foliar biomass (kg)        DBH Diameter at breast height (cm)
-    ##   Priority checkVersion  c  d Predictor2              PredictorDescription2
-    ## 1        2        0.2.3 NA NA       <NA>                               <NA>
-    ## 2        2        0.2.3 NA NA       <NA>                               <NA>
-    ## 3        2        0.2.3 NA NA       <NA>                               <NA>
-    ## 4        2        0.2.3 NA NA       <NA>                               <NA>
-    ## 5        2        0.2.3 NA NA       <NA>                               <NA>
-    ## 6        1        0.2.3  0  0        BAL Basal area of larger trees (m2/ha)
+    ##   Priority checkVersion  c Predictor2              PredictorDescription2
+    ## 1        2        0.2.3 NA       <NA>                               <NA>
+    ## 2        2        0.2.3 NA       <NA>                               <NA>
+    ## 3        2        0.2.3 NA       <NA>                               <NA>
+    ## 4        2        0.2.3 NA       <NA>                               <NA>
+    ## 5        2        0.2.3 NA       <NA>                               <NA>
+    ## 6        1        0.3.0  0        BAL Basal area of larger trees (m2/ha)
 
 ## References
 

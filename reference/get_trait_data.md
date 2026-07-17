@@ -34,7 +34,13 @@ get_allometry_data(
   verbose = TRUE
 )
 
-get_taxon_data(harmonized_trait_path, accepted_name, progress = TRUE)
+get_taxon_data(
+  harmonized_path,
+  accepted_name,
+  type = "trait",
+  progress = TRUE,
+  verbose = TRUE
+)
 ```
 
 ## Arguments
@@ -83,9 +89,18 @@ get_taxon_data(harmonized_trait_path, accepted_name, progress = TRUE)
 
   String indicating a response variable for allometric equations.
 
+- harmonized_path:
+
+  The path to harmonized trait or allometry data files (.rds or .csv
+  format).
+
 - accepted_name:
 
   String of an accepted taxon name.
+
+- type:
+
+  A string with data type, either "trait" or "allometry".
 
 ## Value
 
@@ -100,20 +115,23 @@ with the pooled information for a given trait, or an empty data frame if
 not found.
 
 Function `get_taxon_data()` returns a data frame (in long trait format)
-with the pooled information for a given taxon, or an empty data frame if
-not found.
+with the pooled information (traits or allometries) for a given taxon,
+or an empty data frame if not found.
 
 Function `get_allometry_data()` returns a data frame with allometric
 equations.
 
 ## Details
 
-Function `load_harmonized_trait_tables()` allows loading all kinds of
-trait data tables, including those that do not pass harmonization check,
-if `check = FALSE`. In contrast, functions `get_trait_data()`,
+Functions `load_harmonized_trait_tables()` and
+`load_harmonized_allometry_tables()` allows loading all kinds of trait
+data tables, including those that do not pass harmonization check, if
+`check = FALSE`. In contrast, functions `get_trait_data()`,
 `get_taxon_data()` and `get_taxon_trait_means()` only return data from
-data sets passing harmonization checks (see function
-[`check_harmonized_trait`](https://emf-creaf.github.io/traits4models/reference/check_harmonized_trait.md)).
+data sets passing harmonization checks (see functions
+[`check_harmonized_trait`](https://emf-creaf.github.io/traits4models/reference/check_harmonized_trait.md)
+and
+[`check_harmonized_allometry`](https://emf-creaf.github.io/traits4models/reference/check_harmonized_trait.md)).
 
 ## See also
 

@@ -11,8 +11,8 @@ fill_medfate_allometries(
   harmonized_allometry_path,
   responses = NULL,
   priorization = TRUE,
-  erase_previous = TRUE,
-  replace_previous = TRUE,
+  erase_previous = FALSE,
+  replace_previous = FALSE,
   progress = TRUE,
   verbose = FALSE
 )

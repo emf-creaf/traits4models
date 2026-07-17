@@ -76,7 +76,13 @@
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">get_taxon_data</span><span class="op">(</span><span class="va">harmonized_trait_path</span>, <span class="va">accepted_name</span>, progress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">get_taxon_data</span><span class="op">(</span></span>
+<span>  <span class="va">harmonized_path</span>,</span>
+<span>  <span class="va">accepted_name</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"trait"</span>,</span>
+<span>  progress <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -123,8 +129,16 @@
 <dd><p>String indicating a response variable for allometric equations.</p></dd>
 
 
+<dt id="arg-harmonized-path">harmonized_path<a class="anchor" aria-label="anchor" href="#arg-harmonized-path"></a></dt>
+<dd><p>The path to harmonized trait or allometry data files (.rds or .csv format).</p></dd>
+
+
 <dt id="arg-accepted-name">accepted_name<a class="anchor" aria-label="anchor" href="#arg-accepted-name"></a></dt>
 <dd><p>String of an accepted taxon name.</p></dd>
+
+
+<dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
+<dd><p>A string with data type, either "trait" or "allometry".</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -132,13 +146,13 @@
     <p>Function <code>load_harmonized_trait_tables()</code> returns the list with all harmonized trait data tables.</p>
 <p>Function <code>load_harmonized_allometry_tables()</code> returns the list with all harmonized allometry data tables.</p>
 <p>Function <code>get_trait_data()</code> returns a data frame (in long trait format) with the pooled information for a given trait, or an empty data frame if not found.</p>
-<p>Function <code>get_taxon_data()</code> returns a data frame (in long trait format) with the pooled information for a given taxon, or an empty data frame if not found.</p>
+<p>Function <code>get_taxon_data()</code> returns a data frame (in long trait format) with the pooled information (traits or allometries) for a given taxon, or an empty data frame if not found.</p>
 <p>Function <code>get_allometry_data()</code> returns a data frame with allometric equations.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Function <code>load_harmonized_trait_tables()</code> allows loading all kinds of trait data tables, including those that do not pass harmonization check, if <code>check = FALSE</code>.
-In contrast, functions <code>get_trait_data()</code>, <code>get_taxon_data()</code> and <code>get_taxon_trait_means()</code> only return data from data sets passing harmonization checks (see function <code><a href="check_harmonized_trait.html">check_harmonized_trait</a></code>).</p>
+    <p>Functions <code>load_harmonized_trait_tables()</code> and <code>load_harmonized_allometry_tables()</code> allows loading all kinds of trait data tables, including those that do not pass harmonization check, if <code>check = FALSE</code>.
+In contrast, functions <code>get_trait_data()</code>, <code>get_taxon_data()</code> and <code>get_taxon_trait_means()</code> only return data from data sets passing harmonization checks (see functions <code><a href="check_harmonized_trait.html">check_harmonized_trait</a></code> and <code><a href="check_harmonized_trait.html">check_harmonized_allometry</a></code>).</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
