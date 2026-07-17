@@ -37,7 +37,13 @@ get_allometry_data(
   verbose = TRUE
 )
 
-get_taxon_data(harmonized_trait_path, accepted_name, progress = TRUE)
+get_taxon_data(
+  harmonized_path,
+  accepted_name,
+  type = "trait",
+  progress = TRUE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{harmonized_trait_path}{The path to harmonized trait data files (.rds or .csv format).}
@@ -60,7 +66,11 @@ get_taxon_data(harmonized_trait_path, accepted_name, progress = TRUE)
 
 \item{response}{String indicating a response variable for allometric equations.}
 
+\item{harmonized_path}{The path to harmonized trait or allometry data files (.rds or .csv format).}
+
 \item{accepted_name}{String of an accepted taxon name.}
+
+\item{type}{A string with data type, either "trait" or "allometry".}
 }
 \value{
 Function \code{load_harmonized_trait_tables()} returns the list with all harmonized trait data tables.
@@ -69,7 +79,7 @@ Function \code{load_harmonized_allometry_tables()} returns the list with all har
 
 Function \code{get_trait_data()} returns a data frame (in long trait format) with the pooled information for a given trait, or an empty data frame if not found.
 
-Function \code{get_taxon_data()} returns a data frame (in long trait format) with the pooled information for a given taxon, or an empty data frame if not found.
+Function \code{get_taxon_data()} returns a data frame (in long trait format) with the pooled information (traits or allometries) for a given taxon, or an empty data frame if not found.
 
 Function \code{get_allometry_data()} returns a data frame with allometric equations.
 }
@@ -77,8 +87,8 @@ Function \code{get_allometry_data()} returns a data frame with allometric equati
 Functions to load harmonized trait data and harmonized allometry data
 }
 \details{
-Function \code{load_harmonized_trait_tables()} allows loading all kinds of trait data tables, including those that do not pass harmonization check, if \code{check = FALSE}.
-In contrast, functions \code{get_trait_data()}, \code{get_taxon_data()} and \code{get_taxon_trait_means()} only return data from data sets passing harmonization checks (see function \code{\link{check_harmonized_trait}}).
+Functions \code{load_harmonized_trait_tables()} and \code{load_harmonized_allometry_tables()} allows loading all kinds of trait data tables, including those that do not pass harmonization check, if \code{check = FALSE}.
+In contrast, functions \code{get_trait_data()}, \code{get_taxon_data()} and \code{get_taxon_trait_means()} only return data from data sets passing harmonization checks (see functions \code{\link{check_harmonized_trait}} and \code{\link{check_harmonized_allometry}}).
 }
 \examples{
 \dontrun{

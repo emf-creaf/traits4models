@@ -57,8 +57,9 @@ test_that("harmonized data can be loaded",{
   testthat::skip_on_cran()
   testthat::skip_on_ci()
   expect_s3_class(traits4models::get_trait_data(harmonized_trait_path, "Al2As", progress = FALSE), "data.frame")
-  expect_s3_class(traits4models::get_taxon_data(harmonized_trait_path, "Pinus halepensis", progress = FALSE), "data.frame")
   expect_s3_class(get_allometry_data(harmonized_allometry_path, "FoliarBiomass", progress = FALSE), "data.frame")
+  expect_s3_class(traits4models::get_taxon_data(harmonized_trait_path, "Pinus halepensis", type = "trait", progress = FALSE), "data.frame")
+  expect_s3_class(traits4models::get_taxon_data(harmonized_allometry_path, "Pinus halepensis", type = "allometry", progress = FALSE), "data.frame")
 })
 
 test_that("harmonized data can be summarized",{

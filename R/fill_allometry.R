@@ -157,12 +157,12 @@ fill_medfate_allometries<-function(SpParams,
       dplyr::filter(.data$Equation == "FoliarBiomass = a\u00b7DBH^b\u00b7exp(c\u00b7BAL)\u00b7DBH^(d\u00b7BAL)")
     allom_table <-response_data |>
       dplyr::filter(.data$Equation == "FoliarBiomass = a\u00b7DBH^b\u00b7exp(c\u00b7BAL)") |>
-      dplyr::filter(!(acceptedName %in% allom_table$acceptedName)) |>
+      dplyr::filter(!(.data$acceptedName %in% allom_table$acceptedName)) |>
       dplyr::bind_rows(allom_table)
     allom_table <-response_data |>
       dplyr::filter(.data$Equation == "FoliarBiomass = a\u00b7DBH^b") |>
       dplyr::mutate(c = NA)|>
-      dplyr::filter(!(acceptedName %in% allom_table$acceptedName)) |>
+      dplyr::filter(!(.data$acceptedName %in% allom_table$acceptedName)) |>
       dplyr::bind_rows(allom_table)
 
     if(nrow(allom_table) > 0) SpParams <- .fill_allometry_table(SpParams, allom_table,
