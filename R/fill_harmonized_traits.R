@@ -365,7 +365,7 @@ fill_medfate_traits<-function(SpParams,
                                   replace_previous = replace_previous)
   }
 
-  parameters_sel <- c("Gswmax", "Gswmin")
+  parameters_sel <- c("Gswmin")
   traits_sel <- parameters_sel
   trait_mapping <- traits_sel
   names(trait_mapping) <- parameters_sel
@@ -378,6 +378,21 @@ fill_medfate_traits<-function(SpParams,
                                   priorization = priorization,
                                   summary_function = "weightedmedian",
                                   summary_params = list(na.rm = TRUE),
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
+  }
+
+  if("Gswmax" %in% parameters) {
+    if(progress) cli::cli_progress_step(paste0("Processing ", "Gswmax"))
+    trait_mapping <- "Gsw"
+    names(trait_mapping) <- "Gswmax"
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedquantile",
+                                  summary_params = list("prob" = 0.99),
                                   aggregation_level_weights = aggregation_level_weights,
                                   erase_previous = erase_previous,
                                   replace_previous = replace_previous)
