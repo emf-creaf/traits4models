@@ -384,11 +384,11 @@ head(fb_data)
     ## 5 FoliarBiomass Foliar biomass (kg)        DBH Diameter at breast height (cm)
     ## 6 FoliarBiomass Foliar biomass (kg)        DBH Diameter at breast height (cm)
     ##   Priority checkVersion  c Predictor2              PredictorDescription2
-    ## 1        2        0.2.3 NA       <NA>                               <NA>
-    ## 2        2        0.2.3 NA       <NA>                               <NA>
-    ## 3        2        0.2.3 NA       <NA>                               <NA>
-    ## 4        2        0.2.3 NA       <NA>                               <NA>
-    ## 5        2        0.2.3 NA       <NA>                               <NA>
+    ## 1        2        0.3.0 NA       <NA>                               <NA>
+    ## 2        2        0.3.0 NA       <NA>                               <NA>
+    ## 3        2        0.3.0 NA       <NA>                               <NA>
+    ## 4        2        0.3.0 NA       <NA>                               <NA>
+    ## 5        2        0.3.0 NA       <NA>                               <NA>
     ## 6        1        0.3.0  0        BAL Basal area of larger trees (m2/ha)
 
 ## References

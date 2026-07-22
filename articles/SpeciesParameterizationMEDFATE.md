@@ -324,7 +324,7 @@ SpParams<- traits4models::fill_medfate_allometries(SpParams,
 
     ## ℹ Processing response: FoliarBiomass
 
-    ## ✔ Processing response: FoliarBiomass [48ms]
+    ## ✔ Processing response: FoliarBiomass [46ms]
 
     ## 
 
@@ -348,7 +348,7 @@ SpParams<- traits4models::fill_medfate_allometries(SpParams,
 
     ## ℹ Processing response: CrownArea
 
-    ## ✔ Processing response: CrownArea [19ms]
+    ## ✔ Processing response: CrownArea [18ms]
 
     ## 
 
@@ -360,7 +360,7 @@ SpParams<- traits4models::fill_medfate_allometries(SpParams,
 
     ## ℹ Processing response: TotalBiomass
 
-    ## ✔ Processing response: TotalBiomass [22ms]
+    ## ✔ Processing response: TotalBiomass [19ms]
 
     ## 
 
@@ -394,13 +394,13 @@ SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path,
 
     ## ℹ Processing t0gdd, Tbgdd, Sgdd, Phsen, Tbsen, Ssen
 
-    ## ✔ Processing t0gdd, Tbgdd, Sgdd, Phsen, Tbsen, Ssen [2.4s]
+    ## ✔ Processing t0gdd, Tbgdd, Sgdd, Phsen, Tbsen, Ssen [2.3s]
 
     ## 
 
     ## ℹ Processing xsen, ysen
 
-    ## ✔ Processing xsen, ysen [763ms]
+    ## ✔ Processing xsen, ysen [729ms]
 
     ## 
 
@@ -412,67 +412,73 @@ SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path,
 
     ## ℹ Processing Hmax
 
-    ## ✔ Processing Hmax [1.8s]
+    ## ✔ Processing Hmax [1.7s]
 
     ## 
 
     ## ℹ Processing Hmed
 
-    ## ✔ Processing Hmed [1.7s]
+    ## ✔ Processing Hmed [1.6s]
 
     ## 
 
     ## ℹ Processing cr
 
-    ## ✔ Processing cr [434ms]
+    ## ✔ Processing cr [411ms]
 
     ## 
 
     ## ℹ Processing Z95
 
-    ## ✔ Processing Z95 [1s]
+    ## ✔ Processing Z95 [985ms]
 
     ## 
 
     ## ℹ Processing Dmax, WoodDensity, SRL, r635, pDead, SAV, HeatContent
 
-    ## ✔ Processing Dmax, WoodDensity, SRL, r635, pDead, SAV, HeatContent [4.2s]
+    ## ✔ Processing Dmax, WoodDensity, SRL, r635, pDead, SAV, HeatContent [4.1s]
 
     ## 
 
     ## ℹ Processing LeafDensity, SLA, LeafWidth, LeafDuration
 
-    ## ✔ Processing LeafDensity, SLA, LeafWidth, LeafDuration [3.9s]
+    ## ✔ Processing LeafDensity, SLA, LeafWidth, LeafDuration [3.6s]
 
     ## 
 
     ## ℹ Processing LeafAngle
 
-    ## ✔ Processing LeafAngle [646ms]
+    ## ✔ Processing LeafAngle [583ms]
 
     ## 
 
     ## ℹ Processing LeafAngleSD
 
-    ## ✔ Processing LeafAngleSD [625ms]
+    ## ✔ Processing LeafAngleSD [599ms]
 
     ## 
 
     ## ℹ Processing LeafAF, LeafPI0, LeafEPS, Ptlp
 
-    ## ✔ Processing LeafAF, LeafPI0, LeafEPS, Ptlp [2.5s]
+    ## ✔ Processing LeafAF, LeafPI0, LeafEPS, Ptlp [2.4s]
 
     ## 
 
-    ## ℹ Processing Gswmax, Gswmin
+    ## ℹ Processing Gswmin
 
-    ## ✔ Processing Gswmax, Gswmin [1.2s]
+    ## ✔ Processing Gswmin [624ms]
+
+    ## 
+
+    ## ℹ Processing Gswmax
+
+    ## ✔ Processing Gswmax [658ms]
 
     ## 
 
     ## ℹ Processing Kmax_stemxylem
 
-    ## ✔ Processing Kmax_stemxylem [855ms]
+    ## ✔ Processing Kmax_stemxylem [825ms]
 
     ## 
 
@@ -484,7 +490,7 @@ SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path,
 
     ## ℹ Processing VCleaf_kmax
 
-    ## ✔ Processing VCleaf_kmax [480ms]
+    ## ✔ Processing VCleaf_kmax [465ms]
 
     ## 
 
@@ -496,49 +502,49 @@ SpParams<- traits4models::fill_medfate_traits(SpParams, harmonized_trait_path,
 
     ## ℹ Processing Vmax298
 
-    ## ✔ Processing Vmax298 [605ms]
+    ## ✔ Processing Vmax298 [653ms]
 
     ## 
 
     ## ℹ Processing Jmax298
 
-    ## ✔ Processing Jmax298 [569ms]
+    ## ✔ Processing Jmax298 [565ms]
 
     ## 
 
     ## ℹ Processing Nleaf, Nsapwood, Nfineroot
 
-    ## ✔ Processing Nleaf, Nsapwood, Nfineroot [2.4s]
+    ## ✔ Processing Nleaf, Nsapwood, Nfineroot [2.3s]
 
     ## 
 
     ## ℹ Processing SeedMass, SeedLongevity
 
-    ## ✔ Processing SeedMass, SeedLongevity [2.1s]
+    ## ✔ Processing SeedMass, SeedLongevity [2.5s]
 
     ## 
 
     ## ℹ Processing WoodC, CCleaf, CCsapwood, CCfineroot
 
-    ## ✔ Processing WoodC, CCleaf, CCsapwood, CCfineroot [2.3s]
+    ## ✔ Processing WoodC, CCleaf, CCsapwood, CCfineroot [1.7s]
 
     ## 
 
     ## ℹ Processing maxFMC
 
-    ## ✔ Processing maxFMC [826ms]
+    ## ✔ Processing maxFMC [851ms]
 
     ## 
 
     ## ℹ Processing minFMC
 
-    ## ✔ Processing minFMC [804ms]
+    ## ✔ Processing minFMC [831ms]
 
     ## 
 
     ## ℹ Processing RSSG
 
-    ## ✔ Processing RSSG [626ms]
+    ## ✔ Processing RSSG [599ms]
 
     ## 
 
