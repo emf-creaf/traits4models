@@ -146,6 +146,7 @@ spp_params_es <- function(trait_database_list,
   sf_IFN3 <- readRDS("~/OneDrive/mcaceres_work/model_initialisation/medfate_initialisation/IFN2medfate/data/SpParamsES/IFN3/soilmod/IFN3_spain_soilmod_WGS84.rds")
   SpParams<- traits4models::fill_medfate_inventory_traits(SpParams, sf_IFN3,
                                                           progress = TRUE)
+  SpParams[SpParams$Name=="Quercus ilex ssp. ilex", c("Hmax", "Hmed", "fHDmin", "fHDmax")] <-   SpParams[SpParams$Name=="Quercus ilex ssp. ballota", c("Hmax", "Hmed", "fHDmin", "fHDmax")]
 
   # Fill allometries from databases -----------------------------------------
   cli::cli_h2("SpParamsES filling parameters from harmonized allometries")

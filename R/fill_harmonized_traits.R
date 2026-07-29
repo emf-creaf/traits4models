@@ -225,6 +225,16 @@ fill_medfate_traits<-function(SpParams,
   }
   if("Hmax" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing ", "Hmax"))
+    trait_mapping <- "Hmax"
+    names(trait_mapping) <- "Hmax"
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmean",
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
     trait_mapping <- "Hact"
     names(trait_mapping) <- "Hmax"
     SpParams <- .fill_trait_block(SpParams,
@@ -234,8 +244,8 @@ fill_medfate_traits<-function(SpParams,
                                   summary_function = "weightedquantile",
                                   summary_params = list(probs = 0.99),
                                   aggregation_level_weights = aggregation_level_weights,
-                                  erase_previous = erase_previous,
-                                  replace_previous = replace_previous)
+                                  erase_previous = FALSE,
+                                  replace_previous = FALSE)
   }
   if("Hmed" %in% parameters) {
     if(progress) cli::cli_progress_step(paste0("Processing ", "Hmed"))
@@ -402,6 +412,19 @@ fill_medfate_traits<-function(SpParams,
     if(progress) cli::cli_progress_step(paste0("Processing ", "Kmax_stemxylem"))
     trait_mapping <- "Ks"
     names(trait_mapping) <- "Kmax_stemxylem"
+    SpParams <- .fill_trait_block(SpParams,
+                                  harmonized_trait_path = harmonized_trait_path,
+                                  trait_mapping = trait_mapping,
+                                  priorization = priorization,
+                                  summary_function = "weightedmedian",
+                                  aggregation_level_weights = aggregation_level_weights,
+                                  erase_previous = erase_previous,
+                                  replace_previous = replace_previous)
+  }
+  if("Kmax_rootxylem" %in% parameters) {
+    if(progress) cli::cli_progress_step(paste0("Processing ", "Kmax_rootxylem"))
+    trait_mapping <- "Kr"
+    names(trait_mapping) <- "Kmax_rootxylem"
     SpParams <- .fill_trait_block(SpParams,
                                   harmonized_trait_path = harmonized_trait_path,
                                   trait_mapping = trait_mapping,

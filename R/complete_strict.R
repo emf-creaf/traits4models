@@ -23,7 +23,7 @@ complete_medfate_strict<- function(SpParams, params = NULL, progress = TRUE, ver
     strict_params <- medfate::SpParamsDefinition$ParameterName[medfate::SpParamsDefinition$Strict]
     strict_params <-strict_params[!(strict_params %in% c("Name", "SpIndex", "AcceptedName", "Genus", "Family", "Order", "Group"))]
   } else {
-    strict_params  <- c("GrowthForm", "LifeForm", "LeafShape", "LeafSize", "PhenologyType", "DispersalType", "Hmax", "Hmed", "Z95")
+    strict_params  <- c("GrowthForm", "LifeForm", "LeafShape", "LeafSize", "PhenologyType", "DispersalType", "Hmax", "Z95")
   }
   if(is.null(params)) params <- strict_params
   else params <- match.arg(params, strict_params, several.ok = TRUE)
@@ -121,6 +121,9 @@ complete_medfate_strict<- function(SpParams, params = NULL, progress = TRUE, ver
     na_rows <- which(is.na(SpParams[[param]]))
     if(progress && verbose) cli::cli_li(paste0("Number of missing after examining most common group values: ", length(na_rows)))
   }
+  # Complete Hmed as fraction of Hmax
+  if(progress) cli::cli_progress_step(paste0("Filling missing values for: Hmed [", medfate::SpParamsDefinition$Type[medfate::SpParamsDefinition$ParameterName=="Hmed"],"]"))
+  SpParams$Hmed[is.na(SpParams$Hmed)] <- SpParams$Hmax[is.na(SpParams$Hmed)]/2.5
   if(progress) cli::cli_progress_done()
   return(SpParams)
 }
