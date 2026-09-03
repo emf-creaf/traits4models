@@ -75,6 +75,7 @@
       l = c(list("values"=values, "levels" = levels, "df_levels" = df_levels), summary_params)
       return(do.call(".level_weighted_quantile", l))
     } else if(summary_function %in% c("mean", "median", "quantile", "var", "sd")) {
+      summary_params <- summary_params[summary_params %in% c("na.rm", "use")]
       if(length(values)>0) {
         l = c(list("x"=values), summary_params)
         return(do.call(summary_function, l))
