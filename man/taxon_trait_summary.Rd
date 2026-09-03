@@ -10,7 +10,7 @@ taxon_trait_summary(
   taxonomic_level = "species",
   taxon_selection = NULL,
   summary_function = "weightedmean",
-  summary_params = list(na.rm = TRUE),
+  summary_params = list(na.rm = TRUE, inf.rm = TRUE),
   scalar_functions = NULL,
   priorization = TRUE,
   aggregation_level_weights = c(individual = 1, population = 10, taxon = 100),

@@ -4,30 +4,35 @@
   return(names(freq)[which.max(freq)])
 }
 
-.value_weight_data_frame <- function(values, levels, df_levels, na.rm = TRUE) {
+.value_weight_data_frame <- function(values, levels, df_levels, na.rm = TRUE, inf.rm = TRUE) {
+  if(inf.rm) {
+    is_inf <- is.infinite(values)
+  } else {
+    is_inf <- rep(FALSE, length(values))
+  }
   if(na.rm) {
     is_na <- is.na(values) | is.na(levels)
   } else {
     is_na <- rep(FALSE, length(values))
   }
-  data.frame(x = values[!is_na],
-                   level = levels[!is_na]) |>
+  data.frame(x = values[!(is_na | is_inf)],
+             level = levels[!(is_na | is_inf)]) |>
     dplyr::left_join(df_levels, by = "level")
 }
 
-.level_weighted_mode <- function(values, levels, df_levels, na.rm = TRUE, ...) {
-  df <- .value_weight_data_frame(values, levels, df_levels, na.rm)
+.level_weighted_mode <- function(values, levels, df_levels, na.rm = TRUE, inf.rm = TRUE, ...) {
+  df <- .value_weight_data_frame(values, levels, df_levels, na.rm, inf.rm)
   wbv <- tapply(df$weight, df$x, sum)
   names(wbv)[which.max(wbv)]
 }
 
-.level_weighted_mean <- function(values, levels, df_levels, na.rm = TRUE, ...) {
-  df <- .value_weight_data_frame(values, levels, df_levels, na.rm)
+.level_weighted_mean <- function(values, levels, df_levels, na.rm = TRUE, inf.rm = TRUE, ...) {
+  df <- .value_weight_data_frame(values, levels, df_levels, na.rm, inf.rm)
   return(sum(df$x*df$weight)/sum(df$weight))
 }
 
-.level_weighted_median <- function(values, levels, df_levels, na.rm = TRUE, ...) {
-  df <- .value_weight_data_frame(values, levels, df_levels, na.rm)
+.level_weighted_median <- function(values, levels, df_levels, na.rm = TRUE, inf.rm = TRUE, ...) {
+  df <- .value_weight_data_frame(values, levels, df_levels, na.rm, inf.rm)
   ord <- order(df$x)
   x <- df$x[ord]
   w <- df$weight[ord]
@@ -36,18 +41,18 @@
 }
 
 # From Hmisc
-.level_weighted_quantile <- function(values, levels, df_levels, probs = 0.95, na.rm = TRUE, ...) {
-  df <- .value_weight_data_frame(values, levels, df_levels, na.rm)
+.level_weighted_quantile <- function(values, levels, df_levels, probs = 0.95, na.rm = TRUE, inf.rm = TRUE,...) {
+  df <- .value_weight_data_frame(values, levels, df_levels, na.rm, inf.rm)
   return(Hmisc::wtd.quantile(df$x, df$weights, probs = probs))
 }
 
-.level_weighted_var <- function(values, levels, df_levels, na.rm = TRUE, ...) {
-  df <- .value_weight_data_frame(values, levels, df_levels, na.rm)
+.level_weighted_var <- function(values, levels, df_levels, na.rm = TRUE, inf.rm = TRUE,...) {
+  df <- .value_weight_data_frame(values, levels, df_levels, na.rm, inf.rm)
   return(Hmisc::wtd.var(df$x, df$weights))
 }
 
-.level_weighted_sd <- function(values, levels, df_levels, na.rm = TRUE, ...) {
-  return(sqrt(.level_weighted_var(values, levels, df_levels, na.rm, ...)))
+.level_weighted_sd <- function(values, levels, df_levels, na.rm = TRUE, inf.rm = TRUE,...) {
+  return(sqrt(.level_weighted_var(values, levels, df_levels, na.rm, inf.rm, ...)))
 }
 
 .summary_evaluation <- function(summary_function, summary_params,
@@ -166,7 +171,7 @@ taxon_trait_summary <- function(harmonized_trait_path,
                                 taxonomic_level = "species",
                                 taxon_selection = NULL,
                                 summary_function = "weightedmean",
-                                summary_params = list(na.rm=TRUE),
+                                summary_params = list(na.rm=TRUE, inf.rm = TRUE),
                                 scalar_functions = NULL,
                                 priorization = TRUE,
                                 aggregation_level_weights = c("individual" = 1, "population" = 10, "taxon" = 100),
