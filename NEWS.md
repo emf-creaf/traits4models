@@ -2,6 +2,7 @@
 * Method and Level fields added
 * New traits definition 'StomatalDensity' and 'StomatalSize'
 * Function 'get_taxon_trait_means()' replaced by the more general function 'taxon_trait_summary()'
+* Out of boundary check in function 'check_medfate_params()'
 
 # traits4models 0.2.4
 * Consistency check in function 'check_medfate_params()'

@@ -49,6 +49,7 @@ check_medfate_params<- function(x, check_consistency = FALSE, verbose = TRUE) {
     cli::cli_abort(paste0("Parameter columns missing: ", paste0(w_mis, collapse =" ")))
   }
   wrong_types <- rep(FALSE, length(fixed))
+  out_of_range <- rep(FALSE, length(fixed))
   for(i in 1:length(fixed)) {
     p <- fixed[i]
     if(!all(is.na(x[[p]]))) {
@@ -69,6 +70,22 @@ check_medfate_params<- function(x, check_consistency = FALSE, verbose = TRUE) {
           wrong_types[i] <- TRUE
         }
       }
+      if(type %in% c("Integer", "Numeric")) {
+        min_value <- min(x[[p]], na.rm=TRUE)
+        max_value <- max(x[[p]], na.rm=TRUE)
+        if(!is.na(medfate::SpParamsDefinition$MinimumValue[medfate::SpParamsDefinition$ParameterName==p])) {
+          if(min_value < medfate::SpParamsDefinition$MinimumValue[medfate::SpParamsDefinition$ParameterName==p]) {
+            out_of_range[i] <- TRUE
+            if(verbose) cli::cli_alert_warning(paste0("Parameter column '", p, "' has values below accepted range."))
+          }
+        }
+        if(!is.na(medfate::SpParamsDefinition$MaximumValue[medfate::SpParamsDefinition$ParameterName==p])) {
+          if(max_value > medfate::SpParamsDefinition$MaximumValue[medfate::SpParamsDefinition$ParameterName==p]) {
+            out_of_range[i] <- TRUE
+            if(verbose) cli::cli_alert_warning(paste0("Parameter column '", p, "' has values above accepted range."))
+          }
+        }
+      }
     }
   }
 
@@ -82,7 +99,8 @@ check_medfate_params<- function(x, check_consistency = FALSE, verbose = TRUE) {
     }
   }
 
-  if(sum(wrong_types)==0 && sum(as.matrix(mis_strict))==0) {
+
+  if(sum(wrong_types)==0 && sum(as.matrix(mis_strict))==0 && sum(as.matrix(out_of_range))==0) {
     if(verbose) cli::cli_alert_success("The data frame is formally acceptable as species parameter table for medfate.")
   }
 
