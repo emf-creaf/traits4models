@@ -212,7 +212,7 @@ taxon_trait_summary <- function(harmonized_trait_path,
       if(!(summary_function %in% c("n", "median", "mean", "sd", "var", "quantile",
                                    "weightedmean", "weightedmedian", "weightedsd", "weightedvar", "weightedquantile")))  cli::cli_abort(paste0("Cannot evaluate summary function '", summary_function, "' on an integer/categorical trait '", t,"'."))
     }
-    if(t %in% names(scalar_functions)) {
+    if(t %in% names(scalar_functions) && ("Value" %in% names(trait_table))) {
       trait_table <- trait_table |>
         dplyr::mutate(Value = do.call(scalar_functions[[t]], list(.data[["Value"]])))
     }

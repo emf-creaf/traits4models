@@ -28,10 +28,10 @@ harmonized_allometry_path <- paste0(DB_path,"data/harmonized_allometry_sources")
 
 rebuild_species_list <- FALSE
 
-values <- tibble(
-  method_function = rlang::syms(c("spp_params_es", "spp_params_fr")),
-  data_source = c("SpParamsES", "SpParamsFR")
-)
+# values <- tibble(
+#   method_function = rlang::syms(c("spp_params_es", "spp_params_fr")),
+#   data_source = c("SpParamsES", "SpParamsFR")
+# )
 
 # Replace the target list below with your own:
 list(

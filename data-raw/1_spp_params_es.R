@@ -184,6 +184,7 @@ spp_params_es <- function(trait_database_list,
 
   # Complete strict for non-taxa or delete them -------------------------------------------------------
   cli::cli_h2("Cleaning and checking")
+  print(SpParams$RSSG)
   check <- traits4models::check_medfate_params(SpParams, check_consistency = FALSE)
 
 

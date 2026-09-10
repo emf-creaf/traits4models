@@ -174,5 +174,8 @@ check_medfate_params<- function(x, check_consistency = FALSE, verbose = TRUE) {
       if(verbose) cli::cli_alert_success("The data frame is physiologically acceptable as species parameter table for medfate.")
     }
   }
-  return(invisible(list(mis_strict = mis_strict, failed_rules = failed_rules)))
+  return(invisible(list(mis_strict = mis_strict,
+                        wrong_types = wrong_types,
+                        out_of_range = out_of_range,
+                        failed_rules = failed_rules)))
 }
