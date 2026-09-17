@@ -20,25 +20,39 @@ export(taxon_trait_summary)
 import(cli)
 import(data.table)
 import(medfate)
-importFrom(Hmisc,wtd.quantile)
-importFrom(Hmisc,wtd.var)
-importFrom(WorldFlora,WFO.match)
-importFrom(WorldFlora,WFO.one)
+importFrom(Hmisc,
+  wtd.quantile,
+  wtd.var
+)
+importFrom(WorldFlora,
+  WFO.match,
+  WFO.one
+)
 importFrom(assertthat,assert_that)
-importFrom(dplyr,bind_rows)
-importFrom(dplyr,left_join)
-importFrom(dplyr,relocate)
-importFrom(dplyr,rename)
+importFrom(dplyr,
+  bind_rows,
+  left_join,
+  relocate,
+  rename
+)
 importFrom(memoise,memoise)
 importFrom(readr,read_delim)
 importFrom(rlang,.data)
-importFrom(stats,family)
-importFrom(stats,quantile)
-importFrom(tibble,as_tibble)
-importFrom(tibble,tibble)
-importFrom(tidyr,pivot_longer)
-importFrom(tidyr,pivot_wider)
-importFrom(utils,data)
-importFrom(utils,packageVersion)
-importFrom(utils,read.csv2)
-importFrom(utils,write.csv2)
+importFrom(stats,
+  family,
+  quantile
+)
+importFrom(tibble,
+  as_tibble,
+  tibble
+)
+importFrom(tidyr,
+  pivot_longer,
+  pivot_wider
+)
+importFrom(utils,
+  data,
+  packageVersion,
+  read.csv2,
+  write.csv2
+)
