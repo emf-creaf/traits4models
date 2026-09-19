@@ -1,3 +1,6 @@
+# traits4models 0.3.1
+* Compliant with medfate ver. 5.2.0
+
 # traits4models 0.3.0
 * Method and Level fields added
 * New traits definition 'StomatalDensity' and 'StomatalSize'
