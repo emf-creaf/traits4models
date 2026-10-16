@@ -100,6 +100,7 @@ spp_params_es <- function(trait_database_list,
     spp_es_df <- spp_es_df |>
       dplyr::left_join(lista_patron_vascular, by=c("originalName" = "WithoutAuthorship")) |>
       dplyr::rename(originalNameAuthorship = ScientificNameAuthorship) |>
+      tibble::add_row(NFICode = 45, NFIName = "Quercus ilex", originalName = "Quercus ilex", originalNameAuthorship = "L.") |>
       dplyr::arrange(NFIName)
 
 

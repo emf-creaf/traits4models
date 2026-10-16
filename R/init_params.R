@@ -77,7 +77,6 @@ init_medfate_params<-function(x,
     species <- unique(SpParams$Species)
     species <- species[!is.na(species)]
     species <- species[!(species %in% SpParams$Name)]
-    species <- species[!(species %in% SpParams$AcceptedName)]
     species <- species[!(species %in% genera)]
     species <- species[!endsWith(species, "x")]
     species <- species[!endsWith(species, "\u00d7")]
